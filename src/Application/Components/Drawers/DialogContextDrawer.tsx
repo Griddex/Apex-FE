@@ -1,6 +1,6 @@
 import { Drawer } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import clsx from "clsx";
@@ -11,8 +11,8 @@ import {
   dialogContextDrawerExpandAction,
 } from "../../Redux/Actions/LayoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-
-const navbarHeight = 43;
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => {
       flexShrink: 0,
       whiteSpace: "nowrap",
       "&.MuiDrawer-paper": {
-        height: `100%`,
+        height: "100%",
       },
+      height: "100%",
       position: "relative",
       top: "auto",
       padding: 5,
@@ -57,6 +58,13 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const expandDialogContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.expandDialogContextDrawer,
+  (drawer) => drawer
+);
+
 const DialogContextDrawer = ({
   children,
 }: {
@@ -65,8 +73,8 @@ const DialogContextDrawer = ({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { expandDialogContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
+  const expandDialogContextDrawer = useSelector(
+    expandDialogContextDrawerSelector
   );
 
   return (
@@ -94,7 +102,8 @@ const DialogContextDrawer = ({
           className={clsx(classes.menuButton, {
             [classes.hide]: !expandDialogContextDrawer,
           })}
-          size="large">
+          size="large"
+        >
           <ChevronRightIcon />
         </IconButton>
       ) : (
@@ -106,7 +115,8 @@ const DialogContextDrawer = ({
           className={clsx(classes.dialogContextDrawerMenuIcon, {
             [classes.hide]: expandDialogContextDrawer,
           })}
-          size="large">
+          size="large"
+        >
           <MenuIcon />
         </IconButton>
       )}

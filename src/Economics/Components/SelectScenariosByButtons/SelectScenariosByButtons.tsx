@@ -18,6 +18,10 @@ import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import AggregatedButtons from "../AggregatedButtons/AggregatedButtons";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export interface ISelectScenariosByButtons {
   width?: number | string;
@@ -38,11 +42,16 @@ const SelectScenariosByButtons = ({
   const wp = workflowProcess;
   const wc = workflowCategory;
 
+  const economicsPartialPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc][wp],
+    (reducer) => reducer
+  );
+
   const {
-    costRevenuesButtons,
     currentDevOption,
+    costRevenuesButtons,
     developmentScenariosCompleted,
-  } = useSelector((state: RootState) => state.economicsReducer[wc][wp]);
+  } = useSelector(economicsPartialPropsSelector);
 
   const [devOption, setDevOption] = React.useState(currentDevOption);
 

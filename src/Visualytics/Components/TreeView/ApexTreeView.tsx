@@ -247,6 +247,10 @@ export default function ApexTreeView({
     const objectPath = idPath.substring(0, lastIndex);
     const currentTree = get(rootTree, objectPath);
 
+    const titleProps = isLeaf
+      ? { ref: drag, style: { opacity } }
+      : { style: { opacity } };
+
     return (
       <StyledApexNode
         style={{
@@ -280,9 +284,7 @@ export default function ApexTreeView({
           }
           onClick={(e) => e.stopPropagation()}
         />
-        <div ref={drag} style={{ opacity }}>
-          {title}
-        </div>
+        <div {...titleProps}>{title}</div>
       </StyledApexNode>
     );
   };

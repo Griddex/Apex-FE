@@ -23,8 +23,7 @@ export default function ApexMuiSwitch(props: IApexMuiSwitch) {
   position: relative;
   display: inline-block;
   width: 32px;
-  height: 20px;
-  
+  height: 20px;  
   margin: 10px;
   cursor: pointer;
 

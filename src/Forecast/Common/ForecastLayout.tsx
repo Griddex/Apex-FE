@@ -1,8 +1,8 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
-import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import ForecastLanding from "./ForecastLanding";
+import React from "react";
+
+const ForecastLanding = React.lazy(() => import("./ForecastLanding"));
 
 const navbarHeight = 43;
 const subNavBarHeight = 0;
@@ -28,13 +28,7 @@ const ForecastLayout = () => {
   return (
     <main className={classes.forecastLayoutRoot}>
       <div className={clsx(classes.forecastLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <ForecastLanding />
-        </Suspense>
+        <ForecastLanding />
       </div>
     </main>
   );

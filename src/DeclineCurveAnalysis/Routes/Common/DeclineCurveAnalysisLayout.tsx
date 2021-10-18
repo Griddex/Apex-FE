@@ -7,13 +7,17 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import DeclineCurveAnalysis from "../../DeclineCurveAnalysis";
-import DeclineCurveAnalysisBackground from "./DeclineCurveAnalysisBackground";
 import {
   IDeclineCurveAnalysisLayouts,
   IdType,
 } from "./DeclineCurveAnalysisLayoutTypes";
+
+const DeclineCurveAnalysis = React.lazy(
+  () => import("../../DeclineCurveAnalysis")
+);
+const DeclineCurveAnalysisBackground = React.lazy(
+  () => import("./DeclineCurveAnalysisBackground")
+);
 
 const navbarHeight = 43;
 const addedHeight = 0;
@@ -39,34 +43,28 @@ const DeclineCurveAnalysisLayout = () => {
   return (
     <main className={classes.declineCurveAnalysisLayoutRoot}>
       <div className={clsx(classes.declineCurveAnalysisLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <Switch>
-            <Route exact path={path}>
-              {() => <DeclineCurveAnalysisBackground />}
-            </Route>
-            <Route path={`${url}/:declineCurveAnalysisId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { declineCurveAnalysisId },
-                  },
-                } = props;
+        <Switch>
+          <Route exact path={path}>
+            {() => <DeclineCurveAnalysisBackground />}
+          </Route>
+          <Route path={`${url}/:declineCurveAnalysisId`}>
+            {(props: RouteComponentProps<IdType>) => {
+              const {
+                match: {
+                  params: { declineCurveAnalysisId },
+                },
+              } = props;
 
-                const Layouts: IDeclineCurveAnalysisLayouts = {
-                  background: <DeclineCurveAnalysisBackground />,
-                  declineCurveAnalysis: <DeclineCurveAnalysis />,
-                };
+              const Layouts: IDeclineCurveAnalysisLayouts = {
+                background: <DeclineCurveAnalysisBackground />,
+                declineCurveAnalysis: <DeclineCurveAnalysis />,
+              };
 
-                return Layouts[declineCurveAnalysisId];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Not Available</h1>} />
-          </Switch>
-        </Suspense>
+              return Layouts[declineCurveAnalysisId];
+            }}
+          </Route>
+          <Route path="*" component={() => <h1>Not Available</h1>} />
+        </Switch>
       </div>
     </main>
   );

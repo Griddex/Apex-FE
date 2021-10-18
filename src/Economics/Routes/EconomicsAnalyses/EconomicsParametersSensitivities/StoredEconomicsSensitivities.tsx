@@ -1,11 +1,13 @@
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -19,7 +21,6 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -39,13 +40,17 @@ import { IApplicationStoredDataRow } from "../../../../Application/Types/Applica
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
-import { economicsAnalysesNameTitlesObj } from "../../../Data/EconomicsData";
 import {
   fetchStoredEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import { TEconomicsAnalysesNames } from "../EconomicsAnalysesTypes";
 import { IStoredEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -106,13 +111,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer,
+  (reducer) => reducer
+);
+
+const unitSettingsPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 export default function StoredEconomicsSensitivities() {
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsPropsSelector
   ) as IUnitSettingsData;
 
   const reducer = "economicsReducer";
@@ -127,9 +142,12 @@ export default function StoredEconomicsSensitivities() {
   const wc = "storedDataWorkflows";
   const wp = "economicsSensitivitiesStored";
 
-  const { economicsSensitivitiesStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
+
+  const { economicsSensitivitiesStored } = useSelector(economicsWCSelector);
 
   const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
     React.useState(economicsSensitivitiesStored);
@@ -398,7 +416,7 @@ export default function StoredEconomicsSensitivities() {
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}

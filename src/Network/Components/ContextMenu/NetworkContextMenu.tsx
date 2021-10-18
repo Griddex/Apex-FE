@@ -31,6 +31,10 @@ import Manifold from "../../Images/Manifold.svg";
 import Terminal from "../../Images/Terminal.svg";
 import addNetworkNodeToCanvas from "../../Utils/AddNetworkNodeToCanvas";
 import NetworkContextMenuItem from "./NetworkContextMenuItem";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export const NetworkElementsMenu = ({
   children,
@@ -158,14 +162,17 @@ interface INetworkContextMenuProps {
   elementName: string;
 }
 
+const isNetworkAutoSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.isNetworkAuto,
+  (isAuto) => isAuto
+);
+
 export const NetworkContextMenu = React.forwardRef<
   HTMLDivElement,
   INetworkContextMenuProps
 >(({ elementName }, ref) => {
   const dispatch = useDispatch();
-  const { isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const isNetworkAuto = useSelector(isNetworkAutoSelector);
 
   const getMenuItems = (element: string) => [
     {

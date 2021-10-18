@@ -9,10 +9,11 @@ import uniq from "lodash.uniq";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
-import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { OptionsType, ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { v4 as uuidv4 } from "uuid";
 import ImportMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ImportMoreActionsContextMenu";
 import ExcelExportTable, {
@@ -28,7 +29,6 @@ import {
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -55,6 +55,11 @@ import {
   TUnit,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -93,6 +98,18 @@ const useStyles = makeStyles(() => ({
   score: { fontSize: 14 },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const savedMatchObjectAllSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer.savedMatchObjectAll,
+  (obj) => obj
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
 const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
@@ -106,38 +123,29 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
   const savedMatchObjectAll: TUserMatchObject = useSelector(
-    (state: RootState) => state.applicationReducer["savedMatchObjectAll"],
-    (prev, next) => isEqual(prev, next)
+    savedMatchObjectAllSelector
   );
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const variableNameUnitsMap = useSelector(
-    (state: RootState) => state.unitSettingsReducer["variableNameUnitsMap"],
-    (prev, next) => isEqual(prev, next)
-  );
+  const { variableNameUnitsMap, appUnitsUnitGroupsMap } =
+    useSelector(unitSettingsSelector);
 
-  const appUnitsUnitGroupsMap = useSelector(
-    (state: RootState) => state.unitSettingsReducer["appUnitsUnitGroupsMap"],
-    (prev, next) => isEqual(prev, next)
-  );
-
-  const currentAppHeaderOptions = useSelector(
+  const currentAppHeaderOptionsSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer]["currentAppHeaderOptions"],
-    (prev, next) => isEqual(prev, next)
+    (options) => options
   );
 
-  const fileUnits = useSelector(
-    (state: RootState) => state[reducer][wc][wp]["fileUnits"],
-    (prev, next) => isEqual(prev, next)
+  const currentAppHeaderOptions = useSelector(currentAppHeaderOptionsSelector);
+
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
   );
 
-  const matchHeadersTable = useSelector(
-    (state: RootState) => state[reducer][wc][wp]["matchHeadersTable"],
-    (prev, next) => isEqual(prev, next)
-  );
+  const { fileUnits, matchHeadersTable } = useSelector(workflowProcessSelector);
 
   const fileHeadersUnitsWithNoneMap = React.useRef(
     zipObject(
@@ -356,10 +364,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
-  console.log(
-    "Logged output --> ~ file: MatchUnits.tsx ~ line 354 ~ MatchUnits ~ userMatchObject",
-    userMatchObject
-  );
 
   const generateColumns = (keyedApplicationUnitOptions: {
     [index: string]: AppUnitSelectOptionsType;
@@ -1011,11 +1015,11 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IRawRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns}
               rows={rows}
-              tableButtons={tableButtons}
               onRowsChange={setRows}
+              tableButtons={tableButtons}
               size={size}
               autoAdjustTableDim={true}
               showTableHeader={true}

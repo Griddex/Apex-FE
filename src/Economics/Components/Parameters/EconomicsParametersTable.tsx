@@ -1,5 +1,10 @@
-import { ClickAwayListener, IconButton, Tooltip, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import {
+  ClickAwayListener,
+  IconButton,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import omit from "lodash.omit";
@@ -17,7 +22,6 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   TRawTable,
@@ -27,8 +31,14 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TVariableNameTitleData } from "../../../Application/Types/ApplicationTypes";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { IEconomicsParametersTable } from "./IParametersType";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
-const useStyles = makeStyles((theme) => ({
+const ApexGrid = React.lazy(
+  () => import("../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+
+const useStyles = makeStyles(() => ({
   economicsParametersTable: {
     display: "flex",
     flexDirection: "column",
@@ -37,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 40,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const EconomicsParametersTable = ({
   row,
@@ -47,8 +59,13 @@ const EconomicsParametersTable = ({
   const rootRef = React.useRef<HTMLDivElement>(null);
   const reducer = "economicsReducer";
 
+  const economicsPartialPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer],
+    (reducer) => reducer
+  );
+
   const { costsRevenuesAppHeaders, economicsParametersAppHeaders } =
-    useSelector((state: RootState) => state[reducer]);
+    useSelector(economicsPartialPropsSelector);
 
   const additionalColumnsObjKeys = Object.keys(additionalColumnsObj);
 
@@ -154,7 +171,8 @@ const EconomicsParametersTable = ({
 
               setRows(newRows);
             }}
-            size="large">
+            size="large"
+          >
             <AddOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -178,7 +196,8 @@ const EconomicsParametersTable = ({
 
               setRows(newRows);
             }}
-            size="large">
+            size="large"
+          >
             <RemoveOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -204,6 +223,8 @@ const EconomicsParametersTable = ({
     //   [headerName]: selectedAppUnit,
     // }));
   };
+
+  const columns = generateColumns();
 
   return (
     <ApexFlexContainer
@@ -245,8 +266,8 @@ const EconomicsParametersTable = ({
         <div className={classes.economicsParametersTable}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
-                columns={generateColumns()}
+              <ApexGrid
+                columns={generateColumns() as Column<unknown, unknown>[]}
                 rows={rows}
                 onRowsChange={setRows}
                 tableButtons={tableButtons}

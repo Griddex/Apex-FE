@@ -1,17 +1,26 @@
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import {
   fetchForecastTreeviewKeysRequestAction,
   resetForecastChartsWorkflowsAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import ForecastTreeView from "./ForecastTreeView";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const forecastSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer,
+  (reducer) => reducer
+);
 
 const ForecastChartDataPanel = () => {
   const dispatch = useDispatch();
@@ -19,13 +28,21 @@ const ForecastChartDataPanel = () => {
   const reducer = "forecastReducer";
   const wc = "storedDataWorkflows";
 
-  const { forecastResultsStored } = useSelector(
-    (state: RootState) => state.forecastReducer[wc]
+  const forecastResultsStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
+    (reducer) => reducer
   );
+
+  const forecastResultsStored = useSelector(forecastResultsStoredSelector);
+
   const {
     selectedForecastingResultsTitle,
     selectedForecastingResultsDescription,
-  } = useSelector((state: RootState) => state.forecastReducer);
+  } = useSelector(forecastSelector);
+  console.log(
+    "🚀 ~ file: ForecastChartDataPanel.tsx ~ line 42 ~ ForecastChartDataPanel ~ selectedForecastingResultsTitle",
+    selectedForecastingResultsTitle
+  );
 
   const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
     value: row.title,
@@ -99,7 +116,7 @@ const ForecastChartDataPanel = () => {
   };
 
   return (
-    <ChartDataPanel<IExtendedSelectOption>
+    <ChartDataPanel
       selectLabel={"Forecast Results"}
       selectedOption={forecastRunOption}
       titleOptions={forecastRunTitleOptions}

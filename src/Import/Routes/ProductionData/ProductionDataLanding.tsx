@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -11,10 +11,19 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
-import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import StoredProductionData from "./StoredProductionData";
 import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const DatabaseWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/DatabaseWorkflow")
+);
+const ExcelWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/ExcelWorkflow")
+);
+const StoredProductionData = React.lazy(() => import("./StoredProductionData"));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   ProductionDataLanding: {
@@ -39,22 +48,29 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
+const loadWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.loadWorkflow,
+  (load) => load
+);
+const currentWorkflowProcessSelector = createDeepEqualSelector(
+  (state: RootState) => state.workflowReducer.currentWorkflowProcess,
+  (wrkflwPrcss) => wrkflwPrcss
+);
+
 const ProductionDataLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { url, path } = useRouteMatch();
 
   const reducer = "inputReducer";
-  const { url, path } = useRouteMatch();
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { currentWorkflowProcess } = useSelector(
-    (state: RootState) => state.workflowReducer
-  );
+
+  const loadWorkflow = useSelector(loadWorkflowSelector);
+
+  const currentWorkflowProcess = useSelector(currentWorkflowProcessSelector);
 
   const productionLandingData: IProductionLandingData[] = [
     {
-      name: "Excel",
+      name: "Connect Excel",
       description: `Utilize production data by connecting to Microsoft Excel`,
       icon: (
         <Image
@@ -68,7 +84,7 @@ const ProductionDataLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: "Database",
+      name: "Connect Database",
       description: `Utilize production data by connecting to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
@@ -83,7 +99,7 @@ const ProductionDataLanding = () => {
     },
     {
       //Only one left? A table of production data connections to choose from? //What if you want to setup a quick local production db connection?
-      name: `Stored Production Data`,
+      name: `Stored Production Connections`,
       description: `Select pre-exisiting and approved production data from your database`,
       icon: (
         <Image

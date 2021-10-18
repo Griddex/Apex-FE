@@ -1,4 +1,5 @@
 import {
+  alpha,
   Box,
   FormControl,
   IconButton,
@@ -29,6 +30,8 @@ import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
 import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
+import { ITableButtonsProps } from "../TableButtonsTypes";
+import grey from "@mui/material/colors/grey";
 
 const useStyles = makeStyles((theme) => ({
   tableHeadBanner: {
@@ -78,9 +81,22 @@ const useStyles = makeStyles((theme) => ({
       else return props.staticTableHeight; //Chosen for best fit
     },
   },
+  search: {
+    border: `1px solid ${grey[300]}`,
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+    "&:active": {
+      outline: `2px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+  },
 }));
 
-export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
+export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
+  props: IApexGrid<R, O>
+) {
   const classes = useStyles(props);
 
   const {
@@ -88,7 +104,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     rows: rawRows,
     tableButtons,
     newTableRowHeight,
-    onSelectedCellChange,
     selectedRows,
     setSelectedRows,
     selectedRow,
@@ -117,7 +132,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
 
   const tableHeaderHeight = 40;
   const tableRowHeight = newTableRowHeight ? newTableRowHeight : 35;
-  const pagesHeight = 35;
   const noOfTableRows = rawTableRows.current?.length;
 
   const [inComingColumns, setIncomingColumns] = useState(columns);
@@ -127,10 +141,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   >(["", "NONE"]);
 
   const [tablePagination, setTablePagination] = React.useState(0);
-  console.log(
-    "🚀 ~ file: ApexGrid.tsx ~ line 124 ~ tablePagination",
-    tablePagination
-  );
   const [selectedCell, setSelectedCell] = React.useState<Position>();
   const [pastePosition, setPastePosition] = React.useState<TPastePosition>({
     topLeft: {},
@@ -420,7 +430,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
   }, [tableHeight, rawRows, columns]);
 
   React.useEffect(() => {
-    // document.addEventListener("copy", handleCopy);
     if (tableRef.current) {
       (tableRef.current as HTMLDivElement).addEventListener(
         "paste",
@@ -429,7 +438,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
     }
 
     return () => {
-      // document.removeEventListener("copy", handleCopy);
       if (tableRef.current) {
         (tableRef.current as HTMLDivElement).removeEventListener(
           "paste",
@@ -453,6 +461,7 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
         >
           <Grid className={classes.tableFilter} item xs>
             <OutlinedInput
+              className={classes.search}
               id="outlined-adornment-filter"
               value={tableFilter}
               onChange={handleFilterChange}
@@ -490,7 +499,6 @@ export function ApexGrid<R, O>(props: IApexGrid<R, O>) {
       <DndProvider backend={HTML5Backend}>
         <div className={classes.tableHeightStyle}>
           <ReactDataGrid
-            // ref={mergeRefs(gridRef, componentRef)}
             ref={gridRef}
             style={{ height: "100%" }}
             rows={sortedRows}

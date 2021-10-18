@@ -1,4 +1,5 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import capitalize from "lodash.capitalize";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import ReactFlow, {
@@ -20,15 +21,9 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import mergeRefs from "react-merge-refs";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
-import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
-import {
-  default as DrainagePointContextDrawer,
-  default as ManifoldContextDrawer,
-} from "../Components/ContextDrawer/ManifoldContextDrawer";
-import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
 import NetworkTitlePlaque from "../Components/TitlePlaques/NetworkTitlePlaque";
 import { IExtraNodeProps } from "../Components/Widgets/WidgetTypes";
@@ -41,8 +36,24 @@ import GenerateNodeService from "../Services/GenerateNodeService";
 import "../Styles/NetworkValidation.css";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
-import NetworkPanel from "./NetworkPanel";
-import capitalize from "lodash.capitalize";
+import DrainagePointContextDrawer from "../Components/ContextDrawer/DrainagePointContextDrawer";
+
+const ContextDrawer = React.lazy(
+  () => import("../../Application/Components/Drawers/ContextDrawer")
+);
+const FlowstationContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/FlowstationContextDrawer")
+);
+const GasfacilityContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/GasfacilityContextDrawer")
+);
+const ManifoldContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/ManifoldContextDrawer")
+);
+const TerminalContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/TerminalContextDrawer")
+);
+const NetworkPanel = React.lazy(() => import("./NetworkPanel"));
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -93,13 +104,23 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const networkRef = React.useRef<HTMLElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
@@ -111,12 +132,13 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
   );
+
   const {
     nodeElementsManual,
     edgeElementsManual,
     currentPopoverData,
     showNetworkElementDetails,
-  } = useSelector((state: RootState) => state.networkReducer);
+  } = useSelector(networkSelector);
 
   const NetworkDiagramIconsProps = {
     showMiniMap,
@@ -125,7 +147,6 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
     setShowControls,
   };
 
-  //Drag and Drop
   const [{ isOver, canDrop }, drop] = useDrop(
     () => ({
       accept: itemTypes.NETWORK_ELEMENT,
@@ -156,19 +177,11 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
     monitor: DropTargetMonitor,
     nodesManual: Node[] & IExtraNodeProps[]
   ) => {
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 159 ~ NetworkManual ~ nodesManual",
-      nodesManual
-    );
     const networkBounds = (
       networkRef.current as HTMLElement
     ).getBoundingClientRect();
 
     const { nodeType } = monitor.getItem() as any;
-    console.log(
-      "Logged output --> ~ file: NetworkManual.tsx ~ line 167 ~ NetworkManual ~ nodeType",
-      nodeType
-    );
     const mouseCoord = monitor.getClientOffset() as XYPosition;
 
     const mouseCoordUpdated = {

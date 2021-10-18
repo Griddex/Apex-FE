@@ -1,9 +1,9 @@
 import { Box, Chip, Container, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   workflowHeaderRow: {
     display: "flex",
     justifyContent: "center",
@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   workflowBannerHeader: {
     display: "flex",
-    // width: "100%",
     marginLeft: 6,
   },
 }));

@@ -1,17 +1,26 @@
-import makeStyles from '@mui/styles/makeStyles';
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import React, { useEffect } from "react";
+import makeStyles from "@mui/styles/makeStyles";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import EconomicsTemplateChart from "./EconomicsTemplateChart";
-import EconomicsTemplateDataPanel from "./EconomicsTemplateDataPanel";
+
+const EconomicsTemplateChart = React.lazy(
+  () => import("./EconomicsTemplateChart")
+);
+const EconomicsTemplateDataPanel = React.lazy(
+  () => import("./EconomicsTemplateDataPanel")
+);
+const ContextDrawer = React.lazy(
+  () => import("../../../../Application/Components/Drawers/ContextDrawer")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,17 +60,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+
+const isForecastResultsLoadingSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.isForecastResultsLoading,
+  (drawer) => drawer
+);
+
 const EconomicsTemplateVisualytics = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const componentRef = React.useRef();
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { isForecastResultsLoading } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const isForecastResultsLoading = useSelector(
+    isForecastResultsLoadingSelector
   );
 
   const chartButtons: IChartButtonsProps = {

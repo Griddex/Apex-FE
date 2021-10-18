@@ -1,7 +1,9 @@
 import { InheritedColorConfig } from "@nivo/colors";
-import { ComputedDatum, ResponsivePie, Pie } from "@nivo/pie";
+import { ComputedDatum, Pie, ResponsivePie } from "@nivo/pie";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -10,17 +12,16 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 
-export const DoughnutChartAnalytics = ({ data, defs, fill }: IChartProps) => {
-  console.log(
-    "Logged output --> ~ file: DoughnutChart.tsx ~ line 14 ~ DoughnutChartAnalytics ~ fill",
-    fill
-  );
-  console.log(
-    "Logged output --> ~ file: DoughnutChart.tsx ~ line 14 ~ DoughnutChartAnalytics ~ defs",
-    defs
-  );
-  const wc = "visualyticsChartsWorkflows";
+const wc = "visualyticsChartsWorkflows";
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const commonChartPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer[wc],
+  (props) => props
+);
+
+export const DoughnutChartAnalytics = ({ data, defs, fill }: IChartProps) => {
   const adjustedProps = {
     legends: undefined,
     innerRadius: 0.65,
@@ -29,9 +30,7 @@ export const DoughnutChartAnalytics = ({ data, defs, fill }: IChartProps) => {
     cornerRadius: 1,
   } as Partial<IChart>;
 
-  const { commonChartProps } = useSelector(
-    (state: RootState) => state.visualyticsReducer[wc]
-  );
+  const commonChartProps = useSelector(commonChartPropsSelector);
 
   return (
     <Pie
@@ -53,9 +52,12 @@ const DoughnutChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const { commonChartProps, doughnutChart } = useSelector(
-    (state: RootState) => state[reducerDefined][wc]
+  const reducerWCSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc],
+    (wc) => wc
   );
+
+  const { commonChartProps, doughnutChart } = useSelector(reducerWCSelector);
   const { chartData } = doughnutChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;

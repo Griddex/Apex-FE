@@ -1,14 +1,16 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -53,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 export default function PreviewSave({
   reducer,
   wrkflwPrcss,
@@ -62,6 +66,11 @@ export default function PreviewSave({
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
+
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
+  );
 
   const {
     currentDevOption,
@@ -74,14 +83,19 @@ export default function PreviewSave({
     selectedUnitRowIndex,
     matchHeadersTable,
     matchUnitsTable,
-  } = useSelector((state: RootState) => state[reducer][wc][wp]);
+  } = useSelector(workflowProcessSelector);
+
+  const reducerSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer],
+    (reducer) => reducer
+  );
 
   const {
     facilitiesAppHeaders,
     forecastAppHeaders,
     costsRevenuesAppHeaders: cRHeaders,
     economicsParametersAppHeaders,
-  } = useSelector((state: RootState) => state[reducer]);
+  } = useSelector(reducerSelector);
 
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
   if (reducer === "economicsReducer") {
@@ -278,7 +292,7 @@ export default function PreviewSave({
     <div className={classes.rootPreviewSave}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IRawRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={tableData}
             tableButtons={tableButtons}

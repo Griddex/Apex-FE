@@ -1,6 +1,5 @@
-import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { ClickAwayListener } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import groupBy from "lodash.groupby";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -13,6 +12,8 @@ import Select, {
 } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -23,7 +24,6 @@ import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../Application/Components/Selects/SelectItemsType";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
@@ -33,8 +33,11 @@ import {
   getForecastDataByIdRequestAction,
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
-import ApexFlexContainer from "./../../Application/Components/Styles/ApexFlexContainer";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +76,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const forecastSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer,
+  (reducer) => reducer
+);
+
 export default function ForecastData({
   wrkflwCtgry,
   wrkflwPrcss,
@@ -82,9 +92,7 @@ export default function ForecastData({
   const dispatch = useDispatch();
 
   const wp = wrkflwPrcss as NonNullable<IStoredDataProps["wkPs"]>;
-  const { selectedTableData } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+  const { selectedTableData } = useSelector(forecastSelector);
 
   const snSelectedForecastData = selectedTableData.map(
     (row: any, i: number) => ({
@@ -270,7 +278,7 @@ export default function ForecastData({
 
   const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snSelectedForecastData);
-  console.log("tableRows: ", tableRows);
+
   const currentRows = tableRows.current;
   const [rows, setRows] = React.useState(currentRows);
 
@@ -332,17 +340,14 @@ export default function ForecastData({
     setExpandedGroupIds(new Set());
   };
 
-  React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
-
   const wc = "storedDataWorkflows";
-  const { forecastResultsStored } = useSelector(
-    (state: RootState) => state.forecastReducer[wc]
+  const forecastResultsStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
+    (stored) => stored
   );
-  const { selectedForecastingResultsTitle } = useSelector(
-    (state: RootState) => state.forecastReducer
-  );
+
+  const forecastResultsStored = useSelector(forecastResultsStoredSelector);
+  const { selectedForecastingResultsTitle } = useSelector(forecastSelector);
 
   const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
     value: row.title,
@@ -396,6 +401,10 @@ export default function ForecastData({
     showExtraButtons: true,
     extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
   };
+
+  React.useEffect(() => {
+    dispatch(hideSpinnerAction());
+  }, [dispatch]);
 
   return (
     <div className={classes.rootStoredData} style={containerStyle}>
@@ -470,7 +479,7 @@ export default function ForecastData({
         <div className={classes.workflowBody}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns}
                 rows={rows}
                 tableButtons={tableButtons as ITableButtonsProps}

@@ -2,17 +2,15 @@ import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
-import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
@@ -25,7 +23,39 @@ import {
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
+
+const XYYZRChartCategories = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories"
+    )
+);
+const CategoryPanelComponent = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel"
+    )
+);
+const ChartDataPanel = React.lazy(
+  () =>
+    import("../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import(
+      "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
+    )
+);
+const SensitivitiesHeatMapTreeView = React.lazy(
+  () => import("./SensitivitiesHeatMapTreeView")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
 
 const SensitivitiesHeatMapDataPanel = ({
   setSelectedZ,
@@ -36,9 +66,12 @@ const SensitivitiesHeatMapDataPanel = ({
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
-  const { economicsResultsStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsResultsStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer.economicsResultsStored,
+    (stored) => stored
   );
+
+  const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
   const {
     selectedEconomicsResultsTitle,
@@ -49,29 +82,7 @@ const SensitivitiesHeatMapDataPanel = ({
     showHeatMapCategoryMembersObj,
     heatMapCategoryDragItems,
     heatMapCategoryHasDropped,
-  } = useSelector((state: RootState) => {
-    const {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      sensitivitiesHeatMapTree,
-      heatMapVariableZOptions,
-      heatMapTreeByScenario,
-      showHeatMapCategoryMembersObj,
-      heatMapCategoryDragItems,
-      heatMapCategoryHasDropped,
-    } = state.economicsReducer;
-
-    return {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      sensitivitiesHeatMapTree,
-      heatMapVariableZOptions,
-      heatMapTreeByScenario,
-      showHeatMapCategoryMembersObj,
-      heatMapCategoryDragItems,
-      heatMapCategoryHasDropped,
-    };
-  });
+  } = useSelector(economicsSelector);
   console.log(
     "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 70 ~ heatMapVariableZOptions",
     heatMapVariableZOptions

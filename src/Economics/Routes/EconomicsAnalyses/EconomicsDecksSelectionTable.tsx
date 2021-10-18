@@ -1,35 +1,45 @@
-import { useTheme } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-// import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
 
 const EconomicsDecksSelectionTable = () => {
   const dispatch = useDispatch();
-  const theme = useTheme();
   const wc = "storedDataWorkflows";
 
+  const economicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
+  );
+
   const { economicsCostsRevenuesDeckStored, economicsParametersDeckStored } =
-    useSelector((state: RootState) => state.economicsReducer[wc]);
+    useSelector(economicsWCSelector);
 
   const {
     selectedCostsRevenuesInputDeckTitle,
     selectedEconomicsParametersInputDeckTitle,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  } = useSelector(economicsSelector);
 
   const economicsDeckTypes = [
     "Economics Costs & Revenues",
@@ -176,7 +186,7 @@ const EconomicsDecksSelectionTable = () => {
     <div style={{ width: "95%", height: 120 }}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IRawRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={rows}
             newTableRowHeight={35}

@@ -1,3 +1,5 @@
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { Input } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import findIndex from "lodash.findindex";
@@ -6,6 +8,8 @@ import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
@@ -15,11 +19,11 @@ import ExcelExportTable, {
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import theme from "../../Application/Theme/Theme";
+import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
   dayDateFormatOptions,
@@ -39,12 +43,11 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
-import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
-import { workflowResetAction } from "../../Application/Redux/Actions/WorkflowActions";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import isEqual from "react-fast-compare";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IUnitsRow, ITableButtonsProps>
 
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
@@ -87,14 +90,20 @@ export interface IUnitSettings {
   isDialog: boolean;
 }
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const variableUnitsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer["variableUnits"],
+  (units) => units
+);
+
 export default function UnitSettings({ isDialog }: IUnitSettings) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const dialogRef = React.useRef<HTMLDivElement>(null);
 
   const variableUnits: IUnitSettingsData["variableUnits"] = useSelector(
-    (state: RootState) => state.unitSettingsReducer["variableUnits"],
-    (prev, next) => isEqual(prev, next)
+    variableUnitsSelector
   );
 
   const [unitGroupOption, setUnitGroupOption] = React.useState<ISelectOption>(
@@ -648,7 +657,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
 
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IUnitsRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={rows}
             tableButtons={tableButtons}

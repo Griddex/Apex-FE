@@ -1,5 +1,11 @@
+import { RootState } from "../../Redux/Reducers/AllReducers";
 import React from "react";
 import { useSelector } from "react-redux";
+import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
+import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
+import { IStoredDataRow } from "../../Types/ApplicationTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
 import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/FinalizeForecastInputDeckDialog";
@@ -17,8 +23,6 @@ import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Compon
 import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
-import { RootState } from "../../Redux/Reducers/AllReducers";
-import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
@@ -34,7 +38,6 @@ import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import DraggableDialog from "./DraggableDialog";
 import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
-import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
 import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
 import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
@@ -42,9 +45,10 @@ import DeleteDataDialog from "./DeleteDataDialog";
 import SnapshotDialog from "./SnapshotDialog";
 import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
-import { IStoredDataRow } from "../../Types/ApplicationTypes";
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
@@ -105,10 +109,13 @@ const applicationDialogs: IApplicationDialogs = {
   saveVisualyticsDeckDialog: SaveVisualyticsDeckDialog,
 };
 
+const dialogsSelector = createDeepEqualSelector(
+  (state: RootState) => state.dialogsReducer?.dialogs,
+  (dialogs) => dialogs
+);
+
 const Dialogs: React.FC<DialogStuff> = () => {
-  const dialogs = useSelector(
-    (state: RootState) => state.dialogsReducer && state.dialogsReducer.dialogs
-  );
+  const dialogs = useSelector(dialogsSelector);
 
   return (
     <>

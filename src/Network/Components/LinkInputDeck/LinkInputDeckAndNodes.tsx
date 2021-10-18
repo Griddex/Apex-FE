@@ -8,7 +8,7 @@ import { SizeMe } from "react-sizeme";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
@@ -201,7 +201,7 @@ const LinkInputDeckAndNodes = ({
     <div ref={linkRef} style={{ width: "100%", height: "100%" }}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IRawRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={rows}
             newTableRowHeight={35}

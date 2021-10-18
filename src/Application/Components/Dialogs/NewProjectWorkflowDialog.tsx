@@ -1,16 +1,18 @@
+import CloseIcon from "@mui/icons-material/Close";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React, { useCallback } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { createProjectAction } from "../../../Project/Redux/Actions/ProjectActions";
 import NewProjectWorkflow from "../../../Project/Workflows/NewProjectWorkflow";
 import {
@@ -29,7 +31,6 @@ import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../Workflows/WorkflowBanner";
-import WorkflowDialogBanner from "../Workflows/WorkflowDialogBanner";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -115,14 +116,24 @@ const steps = ["Choose Unit Settings", "New Project Title & Description"];
 const workflowCategory = "projectDataWorkflows";
 const workflowProcess = "newProjectWorkflow";
 
-const NewProjectWorkflowDialog = (props: DialogStuff) => {
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const storedTitlesSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer?.allFormTitles?.projectTitles,
+  (projectTitles) => projectTitles
+);
+const activeStepSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
+  (activeStep) => activeStep
+);
+
+const NewProjectWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, isDialog } = props;
 
-  const storedTitles = useSelector(
-    (state: RootState) =>
-      state.applicationReducer["allFormTitles"]["projectTitles"]
-  );
+  const storedTitles = useSelector(storedTitlesSelector);
+
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
   const [disable, setDisable] = React.useState(false);
@@ -133,10 +144,7 @@ const NewProjectWorkflowDialog = (props: DialogStuff) => {
   };
 
   const skipped = new Set<number>();
-  const { activeStep } = useSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
-  );
+  const activeStep = useSelector(activeStepSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,

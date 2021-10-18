@@ -7,14 +7,18 @@ import React from "react";
 import { Rnd } from "react-rnd";
 import { ValueType } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
-import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import {
+  IExtendedSelectOption,
+  ISelectOption,
+} from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
+import { SizeMe } from "react-sizeme";
 
 export interface ITreeViewProps {
   height: number;
@@ -37,7 +41,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   clearChartCategories?: () => IAction;
 }
 
-const ChartDataPanel = <T extends ISelectOption>({
+const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   selectLabel,
   selectedOption,
   titleOptions,
@@ -51,16 +55,14 @@ const ChartDataPanel = <T extends ISelectOption>({
   renderCategoryIcon,
   showMembersObjValues,
   clearChartCategories,
-}: IChartDataPanel<T>) => {
+}) => {
   const theme = useTheme();
-  const treeRef = React.useRef<HTMLDivElement>(null);
 
   const CategoriesComponent = categoriesComponent as JSX.Element;
   const SecondarySelectComponent = secondarySelectComponent as React.FC;
   const TreeViewComponent = treeViewComponent as React.FC<ITreeViewProps>;
 
   const [render, setRender] = React.useState(false);
-  const [treeHeight, setTreeHeight] = React.useState(0);
   const [categorySizePosition, setCategorySizePosition] = React.useState({
     width: 385,
     height: 540,
@@ -70,7 +72,7 @@ const ChartDataPanel = <T extends ISelectOption>({
 
   const SelectTitle = () => {
     return (
-      <ApexSelectRS<T>
+      <ApexSelectRS<IExtendedSelectOption>
         valueOption={selectedOption}
         data={titleOptions}
         handleSelect={handleSelectChange}
@@ -82,12 +84,6 @@ const ChartDataPanel = <T extends ISelectOption>({
   };
 
   const categoryExpanded = showMembersObjValues?.some((v) => v === true);
-
-  React.useEffect(() => {
-    const treeViewDimen = treeRef.current?.getBoundingClientRect();
-    const treeViewHeight = treeViewDimen?.height as number;
-    setTreeHeight(treeViewHeight);
-  }, []);
 
   React.useEffect(() => {
     setRender(!render);
@@ -107,17 +103,13 @@ const ChartDataPanel = <T extends ISelectOption>({
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
       {hasSecondaryComponent && <SecondarySelectComponent />}
-      <div
-        ref={treeRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          borderTop: `1px solid ${theme.palette.grey[300]}`,
-          borderBottom: `1px solid ${theme.palette.grey[300]}`,
-        }}
-      >
-        <TreeViewComponent height={treeHeight} />
-      </div>
+      <SizeMe monitorHeight refreshRate={32}>
+        {({ size }) => (
+          <TreeViewComponent
+            height={size.height ? (size.height as number) : 800}
+          />
+        )}
+      </SizeMe>
       {extrudeCategories && (
         <Rnd
           style={{ zIndex: 2000, padding: 2 }}

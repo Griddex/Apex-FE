@@ -44,7 +44,6 @@ const TerminalWidget = ({ title }: IWidget) => {
           alt="Terminal"
         />
       </Tooltip>
-      <Handle type="source" position={Position.Right} style={handleStyle} />
     </div>
   );
 };

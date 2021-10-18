@@ -1,20 +1,25 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { zipObject } from "lodash";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import ExcelExportTable, {
-  IExcelSheetData,
   IExcelExportTable,
+  IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { persistTableDataAction } from "../../Import/Redux/Actions/InputActions";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -46,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
   score: { fontSize: 14 },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 export default function VisualyticsPreviewSave({
   reducer,
   wrkflwPrcss,
@@ -57,8 +64,13 @@ export default function VisualyticsPreviewSave({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
+  const workflowProcessSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp],
+    (wrkflwPrcss) => wrkflwPrcss
+  );
+
   const { tableRoleNames, columnNameTableData } = useSelector(
-    (state: RootState) => state[reducer][wc][wp]
+    workflowProcessSelector
   );
 
   const headersIndex = tableRoleNames.indexOf("Headers");
@@ -164,7 +176,7 @@ export default function VisualyticsPreviewSave({
     <div className={classes.rootPreviewSave}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid<IRawRow, ITableButtonsProps>
+          <ApexGrid
             columns={columns}
             rows={previewtableData}
             tableButtons={tableButtons}

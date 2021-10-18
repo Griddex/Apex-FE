@@ -5,8 +5,8 @@ import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -23,7 +23,7 @@ import {
 } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
-import { ApexGrid } from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
@@ -92,7 +92,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -108,7 +108,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -161,7 +162,7 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
           <div style={{ width: "100%", height: "500px" }}>
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => (
-                <ApexGrid<IRawRow, ITableButtonsProps>
+                <ApexGrid
                   columns={columns}
                   rows={rows}
                   tableButtons={tableButtons}

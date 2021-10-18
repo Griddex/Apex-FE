@@ -1,14 +1,15 @@
-import { Typography, useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import { CSSProperties } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import React from "react";
+import { Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import Author from "../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ApexGridMoreActionsContextMenu from "../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
@@ -17,7 +18,6 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
@@ -29,11 +29,8 @@ import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../Visualytics/Components/Charts/DoughnutChart";
+import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
-import { extrudeDialogParameters } from "../Components/DialogParameters/ShowPrioritizationDialogParameters";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
 import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
@@ -48,6 +45,11 @@ import {
   forecastingParametersToStored,
   storedToForecastingParameters,
 } from "../Utils/TransformForecastingParameters";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IForecastParametersStoredRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -108,11 +110,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 export default function StoredForecastingParameters({
   showChart,
   isAllForecastParameters,
 }: IStoredDataProps) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -134,6 +154,7 @@ export default function StoredForecastingParameters({
       color: theme.palette.secondary.main,
     },
   ];
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -141,9 +162,7 @@ export default function StoredForecastingParameters({
   const wp = "forecastingParametersStored";
 
   const componentRef = React.useRef();
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
     useSelector((state: RootState) => state.inputReducer);
@@ -155,15 +174,18 @@ export default function StoredForecastingParameters({
   const [sRow, setSRow] = React.useState(-1);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
 
-  const { selectedNetworkId } = useSelector(
-    (state: RootState) => state.networkReducer
+  const { selectedNetworkId } = useSelector(networkSelector);
+
+  const networkWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.networkReducer[wc],
+    (wc) => wc
   );
-  const { forecastingParametersStored, networkStored } = useSelector(
-    (state: RootState) => state.networkReducer[wc]
-  );
+
+  const { forecastingParametersStored, networkStored } =
+    useSelector(networkWCSelector);
 
   const selectedNetwork = networkStored.find((row: any) => {
     if (row.id == selectedNetworkId) {
@@ -629,7 +651,7 @@ export default function StoredForecastingParameters({
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IForecastParametersStoredRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}

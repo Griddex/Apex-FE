@@ -1,11 +1,14 @@
 import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
-import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
-import ForecastQualityAssuranceData from "../Common/ForecastQualityAssuranceData";
+
+const ForecastChartDataPanel = React.lazy(
+  () => import("../Common/ForecastChartDataPanel")
+);
+const ForecastQualityAssuranceData = React.lazy(
+  () => import("../Common/ForecastQualityAssuranceData")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,11 +52,7 @@ const ForecastQualityAssurance = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(showContextDrawerAction());
   }, [dispatch]);
 
@@ -69,9 +68,6 @@ const ForecastQualityAssurance = () => {
           showBaseButtons={true}
         />
       </div>
-      {/* {showContextDrawer && (
-          <ContextDrawer>{() => <div></div>}</ContextDrawer>
-        )} */}
     </div>
   );
 };

@@ -1,22 +1,30 @@
-import makeStyles from '@mui/styles/makeStyles';
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
-import { ChartFormatAggregatorContextProvider } from "../../../../Visualytics/Components/Contexts/ChartFormatAggregatorContext";
-import ChartFormatAggregator from "../../../../Visualytics/Components/FormatAggregators/ChartFormatAggregator";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
-import MapStyleFormatters from "../../../Components/MapStyleFormatters/MapStyleFormatters";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
-import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
-import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
+
+const SensitivitiesHeatMapChart = React.lazy(
+  () => import("./SensitivitiesHeatMapChart")
+);
+const SensitivitiesHeatMapDataPanel = React.lazy(
+  () => import("./SensitivitiesHeatMapDataPanel")
+);
+const VisualyticsContext = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext"
+    )
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,22 +63,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+
 const SensitivitiesHeatMapVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
-  const wp = "economicsResultsSensitivitiesHeatmap";
 
+  const classes = useStyles();
   const dispatch = useDispatch();
   const componentRef = React.useRef();
 
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-
-  const classes = useStyles();
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const basePath = `${wc}.commonChartProps`;
 

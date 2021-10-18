@@ -1,11 +1,13 @@
-import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { ControlPosition } from "react-draggable";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
@@ -13,7 +15,6 @@ import { showContextDrawerAction } from "../../../../Application/Redux/Actions/L
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
-import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
@@ -25,8 +26,19 @@ import {
   updateEconomicsChartCategoryAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import EconomicsPlotChartsDataPanel from "./EconomicsPlotChartsDataPanel";
-import EconomicsPlotChartsSelectChart from "./EconomicsPlotChartsSelectChart";
+
+const VisualyticsContext = React.lazy(
+  () =>
+    import(
+      "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext"
+    )
+);
+const EconomicsPlotChartsDataPanel = React.lazy(
+  () => import("./EconomicsPlotChartsDataPanel")
+);
+const EconomicsPlotChartsSelectChart = React.lazy(
+  () => import("./EconomicsPlotChartsSelectChart")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,13 +80,38 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
   },
+  selectChart: {
+    height: `calc(100% - 50px)`,
+    width: "100%",
+  },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (drawer) => drawer
+);
+const plotChartsResultsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.plotChartsResults,
+  (data) => data
+);
+const xValueCategoriesSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.xValueCategories,
+  (data) => data
+);
+const showPlotChartsCategoriesSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.showPlotChartsCategories,
+  (data) => data
+);
+const selectedEconomicsPlotChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsPlotChartOption,
+  (data) => data
+);
 
 const EconomicsPlotChartsVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
-  const wp = "economicsResultsPlotCharts";
-  const ch = "stackedAreaChart";
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -83,16 +120,15 @@ const EconomicsPlotChartsVisualytics = () => {
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer, expandContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const plotChartsResults = useSelector(plotChartsResultsSelector);
+  const xValueCategories = useSelector(xValueCategoriesSelector);
+  const showPlotChartsCategories = useSelector(
+    showPlotChartsCategoriesSelector
   );
-
-  const {
-    plotChartsResults,
-    xValueCategories,
-    showPlotChartsCategories,
-    selectedEconomicsPlotChartOption,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  const selectedEconomicsPlotChartOption = useSelector(
+    selectedEconomicsPlotChartOptionSelector
+  );
 
   const [showCategories, setShowCategories] = React.useState(
     showPlotChartsCategories
@@ -242,14 +278,16 @@ const EconomicsPlotChartsVisualytics = () => {
             <EconomicsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          {chartType === "Select Chart..." ? (
-            <NoSelectionPlaceholder
-              icon={<ArrowUpwardOutlinedIcon color="primary" />}
-              text="Select a chart.."
-            />
-          ) : (
-            <EconomicsPlotChartsSelectChart />
-          )}
+          <div className={classes.selectChart}>
+            {chartType === "Select Chart..." ? (
+              <NoSelectionPlaceholder
+                icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                text="Select chart.."
+              />
+            ) : (
+              <EconomicsPlotChartsSelectChart />
+            )}
+          </div>
         </div>
       </div>
       {showContextDrawer && (

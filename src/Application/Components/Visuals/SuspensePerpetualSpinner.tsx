@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import Backdrop from "@mui/material/Backdrop";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    opacity: 0.5,
     zIndex: 1300,
     position: "fixed",
     right: 0,

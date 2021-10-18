@@ -1,10 +1,10 @@
-import { Button, Divider, Grid, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import { Button, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import Image from "../../Components/Visuals/Image";
-import SyncwareLogoWithName from "../../Images/SyncwareLogoWithName.svg";
-import ApexLogoFull from "../../Images/ApexLogoFull.svg";
 import { useHistory } from "react-router-dom";
+import Image from "../../Components/Visuals/Image";
+import ApexLogoFull from "../../Images/ApexLogoFull.svg";
+import SyncwareLogoWithName from "../../Images/SyncwareLogoWithName.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,17 +20,14 @@ const useStyles = makeStyles((theme) => ({
   header: {
     gridArea: "header",
     height: "100%",
-    // marginTop: "20vh",
   },
   company: {
     gridArea: "company",
     height: 300,
-    // padding: 120,
   },
   apex: {
     gridArea: "apex",
     height: 300,
-    // padding: 120,
   },
   image: {
     marginBottom: "40px",
@@ -56,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     gridArea: "footer",
     height: "100%",
-    // marginTop: "20vh",
   },
 }));
 
@@ -86,13 +82,15 @@ const LandingRoute = () => {
         <Button
           className={classes.button}
           variant="contained"
-          onClick={() => history.push("/login")}>
+          onClick={() => history.push("/login")}
+        >
           Proceed
         </Button>
         <Button
           className={classes.button}
           variant="contained"
-          onClick={() => history.push("/register")}>
+          onClick={() => history.push("/register")}
+        >
           Register
         </Button>
       </div>

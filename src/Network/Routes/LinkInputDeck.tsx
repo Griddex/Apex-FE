@@ -1,5 +1,5 @@
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import differenceBy from "lodash.differenceby";
 import uniq from "lodash.uniq";
 import uniqBy from "lodash.uniqby";
@@ -11,6 +11,10 @@ import { ISelectOption } from "../../Application/Components/Selects/SelectItemsT
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import LinkInputDeckAndNodes from "../Components/LinkInputDeck/LinkInputDeckAndNodes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export interface ISelectedOthers {
   selectedOption: ISelectOption;
@@ -18,16 +22,23 @@ export interface ISelectedOthers {
 }
 
 const firstOption = { value: "Select...", label: "Select..." };
+
+const nodeElementsManualSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.nodeElementsManual,
+  (reducer) => reducer
+);
+
+const selectedTableDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedTableData,
+  (reducer) => reducer
+);
+
 const LinkInputDeck = () => {
   const [nodeType, setNodeType] = React.useState("drainagepoint");
 
-  const { nodeElementsManual } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const nodeElementsManual = useSelector(nodeElementsManualSelector);
 
-  const { selectedTableData } = useSelector(
-    (state: RootState) => state.inputReducer
-  );
+  const selectedTableData = useSelector(selectedTableDataSelector);
 
   const uniqNodeTypes = uniqBy(
     nodeElementsManual as Node[],

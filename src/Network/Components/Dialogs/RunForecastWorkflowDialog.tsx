@@ -1,14 +1,18 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -84,7 +88,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -100,7 +104,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -123,15 +128,19 @@ const steps = ["Select Network", "Select Forecast Parameters"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
-const RunForecastWorkflowDialog = (props: DialogStuff) => {
+const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, isDialog } = props;
 
   const skipped = new Set<number>();
-  const { activeStep } = useSelector(
+
+  const activeStepSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
+    (activeStep) => activeStep
   );
+
+  const activeStep = useSelector(activeStepSelector);
 
   const isStepOptional = React.useCallback(
     (activeStep: number) => activeStep === 50,

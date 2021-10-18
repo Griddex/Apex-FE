@@ -1,10 +1,12 @@
-import { StepConnector, StepIcon } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import { StepConnector } from "@mui/material";
 import Step, { StepProps } from "@mui/material/Step";
 import StepLabel, { StepLabelProps } from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IWorkflowDataProps } from "./WorkflowTypes";
 
@@ -28,14 +30,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const expandContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.expandContextDrawer,
+  (context) => context
+);
+
 const VerticalWorkflowStepper = (props: IWorkflowDataProps) => {
   const classes = useStyles();
 
-  const { expandContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-
   const { steps, activeStep, skipped, errorSteps } = props;
+
+  const expandContextDrawer = useSelector(expandContextDrawerSelector);
 
   return (
     <Stepper

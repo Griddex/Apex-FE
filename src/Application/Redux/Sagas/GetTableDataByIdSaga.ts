@@ -23,7 +23,10 @@ import {
   GET_TABLEDATABYID_REQUEST,
 } from "../Actions/ApplicationActions";
 import { showDialogAction } from "../Actions/DialogsAction";
-import { hideSpinnerAction } from "../Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../Actions/UISpinnerActions";
 
 export default function* watchGetTableDataByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -58,6 +61,8 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   } = payload;
 
   try {
+    yield put(showSpinnerAction("Fetching..."));
+
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
 
     let selectedTableData = [] as any[];

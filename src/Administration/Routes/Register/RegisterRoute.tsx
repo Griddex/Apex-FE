@@ -1,7 +1,10 @@
 import { Grid } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import SingleRegisterForm from "../../Components/Forms/SingleRegisterForm";
+
+const SingleRegisterForm = React.lazy(
+  () => import("../../Components/Forms/SingleRegisterForm")
+);
 
 const useStyles = makeStyles(() => ({
   root: {

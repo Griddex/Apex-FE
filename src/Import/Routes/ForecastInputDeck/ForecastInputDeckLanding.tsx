@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -16,10 +16,19 @@ import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import StoredDeck from "../../Images/StoredDeck.svg";
-import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
 import { IdType } from "./ForecastInputDeckLandingTypes";
-import StoredForecastDecks from "./StoredForecastDecks";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const StoredForecastDecks = React.lazy(() => import("./StoredForecastDecks"));
+const DatabaseWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/DatabaseWorkflow")
+);
+const ExcelWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/ExcelWorkflow")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   ForecastInputDeckLanding: {
@@ -48,12 +57,15 @@ const useStyles = makeStyles((theme) => ({
 const ForecastInputDeckLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { url, path } = useRouteMatch();
 
   const reducer = "inputReducer";
-  const { url, path } = useRouteMatch();
-  const loadWorkflow = useSelector(
-    (state: RootState) => state.layoutReducer["loadWorkflow"]
+
+  const loadWorkflowSelector = createDeepEqualSelector(
+    (state: RootState) => state.layoutReducer.loadWorkflow,
+    (load) => load
   );
+  const loadWorkflow = useSelector(loadWorkflowSelector);
 
   const forecastInputLandingData: ILandingData[] = [
     {

@@ -9,12 +9,25 @@ import {
   IStoredDataProps,
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
-import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../../../../Import/Routes/InputDeckTypes";
 import {
   fetchStoredEconomicsDataRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const StoredDataRoute = React.lazy(
+  () =>
+    import("../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
 
 export default function StoredCostsAndRevenuesDecks({
   reducer,
@@ -22,6 +35,7 @@ export default function StoredCostsAndRevenuesDecks({
   showChart,
 }: IStoredInputDeck) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -44,9 +58,7 @@ export default function StoredCostsAndRevenuesDecks({
     },
   ];
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const tableTitle = "Costs/Revenues Table";
   const mainUrl = `${getBaseEconomicsUrl()}/data`;
@@ -58,9 +70,12 @@ export default function StoredCostsAndRevenuesDecks({
   const wp: NonNullable<IStoredDataProps["wkPs"]> =
     "economicsCostsRevenuesDeckStored";
 
-  const { economicsCostsRevenuesDeckStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const econmicsWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc],
+    (wc) => wc
   );
+
+  const { economicsCostsRevenuesDeckStored } = useSelector(econmicsWCSelector);
 
   const snStoredData: IStoredDataRow[] =
     economicsCostsRevenuesDeckStored &&

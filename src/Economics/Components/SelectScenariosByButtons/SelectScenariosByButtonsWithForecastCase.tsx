@@ -1,7 +1,8 @@
-import { useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -27,6 +28,8 @@ export interface ISelectScenariosByButtonsWithForecastCase {
   workflowCategory: TAllWorkflowCategories;
 }
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const SelectScenariosByButtonsWithForecastCase = ({
   width,
   height,
@@ -34,15 +37,19 @@ const SelectScenariosByButtonsWithForecastCase = ({
   workflowCategory,
 }: ISelectScenariosByButtonsWithForecastCase) => {
   const dispatch = useDispatch();
-  const theme = useTheme();
   const wp = workflowProcess;
   const wc = workflowCategory;
+
+  const economicsPartialPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc][wp],
+    (props) => props
+  );
 
   const {
     currentDevOption,
     costRevenuesButtons,
     developmentScenariosCompleted,
-  } = useSelector((state: RootState) => state.economicsReducer[wc][wp]);
+  } = useSelector(economicsPartialPropsSelector);
 
   const [devOption, setDevOption] = React.useState(
     Object.entries(currentDevOption).length > 0

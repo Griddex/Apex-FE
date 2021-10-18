@@ -1,18 +1,18 @@
-import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { ControlPosition } from "react-draggable";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import IconButtonWithTooltip from "../../../Application/Components/IconButtons/IconButtonWithTooltip";
-import NoSelectionPlaceholder from "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../Components/Charts/ChartTypes";
-import VisualyticsContext from "../../Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Components/Menus/ChartSelectionMenu";
@@ -21,8 +21,22 @@ import {
   putSelectChartOptionAction,
   updateVisualyticsParameterAction,
 } from "../../Redux/Actions/VisualyticsActions";
-import VisualyticsChartDataPanel from "../VisualyticsChartDataPanel";
-import VisualyticsSelectChart from "../VisualyticsSelectChart";
+
+const VisualyticsContext = React.lazy(
+  () => import("../../Components/ContextDrawers/VisualyticsContext")
+);
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import(
+      "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
+    )
+);
+const VisualyticsChartDataPanel = React.lazy(
+  () => import("../VisualyticsChartDataPanel")
+);
+const VisualyticsSelectChart = React.lazy(
+  () => import("../VisualyticsSelectChart")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +83,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const visualyticsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer,
+  (reducer) => reducer
+);
+
 const PlotVisualytics = () => {
+  console.log("Plotvisualyticssssssssssssssssssssssss");
+
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
   const wp = "visualyticsResultsPlotCharts";
@@ -81,16 +109,14 @@ const PlotVisualytics = () => {
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const {
     visualyticsResults,
     xValueCategories,
     showPlotChartsCategories,
     selectedVisualyticsChartOption,
-  } = useSelector((state: RootState) => state.visualyticsReducer);
+  } = useSelector(visualyticsSelector);
 
   const chartType = selectedVisualyticsChartOption.value;
   const visualyticsPlotCharts = [
@@ -262,7 +288,7 @@ const PlotVisualytics = () => {
             {chartType === "Select Chart..." ? (
               <NoSelectionPlaceholder
                 icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                text="Select a chart.."
+                text="Select chart.."
               />
             ) : (
               <VisualyticsSelectChart />

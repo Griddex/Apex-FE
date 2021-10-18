@@ -1,43 +1,33 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import ApexTreeView from "../../../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
-export default function EconomicsTemplateTreeView({ height }: ITreeViewProps) {
-  const dispatch = useDispatch();
+const ApexTreeView = React.lazy(
+  () => import("../../../../Visualytics/Components/TreeView/ApexTreeView")
+);
 
-  const { economicsTemplatesTree, selectedAnalysesNames } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const economicsTemplatesTreeSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.economicsTemplatesTree,
+  (reducer) => reducer
+);
+
+export default function EconomicsTemplateTreeView({ height }: ITreeViewProps) {
+  const economicsTemplatesTree = useSelector(economicsTemplatesTreeSelector);
   const rootTree = economicsTemplatesTree as RenderTree;
 
   //TODO: Ability to handle multiple analyses
-  const selectedAnalysisName = selectedAnalysesNames[0];
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
   const [selectedPathsUnfiltered, setSelectedPathsUnfiltered] = React.useState<
     string[]
   >([]);
-
-  React.useEffect(() => {
-    const selectedPaths = selectedPathsUnfiltered.filter(
-      (p) => p?.match(/@#\$%/g)?.length === 2
-    );
-
-    // if (selectedIds.length > 0) {
-    //   dispatch(
-    //     getForecastResultsChartDataRequestAction(
-    //       selectedIds,
-    //       selectedNames,
-    //       selectedPaths,
-    //       selectedAnalysisName
-    //     )
-    //   );
-    // }
-  }, [selectedIds, selectedAnalysisName]);
 
   return (
     <ApexTreeView

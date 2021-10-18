@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -10,6 +10,10 @@ import SingleRegistration from "../../Images/SingleRegistration.svg";
 import { loadAdminWorkflowAction } from "../../Redux/Actions/AdminActions";
 import RegisterRoute from "../Register/RegisterRoute";
 import { IdType } from "./AdministrationLandingTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   administrationDeckLanding: {
@@ -34,13 +38,16 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
+const loadAdminWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.adminReducer.loadAdminWorkflow,
+  (loadAdminWorkflow) => loadAdminWorkflow
+);
+
 const AdministrationLanding = () => {
   const classes = useStyles();
   const { url, path } = useRouteMatch();
 
-  const { loadAdminWorkflow } = useSelector(
-    (state: RootState) => state.adminReducer
-  );
+  const loadAdminWorkflow = useSelector(loadAdminWorkflowSelector);
 
   const administrationLandingData = [
     {

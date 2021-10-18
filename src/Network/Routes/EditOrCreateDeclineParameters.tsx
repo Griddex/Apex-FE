@@ -1,30 +1,27 @@
-import { ClickAwayListener } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { ClickAwayListener } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { IStoredDataProps, IStoredDataRow } from "../../Application/Types/ApplicationTypes";
+import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
-
-import {
-  ReducersType
-} from "../../Application/Components/Workflows/WorkflowTypes";
-
 
 const useStyles = makeStyles(() => ({
   rootStoredData: {
@@ -72,21 +69,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-//TODO: Calculate classification data from collection
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
 
 export default function EditOrCreateDeclineParameters({
-  currentRow, reducer}: IStoredDataProps) {
-
+  currentRow,
+  reducer,
+}: IStoredDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  
-  //const wp = workflowProcess;
-  const { selectedDeclineParametersData } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
-
-  //console.log("selectedDeclineParametersData: ", selectedDeclineParametersData);
+  const { selectedDeclineParametersData } = useSelector(networkSelector);
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
@@ -197,11 +194,11 @@ export default function EditOrCreateDeclineParameters({
                   ...row,
                   declineMethod: selectedValue as string,
                 };
-                
+
                 console.log("updatedRow: ", updatedRow);
                 const currentSN = updatedRow.sn as number;
-                rows[currentSN-1] = updatedRow;
-               /*  dispatch(
+                rows[currentSN - 1] = updatedRow;
+                /*  dispatch(
                   updateNetworkParameterAction(
                     "selectedDeclineParametersData",
                     rows

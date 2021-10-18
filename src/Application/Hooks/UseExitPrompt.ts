@@ -13,7 +13,6 @@ const initBeforeUnLoad = (showExitPrompt: boolean) => {
   };
 };
 
-// Hook
 export default function useExitPrompt(bool: boolean) {
   const [showExitPrompt, setShowExitPrompt] = React.useState(bool);
 

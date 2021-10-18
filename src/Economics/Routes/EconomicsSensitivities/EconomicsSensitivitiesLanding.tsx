@@ -1,9 +1,11 @@
-import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
+import { useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -21,9 +23,20 @@ import {
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
 import { TEconomicsAnalysesNames } from "../EconomicsAnalyses/EconomicsAnalysesTypes";
-import EconomicsParametersSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities";
-import StoredEconomicsSensitivities from "../EconomicsAnalyses/EconomicsParametersSensitivities/StoredEconomicsSensitivities";
 import { IdType } from "./EconomicsSensitivitiesTypes";
+
+const EconomicsParametersSensitivities = React.lazy(
+  () =>
+    import(
+      "../EconomicsAnalyses/EconomicsParametersSensitivities/EconomicsParametersSensitivities"
+    )
+);
+const StoredEconomicsSensitivities = React.lazy(
+  () =>
+    import(
+      "../EconomicsAnalyses/EconomicsParametersSensitivities/StoredEconomicsSensitivities"
+    )
+);
 
 const useStyles = makeStyles((theme) => ({
   economicsSensitivitiesLanding: {
@@ -48,6 +61,14 @@ const useStyles = makeStyles((theme) => ({
   image: { height: 70, width: 70 },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const loadEconomicsSensitivitiesWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.loadEconomicsSensitivitiesWorkflow,
+  (sen) => sen
+);
+
 const EconomicsSensitivitiesLanding = () => {
   const theme = useTheme();
   const classes = useStyles();
@@ -57,8 +78,8 @@ const EconomicsSensitivitiesLanding = () => {
   const wp = "economicsSensitivitiesCreate";
 
   const { url, path } = useRouteMatch();
-  const { loadEconomicsSensitivitiesWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const loadEconomicsSensitivitiesWorkflow = useSelector(
+    loadEconomicsSensitivitiesWorkflowSelector
   );
 
   const economicsSensitivitiesLandingData: ILandingData[] = [

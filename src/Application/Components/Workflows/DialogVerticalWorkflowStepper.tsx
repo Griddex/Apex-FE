@@ -1,5 +1,5 @@
 import { StepConnector } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Step, { StepProps } from "@mui/material/Step";
 import StepLabel, { StepLabelProps } from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       alignItems: "center",
     },
+    height: "100%",
   },
   verticalConnector: {
     padding: 0,
@@ -57,7 +58,9 @@ const DialogVerticalWorkflowStepper = (props: IWorkflowDataProps) => {
 
         return (
           <Step key={label} {...stepProps}>
-            <StepLabel {...labelProps}>{label}</StepLabel>
+            <StepLabel style={{ padding: 0 }} {...labelProps}>
+              {label}
+            </StepLabel>
           </Step>
         );
       })}

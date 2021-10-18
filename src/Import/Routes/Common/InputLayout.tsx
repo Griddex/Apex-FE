@@ -1,12 +1,13 @@
-import { Button, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import AppsIcon from "@mui/icons-material/Apps";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LandscapeIcon from "@mui/icons-material/Landscape";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import { Button, Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import {
   Route,
@@ -14,22 +15,41 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import PerpetualSpinner from "../../../Application/Components/Visuals/PerpetualSpinner";
-import SuspensePerpetualSpinner from "../../../Application/Components/Visuals/SuspensePerpetualSpinner";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
-import EconomicsCostsRevenuesLanding from "../../../Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding";
-import EconomicsParametersLanding from "../../../Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersLanding";
-import ForecastInputDeckLanding from "../ForecastInputDeck/ForecastInputDeckLanding";
-import ProductionDataLanding from "../ProductionData/ProductionDataLanding";
-import FacilitiesInputDeckLanding from "./../FacilitiesInputDeck/FacilitiesInputDeckLanding";
-import InputBackground from "./InputBackground";
 import { IdType } from "./InputLayoutTypes";
-import {
-  IEconomicsInputButton,
-  ISubNavbarData,
-} from "./Workflows/InputWorkflowsTypes";
+import { IEconomicsInputButton } from "./Workflows/InputWorkflowsTypes";
+
+const SubNavbar = React.lazy(
+  () => import("../../../Application/Components/Navbars/SubNavbar")
+);
+const EconomicsInputButtonsMenu = React.lazy(
+  () => import("../../../Economics/Components/Menus/EconomicsInputButtonsMenu")
+);
+const EconomicsCostsRevenuesLanding = React.lazy(
+  () =>
+    import(
+      "../../../Economics/Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsRevenuesLanding"
+    )
+);
+const EconomicsParametersLanding = React.lazy(
+  () =>
+    import(
+      "../../../Economics/Routes/EconomicsInput/EconomicsParameters/EconomicsParametersLanding"
+    )
+);
+const ForecastInputDeckLanding = React.lazy(
+  () => import("../ForecastInputDeck/ForecastInputDeckLanding")
+);
+const ProductionDataLanding = React.lazy(
+  () => import("../ProductionData/ProductionDataLanding")
+);
+const FacilitiesInputDeckLanding = React.lazy(
+  () => import("./../FacilitiesInputDeck/FacilitiesInputDeckLanding")
+);
+const InputBackground = React.lazy(() => import("./InputBackground"));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const navbarHeight = 43;
 const subNavBarHeight = 25;
@@ -48,12 +68,18 @@ const useStyles = makeStyles(() => {
   };
 });
 
+const showSubNavbarSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showSubNavbar,
+  (subNavbar) => subNavbar
+);
+
 const InputLayout = () => {
   console.log("Hellooooooooooo inputLayout");
+  const theme = useTheme();
   const classes = useStyles();
   const { path, url } = useRouteMatch();
-  const layoutProps = useSelector((state: RootState) => state.layoutReducer);
-  const { showSubNavbar } = layoutProps;
+
+  const showSubNavbar = useSelector(showSubNavbarSelector);
 
   const subNavbarData = React.useRef([
     {
@@ -99,7 +125,10 @@ const InputLayout = () => {
                 }}
                 startIcon={startIcon}
                 endIcon={endIcon}
-                style={styles}
+                style={{
+                  ...styles,
+                  borderRight: `1px solid ${theme.palette.grey["500"]}`,
+                }}
               >
                 <Typography variant="subtitle2">{name}</Typography>
               </Button>
@@ -114,36 +143,30 @@ const InputLayout = () => {
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData.current} />}
       <div className={clsx(classes.importLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <Switch>
-            <Route exact path={path} component={InputBackground} />
-            <Route path={`${url}/:subNavbarId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { subNavbarId },
-                  },
-                } = props;
+        <Switch>
+          <Route exact path={path} component={InputBackground} />
+          <Route path={`${url}/:subNavbarId`}>
+            {(props: RouteComponentProps<IdType>) => {
+              const {
+                match: {
+                  params: { subNavbarId },
+                },
+              } = props;
 
-                const Layouts: Record<string, JSX.Element> = {
-                  background: <InputBackground />,
-                  facilitiesdeck: <FacilitiesInputDeckLanding />,
-                  forecastdeck: <ForecastInputDeckLanding />,
-                  productiondata: <ProductionDataLanding />,
-                  costsrevenue: <EconomicsCostsRevenuesLanding />,
-                  parameters: <EconomicsParametersLanding />,
-                };
+              const Layouts: Record<string, JSX.Element> = {
+                background: <InputBackground />,
+                facilitiesdeck: <FacilitiesInputDeckLanding />,
+                forecastdeck: <ForecastInputDeckLanding />,
+                productiondata: <ProductionDataLanding />,
+                costsrevenue: <EconomicsCostsRevenuesLanding />,
+                parameters: <EconomicsParametersLanding />,
+              };
 
-                return Layouts[subNavbarId];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Not Available</h1>} />
-          </Switch>
-        </Suspense>
+              return Layouts[subNavbarId];
+            }}
+          </Route>
+          <Route path="*" component={() => <h1>Not Available</h1>} />
+        </Switch>
       </div>
     </main>
   );

@@ -14,6 +14,8 @@ import {
 import { subNavbarSetMenuAction } from "../../Redux/Actions/ApplicationActions";
 import { navigateResetWorkflowAction } from "../../Redux/Actions/LayoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 const mainDrawerExpanded = 96;
 const mainDrawerWidthCollapsed = 40;
@@ -53,8 +55,17 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     margin: theme.spacing(0),
     color: theme.palette.grey["800"],
+    borderRight: `1px solid ${theme.palette.grey["500"]}`,
+    borderRadius: 0,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const expandMainDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.expandMainDrawer,
+  (drawer) => drawer
+);
 
 const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
   const classes = useStyles();
@@ -62,16 +73,13 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
   const history = useHistory();
   const theme = useTheme();
 
-  const { expandMainDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const expandMainDrawer = useSelector(expandMainDrawerSelector);
 
   const [selected, setMainMenuSelected] = React.useState("");
 
   const getBadgeProps = (name: string) => {
     return {
       color: "secondary",
-      // ...(name === "Production Data" && { badgeContent: "", variant: "dot" }),
       ...(name === "Production Data" && { badgeContent: "" }),
       ...(name === "Production Data" && { variant: "dot" }),
     } as BadgeProps;
@@ -85,7 +93,7 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
       })}
     >
       <Toolbar className={classes.appbarToolBar} disableGutters>
-        <ButtonGroup variant="text">
+        <div>
           {(subNavbarData as ISubNavbarData).map((navbarData, i) => {
             const {
               name,
@@ -133,7 +141,7 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
               );
             }
           })}
-        </ButtonGroup>
+        </div>
       </Toolbar>
     </AppBar>
   );

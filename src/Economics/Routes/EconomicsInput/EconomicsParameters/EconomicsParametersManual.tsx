@@ -1,10 +1,9 @@
 import { ClickAwayListener } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
-import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
@@ -16,7 +15,6 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   TRawTable,
@@ -31,7 +29,18 @@ import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsA
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const EconomicsParametersValue = React.lazy(
+  () => import("../../../Components/Parameters/EconomicsParametersValue")
+);
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   rootEconomicsParametersManual: {
@@ -52,6 +61,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const economicsParametersAppHeadersSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer["economicsParametersAppHeaders"],
+  (headers) => headers
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 const EconomicsParametersManual = ({
   wrkflwPrcss,
   wrkflwCtgry,
@@ -70,21 +89,11 @@ const EconomicsParametersManual = ({
   const wp = wrkflwPrcss as TAllWorkflowProcesses;
 
   const economicsParametersAppHeaders = useSelector(
-    (state: RootState) =>
-      state.economicsReducer["economicsParametersAppHeaders"],
-    (prev, next) => isEqual(prev, next)
+    economicsParametersAppHeadersSelector
   );
 
-  const unitOptionsByVariableName = useSelector(
-    (state: RootState) =>
-      state.unitSettingsReducer["unitOptionsByVariableName"],
-    (prev, next) => isEqual(prev, next)
-  );
-
-  const variableUnits = useSelector(
-    (state: RootState) => state.unitSettingsReducer["variableUnits"],
-    (prev, next) => isEqual(prev, next)
-  );
+  const { variableUnits, unitOptionsByVariableName } =
+    useSelector(unitSettingsSelector);
 
   const createInitialRows = (
     numberOfRows: number = economicsParametersAppHeaders.length
@@ -303,7 +312,7 @@ const EconomicsParametersManual = ({
         <div className={classes.rootEconomicsParametersManual}>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
-              <ApexGrid<IRawRow, ITableButtonsProps>
+              <ApexGrid
                 columns={columns}
                 rows={rows}
                 onRowsChange={setRows}

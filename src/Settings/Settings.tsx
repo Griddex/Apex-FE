@@ -1,10 +1,15 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import WorkflowBanner from "../Application/Components/Workflows/WorkflowBanner";
 import { RootState } from "../Application/Redux/Reducers/AllReducers";
-import ProjectSettingsPanel from "./Components/Panels/ProjectSettingsPanel";
-import UnitSettings from "./UnitSettings/UnitSettings";
+
+const ProjectSettingsPanel = React.lazy(
+  () => import("./Components/Panels/ProjectSettingsPanel")
+);
+const UnitSettings = React.lazy(() => import("./UnitSettings/UnitSettings"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,18 +98,37 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Unit Settings", "Database Settings"];
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
+const projectSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer,
+  (reducer) => reducer
+);
+
 const Settings = () => {
   const classes = useStyles();
   const workflowProcess = "settings";
 
-  const { activeStep } = useSelector(
+  const activeStepSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state.workflowReducer["inputDataWorkflows"][workflowProcess]
+      state.workflowReducer["inputDataWorkflows"][workflowProcess][
+        "activeStep"
+      ],
+    (activeStep) => activeStep
   );
-  const { moduleName, subModuleName, workflowName } = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const settingsProps = useSelector((state: RootState) => state.projectReducer);
+
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
+
+  const settingsProps = useSelector(projectSelector);
+
   const WorkflowBannerProps = {
     activeStep,
     steps,

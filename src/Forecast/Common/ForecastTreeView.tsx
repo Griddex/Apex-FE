@@ -3,10 +3,11 @@ import pick from "lodash.pick";
 import objectScan from "object-scan";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
-import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
 import { RenderTree } from "../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { resetChartDataAction } from "../../Visualytics/Redux/Actions/VisualyticsActions";
 import {
@@ -17,14 +18,28 @@ import {
 } from "../Redux/Actions/ForecastActions";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { transformModulePaths } from "../Utils/TransformForecastForChart";
+import ApexTreeView from "../../Visualytics/Components/TreeView/ApexTreeView";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const selectedForecastChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastChartOption,
+  (option) => option
+);
+
+const forecastSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer,
+  (reducer) => reducer
+);
 
 export default function ForecastTreeView({ height }: ITreeViewProps) {
   const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
+
   const dispatch = useDispatch();
 
-  const { selectedForecastChartOption } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const selectedForecastChartOption = useSelector(
+    selectedForecastChartOptionSelector
   );
 
   const chartType = selectedForecastChartOption.value as TChartTypes;
@@ -37,10 +52,17 @@ export default function ForecastTreeView({ height }: ITreeViewProps) {
     selectedForecastAggregationLevel,
     selectedView,
     xValueCategories,
-  } = useSelector((state: RootState) => state.forecastReducer);
+  } = useSelector(forecastSelector);
 
-  const { chartData } = useSelector(
-    (state: RootState) => state.forecastReducer[wc][ch]
+  const chartDataSelector = createDeepEqualSelector(
+    (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+    (data) => data
+  );
+
+  const chartData = useSelector(chartDataSelector);
+  console.log(
+    "🚀 ~ file: ForecastTreeView.tsx ~ line 62 ~ ForecastTreeView ~ chartData",
+    chartData
   );
 
   const rootTree = {

@@ -108,7 +108,7 @@ const theme = createTheme({
           borderRadius: 0,
         },
         input: {
-          padding: 0,
+          padding: 2,
         },
         notchedOutline: {
           display: "none",
@@ -153,6 +153,15 @@ const theme = createTheme({
     MuiInput: {
       defaultProps: {
         disableUnderline: true,
+      },
+    },
+
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 2,
+          paddingRight: 2,
+        },
       },
     },
 

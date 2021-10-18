@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,11 +18,23 @@ import VisualyticsCharts from "../../../Economics/Images/VisualyticsCharts.svg";
 import StoredDeck from "../../../Import/Images/StoredDeck.svg";
 import HeatMap from "../../Images/HeatMap.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
-import EconomicsPlotChartsVisualytics from "./EconomicsPlotCharts/EconomicsPlotChartsVisualytics";
 import { IdType } from "./EconomicsResultsTypes";
-import SensitivitiesHeatMapVisualytics from "./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics";
-import EconomicsTemplateVisualytics from "./EconomicsTemplateResults/EconomicsTemplateVisualytics";
 import StoredEconomicsResults from "./StoredEconomicsResults";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const SensitivitiesHeatMapVisualytics = React.lazy(
+  () =>
+    import("./EconomicsSensitivitiesHeatMap/SensitivitiesHeatMapVisualytics")
+);
+const EconomicsTemplateVisualytics = React.lazy(
+  () => import("./EconomicsTemplateResults/EconomicsTemplateVisualytics")
+);
+const EconomicsPlotChartsVisualytics = React.lazy(
+  () => import("./EconomicsPlotCharts/EconomicsPlotChartsVisualytics")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   economicsResultsLanding: {
@@ -48,14 +60,19 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const loadEconomicsResultsWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.loadEconomicsResultsWorkflow,
+  (results) => results
+);
+
 const EconomicsResultsLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { url } = useRouteMatch();
 
-  const { loadEconomicsResultsWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const loadEconomicsResultsWorkflow = useSelector(
+    loadEconomicsResultsWorkflowSelector
   );
 
   const economicsResultsLandingData: ILandingData[] = [

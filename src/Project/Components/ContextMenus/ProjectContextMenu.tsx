@@ -2,9 +2,18 @@ import Menu from "@mui/material/Menu";
 import React from "react";
 import { XYPosition } from "react-flow-renderer";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
 import ProjectPopover from "../Popovers/ProjectPopover";
-import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+
+const expandMainDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.expandMainDrawer,
+  (subNavbar) => subNavbar
+);
 
 const ProjectContextMenu = ({
   children,
@@ -12,9 +21,7 @@ const ProjectContextMenu = ({
   setOpen,
   handleClose,
 }: IContextMenuProps) => {
-  const { expandMainDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const expandMainDrawer = useSelector(expandMainDrawerSelector);
 
   const nodePosition = {
     x: expandMainDrawer ? 95 : 40,

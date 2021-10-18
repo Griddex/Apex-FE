@@ -1,12 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
-import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
@@ -19,56 +15,86 @@ import {
   updateEconomicsPlotChartsHasDroppedAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
+import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
+import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
+import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const wc = "storedDataWorkflows";
+
+const economicsResultsStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["economicsResultsStored"],
+  (data) => data
+);
+const selectedEconomicsResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsResultsTitle,
+  (data) => data
+);
+const selectedEconomicsResultsDescriptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.selectedEconomicsResultsDescription,
+  (data) => data
+);
+const selectedEconomicsPlotChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsPlotChartOption,
+  (data) => data
+);
+const economicsPlotChartsTreeSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.economicsPlotChartsTree,
+  (data) => data
+);
+const plotChartsVariableZOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.plotChartsVariableZOptions,
+  (data) => data
+);
+const showPlotChartsCategoryMembersObjSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.showPlotChartsCategoryMembersObj,
+  (data) => data
+);
+const plotChartsCategoryDragItemsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.plotChartsCategoryDragItems,
+  (data) => data
+);
+const plotChartsCategoryHasDroppedSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.plotChartsCategoryHasDropped,
+  (data) => data
+);
 
 const EconomicsPlotChartsDataPanel = ({
   setSelectedZ,
 }: IEconomicsResultsVisualytics) => {
-  const wc = "storedDataWorkflows";
-
   const dispatch = useDispatch();
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
-  const { economicsResultsStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
+  const economicsResultsStored = useSelector(economicsResultsStoredSelector);
+  const selectedEconomicsResultsTitle = useSelector(
+    selectedEconomicsResultsTitleSelector
   );
-
-  const {
-    selectedEconomicsResultsTitle,
-    selectedEconomicsResultsDescription,
-    selectedEconomicsPlotChartOption,
-    economicsPlotChartsTree,
-    plotChartsVariableZOptions,
-    showPlotChartsCategoryMembersObj,
-    plotChartsCategoryDragItems,
-    plotChartsCategoryHasDropped,
-  } = useSelector((state: RootState) => {
-    const {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      selectedEconomicsPlotChartOption,
-      economicsPlotChartsTree,
-      plotChartsVariableZOptions,
-      showPlotChartsCategoryMembersObj,
-      heatMapTreeByScenario,
-      plotChartsCategoryDragItems,
-      plotChartsCategoryHasDropped,
-    } = state.economicsReducer;
-
-    return {
-      selectedEconomicsResultsTitle,
-      selectedEconomicsResultsDescription,
-      selectedEconomicsPlotChartOption,
-      economicsPlotChartsTree,
-      plotChartsVariableZOptions,
-      showPlotChartsCategoryMembersObj,
-      heatMapTreeByScenario,
-      plotChartsCategoryDragItems,
-      plotChartsCategoryHasDropped,
-    };
-  });
+  const selectedEconomicsResultsDescription = useSelector(
+    selectedEconomicsResultsDescriptionSelector
+  );
+  const selectedEconomicsPlotChartOption = useSelector(
+    selectedEconomicsPlotChartOptionSelector
+  );
+  const economicsPlotChartsTree = useSelector(economicsPlotChartsTreeSelector);
+  const plotChartsVariableZOptions = useSelector(
+    plotChartsVariableZOptionsSelector
+  );
+  const showPlotChartsCategoryMembersObj = useSelector(
+    showPlotChartsCategoryMembersObjSelector
+  );
+  const plotChartsCategoryDragItems = useSelector(
+    plotChartsCategoryDragItemsSelector
+  );
+  const plotChartsCategoryHasDropped = useSelector(
+    plotChartsCategoryHasDroppedSelector
+  );
 
   const chartType = selectedEconomicsPlotChartOption.value;
 

@@ -18,6 +18,8 @@ import { logoutAction } from "../../Redux/Actions/LogoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
 import { IIconNameComp } from "./UserTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles((theme) => ({
   image: { height: 80, width: 80 },
@@ -42,17 +44,6 @@ const useStyles = makeStyles((theme) => ({
   badge: { marginRight: 15 },
 }));
 
-//TODO: Saga to grab user profile information from server
-//Put data in store and retrieve here using useSelector
-/* const userProfileData: IUserDetails = {
-  avatarUrl: anitaImg,
-  name: "Gideon Sanni",
-  callName: "Gideon",
-  email: "gideon.sanni@syncware.com",
-  jobTitle: "Senior Reservoir Engineer",
-  role: "Corporate Forecaster",
-}; */
-
 const IconNameComp = ({ icon, name, iconNameStyles }: IIconNameComp) => {
   return (
     <div style={iconNameStyles}>
@@ -64,6 +55,13 @@ const IconNameComp = ({ icon, name, iconNameStyles }: IIconNameComp) => {
 
 const iconNameStyles = { display: "flex", marginTop: 5, marginBottom: 5 };
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const loginPartialPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.loginReducer,
+  (reducer) => reducer
+);
+
 const UserProfile = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -71,9 +69,7 @@ const UserProfile = () => {
 
   const avatarSrc = localStorage.getItem("avatar");
 
-  const { userName, email } = useSelector(
-    (state: RootState) => state.loginReducer
-  );
+  const { userName, email } = useSelector(loginPartialPropsSelector);
 
   const logoutDecision = () => {
     const logoutDialogActions = () => {

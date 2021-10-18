@@ -1,6 +1,8 @@
 import { useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
@@ -9,8 +11,8 @@ import {
   updateDataByIdRequestAction,
 } from "../../Application/Redux/Actions/ApplicationActions";
 import {
-  unloadDialogsAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseVisualyticsUrl } from "../../Application/Services/BaseUrlService";
@@ -18,9 +20,19 @@ import {
   IApplicationStoredDataRow,
   IStoredDataProps,
 } from "../../Application/Types/ApplicationTypes";
-import StoredDataRoute from "../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import { IStoredInputDeck } from "../../Import/Routes/InputDeckTypes";
 import { fetchStoredVisualyticsDataRequestAction } from "../Redux/Actions/VisualyticsActions";
+
+const StoredDataRoute = React.lazy(
+  () => import("../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
 
 export default function StoredVisualyticsDecks({
   reducer,
@@ -28,6 +40,7 @@ export default function StoredVisualyticsDecks({
   showChart,
 }: IStoredInputDeck) {
   const theme = useTheme();
+
   //TODO: Calculate classification data from collection
   const chartData = [
     {
@@ -49,9 +62,8 @@ export default function StoredVisualyticsDecks({
       color: theme.palette.secondary.main,
     },
   ];
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const tableTitle = "Visualytics InputDeck Table";
   const mainUrl = `${getBaseVisualyticsUrl()}`;
@@ -61,9 +73,12 @@ export default function StoredVisualyticsDecks({
   const wc = "storedDataWorkflows";
   const wp = "visualyticsDeckStored";
 
-  const { visualyticsDeckStored } = useSelector(
-    (state: RootState) => state.visualyticsReducer[wc]
+  const visualyticsDeckStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.visualyticsReducer[wc]["visualyticsDeckStored"],
+    (stored) => stored
   );
+
+  const visualyticsDeckStored = useSelector(visualyticsDeckStoredSelector);
 
   const componentRef = React.useRef();
 

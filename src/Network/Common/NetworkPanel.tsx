@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import CallMadeOutlinedIcon from "@mui/icons-material/CallMadeOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,8 +14,14 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IApplicationStoredDataRow } from "../../Application/Types/ApplicationTypes";
 import { updateForecastResultsParameterAction } from "../../Forecast/Redux/Actions/ForecastActions";
-import NodePanel from "../Components/Nodes/NodePanel";
 import { networkIcons } from "../Data/NetworkData";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+import { Divider } from "@material-ui/core";
+
+const NodePanel = React.lazy(() => import("../Components/Nodes/NodePanel"));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles(() => ({
   networkPanel: {
@@ -25,6 +31,16 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
 }));
+
+const isNetworkAutoSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.isNetworkAuto,
+  (isAuto) => isAuto
+);
+
+const selectedForecastInputDeckTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedForecastInputDeckTitle,
+  (title) => title
+);
 
 const NetworkPanel = () => {
   const classes = useStyles();
@@ -36,16 +52,17 @@ const NetworkPanel = () => {
   const wc = "storedDataWorkflows";
   const wp = "forecastInputDeckStored";
 
-  const { isNetworkAuto } = useSelector(
-    (state: RootState) => state.networkReducer
+  const isNetworkAuto = useSelector(isNetworkAutoSelector);
+
+  const forecastInputDeckStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.inputReducer[wc][wp],
+    (stored) => stored
   );
 
-  const { forecastInputDeckStored } = useSelector(
-    (state: RootState) => state.inputReducer[wc]
-  );
+  const forecastInputDeckStored = useSelector(forecastInputDeckStoredSelector);
 
-  const { selectedForecastInputDeckTitle } = useSelector(
-    (state: RootState) => state.inputReducer
+  const selectedForecastInputDeckTitle = useSelector(
+    selectedForecastInputDeckTitleSelector
   );
 
   const nodeTypes = Object.keys(networkIcons);
@@ -131,6 +148,7 @@ const NetworkPanel = () => {
           containerStyle={{ marginBottom: 20 }}
         />
       )}
+      <Divider style={{ marginBottom: 5 }} />
       <AnalyticsTitle title="Network Nodes" />
       <div className={classes.networkPanel} style={style}>
         {nodeTypes

@@ -3,6 +3,8 @@ import { compile } from "mathjs";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 interface IHeatMapCustomCell {
   data: any;
@@ -17,6 +19,13 @@ interface IHeatMapCustomCell {
   borderColor: string;
   textColor: string;
 }
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const heatMapStylingDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapStylingData,
+  (data) => data
+);
 
 const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
   const theme = useTheme();
@@ -35,9 +44,7 @@ const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
     textColor,
   } = props;
 
-  const { heatMapStylingData } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const heatMapStylingData = useSelector(heatMapStylingDataSelector);
 
   const {
     heatMapThresholdValue,

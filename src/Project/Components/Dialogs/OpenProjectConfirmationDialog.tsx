@@ -5,8 +5,8 @@ import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
@@ -60,7 +60,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -74,7 +74,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -104,7 +105,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const OpenProjectConfirmationDialog = ({
+const OpenProjectConfirmationDialog: React.FC<DialogStuff> = ({
   title,
   show,
   maxWidth,
@@ -112,7 +113,7 @@ const OpenProjectConfirmationDialog = ({
   actionsList,
   dialogText,
   dialogContentStyle,
-}: DialogStuff) => {
+}) => {
   const classes = useDialogContentStyles();
   const dispatch = useDispatch();
 

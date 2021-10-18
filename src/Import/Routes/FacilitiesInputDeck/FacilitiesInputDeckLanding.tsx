@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
@@ -21,14 +21,25 @@ import StoredDeck from "../../Images/StoredDeck.svg";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
-import DatabaseWorkflow from "../Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../Common/InputWorkflows/ExcelWorkflow";
-import StoredFacilitiesDecks from "./StoredFacilitiesDecks";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const ExcelWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/ExcelWorkflow")
+);
+const StoredFacilitiesDecks = React.lazy(
+  () => import("./StoredFacilitiesDecks")
+);
+const DatabaseWorkflow = React.lazy(
+  () => import("../Common/InputWorkflows/DatabaseWorkflow")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   facilitiesInputDeckLanding: {
@@ -54,6 +65,16 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const initialStateSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.initialState,
+  (initial) => initial
+);
+
+const loadWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.loadWorkflow,
+  (load) => load
+);
+
 const FacilitiesInputDeckLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -61,10 +82,8 @@ const FacilitiesInputDeckLanding = () => {
   const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
 
-  const initialState = useSelector((state: RootState) => state.inputReducer);
-  const { loadWorkflow } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const initialState = useSelector(initialStateSelector);
+  const loadWorkflow = useSelector(loadWorkflowSelector);
 
   const facilitiesInputLandingData: ILandingData[] = [
     {

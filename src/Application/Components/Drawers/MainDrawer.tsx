@@ -20,7 +20,6 @@ import TimelineIcon from "@mui/icons-material/Timeline";
 import TuneIcon from "@mui/icons-material/Tune";
 import clsx from "clsx";
 import React, { useState } from "react";
-import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
@@ -32,6 +31,10 @@ import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions"
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import CustomTooltip from "../Tooltips/CustomTooltip";
 import { IMainDrawerData } from "./MainDrawerTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const navbarHeight = 43;
 const useStyles = makeStyles((theme) => ({
@@ -92,6 +95,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const layoutPartialPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer,
+  (props) => props
+);
+
 const MainDrawer = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -104,11 +112,7 @@ const MainDrawer = () => {
   }, []);
 
   const { expandMainDrawer, menusDisabled } = useSelector(
-    (state: RootState) => {
-      const { expandMainDrawer, menusDisabled } = state.layoutReducer;
-      return { expandMainDrawer, menusDisabled };
-    },
-    (prev, next) => isEqual(prev, next)
+    layoutPartialPropsSelector
   );
 
   const classes = useStyles({ expandMainDrawer, menusDisabled });

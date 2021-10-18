@@ -1,9 +1,10 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import * as xlsx from "xlsx";
-import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -11,8 +12,13 @@ import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBa
 import { IOnlyWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import VisualyticsPreviewSave from "../../Routes/VisualyticsPreviewSave";
 
+const ContextDrawer = React.lazy(
+  () => import("../../../Application/Components/Drawers/ContextDrawer")
+);
+const VisualyticsPreviewSave = React.lazy(
+  () => import("../../Routes/VisualyticsPreviewSave")
+);
 const UploadFile = React.lazy(
   () => import("../../../Import/Routes/Common/Workflows/UploadFile")
 );
@@ -51,6 +57,18 @@ const steps = [
   "Preview & Save",
 ];
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const VisualyticsExcelWorkflow = ({
   reducer,
   wrkflwCtgry,
@@ -65,17 +83,18 @@ const VisualyticsExcelWorkflow = ({
   const wp = wrkflwPrcss;
 
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
+    (activeStep) => activeStep
   );
 
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { moduleName, subModuleName, workflowName } = applicationData;
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);

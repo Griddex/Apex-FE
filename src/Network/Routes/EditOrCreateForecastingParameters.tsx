@@ -1,9 +1,9 @@
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { Button, TextField } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
@@ -19,7 +19,7 @@ import { TAllWorkflowProcesses } from "../../Application/Components/Workflows/Wo
 import {
   hideDialogAction,
   showDialogAction,
-  unloadDialogsAction
+  unloadDialogsAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TUseState } from "../../Application/Types/ApplicationTypes";
@@ -28,12 +28,14 @@ import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetwor
 import {
   defermentOptions,
   realtimeOptions,
-  timeFrequencyOptions
+  timeFrequencyOptions,
 } from "../Data/NetworkData";
 import {
   saveDeclineParametersRequestActionForFP,
-  saveProductionPrioritizationRequestAction
+  saveProductionPrioritizationRequestAction,
 } from "../Redux/Actions/NetworkActions";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +65,18 @@ export interface IEditOrCreateForecastingParameters {
   forecastParametersIndex?: number;
 }
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 const EditOrCreateForecastingParameters = ({
   currentRow,
   setCurrentRow,
@@ -70,6 +84,10 @@ const EditOrCreateForecastingParameters = ({
   workflowProcess,
   forecastParametersIndex,
 }: IEditOrCreateForecastingParameters) => {
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 88 ~ currentRow",
+    currentRow
+  );
   const wc = "storedDataWorkflows";
 
   const dispatch = useDispatch();
@@ -77,7 +95,7 @@ const EditOrCreateForecastingParameters = ({
   const theme = useTheme();
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
 
   const currentDateFormat = `${dayFormat}/${monthFormat}/${yearFormat}`;
@@ -95,7 +113,7 @@ const EditOrCreateForecastingParameters = ({
     selectedProductionPrioritizationId,
     selectedProductionPrioritizationTitle,
     selectedProductionPrioritizationDescription,
-  } = useSelector((state: RootState) => state.networkReducer);
+  } = useSelector(networkSelector);
 
   const createDCATable = () => {
     const dialogParameters: DialogStuff = {
@@ -201,6 +219,7 @@ const EditOrCreateForecastingParameters = ({
       selectedProductionPrioritizationTitle;
     dispatch(hideDialogAction());
   };
+
   const loadPrioritization = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Load_Prioritization_Dialog",

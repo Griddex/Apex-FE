@@ -1,41 +1,39 @@
 import { ResponsiveStream } from "@nivo/stream";
 import React from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+import isEqual from "react-fast-compare";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { setChartObjectAction } from "../../Redux/Actions/VisualyticsActions";
-import {
-  IChartMetaData,
-  ITooltipLabel,
-} from "../../Redux/State/VisualyticsStateTypes";
+import { IChart, ITooltipLabel } from "../../Redux/State/VisualyticsStateTypes";
 import { itemTypesVisualytics } from "../../Utils/DragAndDropItemTypes";
 import renderTick from "../../Utils/RenderTicks";
 import { AxisProps, IChartProps } from "../ChartTypes";
-import { IChart } from "../../Redux/State/VisualyticsStateTypes";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const xValueCategoriesSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.xValueCategories,
+  (categories) => categories
+);
 
 const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const dispatch = useDispatch();
-  const chartRef = React.useRef<any>("");
+  const xValueCategories = useSelector(xValueCategoriesSelector);
 
-  //xValueCategories to be put in the proper store reducer
-  const { xValueCategories } = useSelector(
-    (state: RootState) => state.forecastReducer
+  const reducerWCSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc],
+    (wc) => wc
   );
 
-  const { commonChartProps, stackedAreaChart } = useSelector(
-    (state: RootState) => state[reducerDefined][wc]
-  );
+  const { commonChartProps, stackedAreaChart } = useSelector(reducerWCSelector);
   const { chartData } = stackedAreaChart;
-
-  const [again, setAgain] = React.useState(0);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: itemTypesVisualytics.VISUALYTICS_PLOTCHARTS,
@@ -68,81 +66,6 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
       outlineStyle: "dashed",
     };
   }
-
-  const initializeChartMetaData = () => {
-    const activeIndex = 0;
-    const chartAreaBorder = 0;
-    const activeDataKey = "";
-
-    return {
-      activeIndex,
-      chartAreaBorder,
-      activeDataKey,
-    };
-  };
-
-  const chartMetaDataReducer = (state: IChartMetaData, action: IAction) => {
-    switch (action.type) {
-      case "SET_ACTIVEINDEX":
-        return { ...state, activeIndex: action.payload.activeIndex };
-
-      case "SET_CHARTAREABORDER":
-        return {
-          ...state,
-          chartAreaBorder: action.payload.chartAreaBorder,
-        };
-
-      case "SET_ACTIVEDATAKEY":
-        return {
-          ...state,
-          activeDataKey: action.payload.activeDataKey,
-        };
-
-      case "RESET":
-        return {
-          ...state,
-          activeIndex: null,
-          chartAreaBorder: 0,
-        };
-
-      default:
-        return state;
-    }
-  };
-
-  const [chartMetaData, localDispatch] = React.useReducer(
-    chartMetaDataReducer,
-    initializeChartMetaData()
-  );
-
-  const dataKeys =
-    chartData.length > 0 ? Object.keys(chartData[0]).reverse() : [];
-
-  // const yAxisStyle = () =>
-  //   yAxisStyleOnHover
-  //     ? {
-  //         // fill: "#FCD123",
-  //         // stroke: "#FCA345",
-  //         strokeWidth: 2,
-  //         opacity: 0.5,
-  //         fontSize: 16,
-  //         outline: "1px solid black",
-  //         outlineStyle: "dashed",
-  //       }
-  //     : {};
-
-  // React.useEffect(() => {
-  //   const chartObjId = chartRef.current && chartRef.current.uniqueChartId;
-
-  //   if (chartObjId === null) setAgain(1);
-  //   else
-  //     dispatch(
-  //       setChartObjectAction({
-  //         chartObjId: chartObjId,
-  //         chartObjName: "chartLayout",
-  //       })
-  //     );
-  // }, [again]);
 
   let keys: string[] = [];
   if (Array.isArray(chartData) && chartData.length > 0)

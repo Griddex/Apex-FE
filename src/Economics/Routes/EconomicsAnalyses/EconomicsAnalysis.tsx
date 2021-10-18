@@ -1,11 +1,13 @@
-import { Button, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import ViewDayTwoToneIcon from "@mui/icons-material/ViewDayTwoTone";
+import { Button, Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -17,14 +19,12 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
 import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
-  updateEconomicsParametersAction,
 } from "../../Redux/Actions/EconomicsActions";
 import {
   IEconomicsAnalysis,
@@ -34,8 +34,19 @@ import {
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
-import EconomicsDecksSelectionTable from "./EconomicsDecksSelectionTable";
-import EconomicsSensitivitiesTable from "./EconomicsParametersSensitivities/EconomicsSensitivitiesTable";
+
+const SelectScenariosByButtonsWithForecastCaseEconomics = React.lazy(
+  () =>
+    import(
+      "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics"
+    )
+);
+const EconomicsDecksSelectionTable = React.lazy(
+  () => import("./EconomicsDecksSelectionTable")
+);
+const EconomicsSensitivitiesTable = React.lazy(
+  () => import("./EconomicsParametersSensitivities/EconomicsSensitivitiesTable")
+);
 
 const useStyles = makeStyles((theme) => ({
   npvImage: {
@@ -71,6 +82,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const reducer = "economicsReducer";
+const wc = "economicsAnalysisWorkflows";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const showSensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["showSensitivitiesTable"],
+  (show) => show
+);
+const sensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["sensitivitiesTable"],
+  (table) => table
+);
+
 const EconomicsAnalysis = ({
   workflowProcess,
   selectedAnalysis,
@@ -79,17 +103,16 @@ const EconomicsAnalysis = ({
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const wc = "economicsAnalysisWorkflows";
   const wp = workflowProcess as NonNullable<
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
 
-  const reducer = "economicsReducer";
-  const { showSensitivitiesTable, sensitivitiesTable } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-    // () => false
-    // (left, right) =>
-    //   left.showSensitivitiesTable === right.showSensitivitiesTable
+  const showSensitivitiesTable = useSelector(showSensitivitiesTableSelector);
+
+  const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
+  console.log(
+    "🚀 ~ file: EconomicsAnalysis.tsx ~ line 107 ~ showSensitivitiesTable",
+    showSensitivitiesTable
   );
 
   const selectedAnalysisDefined =

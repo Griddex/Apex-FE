@@ -3,8 +3,8 @@ import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
@@ -42,9 +42,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   closeButton: {
-    // position: "absolute",
-    // right: theme.spacing(1),
-    // top: theme.spacing(1),
     color: theme.palette.grey[500],
     width: "5%",
     height: "100%",
@@ -62,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -73,7 +69,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -89,7 +85,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -108,7 +105,7 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const LinkInputDeckDialog = (props: DialogStuff) => {
+const LinkInputDeckDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 

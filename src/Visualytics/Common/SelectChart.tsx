@@ -1,18 +1,28 @@
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import BarChart from "../Components/Charts/BarChart";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
-import DoughnutChart from "../Components/Charts/DoughnutChart";
-import LineChart from "../Components/Charts/LineChart";
-import RadarChart from "../Components/Charts/RadarChart";
-import ScatterChart from "../Components/Charts/ScatterChart";
-import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 import { IChartProps } from "../Components/ChartTypes";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+
+const BarChart = React.lazy(() => import("../Components/Charts/BarChart"));
+const DoughnutChart = React.lazy(
+  () => import("../Components/Charts/DoughnutChart")
+);
+const LineChart = React.lazy(() => import("../Components/Charts/LineChart"));
+const RadarChart = React.lazy(() => import("../Components/Charts/RadarChart"));
+const ScatterChart = React.lazy(
+  () => import("../Components/Charts/ScatterChart")
+);
+const StackedAreaChart = React.lazy(
+  () => import("../Components/Charts/StackedAreaChart")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const ChartSelector = ({
   chartType,
@@ -49,7 +59,7 @@ const ChartSelector = ({
       return (
         <NoSelectionPlaceholder
           icon={<ArrowUpwardOutlinedIcon color="primary" />}
-          text="Select a chart.."
+          text="Select chart.."
         />
       );
   }
@@ -62,20 +72,22 @@ const SelectChart = ({
 }: IChartProps) => {
   const reducerDefined = reducer as ReducersType;
 
-  const apexState = useSelector((state: RootState) => state[reducerDefined]);
+  const selectedChartOptionTitleSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state[reducerDefined][selectedChartOptionTitle as string],
+    (title) => title
+  );
 
-  const selectedChartOption = apexState[selectedChartOptionTitle as string];
+  const selectedChartOption = useSelector(selectedChartOptionTitleSelector);
 
   const chartType = selectedChartOption.value as TChartTypes;
 
   return (
-    <ApexFlexContainer>
-      <ChartSelector
-        chartType={chartType}
-        workflowCategory={workflowCategory}
-        reducer={reducer}
-      />
-    </ApexFlexContainer>
+    <ChartSelector
+      chartType={chartType}
+      workflowCategory={workflowCategory}
+      reducer={reducer}
+    />
   );
 };
 

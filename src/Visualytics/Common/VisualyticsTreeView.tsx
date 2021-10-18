@@ -1,31 +1,25 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../Components/ChartDataPanel/ChartDataPanel";
-import { TChartTypes } from "../Components/Charts/ChartTypes";
-import ApexTreeView from "../Components/TreeView/ApexTreeView";
 import { RenderTree } from "../Components/TreeView/ApexTreeViewTypes";
 import { itemTypesVisualytics } from "../Utils/DragAndDropItemTypes";
 
+const ApexTreeView = React.lazy(
+  () => import("../Components/TreeView/ApexTreeView")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const visualyticsTreeSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.visualyticsTree,
+  (tree) => tree
+);
+
 export default function VisualyticsTreeView({ height }: ITreeViewProps) {
-  const wc = "visualyticsChartsWorkflows";
-  const ch = "stackedAreaChart";
-
-  const dispatch = useDispatch();
-
-  const { selectedVisualyticsChartOption } = useSelector(
-    (state: RootState) => state.visualyticsReducer
-  );
-
-  const chartType = selectedVisualyticsChartOption.value as TChartTypes;
-
-  const { visualyticsTree } = useSelector(
-    (state: RootState) => state.visualyticsReducer
-  );
-
-  const { chartData } = useSelector(
-    (state: RootState) => state.visualyticsReducer[wc][ch]
-  );
+  const visualyticsTree = useSelector(visualyticsTreeSelector);
 
   const rootTree = {
     id: "6e611ee3-4133-496b-a7cc-43cea89686bc",

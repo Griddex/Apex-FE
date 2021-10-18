@@ -1,36 +1,22 @@
-import makeStyles from '@mui/styles/makeStyles';
-import React, { Suspense } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import makeStyles from "@mui/styles/makeStyles";
+import React from "react";
+import isEqual from "react-fast-compare";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
   useRouteMatch,
 } from "react-router-dom";
-import AdministrationLayout from "../../Administration/Routes/Common/AdministrationLayout";
-import CorporateLayout from "../../Corporate/Routes/Common/CorporateLayout";
-import DeclineCurveAnalysisLayout from "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout";
-import EconomicsLayout from "../../Economics/Routes/Common/EconomicsLayout";
-import ForecastLayout from "../../Forecast/Common/ForecastLayout";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/InputActions";
-import InputLayout from "../../Import/Routes/Common/InputLayout";
-import NetworkLayout from "../../Network/Common/NetworkLayout";
 import { fetchStoredProjectsRequestAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
-import SettingsLayout from "../../Settings/Routes/Common/SettingsLayout";
-import VisualyticsLayout from "../../Visualytics/Common/VisualyticsLayout";
-import { ExitPromptContext } from "../App/App";
 import Dialogs from "../Components/Dialogs/Dialogs";
-import MainDrawer from "../Components/Drawers/MainDrawer";
-import Navbar from "../Components/Navbars/Navbar";
 import Spinners from "../Components/Visuals/Spinners";
-import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpinner";
 import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
-import { hideSpinnerAction } from "../Redux/Actions/UISpinnerActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
-import ProductBackground from "../Routes/ProductBackground";
 import { IdType, ILayouts, LayoutNames } from "./LayoutTypes";
-import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -44,29 +30,69 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const MainDrawer = React.lazy(() => import("../Components/Drawers/MainDrawer"));
+const Navbar = React.lazy(() => import("../Components/Navbars/Navbar"));
+const ProductBackground = React.lazy(
+  () => import("../Routes/ProductBackground")
+);
+const InputLayout = React.lazy(
+  () => import("../../Import/Routes/Common/InputLayout")
+);
+const NetworkLayout = React.lazy(
+  () => import("../../Network/Common/NetworkLayout")
+);
+const ForecastLayout = React.lazy(
+  () => import("../../Forecast/Common/ForecastLayout")
+);
+const VisualyticsLayout = React.lazy(
+  () => import("../../Visualytics/Common/VisualyticsLayout")
+);
+const EconomicsLayout = React.lazy(
+  () => import("../../Economics/Routes/Common/EconomicsLayout")
+);
+const DeclineCurveAnalysisLayout = React.lazy(
+  () =>
+    import(
+      "../../DeclineCurveAnalysis/Routes/Common/DeclineCurveAnalysisLayout"
+    )
+);
+const CorporateLayout = React.lazy(
+  () => import("../../Corporate/Routes/Common/CorporateLayout")
+);
+const AdministrationLayout = React.lazy(
+  () => import("../../Administration/Routes/Common/AdministrationLayout")
+);
+const SettingsLayout = React.lazy(
+  () => import("../../Settings/Routes/Common/SettingsLayout")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showMainDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showMainDrawer,
+  (v) => v
+);
+
+const showNavbarSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showNavbar,
+  (v) => v
+);
+
 const Layout = () => {
   console.log("layoutttttttttttttt");
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const { showExitPrompt, setShowExitPrompt } =
-    React.useContext(ExitPromptContext);
-
   const { url } = useRouteMatch();
 
-  const { showMainDrawer, showNavbar } = useSelector(
-    (state: RootState) => {
-      const { showMainDrawer, showNavbar } = state.layoutReducer;
-      return { showMainDrawer, showNavbar };
-    },
-    shallowEqual
-    // (prev, next) => isEqual(prev, next)
+  const showMainDrawer = useSelector(showMainDrawerSelector);
+  console.log(
+    "🚀 ~ file: Layout.tsx ~ line 63 ~ Layout ~ showMainDrawer",
+    showMainDrawer
   );
-
-  const pending = useSelector(
-    (state: RootState) => state.uiSpinnerReducer["pending"],
-    shallowEqual
-    // (prev, next) => isEqual(prev, next)
+  const showNavbar = useSelector(showNavbarSelector);
+  console.log(
+    "🚀 ~ file: Layout.tsx ~ line 65 ~ Layout ~ showNavbar",
+    showNavbar
   );
 
   React.useEffect(() => {
@@ -74,13 +100,6 @@ const Layout = () => {
     dispatch(fetchStoredProjectsRequestAction());
     dispatch(fetchUnitSettingsRequestAction());
     dispatch(fetchMatchObjectRequestAction());
-
-    if (pending) dispatch(hideSpinnerAction());
-
-    window.onbeforeunload = () => setShowExitPrompt(true);
-    return () => {
-      setShowExitPrompt(false);
-    };
   }, []);
 
   return (
@@ -88,13 +107,8 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <Switch>
-            {/* <NavigationPrompt when={isPageRefreshed}>
+        <Switch>
+          {/* <NavigationPrompt when={isPageRefreshed}>
               {({ onConfirm, onCancel }) => (
                 <React.Fragment>
                   <TextDialog
@@ -121,34 +135,33 @@ const Layout = () => {
                 </React.Fragment>
               )}
             </NavigationPrompt> */}
-            <Route exact path={url} component={ProductBackground} />
-            <Route path={`${url}/:layoutId`}>
-              {(props: RouteComponentProps<IdType>) => {
-                const {
-                  match: {
-                    params: { layoutId },
-                  },
-                } = props;
+          <Route exact path={url} component={ProductBackground} />
+          <Route path={`${url}/:layoutId`}>
+            {(props: RouteComponentProps<IdType>) => {
+              const {
+                match: {
+                  params: { layoutId },
+                },
+              } = props;
 
-                const Layouts: ILayouts = {
-                  background: <ProductBackground />,
-                  import: <InputLayout />,
-                  network: <NetworkLayout />,
-                  forecast: <ForecastLayout />,
-                  visualytics: <VisualyticsLayout />,
-                  economics: <EconomicsLayout />,
-                  declineCurveAnalysis: <DeclineCurveAnalysisLayout />,
-                  corporate: <CorporateLayout />,
-                  administration: <AdministrationLayout />,
-                  settings: <SettingsLayout />,
-                };
+              const Layouts: ILayouts = {
+                background: <ProductBackground />,
+                import: <InputLayout />,
+                network: <NetworkLayout />,
+                forecast: <ForecastLayout />,
+                visualytics: <VisualyticsLayout />,
+                economics: <EconomicsLayout />,
+                declineCurveAnalysis: <DeclineCurveAnalysisLayout />,
+                corporate: <CorporateLayout />,
+                administration: <AdministrationLayout />,
+                settings: <SettingsLayout />,
+              };
 
-                return Layouts[layoutId as LayoutNames];
-              }}
-            </Route>
-            <Route path="*" component={() => <h1>Layout not found</h1>} />
-          </Switch>
-        </Suspense>
+              return Layouts[layoutId as LayoutNames];
+            }}
+          </Route>
+          <Route path="*" component={() => <h1>Layout not found</h1>} />
+        </Switch>
       </main>
       <Spinners />
       <Dialogs />
@@ -156,4 +169,4 @@ const Layout = () => {
   );
 };
 
-export default Layout; //Says memoexotic component not assignable to lazyexotic component
+export default Layout;

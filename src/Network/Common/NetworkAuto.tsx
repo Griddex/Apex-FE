@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
@@ -21,16 +21,8 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import mergeRefs from "react-merge-refs";
 import { useDispatch, useSelector } from "react-redux";
-import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import FlowstationContextDrawer from "../Components/ContextDrawer/FlowstationContextDrawer";
-import GasfacilityContextDrawer from "../Components/ContextDrawer/GasfacilityContextDrawer";
-import {
-  default as DrainagePointContextDrawer,
-  default as ManifoldContextDrawer,
-} from "../Components/ContextDrawer/ManifoldContextDrawer";
-import TerminalContextDrawer from "../Components/ContextDrawer/TerminalContextDrawer";
 import NetworkDiagramButtons from "../Components/Icons/NetworkDiagramButtons";
 import NetworkTitlePlaque from "../Components/TitlePlaques/NetworkTitlePlaque";
 import { nodeTypes } from "../Data/NetworkData";
@@ -39,7 +31,30 @@ import GenerateNodeService from "../Services/GenerateNodeService";
 import AddWidgetsToNodes from "../Utils/AddWidgetsToNodes";
 import { itemTypes } from "../Utils/DragAndDropItemTypes";
 import { INetworkProps } from "./NetworkLandingTypes";
-import NetworkPanel from "./NetworkPanel";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const NetworkPanel = React.lazy(() => import("./NetworkPanel"));
+const FlowstationContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/FlowstationContextDrawer")
+);
+const GasfacilityContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/GasfacilityContextDrawer")
+);
+const ManifoldContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/ManifoldContextDrawer")
+);
+const TerminalContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/TerminalContextDrawer")
+);
+const ContextDrawer = React.lazy(
+  () => import("../../Application/Components/Drawers/ContextDrawer")
+);
+const DrainagePointContextDrawer = React.lazy(
+  () => import("../Components/ContextDrawer/DrainagePointContextDrawer")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -90,17 +105,29 @@ const useStyles = makeStyles(() => ({
   CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (redcuer) => redcuer
+);
+
 const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
-  const { success, nodeElements, edgeElements } = useSelector(
-    (state: RootState) => state.networkReducer
-  );
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const {
+    success,
+    nodeElements,
+    edgeElements,
+    currentPopoverData,
+    showNetworkElementDetails,
+  } = useSelector(networkSelector);
 
   const networkRef = React.useRef<HTMLDivElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);
@@ -112,9 +139,6 @@ const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   const [showControls, setShowControls] = React.useState(true);
   const [currentElement, setCurrentElement] = React.useState<FlowElement>(
     {} as FlowElement
-  );
-  const { currentPopoverData, showNetworkElementDetails } = useSelector(
-    (state: RootState) => state.networkReducer
   );
 
   const NetworkDiagramIconsProps = {

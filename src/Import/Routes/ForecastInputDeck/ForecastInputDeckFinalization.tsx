@@ -1,11 +1,13 @@
-import makeStyles from '@mui/styles/makeStyles';
 import ControlCameraOutlinedIcon from "@mui/icons-material/ControlCameraOutlined";
 import DeviceHubOutlinedIcon from "@mui/icons-material/DeviceHubOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
@@ -40,6 +42,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const subModuleNameSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer.subModuleName,
+  (module) => module
+);
+
 const ForecastInputDeckFinalization = ({
   workflowProcess,
 }: {
@@ -53,10 +62,16 @@ const ForecastInputDeckFinalization = ({
   const reducer = "inputReducer";
   const wc = "inputDataWorkflows";
   const wp = workflowProcess;
-  const { success } = useSelector((state: RootState) => state[reducer][wc][wp]);
-  const { subModuleName } = useSelector(
-    (state: RootState) => state.applicationReducer
+
+  const successSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["success"],
+    (success) => success
   );
+
+  const success = useSelector(successSelector);
+
+  const subModuleName = useSelector(subModuleNameSelector);
+
   if (success) {
     enqueueSnackbar(`${subModuleName} saved`, {
       persist: false,

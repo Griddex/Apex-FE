@@ -1,8 +1,10 @@
 import { Badge, BadgeProps } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import BadgeComingSoon from "../../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
 import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
@@ -18,16 +20,26 @@ import { ILandingData } from "../../../../Application/Types/ApplicationTypes";
 import ImportDatabase from "../../../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../../../Import/Images/MSExcel.svg";
 import StoredDeck from "../../../../Import/Images/StoredDeck.svg";
-import DatabaseWorkflow from "../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow";
-import ExcelWorkflow from "../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow";
 import Manual from "../../../Images/Manual.svg";
 import {
   loadEconomicsWorkflowAction,
   saveEconomicsParametersRequestAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import EconomicsParametersManual from "./EconomicsParametersManual";
 import { IdType } from "./EconomicsParametersTypes";
-import StoredEconomicsParametersDecks from "./StoredEconomicsParametersDecks";
+
+const EconomicsParametersManual = React.lazy(
+  () => import("./EconomicsParametersManual")
+);
+const DatabaseWorkflow = React.lazy(
+  () =>
+    import("../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow")
+);
+const ExcelWorkflow = React.lazy(
+  () => import("../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow")
+);
+const StoredEconomicsParametersDecks = React.lazy(
+  () => import("./StoredEconomicsParametersDecks")
+);
 
 const useStyles = makeStyles((theme) => ({
   economicsParametersLanding: {
@@ -53,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
   badge: { height: "fit-content" },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const loadEconomicsParametersWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.loadEconomicsParametersWorkflow,
+  (admin) => admin
+);
+
 const EconomicsParametersLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -60,8 +79,8 @@ const EconomicsParametersLanding = () => {
   const reducer = "economicsReducer";
   const { url, path } = useRouteMatch();
 
-  const { loadEconomicsParametersWorkflow } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const loadEconomicsParametersWorkflow = useSelector(
+    loadEconomicsParametersWorkflowSelector
   );
 
   const economicsParametersLandingData: ILandingData[] = [

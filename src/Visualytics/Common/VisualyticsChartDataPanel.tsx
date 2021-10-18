@@ -1,12 +1,11 @@
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import XYYZRChartCategories from "../Components/ChartCategories/XYYZRChartCategories";
-import CategoryPanelComponent from "../Components/ChartCategoryPanel/ChartCategoryPanel";
-import ChartDataPanel from "../Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
 import {
   fetchVisualyticsTreeviewKeysRequestAction,
@@ -19,8 +18,28 @@ import {
   updateVisualyticsParametersAction,
 } from "../Redux/Actions/VisualyticsActions";
 import { IChartVisualytics } from "./VisualyticsLandingTypes";
-import VisualyticsTreeView from "./VisualyticsTreeView";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+
+const NoSelectionPlaceholder = React.lazy(
+  () =>
+    import("../../Application/Components/PlaceHolders/NoSelectionPlaceholder")
+);
+const XYYZRChartCategories = React.lazy(
+  () => import("../Components/ChartCategories/XYYZRChartCategories")
+);
+const CategoryPanelComponent = React.lazy(
+  () => import("../Components/ChartCategoryPanel/ChartCategoryPanel")
+);
+const ChartDataPanel = React.lazy(
+  () => import("../Components/ChartDataPanel/ChartDataPanel")
+);
+const VisualyticsTreeView = React.lazy(() => import("./VisualyticsTreeView"));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const visualyticsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer,
+  (reducer) => reducer
+);
 
 const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
   const dispatch = useDispatch();
@@ -30,9 +49,13 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
-  const { visualyticsDeckStored } = useSelector(
-    (state: RootState) => state.visualyticsReducer[wc]
+  const visualyticsDeckStoredSelector = createDeepEqualSelector(
+    (state: RootState) => state.visualyticsReducer[wc]["visualyticsDeckStored"],
+    (stored) => stored
   );
+
+  const visualyticsDeckStored = useSelector(visualyticsDeckStoredSelector);
+
   const {
     selectedVisualyticsTitle,
     selectedVisualyticsDescription,
@@ -41,27 +64,7 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
     showVisualyticsCategoryMembersObj,
     visualyticsCategoryDragItems,
     visualyticsCategoryHasDropped,
-  } = useSelector((state: RootState) => {
-    const {
-      selectedVisualyticsTitle,
-      selectedVisualyticsDescription,
-      selectedVisualyticsChartOption,
-      visualyticsVariableZOptions,
-      showVisualyticsCategoryMembersObj,
-      visualyticsCategoryDragItems,
-      visualyticsCategoryHasDropped,
-    } = state.visualyticsReducer;
-
-    return {
-      selectedVisualyticsTitle,
-      selectedVisualyticsDescription,
-      selectedVisualyticsChartOption,
-      visualyticsVariableZOptions,
-      showVisualyticsCategoryMembersObj,
-      visualyticsCategoryDragItems,
-      visualyticsCategoryHasDropped,
-    };
-  });
+  } = useSelector(visualyticsSelector);
 
   const chartType = selectedVisualyticsChartOption.value;
 
@@ -177,7 +180,7 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
   );
 
   return (
-    <ChartDataPanel<IExtendedSelectOption>
+    <ChartDataPanel
       selectLabel={"Visualytics Results"}
       selectedOption={visualyticsRunOption}
       titleOptions={visualyticsRunTitleOptions}

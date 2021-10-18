@@ -1,14 +1,18 @@
-import { DialogActions, Divider } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
-import makeStyles from '@mui/styles/makeStyles';
-import withStyles from '@mui/styles/withStyles';
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
+import makeStyles from "@mui/styles/makeStyles";
+import withStyles from "@mui/styles/withStyles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogGenerateNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -18,7 +22,6 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import WorkflowDialogBanner from "../../../Application/Components/Workflows/WorkflowDialogBanner";
 import {
   hideDialogAction,
   showDialogAction,
@@ -73,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #F7F7F7",
   },
   avatar: {
-    // backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.main,
   },
 }));
@@ -84,7 +86,7 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
   const { iconType, children, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle className={classes.root} {...other} >
+    <MuiDialogTitle className={classes.root} {...other}>
       <div className={classes.dialogHeader}>
         <div className={classes.mainIcon}>
           <DialogIcons iconType={iconType as IconNameType} />
@@ -100,7 +102,8 @@ const DialogTitle: React.FC<DialogStuff> = (props) => {
               dispatch(hideSpinnerAction());
               onClose();
             }}
-            size="large">
+            size="large"
+          >
             <CloseIcon />
           </IconButton>
         ) : null}
@@ -123,15 +126,19 @@ const steps = ["Select Facilities InputDeck", "Select Forecast InputDeck"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
-const GenerateNetworkWorkflowDialog = (props: DialogStuff) => {
+const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
 
   const skipped = new Set<number>();
-  const { activeStep } = useSelector(
+
+  const activeStepSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]
+      state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
+    (activeStep) => activeStep
   );
+
+  const activeStep = useSelector(activeStepSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,

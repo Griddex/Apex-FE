@@ -1,6 +1,13 @@
+import { OrdinalColorScaleConfigScheme } from "@nivo/colors";
+import { DatumValue } from "@nivo/core";
 import { PointMouseHandler, PointTooltip, ResponsiveLine } from "@nivo/line";
+import { format } from "d3-format";
 import React from "react";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -8,23 +15,18 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
-import isEqual from "react-fast-compare";
-import { OrdinalColorScaleConfigScheme } from "@nivo/colors";
-import { format } from "d3-format";
-import { Value } from "@nivo/scatterplot";
-import { DatumValue, ValueFormat } from "@nivo/core";
 
 const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const { commonChartProps, lineChart } = useSelector(
+  const reducerWCSelector = createDeepEqualSelector(
     (state: RootState) => state[reducerDefined][wc],
-    // (prev, next) => isEqual(prev, next)
-    (prev, next) => false
+    (wc) => wc
   );
-  const { chartData } = lineChart;
 
+  const { commonChartProps, lineChart } = useSelector(reducerWCSelector);
+  const { chartData } = lineChart;
 
   const commonChartPropsDefined = commonChartProps as IChart;
   const {

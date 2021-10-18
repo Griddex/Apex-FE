@@ -1,18 +1,16 @@
 import { useTheme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
+import pick from "lodash.pick";
 import React from "react";
 import { useDrag } from "react-dnd";
-import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
-import {
-  IEconomicsParametersSensitivitiesProps,
-  TEconomicsAnalyses,
-  TEconomicsAnalysesNames,
-} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import { itemTypes } from "../../Utils/DragAndDropItemTypes";
-import pick from "lodash.pick";
-import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import { IEconomicsParametersSensitivitiesProps } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 
 const useStyles = makeStyles(() => ({
   economicsAnalysisPanel: {
@@ -45,6 +43,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const selectedAnalysesNamesSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedAnalysesNames,
+  (data) => data
+);
+
 const EconomicsAnalysesPanel = ({
   economicsAnalyses,
   selectedAnalysis,
@@ -53,9 +58,7 @@ const EconomicsAnalysesPanel = ({
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { selectedAnalysesNames } = useSelector(
-    (state: RootState) => state.economicsReducer
-  );
+  const selectedAnalysesNames = useSelector(selectedAnalysesNamesSelector);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: itemTypes.ECONOMICS_CALCULATION_TYPE,

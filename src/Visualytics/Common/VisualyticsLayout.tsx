@@ -1,9 +1,8 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
-import { useRouteMatch } from "react-router-dom";
-import SuspensePerpetualSpinner from "../../Application/Components/Visuals/SuspensePerpetualSpinner";
-import VisualyticsLanding from "./VisualyticsLanding";
+import React from "react";
+
+const VisualyticsLanding = React.lazy(() => import("./VisualyticsLanding"));
 
 const navbarHeight = 43;
 const subNavBarHeight = 0;
@@ -24,18 +23,11 @@ const useStyles = makeStyles(() => {
 
 const VisualyticsLayout = () => {
   const classes = useStyles();
-  const { path, url } = useRouteMatch();
 
   return (
     <main className={classes.visualyticsLayoutRoot}>
       <div className={clsx(classes.visualyticsLayoutContainer)}>
-        <Suspense
-          fallback={
-            <SuspensePerpetualSpinner pending={true} message="Loading..." />
-          }
-        >
-          <VisualyticsLanding />,
-        </Suspense>
+        <VisualyticsLanding />
       </div>
     </main>
   );

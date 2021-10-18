@@ -1,14 +1,15 @@
-import { Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import { CSSProperties } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import React from "react";
+import { useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import Approval from "../../Application/Components/Approval/Approval";
 import Approvers from "../../Application/Components/Approvers/Approvers";
 import Author from "../../Application/Components/Author/Author";
@@ -19,7 +20,6 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
@@ -34,18 +34,17 @@ import formatDate from "../../Application/Utils/FormatDate";
 import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
-import DoughnutChart, {
-  DoughnutChartAnalytics,
-} from "../../Visualytics/Components/Charts/DoughnutChart";
-import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
-import { extrudeDialogParameters } from "../Components/DialogParameters/ShowPrioritizationDialogParameters";
-import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
-import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
+import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchStoredForecastingParametersRequestAction,
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IStoredDataRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -105,6 +104,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export const productionPrioritizationStoredWithSN = (
   productionPrioritizationStored: any[]
@@ -179,11 +180,25 @@ export const cloneProductionPrioritizationRow = (
   return newRow;
 };
 
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (id) => id
+);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
+
 export default function StoredProductionPrioritization({
   showChart,
   isAllWellPrioritization,
 }: IStoredDataProps) {
-  //TODO: Calculate classification data from collection
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -193,6 +208,7 @@ export default function StoredProductionPrioritization({
 
   const componentRef = React.useRef();
 
+  //TODO: Calculate classification data from collection
   const chartData = [
     {
       id: "A",
@@ -214,9 +230,7 @@ export default function StoredProductionPrioritization({
     },
   ];
 
-  const { currentProjectId } = useSelector(
-    (state: RootState) => state.projectReducer
-  );
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}`; ///forecast-parameters
@@ -227,17 +241,18 @@ export default function StoredProductionPrioritization({
   const [sRow, setSRow] = React.useState(-1);
 
   const { dayFormat, monthFormat, yearFormat } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
+    unitSettingsSelector
   ) as IUnitSettingsData;
 
-  const { productionPrioritizationStored, forecastingParametersStored } =
-    useSelector((state: RootState) => state.networkReducer[wc]);
-
-  const { selectedForecastingParametersId } = useSelector(
-    (state: RootState) => state.networkReducer
+  const networkWCSelector = createDeepEqualSelector(
+    (state: RootState) => state.networkReducer[wc],
+    (wc) => wc
   );
 
-  console.log("isAllWellPrioritization: ", isAllWellPrioritization);
+  const { productionPrioritizationStored, forecastingParametersStored } =
+    useSelector(networkWCSelector);
+
+  const { selectedForecastingParametersId } = useSelector(networkSelector);
 
   const selectedforecastingParametersStored = forecastingParametersStored.find(
     (row: any) => {
@@ -245,15 +260,6 @@ export default function StoredProductionPrioritization({
         return row;
       }
     }
-  );
-
-  console.log(
-    "selectedForecastingParametersId: ",
-    selectedForecastingParametersId
-  );
-  console.log(
-    "selectedforecastingParametersStored: ",
-    selectedforecastingParametersStored
   );
 
   let wellPrioritizationFiltered: any = [];
@@ -280,14 +286,9 @@ export default function StoredProductionPrioritization({
     );
   }
 
-  console.log("wellPrioritizationFiltered: ", wellPrioritizationFiltered);
-
   const snTransStoredData = productionPrioritizationStoredWithSN(
     wellPrioritizationFiltered
   );
-
-  const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
-    useSelector((state: RootState) => state.inputReducer);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
@@ -583,7 +584,7 @@ export default function StoredProductionPrioritization({
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IStoredDataRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns}
               rows={rows}
               tableButtons={tableButtons}

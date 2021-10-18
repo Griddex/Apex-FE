@@ -1,8 +1,9 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -10,13 +11,23 @@ import WorkflowBanner from "../../../../Application/Components/Workflows/Workflo
 import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import SelectDatabase from "../../../Components/SelectDatabase";
-import ConnectDatabase from "../Workflows/ConnectDatabase";
-import MatchHeaders from "../Workflows/MatchHeaders";
-import MatchUnits from "../Workflows/MatchUnits";
-import PreviewSave from "../Workflows/PreviewSave";
-import SelectHeaderUnitData from "../Workflows/SelectHeaderUnitData";
-import UploadFile from "../Workflows/UploadFile";
+
+const ContextDrawer = React.lazy(
+  () => import("../../../../Application/Components/Drawers/ContextDrawer")
+);
+const SelectDatabase = React.lazy(
+  () => import("../../../Components/SelectDatabase")
+);
+const ConnectDatabase = React.lazy(
+  () => import("../Workflows/ConnectDatabase")
+);
+const MatchHeaders = React.lazy(() => import("../Workflows/MatchHeaders"));
+const MatchUnits = React.lazy(() => import("../Workflows/MatchUnits"));
+const PreviewSave = React.lazy(() => import("../Workflows/PreviewSave"));
+const SelectHeaderUnitData = React.lazy(
+  () => import("../Workflows/SelectHeaderUnitData")
+);
+const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +68,18 @@ const steps = [
   "Preview & Save",
 ];
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
+
+const applicationSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+
 const DatabaseWorkflow = ({
   reducer,
   wrkflwCtgry,
@@ -69,16 +92,17 @@ const DatabaseWorkflow = ({
   const wp = wrkflwPrcss;
 
   const skipped = new Set<number>();
-  const { showContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+
+  const activeStepSelector = createDeepEqualSelector(
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
+    (activeStep) => activeStep
   );
-  const { activeStep } = useSelector(
-    (state: RootState) => state.workflowReducer[wc][wp]
-  );
-  const applicationData = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { moduleName, subModuleName, workflowName } = applicationData;
+
+  const activeStep = useSelector(activeStepSelector);
+
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(applicationSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,

@@ -1,4 +1,4 @@
-import { Input, TextareaAutosize, useTheme } from "@mui/material";
+import { alpha, Input, TextareaAutosize, Theme, useTheme } from "@mui/material";
 import { ErrorMessage, FormikProps } from "formik";
 import React from "react";
 import AnalyticsComp from "../Basic/AnalyticsComp";
@@ -6,6 +6,22 @@ import {
   ITitleAndDescriptionFormProps,
   ITitleAndDescriptionFormValues,
 } from "./FormTypes";
+import makeStyles from "@mui/styles/makeStyles";
+import grey from "@mui/material/colors/grey";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    border: `1px solid ${grey[500]}`,
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+    "&:active": {
+      outline: `2px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+  },
+}));
 
 const TitleAndDescription = ({
   setTitle,
@@ -20,13 +36,12 @@ const TitleAndDescription = ({
 }: ITitleAndDescriptionFormProps &
   FormikProps<ITitleAndDescriptionFormValues>) => {
   const theme = useTheme();
+  const classes = useStyles();
 
   const { title, description } = values;
 
   const helperTextTitle =
     touched && touched.title ? errors && errors.title : "";
-
-  const hasValues = Object.values(values).every((v) => v !== "");
 
   const handleTitleDescChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -59,6 +74,7 @@ const TitleAndDescription = ({
         content={
           <>
             <Input
+              className={classes.root}
               name="title"
               style={style}
               error={Boolean(helperTextTitle)}
@@ -79,6 +95,7 @@ const TitleAndDescription = ({
         content={
           <>
             <TextareaAutosize
+              className={classes.root}
               name="description"
               style={{ height: 400, width: "100%" }}
               minRows={20}

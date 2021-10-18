@@ -1,13 +1,15 @@
-import { ClickAwayListener, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { ClickAwayListener, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
@@ -21,7 +23,6 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -49,6 +50,12 @@ import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettings
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+//<IStoredDataRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -78,6 +85,13 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (redcuer) => redcuer
+);
 
 const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
   (
@@ -113,7 +127,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const wc = wcc == null ? "" : wcc;
 
     const { dayFormat, monthFormat, yearFormat } = useSelector(
-      (state: RootState) => state.unitSettingsReducer
+      unitSettingsSelector
     ) as IUnitSettingsData;
 
     const [selectedRows, setSelectedRows] = React.useState(
@@ -123,7 +137,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
     const snStoredDataCopy = snStoredData as IStoredDataRow[];
     const currentRows = snStoredData as IStoredDataRow[];
-    const rowIndex: number = currentRows.length;
 
     const [rows, setRows] = React.useState(currentRows);
 
@@ -481,7 +494,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           >
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => (
-                <ApexGrid<IStoredDataRow, ITableButtonsProps>
+                <ApexGrid
                   columns={columns}
                   rows={rows}
                   tableButtons={tableButtons as ITableButtonsProps}

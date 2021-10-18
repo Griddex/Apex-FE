@@ -1,6 +1,6 @@
 import { Drawer } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import clsx from "clsx";
@@ -12,6 +12,8 @@ import {
   contextDrawerExpandAction,
 } from "../../Redux/Actions/LayoutActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 const navbarHeight = 43;
 
@@ -81,16 +83,24 @@ export interface IContextDrawer {
   iconReplacement?: JSX.Element;
 }
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const bannerPropsSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer,
+  (reducer) => reducer
+);
+const expandContextSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.expandContextDrawer,
+  (context) => context
+);
+
 const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { moduleName, subModuleName, workflowName } = useSelector(
-    (state: RootState) => state.applicationReducer
-  );
-  const { expandContextDrawer } = useSelector(
-    (state: RootState) => state.layoutReducer
-  );
+  const { moduleName, subModuleName, workflowName } =
+    useSelector(bannerPropsSelector);
+  const expandContextDrawer = useSelector(expandContextSelector);
 
   return (
     <Drawer
@@ -116,7 +126,8 @@ const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
           className={clsx(classes.menuButton, {
             [classes.hide]: !expandContextDrawer,
           })}
-          size="large">
+          size="large"
+        >
           <ChevronRightIcon />
         </IconButton>
       ) : (
@@ -132,7 +143,8 @@ const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
           className={clsx(classes.contextDrawerMenuIcon, {
             [classes.hide]: expandContextDrawer,
           })}
-          size="large">
+          size="large"
+        >
           {iconReplacement ? iconReplacement : <MenuIcon />}
         </IconButton>
       )}

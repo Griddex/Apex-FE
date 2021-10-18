@@ -1,8 +1,11 @@
 import React from "react";
 import { ITitleAndDescriptionFormProps } from "../../../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../../../Application/Components/Forms/TitleAndDescriptionForm";
-import StoredFacilitiesDecks from "../../FacilitiesInputDeck/StoredFacilitiesDecks";
 import { IStoredInputDeck } from "../../InputDeckTypes";
+
+const StoredFacilitiesDecks = React.lazy(
+  () => import("../../FacilitiesInputDeck/StoredFacilitiesDecks")
+);
 
 const SaveInputDeckGenerateNetworkWorkflow = ({
   reducer,

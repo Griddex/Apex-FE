@@ -3,6 +3,15 @@ import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const economicsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer,
+  (reducer) => reducer
+);
 
 const EconomicsChartTitlePlaque = () => {
   const theme = useTheme();
@@ -11,7 +20,7 @@ const EconomicsChartTitlePlaque = () => {
     selectedEconomicsResultsTitle,
     selectedEconomicsResultsId,
     isEconomicsResultsSaved,
-  } = useSelector((state: RootState) => state.economicsReducer);
+  } = useSelector(economicsSelector);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>

@@ -1,7 +1,8 @@
+import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import { Button, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { ValueType } from "react-select";
 import { TUseState } from "../../Types/ApplicationTypes";
 import AnalyticsComp from "../Basic/AnalyticsComp";
@@ -9,8 +10,6 @@ import ApexSelectRS from "../Selects/ApexSelectRS";
 import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -43,7 +42,6 @@ const FillPopoverComponent = ({
 }: IFillPopoverComponent) => {
   const classes = useStyles();
   const theme = useTheme();
-  const dispatch = useDispatch();
 
   const fillPopRef = React.useRef<HTMLDivElement>(null);
   const [columnTitleOption, setColumnTitleOption] = React.useState(

@@ -8,10 +8,11 @@ import omit from "lodash.omit";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column, FormatterProps } from "react-data-griddex";
-import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -21,10 +22,20 @@ import ApexRadioGroup from "../../Application/Components/Radios/ApexRadioGroup";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+
+const ApexGrid = React.lazy(
+  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const networkSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer,
+  (reducer) => reducer
+);
 
 const ProductionStreamPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
@@ -36,22 +47,7 @@ const ProductionStreamPrioritization = () => {
     selectedTableData,
     prioritizationPerspective,
     selectedStreamPrioritization,
-  } = useSelector(
-    (state: RootState) => {
-      const {
-        selectedTableData,
-        prioritizationPerspective,
-        selectedStreamPrioritization,
-      } = state.networkReducer;
-
-      return {
-        selectedTableData,
-        prioritizationPerspective,
-        selectedStreamPrioritization,
-      };
-    },
-    (prev, next) => isEqual(prev, next)
-  );
+  } = useSelector(networkSelector);
 
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
@@ -161,7 +157,7 @@ const ProductionStreamPrioritization = () => {
       <ApexFlexContainer ref={dialogRef}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => (
-            <ApexGrid<IRawRow, ITableButtonsProps>
+            <ApexGrid
               columns={columns as Column<IRawRow>[]}
               rows={rows as IRawRow[]}
               onRowsChange={setRows}

@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -21,7 +21,6 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { ApexGrid } from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IInputWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -43,6 +42,15 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -73,6 +81,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const unitSettingsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer,
+  (reducer) => reducer
+);
+
 export default function CostsAndRevenueApexForecast({
   wkCy,
   wkPs,
@@ -90,9 +103,7 @@ export default function CostsAndRevenueApexForecast({
 
   const componentRef = React.useRef();
 
-  const { unitOptionsByVariableName } = useSelector(
-    (state: RootState) => state.unitSettingsReducer
-  );
+  const { unitOptionsByVariableName } = useSelector(unitSettingsSelector);
   console.log(
     "Logged output --> ~ file: CostsAndRevenueApexForecast.tsx ~ line 99 ~ unitOptionsByVariableName",
     unitOptionsByVariableName
@@ -1019,7 +1030,7 @@ export default function CostsAndRevenueApexForecast({
           }
         />
       </ApexFlexContainer>
-      <ApexGrid<IRawRow, ITableButtonsProps>
+      <ApexGrid
         columns={columns}
         rows={rows}
         onRowsChange={setRows}
