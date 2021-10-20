@@ -185,15 +185,37 @@ const currentProjectIdSelector = createDeepEqualSelector(
   (id) => id
 );
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
 );
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const wc = "storedDataWorkflows";
+const wp = "productionPrioritizationStored";
+
+const selectedForecastingParametersIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer["selectedForecastingParametersId"],
+  (data) => data
 );
+const productionPrioritizationStoredSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.networkReducer[wc]["productionPrioritizationStored"],
+  (data) => data
+);
+const forecastingParametersStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer[wc]["forecastingParametersStored"],
+  (data) => data
+);
+
+//productionPrioritizationStored, forecastingParametersStored
 
 export default function StoredProductionPrioritization({
   showChart,
@@ -202,9 +224,6 @@ export default function StoredProductionPrioritization({
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const wc = "storedDataWorkflows";
-  const wp = "productionPrioritizationStored";
 
   const componentRef = React.useRef();
 
@@ -240,19 +259,26 @@ export default function StoredProductionPrioritization({
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsSelector
-  ) as IUnitSettingsData;
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
   const networkWCSelector = createDeepEqualSelector(
     (state: RootState) => state.networkReducer[wc],
     (wc) => wc
   );
 
-  const { productionPrioritizationStored, forecastingParametersStored } =
-    useSelector(networkWCSelector);
+  const productionPrioritizationStored = useSelector(
+    productionPrioritizationStoredSelector
+  );
 
-  const { selectedForecastingParametersId } = useSelector(networkSelector);
+  const forecastingParametersStored = useSelector(
+    forecastingParametersStoredSelector
+  );
+
+  const selectedForecastingParametersId = useSelector(
+    selectedForecastingParametersIdSelector
+  );
 
   const selectedforecastingParametersStored = forecastingParametersStored.find(
     (row: any) => {

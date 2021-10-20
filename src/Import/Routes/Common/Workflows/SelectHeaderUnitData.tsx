@@ -67,12 +67,12 @@ export default function SelectHeaderUnitData({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const selectedWorksheetDataSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["selectedWorksheetData"],
+    (data) => data
   );
 
-  const { selectedWorksheetData } = useSelector(workflowProcessSelector);
+  const selectedWorksheetData = useSelector(selectedWorksheetDataSelector);
 
   //Generate actual ColumnHeaders
   const rawTableHeaders = getTableHeaders(selectedWorksheetData);

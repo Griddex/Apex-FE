@@ -100,6 +100,7 @@ const ContextDrawer = ({ children, iconReplacement }: IContextDrawer) => {
 
   const { moduleName, subModuleName, workflowName } =
     useSelector(bannerPropsSelector);
+
   const expandContextDrawer = useSelector(expandContextSelector);
 
   return (

@@ -17,28 +17,36 @@ import ForecastTreeView from "./ForecastTreeView";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const forecastSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer,
+const reducer = "forecastReducer";
+const wc = "storedDataWorkflows";
+
+const forecastResultsStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
   (reducer) => reducer
+);
+
+const selectedForecastingResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastingResultsTitle,
+  (data) => data
+);
+
+const selectedForecastingResultsDescriptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.forecastReducer.selectedForecastingResultsDescription,
+  (data) => data
 );
 
 const ForecastChartDataPanel = () => {
   const dispatch = useDispatch();
 
-  const reducer = "forecastReducer";
-  const wc = "storedDataWorkflows";
-
-  const forecastResultsStoredSelector = createDeepEqualSelector(
-    (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
-    (reducer) => reducer
-  );
-
   const forecastResultsStored = useSelector(forecastResultsStoredSelector);
 
-  const {
-    selectedForecastingResultsTitle,
-    selectedForecastingResultsDescription,
-  } = useSelector(forecastSelector);
+  const selectedForecastingResultsTitle = useSelector(
+    selectedForecastingResultsTitleSelector
+  );
+  const selectedForecastingResultsDescription = useSelector(
+    selectedForecastingResultsDescriptionSelector
+  );
   console.log(
     "🚀 ~ file: ForecastChartDataPanel.tsx ~ line 42 ~ ForecastChartDataPanel ~ selectedForecastingResultsTitle",
     selectedForecastingResultsTitle

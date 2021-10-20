@@ -64,9 +64,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const projectSelector = createDeepEqualSelector(
-  (state: RootState) => state.projectReducer,
-  (reducer) => reducer
+const storedProjectsSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.storedProjects,
+  (data) => data
+);
+const selectedProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.selectedProjectId,
+  (data) => data
+);
+const selectedProjectTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.selectedProjectTitle,
+  (data) => data
+);
+const selectedProjectDescriptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.selectedProjectDescription,
+  (data) => data
+);
+const currentProjectIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (data) => data
 );
 
 const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
@@ -74,16 +90,17 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const history = useHistory();
   const classes = useStyles();
 
-  const { storedProjects } = useSelector(projectSelector);
+  const storedProjects = useSelector(storedProjectsSelector);
 
   const recentProjects = storedProjects.slice(0, 6);
 
-  const {
-    selectedProjectId,
-    selectedProjectTitle,
-    selectedProjectDescription,
-    currentProjectId,
-  } = useSelector(projectSelector);
+  const selectedProjectId = useSelector(storedProjectsSelector);
+  const selectedProjectTitle = useSelector(selectedProjectIdSelector);
+  const selectedProjectDescription = useSelector(
+    selectedProjectDescriptionSelector
+  );
+
+  const currentProjectId = useSelector(currentProjectIdSelector);
 
   const ApexMenuItem = ({
     projectId,

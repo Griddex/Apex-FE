@@ -29,6 +29,16 @@ const currentProjectIdSelector = createDeepEqualSelector(
   (id) => id
 );
 
+const wc = "storedDataWorkflows";
+const wp: NonNullable<IStoredDataProps["wkPs"]> =
+  "economicsCostsRevenuesDeckStored";
+
+const economicsCostsRevenuesDeckStoredSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer[wc]["economicsCostsRevenuesDeckStored"],
+  (data) => data
+);
+
 export default function StoredCostsAndRevenuesDecks({
   reducer,
   containerStyle,
@@ -66,16 +76,9 @@ export default function StoredCostsAndRevenuesDecks({
 
   const dispatch = useDispatch();
 
-  const wc = "storedDataWorkflows";
-  const wp: NonNullable<IStoredDataProps["wkPs"]> =
-    "economicsCostsRevenuesDeckStored";
-
-  const econmicsWCSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wc],
-    (wc) => wc
+  const economicsCostsRevenuesDeckStored = useSelector(
+    economicsCostsRevenuesDeckStoredSelector
   );
-
-  const { economicsCostsRevenuesDeckStored } = useSelector(econmicsWCSelector);
 
   const snStoredData: IStoredDataRow[] =
     economicsCostsRevenuesDeckStored &&

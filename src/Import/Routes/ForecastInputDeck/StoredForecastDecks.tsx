@@ -35,12 +35,12 @@ export default function StoredForecastDecks({
   const wc = "storedDataWorkflows";
   const wp: NonNullable<IStoredDataProps["wkPs"]> = "forecastInputDeckStored";
 
-  const workflowProcessSelector = createDeepEqualSelector(
+  const storedDataSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+    (data) => data
   );
 
-  const storedData = useSelector(workflowProcessSelector);
+  const storedData = useSelector(storedDataSelector);
 
   //TODO: Calculate classification data from collection
   const chartData = [

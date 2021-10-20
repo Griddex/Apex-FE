@@ -72,16 +72,30 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,
   (reducer) => reducer
 );
-const forecastSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer,
-  (reducer) => reducer
+
+const isForecastResultsLoadingSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.isForecastResultsLoading,
+  (data) => data
+);
+const selectedForecastChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastChartOption,
+  (data) => data
+);
+const xValueCategoriesSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.xValueCategories,
+  (data) => data
+);
+
+const wc = "forecastChartsWorkflows";
+const ch = "stackedAreaChart";
+
+const chartSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+  (chart) => chart
 );
 
 const ForecastVisualytics = () => {
   const reducer = "forecastReducer";
-  const wc = "forecastChartsWorkflows";
-  const ch = "stackedAreaChart";
-
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -91,18 +105,15 @@ const ForecastVisualytics = () => {
 
   const showContextDrawer = useSelector(showContextDrawerSelector);
 
-  const {
-    isForecastResultsLoading,
-    selectedForecastChartOption,
-    xValueCategories,
-  } = useSelector(forecastSelector);
+  const isForecastResultsLoading = useSelector(
+    isForecastResultsLoadingSelector
+  );
+  const selectedForecastChartOption = useSelector(
+    selectedForecastChartOptionSelector
+  );
+  const xValueCategories = useSelector(xValueCategoriesSelector);
 
   const chartType = selectedForecastChartOption.value;
-
-  const chartSelector = createDeepEqualSelector(
-    (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
-    (chart) => chart
-  );
 
   const chartData = useSelector(chartSelector);
 

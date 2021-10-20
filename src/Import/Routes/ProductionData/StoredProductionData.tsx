@@ -52,11 +52,11 @@ export default function StoredProductionData({
   const wc = "storedDataWorkflows";
   const wp: wpTypeNon = "productionInputDataStored";
 
-  const workflowProcessSelector = createDeepEqualSelector(
+  const productionInputDataStoredSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+    (data) => data
   );
-  const storedData = useSelector(workflowProcessSelector);
+  const storedData = useSelector(productionInputDataStoredSelector);
 
   const snStoredData = storedData?.map((row: any, i: number) => {
     const data: IStoredDataRow = {

@@ -67,35 +67,86 @@ export default function PreviewSave({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const currentDevOptionSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["currentDevOption"],
+    (data) => data
+  );
+  const fileHeaderUnitIdMapSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileHeaderUnitIdMap"],
+    (data) => data
+  );
+  const currentAppHeaderNameMapSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["currentAppHeaderNameMap"],
+    (data) => data
+  );
+  const fileHeadersUnitsAppHeadersWithoutNoneMapSelector =
+    createDeepEqualSelector(
+      (state: RootState) =>
+        state[reducer][wc][wp]["fileHeadersUnitsAppHeadersWithoutNoneMap"],
+      (data) => data
+    );
+  const tableRoleNamesSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["tableRoleNames"],
+    (data) => data
+  );
+  const columnNameTableDataSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["columnNameTableData"],
+    (data) => data
+  );
+  const selectedHeaderRowIndexSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["selectedHeaderRowIndex"],
+    (data) => data
+  );
+  const selectedUnitRowIndexSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["selectedUnitRowIndex"],
+    (data) => data
+  );
+  const matchHeadersTableSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["matchHeadersTable"],
+    (data) => data
+  );
+  const matchUnitsTableSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["matchUnitsTable"],
+    (data) => data
   );
 
-  const {
-    currentDevOption,
-    fileHeaderUnitIdMap,
-    currentAppHeaderNameMap,
-    fileHeadersUnitsAppHeadersWithoutNoneMap,
-    tableRoleNames,
-    columnNameTableData,
-    selectedHeaderRowIndex,
-    selectedUnitRowIndex,
-    matchHeadersTable,
-    matchUnitsTable,
-  } = useSelector(workflowProcessSelector);
+  const currentDevOption = useSelector(currentDevOptionSelector);
+  const fileHeaderUnitIdMap = useSelector(fileHeaderUnitIdMapSelector);
+  const currentAppHeaderNameMap = useSelector(currentAppHeaderNameMapSelector);
+  const fileHeadersUnitsAppHeadersWithoutNoneMap = useSelector(
+    fileHeadersUnitsAppHeadersWithoutNoneMapSelector
+  );
+  const tableRoleNames = useSelector(tableRoleNamesSelector);
+  const columnNameTableData = useSelector(columnNameTableDataSelector);
+  const selectedHeaderRowIndex = useSelector(selectedHeaderRowIndexSelector);
+  const selectedUnitRowIndex = useSelector(selectedUnitRowIndexSelector);
+  const matchHeadersTable = useSelector(matchHeadersTableSelector);
+  const matchUnitsTable = useSelector(matchUnitsTableSelector);
 
-  const reducerSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer],
-    (reducer) => reducer
+  const facilitiesAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["facilitiesAppHeaders"],
+    (data) => data
+  );
+  const forecastAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["forecastAppHeaders"],
+    (data) => data
+  );
+  const costsRevenuesAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["costsRevenuesAppHeaders"],
+    (data) => data
+  );
+  const economicsParametersAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["economicsParametersAppHeaders"],
+    (data) => data
   );
 
-  const {
-    facilitiesAppHeaders,
-    forecastAppHeaders,
-    costsRevenuesAppHeaders: cRHeaders,
-    economicsParametersAppHeaders,
-  } = useSelector(reducerSelector);
+  const facilitiesAppHeaders = useSelector(facilitiesAppHeadersSelector);
+  const forecastAppHeaders = useSelector(forecastAppHeadersSelector);
+  const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
+  const cRHeaders = costsRevenuesAppHeaders;
+  const economicsParametersAppHeaders = useSelector(
+    economicsParametersAppHeadersSelector
+  );
 
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;
   if (reducer === "economicsReducer") {

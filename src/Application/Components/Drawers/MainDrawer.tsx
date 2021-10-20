@@ -95,8 +95,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const layoutPartialPropsSelector = createDeepEqualSelector(
-  (state: RootState) => state.layoutReducer,
+const expandMainDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.expandMainDrawer,
+  (props) => props
+);
+const menusDisabledSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.menusDisabled,
   (props) => props
 );
 
@@ -111,9 +115,8 @@ const MainDrawer = () => {
     setOpen(false);
   }, []);
 
-  const { expandMainDrawer, menusDisabled } = useSelector(
-    layoutPartialPropsSelector
-  );
+  const expandMainDrawer = useSelector(expandMainDrawerSelector);
+  const menusDisabled = useSelector(menusDisabledSelector);
 
   const classes = useStyles({ expandMainDrawer, menusDisabled });
 

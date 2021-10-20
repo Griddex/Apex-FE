@@ -34,9 +34,37 @@ const EconomicsSensitivitiesHeatMap = React.lazy(
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const sensitivitiesHeatMap1or2DSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.sensitivitiesHeatMap1or2D,
+  (data) => data
+);
+const sensitivitiesHeatMapDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.sensitivitiesHeatMapData,
+  (data) => data
+);
+const heatMapVariableXOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableXOptions,
+  (data) => data
+);
+const heatMapVariableYOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableYOptions,
+  (data) => data
+);
+const heatMapVariableZOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableZOptions,
+  (data) => data
+);
+const heatMapTreeByScenarioSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
+  (data) => data
+);
+const resultsAnalyisOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.resultsAnalyisOptions,
+  (data) => data
+);
+const selectedEconomicsResultsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsResultsId,
+  (data) => data
 );
 
 export interface IHeatMapVariableZData extends ISelectOption {
@@ -49,16 +77,20 @@ const SensitivitiesHeatMapChart = ({
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const {
-    sensitivitiesHeatMapData,
-    heatMapVariableXOptions,
-    heatMapVariableYOptions,
-    heatMapVariableZOptions,
-    heatMapTreeByScenario,
-    resultsAnalyisOptions,
-    selectedEconomicsResultsId,
-    sensitivitiesHeatMap1or2D,
-  } = useSelector(economicsSelector);
+  const sensitivitiesHeatMap1or2D = useSelector(
+    sensitivitiesHeatMap1or2DSelector
+  );
+  const sensitivitiesHeatMapData = useSelector(
+    sensitivitiesHeatMapDataSelector
+  );
+  const heatMapVariableXOptions = useSelector(heatMapVariableXOptionsSelector);
+  const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
+  const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
+  const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
+  const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
+  const selectedEconomicsResultsId = useSelector(
+    selectedEconomicsResultsIdSelector
+  );
 
   const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
     resultsAnalyisOptions[0]

@@ -78,9 +78,14 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const forecastSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer,
-  (reducer) => reducer
+const selectedTableDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedTableData,
+  (data) => data
+);
+
+const selectedForecastingResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastingResultsTitle,
+  (data) => data
 );
 
 export default function ForecastData({
@@ -92,7 +97,7 @@ export default function ForecastData({
   const dispatch = useDispatch();
 
   const wp = wrkflwPrcss as NonNullable<IStoredDataProps["wkPs"]>;
-  const { selectedTableData } = useSelector(forecastSelector);
+  const selectedTableData = useSelector(selectedTableDataSelector);
 
   const snSelectedForecastData = selectedTableData.map(
     (row: any, i: number) => ({
@@ -347,7 +352,9 @@ export default function ForecastData({
   );
 
   const forecastResultsStored = useSelector(forecastResultsStoredSelector);
-  const { selectedForecastingResultsTitle } = useSelector(forecastSelector);
+  const selectedForecastingResultsTitle = useSelector(
+    selectedForecastingResultsTitleSelector
+  );
 
   const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
     value: row.title,

@@ -8,19 +8,29 @@ import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const selectedEconomicsResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsResultsTitle,
+  (data) => data
+);
+const selectedEconomicsResultsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsResultsId,
+  (data) => data
+);
+const isEconomicsResultsSavedSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.isEconomicsResultsSaved,
+  (data) => data
 );
 
 const EconomicsChartTitlePlaque = () => {
   const theme = useTheme();
 
-  const {
-    selectedEconomicsResultsTitle,
-    selectedEconomicsResultsId,
-    isEconomicsResultsSaved,
-  } = useSelector(economicsSelector);
+  const selectedEconomicsResultsTitle = useSelector(
+    selectedEconomicsResultsTitleSelector
+  );
+  const selectedEconomicsResultsId = useSelector(
+    selectedEconomicsResultsIdSelector
+  );
+  const isEconomicsResultsSaved = useSelector(isEconomicsResultsSavedSelector);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>

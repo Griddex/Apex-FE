@@ -32,9 +32,17 @@ const ApexGrid = React.lazy(
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const selectedTableDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedTableData,
+  (data) => data
+);
+const prioritizationPerspectiveSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.prioritizationPerspective,
+  (data) => data
+);
+const selectedStreamPrioritizationSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedStreamPrioritization,
+  (data) => data
 );
 
 const ProductionStreamPrioritization = () => {
@@ -43,12 +51,13 @@ const ProductionStreamPrioritization = () => {
 
   console.log("Production Prioritizationnnnnnnnnnnnnnnnnnnn");
 
-  const {
-    selectedTableData,
-    prioritizationPerspective,
-    selectedStreamPrioritization,
-  } = useSelector(networkSelector);
-
+  const selectedTableData = useSelector(selectedTableDataSelector);
+  const prioritizationPerspective = useSelector(
+    prioritizationPerspectiveSelector
+  );
+  const selectedStreamPrioritization = useSelector(
+    selectedStreamPrioritizationSelector
+  );
   const [prtznPerspective, setPrtznPerspective] = React.useState(
     prioritizationPerspective ? prioritizationPerspective : "No Prioritization"
   );

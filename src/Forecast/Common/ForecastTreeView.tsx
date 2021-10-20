@@ -27,15 +27,49 @@ const selectedForecastChartOptionSelector = createDeepEqualSelector(
   (option) => option
 );
 
-const forecastSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer,
-  (reducer) => reducer
+const forecastTreeSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.forecastTree,
+  (data) => data
+);
+
+const selectedForecastChartVariableSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastChartVariable,
+  (data) => data
+);
+
+const selectedModuleIdsSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedModuleIds,
+  (data) => data
+);
+
+const selectedForecastAggregationTypeSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastAggregationType,
+  (data) => data
+);
+
+const selectedForecastAggregationLevelSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastAggregationLevel,
+  (data) => data
+);
+
+const selectedViewSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedView,
+  (data) => data
+);
+
+const xValueCategoriesSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.xValueCategories,
+  (data) => data
+);
+
+const wc = "forecastChartsWorkflows";
+const ch = "stackedAreaChart";
+const chartDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+  (data) => data
 );
 
 const ForecastTreeView = ({ height }: ITreeViewProps) => {
-  const wc = "forecastChartsWorkflows";
-  const ch = "stackedAreaChart";
-
   const dispatch = useDispatch();
 
   const selectedForecastChartOption = useSelector(
@@ -44,26 +78,24 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
 
   const chartType = selectedForecastChartOption.value as TChartTypes;
 
-  const {
-    forecastTree,
-    selectedForecastChartVariable,
-    selectedModuleIds: prevModuleIds,
-    selectedForecastAggregationType,
-    selectedForecastAggregationLevel,
-    selectedView,
-    xValueCategories,
-  } = useSelector(forecastSelector);
+  const forecastTree = useSelector(forecastTreeSelector);
 
-  const chartDataSelector = createDeepEqualSelector(
-    (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
-    (data) => data
+  const selectedForecastChartVariable = useSelector(
+    selectedForecastChartVariableSelector
   );
+  const selectedModuleIds = useSelector(selectedModuleIdsSelector);
+  const selectedForecastAggregationType = useSelector(
+    selectedForecastAggregationTypeSelector
+  );
+  const selectedForecastAggregationLevel = useSelector(
+    selectedForecastAggregationLevelSelector
+  );
+  const selectedView = useSelector(selectedViewSelector);
+  const xValueCategories = useSelector(xValueCategoriesSelector);
 
   const chartData = useSelector(chartDataSelector);
-  console.log(
-    "🚀 ~ file: ForecastTreeView.tsx ~ line 62 ~ ForecastTreeView ~ chartData",
-    chartData
-  );
+
+  const prevModuleIds = selectedModuleIds;
 
   const rootTree = {
     id: "6e611ee3-4133-496b-a7cc-43cea89686bc",

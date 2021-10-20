@@ -15,9 +15,13 @@ export interface IWithUnit {
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const unitSettingsPropsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (reducer) => reducer
+const variableNameUnitsMapSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.variableNameUnitsMap,
+  (data) => data
+);
+const variableUnitsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.variableUnits,
+  (data) => data
 );
 
 const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
@@ -30,9 +34,8 @@ const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
   );
   const InnerComponent = innerComponent as JSX.Element;
 
-  const { variableNameUnitsMap, variableUnits } = useSelector(
-    unitSettingsPropsSelector
-  );
+  const variableNameUnitsMap = useSelector(variableNameUnitsMapSelector);
+  const variableUnits = useSelector(variableUnitsSelector);
 
   let displayUnitsObj = {} as IUnit;
 

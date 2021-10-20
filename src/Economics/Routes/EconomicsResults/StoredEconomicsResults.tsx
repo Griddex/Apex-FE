@@ -132,9 +132,25 @@ const currentProjectIdSelector = createDeepEqualSelector(
   (id) => id
 );
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (reducer) => reducer
+const wc = "storedDataWorkflows";
+const wp = "economicsResultsStored" as NonNullable<IStoredDataProps["wkPs"]>;
+
+const economicsResultsStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["economicsResultsStored"],
+  (data) => data
+);
+
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
 );
 
 //TODO: Calculate classification data from collection
@@ -172,21 +188,13 @@ export default function StoredEcoResults({
     },
   ];
 
-  const wc = "storedDataWorkflows";
-  const wp = "economicsResultsStored" as NonNullable<IStoredDataProps["wkPs"]>;
-
   const currentProjectId = useSelector(currentProjectIdSelector);
 
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsSelector
-  ) as IUnitSettingsData;
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
-  const economicsWCSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wc],
-    (wc) => wc
-  );
-
-  const { economicsResultsStored } = useSelector(economicsWCSelector);
+  const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
   const [storedEconomicsResults, setStoredEconomicsResults] = React.useState(
     economicsResultsStored

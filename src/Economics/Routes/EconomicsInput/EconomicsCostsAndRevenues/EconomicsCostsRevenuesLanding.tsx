@@ -82,9 +82,9 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const loadCostsRevenueWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.loadCostsRevenueWorkflow,
+  (data) => data
 );
 
 const EconomicsCostsRevenuesLanding = () => {
@@ -96,13 +96,15 @@ const EconomicsCostsRevenuesLanding = () => {
   const wc = "inputDataWorkflows";
 
   const { url, path } = useRouteMatch();
-  const { loadCostsRevenueWorkflow } = useSelector(economicsSelector);
+  const loadCostsRevenueWorkflow = useSelector(
+    loadCostsRevenueWorkflowSelector
+  );
 
   const labelSelector = createDeepEqualSelector(
     (state: RootState) =>
       state.economicsReducer[wc]["economicsCostsRevenuesDeckExcel"]
         ?.currentDevOption?.label,
-    (wc) => wc
+    (label) => label
   );
 
   const dataLabel = useSelector(labelSelector);

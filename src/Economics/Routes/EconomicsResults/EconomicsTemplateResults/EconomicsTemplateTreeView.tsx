@@ -15,7 +15,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const economicsTemplatesTreeSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.economicsTemplatesTree,
-  (reducer) => reducer
+  (data) => data
 );
 
 const EconomicsTemplateTreeView = ({ height }: ITreeViewProps) => {

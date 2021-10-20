@@ -67,14 +67,35 @@ export interface IEditOrCreateForecastingParameters {
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
 );
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const selectedDeclineParametersIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedDeclineParametersId,
+  (data) => data
+);
+const selectedDeclineParametersTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedDeclineParametersTitle,
+  (data) => data
+);
+const selectedProductionPrioritizationIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedProductionPrioritizationId,
+  (data) => data
+);
+const selectedProductionPrioritizationTitleSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.networkReducer.selectedProductionPrioritizationTitle,
+  (data) => data
 );
 
 const EditOrCreateForecastingParameters = ({
@@ -94,9 +115,9 @@ const EditOrCreateForecastingParameters = ({
   const classes = useStyles();
   const theme = useTheme();
 
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsSelector
-  ) as IUnitSettingsData;
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
   const currentDateFormat = `${dayFormat}/${monthFormat}/${yearFormat}`;
 
@@ -105,15 +126,21 @@ const EditOrCreateForecastingParameters = ({
     currentRow as IForecastParametersStoredRow
   );
 
-  const {
-    selectedDeclineParametersId,
-    selectedDeclineParametersTitle,
-    selectedDeclineParametersDescription,
+  const selectedDeclineParametersId = useSelector(
+    selectedDeclineParametersIdSelector
+  );
 
-    selectedProductionPrioritizationId,
-    selectedProductionPrioritizationTitle,
-    selectedProductionPrioritizationDescription,
-  } = useSelector(networkSelector);
+  const selectedDeclineParametersTitle = useSelector(
+    selectedDeclineParametersTitleSelector
+  );
+
+  const selectedProductionPrioritizationId = useSelector(
+    selectedProductionPrioritizationIdSelector
+  );
+
+  const selectedProductionPrioritizationTitle = useSelector(
+    selectedProductionPrioritizationTitleSelector
+  );
 
   const createDCATable = () => {
     const dialogParameters: DialogStuff = {

@@ -132,9 +132,24 @@ const currentProjectIdSelector = createDeepEqualSelector(
   (id) => id
 );
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
+);
+const wc = "storedDataWorkflows";
+const wp = "forecastResultsStored";
+
+const forecastResultsStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
+  (stored) => stored
 );
 
 export default function StoredForecastResults({
@@ -173,19 +188,10 @@ export default function StoredForecastResults({
     },
   ];
 
-  const wc = "storedDataWorkflows";
-  const wp = "forecastResultsStored";
-
   const currentProjectId = useSelector(currentProjectIdSelector);
-
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsSelector
-  ) as IUnitSettingsData;
-
-  const forecastResultsStoredSelector = createDeepEqualSelector(
-    (state: RootState) => state.forecastReducer[wc]["forecastResultsStored"],
-    (stored) => stored
-  );
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
   const forecastResultsStored = useSelector(forecastResultsStoredSelector);
 

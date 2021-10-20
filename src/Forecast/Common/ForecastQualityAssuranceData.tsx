@@ -99,7 +99,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const qualityAssuranceResultsSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.qualityAssuranceResults,
-  (workflow) => workflow
+  (data) => data
 );
 
 export default function ForecastQualityAssuranceData({
