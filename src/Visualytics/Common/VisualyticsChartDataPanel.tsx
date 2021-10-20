@@ -36,35 +36,77 @@ const VisualyticsTreeView = React.lazy(() => import("./VisualyticsTreeView"));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const visualyticsSelector = createDeepEqualSelector(
-  (state: RootState) => state.visualyticsReducer,
-  (reducer) => reducer
+const selectedVisualyticsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.selectedVisualyticsTitle,
+  (data) => data
+);
+
+const selectedVisualyticsDescriptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.selectedVisualyticsDescription,
+  (data) => data
+);
+
+const selectedVisualyticsChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.selectedVisualyticsChartOption,
+  (data) => data
+);
+
+const visualyticsVariableZOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.visualyticsVariableZOptions,
+  (data) => data
+);
+
+const showVisualyticsCategoryMembersObjSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.visualyticsReducer.showVisualyticsCategoryMembersObj,
+  (data) => data
+);
+
+const visualyticsCategoryDragItemsSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.visualyticsCategoryDragItems,
+  (data) => data
+);
+
+const visualyticsCategoryHasDroppedSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.visualyticsCategoryHasDropped,
+  (data) => data
+);
+
+const reducer = "visualyticsReducer";
+const wc = "storedDataWorkflows";
+const visualyticsDeckStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer[wc]["visualyticsDeckStored"],
+  (stored) => stored
 );
 
 const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
   const dispatch = useDispatch();
 
-  const reducer = "visualyticsReducer";
-  const wc = "storedDataWorkflows";
-
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
-
-  const visualyticsDeckStoredSelector = createDeepEqualSelector(
-    (state: RootState) => state.visualyticsReducer[wc]["visualyticsDeckStored"],
-    (stored) => stored
-  );
 
   const visualyticsDeckStored = useSelector(visualyticsDeckStoredSelector);
 
-  const {
-    selectedVisualyticsTitle,
-    selectedVisualyticsDescription,
-    selectedVisualyticsChartOption,
-    visualyticsVariableZOptions,
-    showVisualyticsCategoryMembersObj,
-    visualyticsCategoryDragItems,
-    visualyticsCategoryHasDropped,
-  } = useSelector(visualyticsSelector);
+  const selectedVisualyticsTitle = useSelector(
+    selectedVisualyticsTitleSelector
+  );
+  const selectedVisualyticsDescription = useSelector(
+    selectedVisualyticsDescriptionSelector
+  );
+  const selectedVisualyticsChartOption = useSelector(
+    selectedVisualyticsChartOptionSelector
+  );
+  const visualyticsVariableZOptions = useSelector(
+    visualyticsVariableZOptionsSelector
+  );
+  const showVisualyticsCategoryMembersObj = useSelector(
+    showVisualyticsCategoryMembersObjSelector
+  );
+  const visualyticsCategoryDragItems = useSelector(
+    visualyticsCategoryDragItemsSelector
+  );
+  const visualyticsCategoryHasDropped = useSelector(
+    visualyticsCategoryHasDroppedSelector
+  );
 
   const chartType = selectedVisualyticsChartOption.value;
 

@@ -27,8 +27,11 @@ export interface IEconomicsSensitivitiesTable {
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsAnalysisWorkflowsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer["economicsAnalysisWorkflows"],
+const sensitivitiesTableTitleSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer["economicsAnalysisWorkflows"][
+      "sensitivitiesTableTitle"
+    ],
   (wc) => wc
 );
 
@@ -37,11 +40,7 @@ const EconomicsSensitivitiesTable = ({
 }: IEconomicsSensitivitiesTable) => {
   const theme = useTheme();
 
-  const economicsAnalysisWorkflows = useSelector(
-    economicsAnalysisWorkflowsSelector
-  );
-
-  const { sensitivitiesTableTitle } = economicsAnalysisWorkflows;
+  const sensitivitiesTableTitle = useSelector(sensitivitiesTableTitleSelector);
 
   const columns: Column<ISensitivitiesRow>[] = [
     {

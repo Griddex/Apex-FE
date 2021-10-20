@@ -27,13 +27,19 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
 
   const xValueCategories = useSelector(xValueCategoriesSelector);
 
-  const reducerWCSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc],
-    (wc) => wc
+  const commonChartPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (data) => data
   );
 
-  const { commonChartProps, stackedAreaChart } = useSelector(reducerWCSelector);
-  const { chartData } = stackedAreaChart;
+  const chartDataSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state[reducerDefined][wc]["stackedAreaChart"]["chartData"],
+    (data) => data
+  );
+
+  const commonChartProps = useSelector(commonChartPropsSelector);
+  const chartData = useSelector(chartDataSelector);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: itemTypesVisualytics.VISUALYTICS_PLOTCHARTS,

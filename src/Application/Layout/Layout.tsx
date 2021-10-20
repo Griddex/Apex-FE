@@ -85,15 +85,7 @@ const Layout = () => {
   const { url } = useRouteMatch();
 
   const showMainDrawer = useSelector(showMainDrawerSelector);
-  console.log(
-    "🚀 ~ file: Layout.tsx ~ line 63 ~ Layout ~ showMainDrawer",
-    showMainDrawer
-  );
   const showNavbar = useSelector(showNavbarSelector);
-  console.log(
-    "🚀 ~ file: Layout.tsx ~ line 65 ~ Layout ~ showNavbar",
-    showNavbar
-  );
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());

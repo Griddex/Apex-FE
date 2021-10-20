@@ -114,30 +114,71 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     savedMatchObjectAll[workflowClass]["headers"]
   );
 
-  const reducerSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer],
-    (reducer) => reducer
+  const facilitiesAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["facilitiesAppHeaders"],
+    (data) => data
+  );
+  const forecastAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["forecastAppHeaders"],
+    (data) => data
+  );
+  const facilitiesHeadersSelectOptionsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["facilitiesHeadersSelectOptions"],
+    (data) => data
+  );
+  const forecastHeadersSelectOptionsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["forecastHeadersSelectOptions"],
+    (data) => data
+  );
+  const costsRevenuesAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["costsRevenuesAppHeaders"],
+    (data) => data
+  );
+  const economicsParametersAppHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["economicsParametersAppHeaders"],
+    (data) => data
+  );
+  const cstRevAppHeadersSelectOptionsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["cstRevAppHeadersSelectOptions"],
+    (data) => data
+  );
+  const ecoParAppHeadersSelectOptionsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["ecoParAppHeadersSelectOptions"],
+    (data) => data
   );
 
-  const {
-    facilitiesAppHeaders,
-    forecastAppHeaders,
-    facilitiesHeadersSelectOptions,
-    forecastHeadersSelectOptions,
-    costsRevenuesAppHeaders: cRHeaders,
-    economicsParametersAppHeaders,
-    cstRevAppHeadersSelectOptions: cRHeaderOptions,
-    ecoParAppHeadersSelectOptions,
-  } = useSelector(reducerSelector);
-
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const facilitiesAppHeaders = useSelector(facilitiesAppHeadersSelector);
+  const forecastAppHeaders = useSelector(forecastAppHeadersSelector);
+  const facilitiesHeadersSelectOptions = useSelector(
+    facilitiesHeadersSelectOptionsSelector
+  );
+  const forecastHeadersSelectOptions = useSelector(
+    forecastHeadersSelectOptionsSelector
+  );
+  const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
+  const cRHeaders = costsRevenuesAppHeaders;
+  const economicsParametersAppHeaders = useSelector(
+    economicsParametersAppHeadersSelector
+  );
+  const cstRevAppHeadersSelectOptions = useSelector(
+    cstRevAppHeadersSelectOptionsSelector
+  );
+  const cRHeaderOptions = cstRevAppHeadersSelectOptions;
+  const ecoParAppHeadersSelectOptions = useSelector(
+    ecoParAppHeadersSelectOptionsSelector
   );
 
-  const { fileHeaders, currentDevOption } = useSelector(
-    workflowProcessSelector
+  const fileHeadersSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileHeaders"],
+    (data) => data
   );
+  const currentDevOptionSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["currentDevOption"],
+    (data) => data
+  );
+
+  const fileHeaders = useSelector(fileHeadersSelector);
+  const currentDevOption = useSelector(currentDevOptionSelector);
 
   //Get headers
   let allAppHeadersObj = {} as Record<string, IApplicationHeaders[]>;

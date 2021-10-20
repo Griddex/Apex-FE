@@ -12,8 +12,20 @@ const HeatMapCustomCell = React.lazy(
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
+const sensitivitiesHeatMap1or2DSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.sensitivitiesHeatMap1or2D,
+  (reducer) => reducer
+);
+const heatMapVariableXOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableXOptions,
+  (reducer) => reducer
+);
+const heatMapVariableYOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableYOptions,
+  (reducer) => reducer
+);
+const heatMapTreeByScenarioSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
   (reducer) => reducer
 );
 
@@ -22,12 +34,12 @@ export interface IEconomicsSensitivitiesHeatMap {
 }
 
 const EconomicsSensitivitiesHeatMap = () => {
-  const {
-    sensitivitiesHeatMap1or2D,
-    heatMapVariableXOptions,
-    heatMapVariableYOptions,
-    heatMapTreeByScenario,
-  } = useSelector(economicsSelector);
+  const sensitivitiesHeatMap1or2D = useSelector(
+    sensitivitiesHeatMap1or2DSelector
+  );
+  const heatMapVariableXOptions = useSelector(heatMapVariableXOptionsSelector);
+  const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
+  const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
 
   const noOfSensitivities = heatMapTreeByScenario["children"].length;
 

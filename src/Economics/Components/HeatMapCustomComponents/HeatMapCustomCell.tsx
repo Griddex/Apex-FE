@@ -22,8 +22,24 @@ interface IHeatMapCustomCell {
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const heatMapStylingDataSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.heatMapStylingData,
+const heatMapThresholdValueSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.heatMapStylingData.heatMapThresholdValue,
+  (data) => data
+);
+const heatMapThresholdColorSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.heatMapStylingData.heatMapThresholdColor,
+  (data) => data
+);
+const heatMapBackgroundColorSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.heatMapStylingData.heatMapBackgroundColor,
+  (data) => data
+);
+const relationalOperatorOptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.heatMapStylingData.relationalOperatorOption,
   (data) => data
 );
 
@@ -44,14 +60,12 @@ const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
     textColor,
   } = props;
 
-  const heatMapStylingData = useSelector(heatMapStylingDataSelector);
-
-  const {
-    heatMapThresholdValue,
-    heatMapThresholdColor,
-    heatMapBackgroundColor,
-    relationalOperatorOption,
-  } = heatMapStylingData;
+  const heatMapThresholdValue = useSelector(heatMapThresholdValueSelector);
+  const heatMapThresholdColor = useSelector(heatMapThresholdColorSelector);
+  const heatMapBackgroundColor = useSelector(heatMapBackgroundColorSelector);
+  const relationalOperatorOption = useSelector(
+    relationalOperatorOptionSelector
+  );
 
   const equationExpr = `${label}${relationalOperatorOption.value}${heatMapThresholdValue}`;
 

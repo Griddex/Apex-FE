@@ -24,8 +24,6 @@ import SelectScenariosByButtons from "../SelectScenariosByButtons/SelectScenario
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
@@ -105,6 +103,8 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const SelectDevelopmentScenariosDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const {
@@ -120,13 +120,23 @@ const SelectDevelopmentScenariosDialog: React.FC<DialogStuff> = (props) => {
   const wpDefined = workflowProcess as NonNullable<TAllWorkflowProcesses>;
   const wcDefined = workflowCategory as NonNullable<TAllWorkflowCategories>;
 
-  const economicsWorkflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wcDefined][wpDefined],
+  const costRevenuesButtonsSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[wcDefined][wpDefined]["costRevenuesButtons"],
     (props) => props
   );
 
-  const { costRevenuesButtons, developmentScenariosCompleted } = useSelector(
-    economicsWorkflowProcessSelector
+  const developmentScenariosCompletedSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[wcDefined][wpDefined][
+        "developmentScenariosCompleted"
+      ],
+    (props) => props
+  );
+
+  const costRevenuesButtons = useSelector(costRevenuesButtonsSelector);
+  const developmentScenariosCompleted = useSelector(
+    developmentScenariosCompletedSelector
   );
 
   const isFinalButtonDisabled =

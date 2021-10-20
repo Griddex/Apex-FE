@@ -81,9 +81,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (reducer) => reducer
+const unitOptionsByVariableNameSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.unitOptionsByVariableName,
+  (data) => data
 );
 
 export default function CostsAndRevenueApexForecast({
@@ -103,7 +103,9 @@ export default function CostsAndRevenueApexForecast({
 
   const componentRef = React.useRef();
 
-  const { unitOptionsByVariableName } = useSelector(unitSettingsSelector);
+  const unitOptionsByVariableName = useSelector(
+    unitOptionsByVariableNameSelector
+  );
   console.log(
     "Logged output --> ~ file: CostsAndRevenueApexForecast.tsx ~ line 99 ~ unitOptionsByVariableName",
     unitOptionsByVariableName

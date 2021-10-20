@@ -71,9 +71,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const selectedDeclineParametersDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedDeclineParametersData,
+  (data) => data
 );
 
 export default function DeclineCurveParameters({
@@ -83,7 +83,9 @@ export default function DeclineCurveParameters({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { selectedDeclineParametersData } = useSelector(networkSelector);
+  const selectedDeclineParametersData = useSelector(
+    selectedDeclineParametersDataSelector
+  );
 
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);

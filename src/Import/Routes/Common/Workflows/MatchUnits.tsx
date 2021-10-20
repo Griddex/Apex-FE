@@ -105,9 +105,13 @@ const savedMatchObjectAllSelector = createDeepEqualSelector(
   (obj) => obj
 );
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+const variableNameUnitsMapSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.variableNameUnitsMap,
+  (data) => data
+);
+const appUnitsUnitGroupsMapSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.appUnitsUnitGroupsMap,
+  (data) => data
 );
 
 const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
@@ -130,8 +134,9 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     savedMatchObjectAll[workflowClass]["units"]
   );
 
-  const { variableNameUnitsMap, appUnitsUnitGroupsMap } =
-    useSelector(unitSettingsSelector);
+  const variableNameUnitsMap = useSelector(variableNameUnitsMapSelector);
+
+  const appUnitsUnitGroupsMap = useSelector(appUnitsUnitGroupsMapSelector);
 
   const currentAppHeaderOptionsSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer]["currentAppHeaderOptions"],
@@ -140,12 +145,17 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const currentAppHeaderOptions = useSelector(currentAppHeaderOptionsSelector);
 
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const fileUnitsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileUnits"],
+    (data) => data
+  );
+  const matchHeadersTableSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["matchHeadersTable"],
+    (data) => data
   );
 
-  const { fileUnits, matchHeadersTable } = useSelector(workflowProcessSelector);
+  const fileUnits = useSelector(fileUnitsSelector);
+  const matchHeadersTable = useSelector(matchHeadersTableSelector);
 
   const fileHeadersUnitsWithNoneMap = React.useRef(
     zipObject(
@@ -177,35 +187,38 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     }, [])
   );
 
+  const facilitiesHeadersNameMapSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["facilitiesHeadersNameMap"],
+    (data) => data
+  );
+  const forecastHeadersNameMapSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["forecastHeadersNameMap"],
+    (data) => data
+  );
+  const cstRevAppHeadersNameMapsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["cstRevAppHeadersNameMaps"],
+
+    (data) => data
+  );
+  const ecoParAppHeadersNameMapSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer]["ecoParAppHeadersNameMap"],
+    (data) => data
+  );
+
   //Get current variableNameUnitsMap
-  const {
-    facilitiesHeadersNameMap,
-    forecastHeadersNameMap,
-    cstRevAppHeadersNameMaps: cRHeadersMap,
-    ecoParAppHeadersNameMap,
-  } = useSelector(
-    (state: RootState) => {
-      const {
-        facilitiesHeadersNameMap,
-        forecastHeadersNameMap,
-        cstRevAppHeadersNameMaps,
-        ecoParAppHeadersNameMap,
-      } = state[reducer];
-
-      return {
-        facilitiesHeadersNameMap,
-        forecastHeadersNameMap,
-        cstRevAppHeadersNameMaps,
-        ecoParAppHeadersNameMap,
-      };
-    },
-    (prev, next) => isEqual(prev, next)
+  const facilitiesHeadersNameMap = useSelector(
+    facilitiesHeadersNameMapSelector
   );
+  const forecastHeadersNameMap = useSelector(forecastHeadersNameMapSelector);
+  const cRHeadersMap = useSelector(cstRevAppHeadersNameMapsSelector);
+  const ecoParAppHeadersNameMap = useSelector(ecoParAppHeadersNameMapSelector);
 
-  const currentDevOption = useSelector(
+  const currentDevOptionSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer][wc][wp]["currentDevOption"],
-    (prev, next) => isEqual(prev, next)
+    (data) => data
   );
+
+  const currentDevOption = useSelector(currentDevOptionSelector);
 
   let allAppHeadersNameMap = {} as Record<string, Record<string, string>>;
   if (reducer === "economicsReducer") {

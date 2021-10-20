@@ -66,9 +66,18 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const loadNetworkGenerationWorkflowSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.loadNetworkGenerationWorkflow,
+  (data) => data
+);
+const networkStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.storedDataWorkflows.networkStored,
+  (data) => data
+);
+const forecastingParametersStoredSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.networkReducer.storedDataWorkflows.forecastingParametersStored,
+  (data) => data
 );
 
 const NetworkLanding = () => {
@@ -76,10 +85,13 @@ const NetworkLanding = () => {
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
 
-  const {
-    loadNetworkGenerationWorkflow,
-    storedDataWorkflows: { networkStored, forecastingParametersStored },
-  } = useSelector(networkSelector);
+  const loadNetworkGenerationWorkflow = useSelector(
+    loadNetworkGenerationWorkflowSelector
+  );
+  const networkStored = useSelector(networkStoredSelector);
+  const forecastingParametersStored = useSelector(
+    forecastingParametersStoredSelector
+  );
 
   const storedNetworksPresent =
     Array.isArray(networkStored) && networkStored.length > 0;

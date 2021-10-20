@@ -19,27 +19,47 @@ import generateSelectOptions from "../../../Application/Utils/GenerateSelectOpti
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const selectedCostsRevenuesInputDeckTitleSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.selectedCostsRevenuesInputDeckTitle,
+  (data) => data
 );
+const selectedEconomicsParametersInputDeckTitleSelector =
+  createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer.selectedEconomicsParametersInputDeckTitle,
+    (data) => data
+  );
 
 const EconomicsDecksSelectionTable = () => {
   const dispatch = useDispatch();
   const wc = "storedDataWorkflows";
 
-  const economicsWCSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wc],
-    (wc) => wc
+  const economicsCostsRevenuesDeckStoredSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[wc]["economicsCostsRevenuesDeckStored"],
+    (data) => data
+  );
+  const economicsParametersDeckStoredSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[wc]["economicsParametersDeckStored"],
+    (data) => data
   );
 
-  const { economicsCostsRevenuesDeckStored, economicsParametersDeckStored } =
-    useSelector(economicsWCSelector);
+  const economicsCostsRevenuesDeckStored = useSelector(
+    economicsCostsRevenuesDeckStoredSelector
+  );
 
-  const {
-    selectedCostsRevenuesInputDeckTitle,
-    selectedEconomicsParametersInputDeckTitle,
-  } = useSelector(economicsSelector);
+  const economicsParametersDeckStored = useSelector(
+    economicsParametersDeckStoredSelector
+  );
+
+  const selectedCostsRevenuesInputDeckTitle = useSelector(
+    selectedCostsRevenuesInputDeckTitleSelector
+  );
+  const selectedEconomicsParametersInputDeckTitle = useSelector(
+    selectedEconomicsParametersInputDeckTitleSelector
+  );
 
   const economicsDeckTypes = [
     "Economics Costs & Revenues",

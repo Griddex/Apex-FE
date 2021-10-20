@@ -81,9 +81,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (reducer) => reducer
+const unitOptionsByVariableNameSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.unitOptionsByVariableName,
+  (data) => data
 );
 
 export default function CostsAndRevenueManual({
@@ -103,10 +103,8 @@ export default function CostsAndRevenueManual({
 
   const componentRef = React.useRef();
 
-  const { unitOptionsByVariableName } = useSelector(unitSettingsSelector);
-  console.log(
-    "Logged output --> ~ file: CostsAndRevenueManual.tsx ~ line 93 ~ unitOptionsByVariableName",
-    unitOptionsByVariableName
+  const unitOptionsByVariableName = useSelector(
+    unitOptionsByVariableNameSelector
   );
 
   const [devOption, setDevOption] = React.useState<ISelectOption>(

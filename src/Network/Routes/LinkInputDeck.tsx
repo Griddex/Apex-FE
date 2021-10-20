@@ -25,12 +25,12 @@ const firstOption = { value: "Select...", label: "Select..." };
 
 const nodeElementsManualSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer.nodeElementsManual,
-  (reducer) => reducer
+  (data) => data
 );
 
 const selectedTableDataSelector = createDeepEqualSelector(
   (state: RootState) => state.inputReducer.selectedTableData,
-  (reducer) => reducer
+  (data) => data
 );
 
 const LinkInputDeck = () => {

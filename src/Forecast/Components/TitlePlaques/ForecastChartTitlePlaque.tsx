@@ -4,23 +4,35 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
-const forecastSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer,
-  (reducer) => reducer
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const selectedForecastingResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastingResultsTitle,
+  (data) => data
+);
+
+const selectedForecastingResultsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastingResultsId,
+  (data) => data
+);
+
+const isForecastResultsSavedSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.isForecastResultsSaved,
+  (data) => data
 );
 
 const ForecastChartTitlePlaque = () => {
   const theme = useTheme();
 
-  const {
-    selectedForecastingResultsTitle,
-    selectedForecastingResultsId,
-    isForecastResultsSaved,
-  } = useSelector(forecastSelector);
+  const selectedForecastingResultsTitle = useSelector(
+    selectedForecastingResultsTitleSelector
+  );
+  const selectedForecastingResultsId = useSelector(
+    selectedForecastingResultsIdSelector
+  );
+  const isForecastResultsSaved = useSelector(isForecastResultsSavedSelector);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>

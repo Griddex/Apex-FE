@@ -110,9 +110,25 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (redcuer) => redcuer
+const successSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.success,
+  (data) => data
+);
+const nodeElementsSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.nodeElements,
+  (data) => data
+);
+const edgeElementsSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.edgeElements,
+  (data) => data
+);
+const currentPopoverDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.currentPopoverData,
+  (data) => data
+);
+const showNetworkElementDetailsSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.showNetworkElementDetails,
+  (data) => data
 );
 
 const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
@@ -120,14 +136,15 @@ const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
+
   const showContextDrawer = useSelector(showContextDrawerSelector);
-  const {
-    success,
-    nodeElements,
-    edgeElements,
-    currentPopoverData,
-    showNetworkElementDetails,
-  } = useSelector(networkSelector);
+  const success = useSelector(successSelector);
+  const nodeElements = useSelector(nodeElementsSelector);
+  const edgeElements = useSelector(edgeElementsSelector);
+  const currentPopoverData = useSelector(currentPopoverDataSelector);
+  const showNetworkElementDetails = useSelector(
+    showNetworkElementDetailsSelector
+  );
 
   const networkRef = React.useRef<HTMLDivElement>(null);
   const reactFlowInstanceRef = React.useRef<OnLoadParams | null>(null);

@@ -117,14 +117,34 @@ const currentProjectIdSelector = createDeepEqualSelector(
   (id) => id
 );
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
 );
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const selectedForecastingParametersIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedForecastingParametersId,
+  (data) => data
+);
+
+const wc = "storedDataWorkflows";
+const wp = "forecastingParametersStored";
+
+const declineParametersStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer[wc]["declineParametersStored"],
+  (data) => data
+);
+const forecastingParametersStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer[wc]["forecastingParametersStored"],
+  (data) => data
 );
 
 export default function StoredDeclineCurveParameters({
@@ -158,9 +178,6 @@ export default function StoredDeclineCurveParameters({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const wc = "storedDataWorkflows";
-  const wp = "forecastingParametersStored";
-
   const componentRef = React.useRef();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
@@ -172,19 +189,19 @@ export default function StoredDeclineCurveParameters({
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsSelector
-  ) as IUnitSettingsData;
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
-  const { selectedForecastingParametersId } = useSelector(networkSelector);
-
-  const networkWCSelector = createDeepEqualSelector(
-    (state: RootState) => state.networkReducer[wc],
-    (wc) => wc
+  const selectedForecastingParametersId = useSelector(
+    selectedForecastingParametersIdSelector
   );
 
-  const { declineParametersStored, forecastingParametersStored } =
-    useSelector(networkWCSelector);
+  const declineParametersStored = useSelector(declineParametersStoredSelector);
+
+  const forecastingParametersStored = useSelector(
+    forecastingParametersStoredSelector
+  );
 
   const selectedforecastingParametersStored = forecastingParametersStored.find(
     (row: any) => {

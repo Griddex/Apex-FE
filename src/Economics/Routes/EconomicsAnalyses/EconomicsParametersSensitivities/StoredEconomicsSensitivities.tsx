@@ -114,21 +114,38 @@ const useStyles = makeStyles((theme) => ({
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const currentProjectIdSelector = createDeepEqualSelector(
-  (state: RootState) => state.projectReducer,
-  (reducer) => reducer
+  (state: RootState) => state.projectReducer.currentProjectId,
+  (data) => data
 );
 
-const unitSettingsPropsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (reducer) => reducer
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
+);
+
+const wc = "storedDataWorkflows";
+const wp = "economicsSensitivitiesStored";
+
+const economicsSensitivitiesStoredSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer[wc]["economicsSensitivitiesStored"],
+  (data) => data
 );
 
 export default function StoredEconomicsSensitivities() {
   const currentProjectId = useSelector(currentProjectIdSelector);
 
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsPropsSelector
-  ) as IUnitSettingsData;
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
   const reducer = "economicsReducer";
   const mainUrl = `${getBaseEconomicsUrl()}/sensitivities`;
@@ -139,15 +156,9 @@ export default function StoredEconomicsSensitivities() {
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const wc = "storedDataWorkflows";
-  const wp = "economicsSensitivitiesStored";
-
-  const economicsWCSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wc],
-    (wc) => wc
+  const economicsSensitivitiesStored = useSelector(
+    economicsSensitivitiesStoredSelector
   );
-
-  const { economicsSensitivitiesStored } = useSelector(economicsWCSelector);
 
   const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
     React.useState(economicsSensitivitiesStored);

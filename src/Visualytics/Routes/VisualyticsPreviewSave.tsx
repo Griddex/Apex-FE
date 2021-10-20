@@ -64,14 +64,17 @@ export default function VisualyticsPreviewSave({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const tableRoleNamesSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["tableRoleNames"],
+    (data) => data
+  );
+  const columnNameTableDataSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["columnNameTableData"],
+    (data) => data
   );
 
-  const { tableRoleNames, columnNameTableData } = useSelector(
-    workflowProcessSelector
-  );
+  const tableRoleNames = useSelector(tableRoleNamesSelector);
+  const columnNameTableData = useSelector(columnNameTableDataSelector);
 
   const headersIndex = tableRoleNames.indexOf("Headers");
   const unitsIndex = tableRoleNames.indexOf("Units");

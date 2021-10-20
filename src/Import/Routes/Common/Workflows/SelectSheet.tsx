@@ -77,9 +77,17 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+const dayFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.dayFormat,
+  (data) => data
+);
+const monthFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.monthFormat,
+  (data) => data
+);
+const yearFormatSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.yearFormat,
+  (data) => data
 );
 
 const SelectSheet = ({
@@ -96,25 +104,51 @@ const SelectSheet = ({
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
 
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const fileLastModifiedSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileLastModified"],
+    (data) => data
+  );
+  const fileNameSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileName"],
+    (data) => data
+  );
+  const fileSizeSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileSize"],
+    (data) => data
+  );
+  const fileTypeSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileType"],
+    (data) => data
+  );
+  const fileAuthorSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileAuthor"],
+    (data) => data
+  );
+  const fileCreatedSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["fileCreated"],
+    (data) => data
+  );
+  const workSheetNamesSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["workSheetNames"],
+    (data) => data
+  );
+  const selectedWorksheetNameSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["selectedWorksheetName"],
+    (data) => data
   );
 
-  const {
-    fileLastModified,
-    fileName,
-    fileSize,
-    fileType,
-    fileAuthor,
-    fileCreated,
-    workSheetNames,
-    selectedWorksheetName,
-  } = useSelector(workflowProcessSelector);
+  const fileLastModified = useSelector(fileLastModifiedSelector);
+  const fileName = useSelector(fileNameSelector);
+  const fileSize = useSelector(fileSizeSelector);
+  const fileType = useSelector(fileTypeSelector);
+  const fileAuthor = useSelector(fileAuthorSelector);
+  const fileCreated = useSelector(fileCreatedSelector);
+  const workSheetNames = useSelector(workSheetNamesSelector);
+  const selectedWorksheetName = useSelector(selectedWorksheetNameSelector);
 
-  const { dayFormat, monthFormat, yearFormat } = useSelector(
-    unitSettingsSelector
-  ) as IUnitSettingsData;
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
 
   const [worksheetName, setWorksheetName] = React.useState(
     selectedWorksheetName

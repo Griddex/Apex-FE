@@ -42,16 +42,25 @@ const SelectScenariosByButtons = ({
   const wp = workflowProcess;
   const wc = workflowCategory;
 
-  const economicsPartialPropsSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer[wc][wp],
-    (reducer) => reducer
+  const currentDevOptionSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc][wp]["currentDevOption"],
+    (data) => data
+  );
+  const costRevenuesButtonsSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wc][wp]["costRevenuesButtons"],
+    (data) => data
+  );
+  const developmentScenariosCompletedSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[wc][wp]["developmentScenariosCompleted"],
+    (data) => data
   );
 
-  const {
-    currentDevOption,
-    costRevenuesButtons,
-    developmentScenariosCompleted,
-  } = useSelector(economicsPartialPropsSelector);
+  const currentDevOption = useSelector(currentDevOptionSelector);
+  const costRevenuesButtons = useSelector(costRevenuesButtonsSelector);
+  const developmentScenariosCompleted = useSelector(
+    developmentScenariosCompletedSelector
+  );
 
   const [devOption, setDevOption] = React.useState(currentDevOption);
 

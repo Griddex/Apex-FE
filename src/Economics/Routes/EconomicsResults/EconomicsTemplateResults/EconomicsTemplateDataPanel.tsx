@@ -8,6 +8,8 @@ import {
   resetTemplateChartsWorkflowsAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
 
 const ChartDataPanel = React.lazy(
   () =>
@@ -17,16 +19,26 @@ const EconomicsTemplateTreeView = React.lazy(
   () => import("./EconomicsTemplateTreeView")
 );
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const reducer = "economicsReducer";
+const wc = "storedDataWorkflows";
+
+const economicsResultsStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["economicsResultsStored"],
+  (data) => data
+);
+const selectedEconomicsResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer["selectedEconomicsResultsTitle"],
+  (data) => data
+);
+
 const EconomicsTemplateDataPanel = () => {
   const dispatch = useDispatch();
+  const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
-  const reducer = "economicsReducer";
-  const wc = "storedDataWorkflows";
-  const { economicsResultsStored } = useSelector(
-    (state: RootState) => state.economicsReducer[wc]
-  );
-  const { selectedEconomicsResultsTitle } = useSelector(
-    (state: RootState) => state.economicsReducer
+  const selectedEconomicsResultsTitle = useSelector(
+    selectedEconomicsResultsTitleSelector
   );
 
   const economicsResultsTitleOptions = economicsResultsStored.map(

@@ -111,9 +111,21 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const nodeElementsManualSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.nodeElementsManual,
+  (data) => data
+);
+const edgeElementsManualSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.edgeElementsManual,
+  (data) => data
+);
+const currentPopoverDataSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.currentPopoverData,
+  (data) => data
+);
+const showNetworkElementDetailsSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.showNetworkElementDetails,
+  (data) => data
 );
 
 const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
@@ -133,12 +145,12 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
     {} as FlowElement
   );
 
-  const {
-    nodeElementsManual,
-    edgeElementsManual,
-    currentPopoverData,
-    showNetworkElementDetails,
-  } = useSelector(networkSelector);
+  const nodeElementsManual = useSelector(nodeElementsManualSelector);
+  const edgeElementsManual = useSelector(edgeElementsManualSelector);
+  const currentPopoverData = useSelector(currentPopoverDataSelector);
+  const showNetworkElementDetails = useSelector(
+    showNetworkElementDetailsSelector
+  );
 
   const NetworkDiagramIconsProps = {
     showMiniMap,
