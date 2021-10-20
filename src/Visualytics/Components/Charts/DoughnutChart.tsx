@@ -52,13 +52,19 @@ const DoughnutChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const reducerWCSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc],
-    (wc) => wc
+  const commonChartPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (data) => data
   );
 
-  const { commonChartProps, doughnutChart } = useSelector(reducerWCSelector);
-  const { chartData } = doughnutChart;
+  const chartDataSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state[reducerDefined][wc]["doughnutChart"]["chartData"],
+    (data) => data
+  );
+
+  const commonChartProps = useSelector(commonChartPropsSelector);
+  const chartData = useSelector(chartDataSelector);
 
   const commonChartPropsDefined = commonChartProps as IChart;
   const { borderColor } = commonChartPropsDefined;

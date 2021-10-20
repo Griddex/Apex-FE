@@ -8,19 +8,27 @@ import isEqual from "react-fast-compare";
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
-const visualyticsSelector = createDeepEqualSelector(
-  (state: RootState) => state.visualyticsReducer,
+const selectedVisualyticsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.selectedVisualyticsTitle,
+  (redcuer) => redcuer
+);
+const selectedVisualyticsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.selectedVisualyticsId,
+  (redcuer) => redcuer
+);
+const isVisualyticsDeckSavedSelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.isVisualyticsDeckSaved,
   (redcuer) => redcuer
 );
 
 const VisualyticsChartTitlePlaque = () => {
   const theme = useTheme();
 
-  const {
-    selectedVisualyticsTitle,
-    selectedVisualyticsId,
-    isVisualyticsDeckSaved,
-  } = useSelector(visualyticsSelector);
+  const selectedVisualyticsTitle = useSelector(
+    selectedVisualyticsTitleSelector
+  );
+  const selectedVisualyticsId = useSelector(selectedVisualyticsIdSelector);
+  const isVisualyticsDeckSaved = useSelector(isVisualyticsDeckSavedSelector);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
