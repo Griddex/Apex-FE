@@ -18,7 +18,7 @@ const economicsTemplatesTreeSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-export default function EconomicsTemplateTreeView({ height }: ITreeViewProps) {
+const EconomicsTemplateTreeView = ({ height }: ITreeViewProps) => {
   const economicsTemplatesTree = useSelector(economicsTemplatesTreeSelector);
   const rootTree = economicsTemplatesTree as RenderTree;
 
@@ -32,14 +32,28 @@ export default function EconomicsTemplateTreeView({ height }: ITreeViewProps) {
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
-      selectedNames={selectedNames}
-      setSelectedNames={setSelectedNames}
-      selectedPathsUnfiltered={selectedPathsUnfiltered}
-      setSelectedPathsUnfiltered={setSelectedPathsUnfiltered}
+      selectedIds={React.useMemo(
+        () => selectedIds,
+        [JSON.stringify(selectedIds)]
+      )}
+      setSelectedIds={React.useCallback(setSelectedIds, [])}
+      selectedNames={React.useMemo(
+        () => selectedNames,
+        [JSON.stringify(selectedNames)]
+      )}
+      setSelectedNames={React.useCallback(setSelectedNames, [])}
+      selectedPathsUnfiltered={React.useMemo(
+        () => selectedPathsUnfiltered,
+        [JSON.stringify(selectedPathsUnfiltered)]
+      )}
+      setSelectedPathsUnfiltered={React.useCallback(
+        setSelectedPathsUnfiltered,
+        []
+      )}
       dragDropTypes={itemTypes.ECONOMICS_TEMPLATECHARTS}
       height={height}
     />
   );
-}
+};
+
+export default React.memo(EconomicsTemplateTreeView);

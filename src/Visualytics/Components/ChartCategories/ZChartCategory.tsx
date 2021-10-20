@@ -43,4 +43,4 @@ const ZChartCategory = ({
   );
 };
 
-export default ZChartCategory;
+export default React.memo(ZChartCategory);

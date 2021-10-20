@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { IChartCategories } from "./ChartCategoryTypes";
@@ -8,6 +8,7 @@ import ZChartCategory from "./ZChartCategory";
 import YChartCategory from "./YChartCategory";
 import { TChartTypes } from "../Charts/ChartTypes";
 import RChartCategory from "./RChartCategory";
+import isEqual from "react-fast-compare";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -233,4 +234,4 @@ const XYYZRChartCategories = ({
   );
 };
 
-export default XYYZRChartCategories;
+export default React.memo(XYYZRChartCategories);

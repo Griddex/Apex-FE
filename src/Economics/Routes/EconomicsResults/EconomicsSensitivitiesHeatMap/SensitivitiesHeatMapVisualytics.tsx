@@ -139,17 +139,6 @@ const SensitivitiesHeatMapVisualytics = () => {
             setSelectedZ={setSelectedZ}
           />
         </div>
-        {/* {showContextDrawer && (
-          <ContextDrawer>
-            {() =>
-              expandContextDrawer ? (
-                <MapStyleFormatters workflowProcess={workflowProcess} />
-              ) : (
-                <div />
-              )
-            }
-          </ContextDrawer>
-        )} */}
 
         {showContextDrawer && (
           <VisualyticsContext

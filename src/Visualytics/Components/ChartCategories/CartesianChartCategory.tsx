@@ -64,6 +64,7 @@ const CartesianChartCategory = ({
   const [membersSwitch, setMembersSwitch] = React.useState(
     showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
   );
+
   const [hasDroppedObj, setHasDroppedObj] = React.useState(
     categoryDropped as Record<string, boolean>
   );
@@ -84,9 +85,10 @@ const CartesianChartCategory = ({
       drop(item) {
         const { id } = item as IDragItem;
 
-        dispatch(updateAction(categoryOptionTitle as string, item));
         setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
         setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
+
+        dispatch(updateAction(categoryOptionTitle as string, item));
 
         dispatch(
           updateDragItemsAction &&
@@ -143,7 +145,6 @@ const CartesianChartCategory = ({
     ...dropTargetStyle,
     ...disableStyle,
     width: "100%",
-    // height: categoryTitle === "X Category" ? 40 : 200,
   } as CSSProperties;
 
   const droppedIds = Object.keys(hasDroppedObj);
@@ -201,37 +202,51 @@ const CartesianChartCategory = ({
             width="99%"
           >
             {Object.keys(hasDroppedObj).length > 0 ? (
-              <AutoSizer>
-                {({ height, width }: TSize) => (
-                  <List
-                    height={height}
-                    width={width}
-                    itemCount={Object.keys(hasDroppedObj).length}
-                    itemSize={30}
-                    itemData={droppedIds}
-                  >
-                    {({ index, style, data }) => (
-                      <ChartCategoryVariable
-                        style={style}
-                        key={index}
-                        dragItem={dragItemObj[data[index]]}
-                        setHasDroppedObj={setHasDroppedObj}
-                        setDragItemObj={setDragItemObj}
-                        categoryTitle={categoryTitle as string}
-                        removeChartCategoryAction={removeAction}
-                      />
-                      // <div
-                      //   style={{
-                      //     ...style,
-                      //     border: `1px solid black`,
-                      //     cursor: "pointer",
-                      //   }}
-                      // >{`Row ${data[index]}`}</div>
-                    )}
-                  </List>
-                )}
-              </AutoSizer>
+              <>
+                {Object.keys(dragItemObj).map((id) => {
+                  const item = dragItemObj[id];
+
+                  return (
+                    <ChartCategoryVariable
+                      style={style}
+                      key={id}
+                      dragItem={item}
+                      setHasDroppedObj={setHasDroppedObj}
+                      setDragItemObj={setDragItemObj}
+                      categoryTitle={categoryTitle as string}
+                      categoryDragItemsTitle={categoryDragItemsTitle as string}
+                      categoryHasDroppedTitle={
+                        categoryHasDroppedTitle as string
+                      }
+                      removeChartCategoryAction={removeAction}
+                    />
+                  );
+                })}
+              </>
             ) : (
+              // <AutoSizer>
+              //   {({ height, width }: TSize) => (
+              //     <List
+              //       height={height}
+              //       width={width}
+              //       itemCount={Object.keys(hasDroppedObj).length}
+              //       itemSize={30}
+              //       itemData={droppedIds}
+              //     >
+              //       {({ index, style, data }) => (
+              //         <ChartCategoryVariable
+              //           style={style}
+              //           key={index}
+              //           dragItem={dragItemObj[data[index]]}
+              //           setHasDroppedObj={setHasDroppedObj}
+              //           setDragItemObj={setDragItemObj}
+              //           categoryTitle={categoryTitle as string}
+              //           removeChartCategoryAction={removeAction}
+              //         />
+              //       )}
+              //     </List>
+              //   )}
+              // </AutoSizer>
               <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
             )}
           </ApexFlexContainer>
@@ -245,4 +260,4 @@ const CartesianChartCategory = ({
   );
 };
 
-export default CartesianChartCategory;
+export default React.memo(CartesianChartCategory);

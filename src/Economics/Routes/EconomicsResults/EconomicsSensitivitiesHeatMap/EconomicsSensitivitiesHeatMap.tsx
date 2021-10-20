@@ -73,7 +73,7 @@ const EconomicsSensitivitiesHeatMap = () => {
       cellOpacity={1}
       cellBorderColor={{ from: "color", modifiers: [["darker", 0.4]] }}
       labelTextColor={{ from: "color", modifiers: [["darker", 1.8]] }}
-      animate={true}
+      animate={false}
       motionStiffness={80}
       motionDamping={9}
       hoverTarget="cell"

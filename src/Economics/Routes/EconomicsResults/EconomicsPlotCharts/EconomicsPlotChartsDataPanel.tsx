@@ -186,27 +186,48 @@ const EconomicsPlotChartsDataPanel = ({
       disableSecondaryY={false}
       disableZ={false}
       disableR={false}
-      updateAction={updateEconomicsChartCategoryAction}
-      removeAction={removeEconomicsChartCategoryAction}
+      updateAction={React.useCallback(updateEconomicsChartCategoryAction, [])}
+      removeAction={React.useCallback(removeEconomicsChartCategoryAction, [])}
       showXCategoryMembersSwitch={false}
       showYCategoryMembersSwitch={false}
       showYSecondaryCategoryMembersSwitch={false}
       showZCategoryMembersSwitch={true}
       showRCategoryMembersSwitch={true}
-      showCategoryMembersObj={showPlotChartsCategoryMembersObj}
+      showCategoryMembersObj={React.useMemo(
+        () => showPlotChartsCategoryMembersObj,
+        [JSON.stringify(showPlotChartsCategoryMembersObj)]
+      )}
       path="showPlotChartsCategoryMembersObj"
-      updateParameterAction={updateEconomicsParameterAction}
+      updateParameterAction={React.useCallback(
+        updateEconomicsParameterAction,
+        []
+      )}
       categoryDragItemsTitle="plotChartsCategoryDragItems"
-      categoryDragItems={plotChartsCategoryDragItems}
+      categoryDragItems={React.useMemo(
+        () => plotChartsCategoryDragItems,
+        [JSON.stringify(plotChartsCategoryDragItems)]
+      )}
       categoryHasDroppedTitle="plotChartsCategoryHasDropped"
-      categoryHasDropped={plotChartsCategoryHasDropped}
-      updateDragItemsAction={updateEconomicsPlotChartsDragItemsAction}
-      updateHasDroppedAction={updateEconomicsPlotChartsHasDroppedAction}
+      categoryHasDropped={React.useMemo(
+        () => plotChartsCategoryHasDropped,
+        [JSON.stringify(plotChartsCategoryHasDropped)]
+      )}
+      updateDragItemsAction={React.useCallback(
+        updateEconomicsPlotChartsDragItemsAction,
+        []
+      )}
+      updateHasDroppedAction={React.useCallback(
+        updateEconomicsPlotChartsHasDroppedAction,
+        []
+      )}
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={plotChartsVariableZOptions}
-          setSelectedZ={setSelectedZ}
+          variableOptions={React.useMemo(
+            () => plotChartsVariableZOptions,
+            [JSON.stringify(plotChartsVariableZOptions)]
+          )}
+          setSelectedZ={React.useCallback(setSelectedZ, [])}
         />
       }
       resultsTitle={selectedEconomicsResultsTitle}
@@ -216,9 +237,18 @@ const EconomicsPlotChartsDataPanel = ({
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
-      selectedOption={economicsResultOption}
-      titleOptions={economicsResultsTitleOptions}
-      handleSelectChange={handleSelectEconomicsResultsChange}
+      selectedOption={React.useMemo(
+        () => economicsResultOption,
+        [JSON.stringify(economicsResultOption)]
+      )}
+      titleOptions={React.useMemo(
+        () => economicsResultsTitleOptions,
+        [JSON.stringify(economicsResultsTitleOptions)]
+      )}
+      handleSelectChange={React.useCallback(
+        handleSelectEconomicsResultsChange,
+        []
+      )}
       hasSecondaryComponent={false}
       selectedTitle={selectedEconomicsResultsTitle}
       treeViewComponent={
@@ -232,11 +262,11 @@ const EconomicsPlotChartsDataPanel = ({
           : EconomicsPlotChartsTreeView
       }
       extrudeCategories={extrudeCategories}
-      setExtrudeCategories={setExtrudeCategories}
+      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
     />
   );
 };
 
-export default EconomicsPlotChartsDataPanel;
+export default React.memo(EconomicsPlotChartsDataPanel);

@@ -179,4 +179,4 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   );
 };
 
-export default ChartDataPanel;
+export default React.memo(ChartDataPanel);
