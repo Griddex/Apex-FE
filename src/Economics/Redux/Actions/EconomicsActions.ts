@@ -805,12 +805,19 @@ export const updateEconomicsChartCategoryAction = (
 };
 
 export const removeEconomicsChartCategoryAction = (
+  categoryMembersObjTitle: string,
+  categoryDragItemsTitle: string,
   categoryOptionTitle: string,
   id: string
 ) => {
   return {
     type: ECONOMICS_REMOVE_CHARTCATEGORY,
-    payload: { categoryOptionTitle, id },
+    payload: {
+      categoryMembersObjTitle,
+      categoryDragItemsTitle,
+      categoryOptionTitle,
+      id,
+    },
   };
 };
 

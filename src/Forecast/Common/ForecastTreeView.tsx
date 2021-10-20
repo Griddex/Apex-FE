@@ -32,7 +32,7 @@ const forecastSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-export default function ForecastTreeView({ height }: ITreeViewProps) {
+const ForecastTreeView = ({ height }: ITreeViewProps) => {
   const wc = "forecastChartsWorkflows";
   const ch = "stackedAreaChart";
 
@@ -208,14 +208,28 @@ export default function ForecastTreeView({ height }: ITreeViewProps) {
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
-      selectedNames={selectedModuleNames}
-      setSelectedNames={setSelectedModuleNames}
-      selectedPathsUnfiltered={selectedModulePathsUnfiltered}
-      setSelectedPathsUnfiltered={setSelectedModulePathsUnfiltered}
+      selectedIds={React.useMemo(
+        () => selectedIds,
+        [JSON.stringify(selectedIds)]
+      )}
+      setSelectedIds={React.useCallback(setSelectedIds, [])}
+      selectedNames={React.useMemo(
+        () => selectedModuleNames,
+        [JSON.stringify(selectedModuleNames)]
+      )}
+      setSelectedNames={React.useCallback(setSelectedModuleNames, [])}
+      selectedPathsUnfiltered={React.useMemo(
+        () => selectedModulePathsUnfiltered,
+        [JSON.stringify(selectedModulePathsUnfiltered)]
+      )}
+      setSelectedPathsUnfiltered={React.useCallback(
+        setSelectedModulePathsUnfiltered,
+        []
+      )}
       dragDropTypes={itemTypes.FORECAST_PLOTCHARTS}
       height={height}
     />
   );
-}
+};
+
+export default React.memo(ForecastTreeView);

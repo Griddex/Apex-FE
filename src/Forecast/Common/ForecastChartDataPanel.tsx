@@ -118,9 +118,18 @@ const ForecastChartDataPanel = () => {
   return (
     <ChartDataPanel
       selectLabel={"Forecast Results"}
-      selectedOption={forecastRunOption}
-      titleOptions={forecastRunTitleOptions}
-      handleSelectChange={handleSelectForecastResultsChange}
+      selectedOption={React.useMemo(
+        () => forecastRunOption,
+        [JSON.stringify(forecastRunOption)]
+      )}
+      titleOptions={React.useMemo(
+        () => forecastRunTitleOptions,
+        [JSON.stringify(forecastRunTitleOptions)]
+      )}
+      handleSelectChange={React.useCallback(
+        handleSelectForecastResultsChange,
+        []
+      )}
       hasSecondaryComponent={false}
       selectedTitle={selectedForecastingResultsTitle}
       treeViewComponent={

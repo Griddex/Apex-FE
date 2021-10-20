@@ -280,25 +280,46 @@ const SensitivitiesHeatMapDataPanel = ({
       disableX={disableCollection[0]}
       disableY={disableCollection[1]}
       disableZ={disableCollection[2]}
-      updateAction={updateEconomicsChartCategoryAction}
-      removeAction={removeEconomicsChartCategoryAction}
+      updateAction={React.useCallback(updateEconomicsChartCategoryAction, [])}
+      removeAction={React.useCallback(removeEconomicsChartCategoryAction, [])}
       showXCategoryMembersSwitch={false}
       showYCategoryMembersSwitch={false}
       showZCategoryMembersSwitch={true}
-      showCategoryMembersObj={showHeatMapCategoryMembersObj}
+      showCategoryMembersObj={React.useMemo(
+        () => showHeatMapCategoryMembersObj,
+        [JSON.stringify(showHeatMapCategoryMembersObj)]
+      )}
       path="showHeatMapCategoryMembersObj"
-      updateParameterAction={updateEconomicsParameterAction}
+      updateParameterAction={React.useCallback(
+        updateEconomicsParameterAction,
+        []
+      )}
       categoryDragItemsTitle="heatMapCategoryDragItems"
-      categoryDragItems={heatMapCategoryDragItems}
+      categoryDragItems={React.useMemo(
+        () => heatMapCategoryDragItems,
+        [JSON.stringify(heatMapCategoryDragItems)]
+      )}
       categoryHasDroppedTitle="heatMapCategoryHasDropped"
-      categoryHasDropped={heatMapCategoryHasDropped}
-      updateDragItemsAction={updateEconomicsHeatMapDragItemsAction}
-      updateHasDroppedAction={updateEconomicsHeatMapHasDroppedAction}
+      categoryHasDropped={React.useMemo(
+        () => heatMapCategoryHasDropped,
+        [JSON.stringify(heatMapCategoryHasDropped)]
+      )}
+      updateDragItemsAction={React.useCallback(
+        updateEconomicsHeatMapDragItemsAction,
+        []
+      )}
+      updateHasDroppedAction={React.useCallback(
+        updateEconomicsHeatMapHasDroppedAction,
+        []
+      )}
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={heatMapVariableZOptions}
-          setSelectedZ={setSelectedZ}
+          variableOptions={React.useMemo(
+            () => heatMapVariableZOptions,
+            [JSON.stringify(heatMapVariableZOptions)]
+          )}
+          setSelectedZ={React.useCallback(setSelectedZ, [])}
         />
       }
       resultsTitle={selectedEconomicsResultsTitle}
@@ -308,9 +329,18 @@ const SensitivitiesHeatMapDataPanel = ({
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
-      selectedOption={economicsResultTitleOption}
-      titleOptions={economicsResultsTitleOptions}
-      handleSelectChange={handleSelectEconomicsResultsChange}
+      selectedOption={React.useMemo(
+        () => economicsResultTitleOption,
+        [JSON.stringify(economicsResultTitleOption)]
+      )}
+      titleOptions={React.useMemo(
+        () => economicsResultsTitleOptions,
+        [JSON.stringify(economicsResultsTitleOptions)]
+      )}
+      handleSelectChange={React.useCallback(
+        handleSelectEconomicsResultsChange,
+        []
+      )}
       selectedTitle={selectedEconomicsResultsTitle}
       hasSecondaryComponent={true}
       secondarySelectComponent={DevelopmentScenarios}
@@ -325,11 +355,14 @@ const SensitivitiesHeatMapDataPanel = ({
           : SensitivitiesHeatMapTreeView
       }
       extrudeCategories={extrudeCategories}
-      setExtrudeCategories={setExtrudeCategories}
+      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
-      showMembersObjValues={showMembersObjValues}
-      clearChartCategories={clearChartCategories}
+      showMembersObjValues={React.useMemo(
+        () => showMembersObjValues,
+        [JSON.stringify(showMembersObjValues)]
+      )}
+      clearChartCategories={React.useCallback(clearChartCategories, [])}
     />
   );
 };

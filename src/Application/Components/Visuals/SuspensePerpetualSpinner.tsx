@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    opacity: 0.5,
+    opacity: 0.2,
     zIndex: 1300,
     position: "fixed",
     right: 0,

@@ -288,7 +288,7 @@ const EconomicsTemplateSelectChart = () => {
       //     }
       // ]}
       // fill={[ { id: 'lines' } ]}
-      animate={true}
+      animate={false}
       // motionConfig="wobbly"
       motionStiffness={80}
       motionDamping={9}

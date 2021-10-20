@@ -152,27 +152,48 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
       disableSecondaryY={false}
       disableZ={false}
       disableR={false}
-      updateAction={updateVisualyticsChartCategoryAction}
-      removeAction={removeVisualyticsChartCategoryAction}
+      updateAction={React.useCallback(updateVisualyticsChartCategoryAction, [])}
+      removeAction={React.useCallback(removeVisualyticsChartCategoryAction, [])}
       showXCategoryMembersSwitch={false}
       showYCategoryMembersSwitch={false}
       showYSecondaryCategoryMembersSwitch={false}
       showZCategoryMembersSwitch={true}
       showRCategoryMembersSwitch={true}
-      showCategoryMembersObj={showVisualyticsCategoryMembersObj}
+      showCategoryMembersObj={React.useMemo(
+        () => showVisualyticsCategoryMembersObj,
+        [JSON.stringify(showVisualyticsCategoryMembersObj)]
+      )}
       path="showVisualyticsCategoryMembersObj"
-      updateParameterAction={updateVisualyticsParameterAction}
-      updateDragItemsAction={updateVisualyticsDragItemsAction}
-      updateHasDroppedAction={updateVisualyticsHasDroppedAction}
+      updateParameterAction={React.useCallback(
+        updateVisualyticsParameterAction,
+        []
+      )}
+      updateDragItemsAction={React.useCallback(
+        updateVisualyticsDragItemsAction,
+        []
+      )}
+      updateHasDroppedAction={React.useCallback(
+        updateVisualyticsHasDroppedAction,
+        []
+      )}
       categoryDragItemsTitle="visualyticsCategoryDragItems"
-      categoryDragItems={visualyticsCategoryDragItems}
+      categoryDragItems={React.useMemo(
+        () => visualyticsCategoryDragItems,
+        [JSON.stringify(visualyticsCategoryDragItems)]
+      )}
       categoryHasDroppedTitle="visualyticsCategoryHasDropped"
-      categoryHasDropped={visualyticsCategoryHasDropped}
+      categoryHasDropped={React.useMemo(
+        () => visualyticsCategoryHasDropped,
+        [JSON.stringify(visualyticsCategoryHasDropped)]
+      )}
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={visualyticsVariableZOptions}
-          setSelectedZ={setSelectedZ}
+          variableOptions={React.useMemo(
+            () => visualyticsVariableZOptions,
+            [JSON.stringify(visualyticsVariableZOptions)]
+          )}
+          setSelectedZ={React.useCallback(setSelectedZ, [])}
         />
       }
       resultsTitle={selectedVisualyticsTitle}
@@ -182,9 +203,18 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
   return (
     <ChartDataPanel
       selectLabel={"Visualytics Results"}
-      selectedOption={visualyticsRunOption}
-      titleOptions={visualyticsRunTitleOptions}
-      handleSelectChange={handleSelectVisualyticsResultsChange}
+      selectedOption={React.useMemo(
+        () => visualyticsRunOption,
+        [JSON.stringify(visualyticsRunOption)]
+      )}
+      titleOptions={React.useMemo(
+        () => visualyticsRunTitleOptions,
+        [JSON.stringify(visualyticsRunTitleOptions)]
+      )}
+      handleSelectChange={React.useCallback(
+        handleSelectVisualyticsResultsChange,
+        []
+      )}
       hasSecondaryComponent={false}
       selectedTitle={selectedVisualyticsTitle}
       treeViewComponent={
@@ -198,7 +228,7 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
           : VisualyticsTreeView
       }
       extrudeCategories={extrudeCategories}
-      setExtrudeCategories={setExtrudeCategories}
+      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
     />

@@ -18,7 +18,7 @@ const visualyticsTreeSelector = createDeepEqualSelector(
   (tree) => tree
 );
 
-export default function VisualyticsTreeView({ height }: ITreeViewProps) {
+const VisualyticsTreeView = ({ height }: ITreeViewProps) => {
   const visualyticsTree = useSelector(visualyticsTreeSelector);
 
   const rootTree = {
@@ -43,14 +43,28 @@ export default function VisualyticsTreeView({ height }: ITreeViewProps) {
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
-      selectedNames={selectedColumnNames}
-      setSelectedNames={setSelectedColumnNames}
-      selectedPathsUnfiltered={selectedColumnPathsUnfiltered}
-      setSelectedPathsUnfiltered={setSelectedColumnPathsUnfiltered}
+      selectedIds={React.useMemo(
+        () => selectedIds,
+        [JSON.stringify(selectedIds)]
+      )}
+      setSelectedIds={React.useCallback(setSelectedIds, [])}
+      selectedNames={React.useMemo(
+        () => selectedColumnNames,
+        [JSON.stringify(selectedColumnNames)]
+      )}
+      setSelectedNames={React.useCallback(setSelectedColumnNames, [])}
+      selectedPathsUnfiltered={React.useMemo(
+        () => selectedColumnPathsUnfiltered,
+        [JSON.stringify(selectedColumnPathsUnfiltered)]
+      )}
+      setSelectedPathsUnfiltered={React.useCallback(
+        setSelectedColumnPathsUnfiltered,
+        []
+      )}
       dragDropTypes={itemTypesVisualytics.VISUALYTICS_PLOTCHARTS}
       height={height}
     />
   );
-}
+};
+
+export default React.memo(VisualyticsTreeView);

@@ -47,4 +47,4 @@ const YChartCategory = ({
   );
 };
 
-export default YChartCategory;
+export default React.memo(YChartCategory);

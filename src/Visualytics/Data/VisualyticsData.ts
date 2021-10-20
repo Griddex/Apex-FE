@@ -635,7 +635,7 @@ export const commonChartProps = {
 
   //Motion
   isInteractive: true,
-  animate: true,
+  animate: false,
   motionConfig: "default",
   renderWrapper: true,
   useMesh: true,

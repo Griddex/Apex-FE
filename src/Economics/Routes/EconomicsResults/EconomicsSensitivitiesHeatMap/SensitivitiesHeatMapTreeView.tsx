@@ -18,9 +18,7 @@ const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-export default function SensitivitiesHeatMapTreeView({
-  height,
-}: ITreeViewProps) {
+const SensitivitiesHeatMapTreeView = ({ height }: ITreeViewProps) => {
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
 
   const rootTree = heatMapTreeByScenario as RenderTree;
@@ -35,14 +33,28 @@ export default function SensitivitiesHeatMapTreeView({
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
-      selectedNames={selectedNames}
-      setSelectedNames={setSelectedNames}
-      selectedPathsUnfiltered={selectedPathsUnfiltered}
-      setSelectedPathsUnfiltered={setSelectedPathsUnfiltered}
+      selectedIds={React.useMemo(
+        () => selectedIds,
+        [JSON.stringify(selectedIds)]
+      )}
+      setSelectedIds={React.useCallback(setSelectedIds, [])}
+      selectedNames={React.useMemo(
+        () => selectedNames,
+        [JSON.stringify(selectedNames)]
+      )}
+      setSelectedNames={React.useCallback(setSelectedNames, [])}
+      selectedPathsUnfiltered={React.useMemo(
+        () => selectedPathsUnfiltered,
+        [JSON.stringify(selectedPathsUnfiltered)]
+      )}
+      setSelectedPathsUnfiltered={React.useCallback(
+        setSelectedPathsUnfiltered,
+        []
+      )}
       dragDropTypes={itemTypes.ECONOMICS_HEATMAP}
       height={height}
     />
   );
-}
+};
+
+export default React.memo(SensitivitiesHeatMapTreeView);

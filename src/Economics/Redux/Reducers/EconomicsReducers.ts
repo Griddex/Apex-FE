@@ -350,14 +350,54 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICS_REMOVE_CHARTCATEGORY: {
-      const { categoryOptionTitle, id } = action.payload;
+      const {
+        categoryMembersObjTitle,
+        categoryDragItemsTitle,
+        categoryOptionTitle,
+        id,
+      } = action.payload;
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ id",
+        id
+      );
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ categoryOptionTitle",
+        categoryOptionTitle
+      );
 
-      const categoryOptions = (state as any)[categoryOptionTitle];
-      const newCategoryOptions = omitBy(categoryOptions, (k, v) => k === id);
+      const categoryMembers = (state as any)[categoryMembersObjTitle][
+        categoryOptionTitle
+      ];
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 369 ~ economicsReducer ~ categoryMembers",
+        categoryMembers
+      );
+      const categoryDragItems = (state as any)[categoryDragItemsTitle][
+        categoryOptionTitle
+      ];
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 373 ~ economicsReducer ~ categoryDragItems",
+        categoryDragItems
+      );
+
+      const newCategoryMembers = omitBy(categoryMembers, (k, v) => k === id);
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 378 ~ economicsReducer ~ newCategoryMembers",
+        newCategoryMembers
+      );
+      const newCategoryDragItems = omitBy(
+        categoryDragItems,
+        (k, v) => k === id
+      );
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 383 ~ economicsReducer ~ newCategoryDragItems",
+        newCategoryDragItems
+      );
 
       return {
         ...state,
-        [categoryOptionTitle]: newCategoryOptions,
+        [categoryMembersObjTitle]: newCategoryMembers,
+        [categoryDragItemsTitle]: newCategoryDragItems,
       };
     }
 

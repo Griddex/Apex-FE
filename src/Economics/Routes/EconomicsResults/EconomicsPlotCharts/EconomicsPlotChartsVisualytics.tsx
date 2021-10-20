@@ -130,10 +130,6 @@ const EconomicsPlotChartsVisualytics = () => {
     selectedEconomicsPlotChartOptionSelector
   );
 
-  const [showCategories, setShowCategories] = React.useState(
-    showPlotChartsCategories
-  );
-
   const chartType = selectedEconomicsPlotChartOption.value;
 
   const basePath = `${wc}.commonChartProps`;
@@ -239,19 +235,9 @@ const EconomicsPlotChartsVisualytics = () => {
         >
           <EconomicsPlotChartsDataPanel
             selectedZ={selectedZ}
-            setSelectedZ={setSelectedZ}
+            setSelectedZ={React.useCallback(setSelectedZ, [])}
           />
         </div>
-        {showCategories && (
-          <XYChartCategories
-            xCategoryOptionTitle="plotChartsVariableXOptions"
-            yCategoryOptionTitle="plotChartsVariableYOptions"
-            disableX={false}
-            disableY={false}
-            updateAction={updateEconomicsChartCategoryAction}
-            removeAction={removeEconomicsChartCategoryAction}
-          />
-        )}
 
         <div
           ref={moveDivRef}

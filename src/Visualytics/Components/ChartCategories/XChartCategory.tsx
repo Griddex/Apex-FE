@@ -42,4 +42,4 @@ const XChartCategory = ({
     />
   );
 };
-export default XChartCategory;
+export default React.memo(XChartCategory);

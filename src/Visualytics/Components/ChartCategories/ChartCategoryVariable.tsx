@@ -41,7 +41,14 @@ export interface IChartCategoryVariable {
   setHasDroppedObj: TUseState<Record<string, boolean>>;
   setDragItemObj: TUseState<Record<string, IDragItem>>;
   categoryTitle: string;
-  removeChartCategoryAction: (title: string, id: string) => IAction;
+  categoryDragItemsTitle: string;
+  categoryHasDroppedTitle: string;
+  removeChartCategoryAction: (
+    categoryDragItemsTitle: string,
+    categoryHasDroppedTitle: string,
+    title: string,
+    id: string
+  ) => IAction;
   style: CSSProperties;
 }
 
@@ -50,6 +57,8 @@ const ChartCategoryVariable = ({
   setHasDroppedObj,
   setDragItemObj,
   categoryTitle,
+  categoryDragItemsTitle,
+  categoryHasDroppedTitle,
   removeChartCategoryAction,
   style,
 }: IChartCategoryVariable) => {
@@ -90,7 +99,14 @@ const ChartCategoryVariable = ({
             return next;
           });
 
-          dispatch(removeChartCategoryAction(categoryTitle, id));
+          dispatch(
+            removeChartCategoryAction(
+              categoryDragItemsTitle,
+              categoryHasDroppedTitle,
+              categoryTitle,
+              id
+            )
+          );
         }}
         edge="end"
         aria-label="delete"
@@ -102,4 +118,4 @@ const ChartCategoryVariable = ({
   );
 };
 
-export default ChartCategoryVariable;
+export default React.memo(ChartCategoryVariable);

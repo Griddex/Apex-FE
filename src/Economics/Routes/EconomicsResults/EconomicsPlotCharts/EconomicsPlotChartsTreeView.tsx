@@ -18,13 +18,13 @@ const economicsSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-export default function EconomicsPlotChartsTreeView({
-  height,
-}: ITreeViewProps) {
+const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
+  console.log("EconomicsPlotChartsTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwww");
   const dispatch = useDispatch();
 
   const { economicsPlotChartsTree, selectedAnalysesNames } =
     useSelector(economicsSelector);
+
   const rootTree = economicsPlotChartsTree as RenderTree;
 
   //TODO: Ability to handle multiple analyses
@@ -56,14 +56,28 @@ export default function EconomicsPlotChartsTreeView({
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
-      selectedNames={selectedNames}
-      setSelectedNames={setSelectedNames}
-      selectedPathsUnfiltered={selectedPathsUnfiltered}
-      setSelectedPathsUnfiltered={setSelectedPathsUnfiltered}
+      selectedIds={React.useMemo(
+        () => selectedIds,
+        [JSON.stringify(selectedIds)]
+      )}
+      setSelectedIds={React.useCallback(setSelectedIds, [])}
+      selectedNames={React.useMemo(
+        () => selectedNames,
+        [JSON.stringify(selectedNames)]
+      )}
+      setSelectedNames={React.useCallback(setSelectedNames, [])}
+      selectedPathsUnfiltered={React.useMemo(
+        () => selectedPathsUnfiltered,
+        [JSON.stringify(selectedPathsUnfiltered)]
+      )}
+      setSelectedPathsUnfiltered={React.useCallback(
+        setSelectedPathsUnfiltered,
+        []
+      )}
       dragDropTypes={itemTypes.ECONOMICS_PLOTCHARTS}
       height={height}
     />
   );
-}
+};
+
+export default React.memo(EconomicsPlotChartsTreeView);

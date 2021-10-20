@@ -246,6 +246,7 @@ const EconomicsState: IEconomicsState = {
     "Z Category": {},
     "R Category": {},
   },
+
   heatMapCategoryHasDropped: {
     "X Category": {},
     "Y Category": {},
@@ -284,6 +285,7 @@ const EconomicsState: IEconomicsState = {
     "Z Category": {},
     "R Category": {},
   },
+
   plotChartsCategoryHasDropped: {
     "X Category": {},
     "Y Category": {},

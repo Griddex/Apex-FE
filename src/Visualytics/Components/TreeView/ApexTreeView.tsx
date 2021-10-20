@@ -4,7 +4,7 @@ import styled from "@mui/system/styled";
 import get from "lodash.get";
 import objectScan from "object-scan";
 import React from "react";
-import { useDrag } from "react-dnd";
+import { ConnectDragSource, useDrag } from "react-dnd";
 import { FixedSizeTree as Tree } from "react-vtree";
 import ApexCheckbox2 from "../../../Application/Components/Checkboxes/ApexCheckbox2";
 import {
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ApexTreeView({
+const ApexTreeView = ({
   rootTree,
   selectedIds,
   setSelectedIds,
@@ -52,7 +52,8 @@ export default function ApexTreeView({
   setSelectedPathsUnfiltered,
   dragDropTypes,
   height,
-}: IApexTreeView) {
+}: IApexTreeView) => {
+  console.log("ApexTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwwww");
   const classes = useStyles();
 
   const initExpanded = rootTree?.children?.map(
@@ -213,43 +214,73 @@ export default function ApexTreeView({
   }: any) => {
     let newName = "";
     let newTitle = "";
-    if (path) {
-      const sensitivitiesJoined = path?.split("@#$%")[3];
+    let currentTree: RenderTree;
+    let titleProps: any;
 
-      newName = `${name}_${sensitivitiesJoined}`;
-      newTitle = `${title}_${sensitivitiesJoined}`;
+    if (isLeaf) {
+      if (path) {
+        const sensitivitiesJoined = path?.split("@#$%")[3];
+
+        newName = `${name}_${sensitivitiesJoined}`;
+        console.log(
+          "🚀 ~ file: ApexTreeView.tsx ~ line 220 ~ newName",
+          newName
+        );
+        newTitle = `${title}_${sensitivitiesJoined}`;
+        console.log(
+          "🚀 ~ file: ApexTreeView.tsx ~ line 222 ~ newTitle",
+          newTitle
+        );
+      } else {
+        newName = name as string;
+        newTitle = title as string;
+      }
+
+      const [{ isDragging }, drag] = useDrag(
+        () => ({
+          type: dragDropTypes,
+          item: { id, name: newName, title: newTitle, path },
+          collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
+        }),
+        []
+      );
+
+      const opacity = isDragging ? 0.4 : 1;
+
+      const getCurrentTree = () => {
+        const idPathArr = objectScan([`**.id`], {
+          joined: true,
+          filterFn: ({ value }: any) => value === id,
+        })(rootTree);
+
+        const idPath = idPathArr[0];
+        const lastIndex = idPath.lastIndexOf(".");
+        const objectPath = idPath.substring(0, lastIndex);
+
+        return get(rootTree, objectPath) as RenderTree;
+      };
+
+      currentTree = getCurrentTree();
+
+      titleProps = { ref: drag, style: { opacity } };
     } else {
-      newName = name as string;
-      newTitle = title as string;
+      const getCurrentTree = () => {
+        const idPathArr = objectScan([`**.id`], {
+          joined: true,
+          filterFn: ({ value }: any) => value === id,
+        })(rootTree);
+
+        const idPath = idPathArr[0];
+        const lastIndex = idPath.lastIndexOf(".");
+        const objectPath = idPath.substring(0, lastIndex);
+
+        return get(rootTree, objectPath) as RenderTree;
+      };
+
+      currentTree = getCurrentTree();
+
+      titleProps = { style: {} };
     }
-
-    const [{ isDragging }, drag] = useDrag(
-      () => ({
-        type: dragDropTypes,
-        item: { id, name: newName, title: newTitle, path },
-        end: (item, monitor) => {
-          const dropResult = monitor.getDropResult();
-        },
-        collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-      }),
-      []
-    );
-
-    const opacity = isDragging ? 0.4 : 1;
-
-    const idPathArr = objectScan([`**.id`], {
-      joined: true,
-      filterFn: ({ value }: any) => value === id,
-    })(rootTree);
-
-    const idPath = idPathArr[0];
-    const lastIndex = idPath.lastIndexOf(".");
-    const objectPath = idPath.substring(0, lastIndex);
-    const currentTree = get(rootTree, objectPath);
-
-    const titleProps = isLeaf
-      ? { ref: drag, style: { opacity } }
-      : { style: { opacity } };
 
     return (
       <StyledApexNode
@@ -284,6 +315,7 @@ export default function ApexTreeView({
           }
           onClick={(e) => e.stopPropagation()}
         />
+
         <div {...titleProps}>{title}</div>
       </StyledApexNode>
     );
@@ -300,4 +332,6 @@ export default function ApexTreeView({
       {ApexNode}
     </Tree>
   );
-}
+};
+
+export default React.memo(ApexTreeView);
