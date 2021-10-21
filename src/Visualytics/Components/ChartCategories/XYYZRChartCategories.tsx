@@ -49,7 +49,12 @@ const XYYZRChartCategories = ({
   categoryPanelWidth,
   categoryPanelComponent,
   resultsTitle,
+  showCategoryZMembers,
 }: IChartCategories) => {
+  console.log(
+    "🚀 ~ file: XYYZRChartCategories.tsx ~ line 53 ~ showCategoryMembersObj",
+    showCategoryMembersObj
+  );
   const classes = useStyles();
   const theme = useTheme();
 
@@ -225,11 +230,16 @@ const XYYZRChartCategories = ({
           {"R variable"}
         </ApexFlexContainer>
       )}
-      {(showCategoryMembersObj as Record<string, boolean>)["Z Category"] && (
+      {showCategoryZMembers && (
         <ApexFlexContainer {...categoryDetailsStyle}>
           {CategoryPanelComponent}
         </ApexFlexContainer>
       )}
+      {/* {(showCategoryMembersObj as Record<string, boolean>)["Z Category"] && (
+        <ApexFlexContainer {...categoryDetailsStyle}>
+          {CategoryPanelComponent}
+        </ApexFlexContainer>
+      )} */}
     </ApexFlexContainer>
   );
 };

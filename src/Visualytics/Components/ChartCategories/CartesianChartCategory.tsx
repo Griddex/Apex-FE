@@ -47,6 +47,7 @@ const CartesianChartCategory = ({
   disable,
   showCategoryMembersSwitch,
   showCategoryMembersObj,
+  showCategoryZMembers,
   path,
   updateParameterAction,
   updateDragItemsAction,
@@ -167,14 +168,27 @@ const CartesianChartCategory = ({
 
             setMembersSwitch(checked);
 
-            (showCategoryMembersObj as Record<string, boolean>)[
-              categoryTitle as string
-            ] = checked;
+            // (showCategoryMembersObj as Record<string, boolean>)[
+            //   categoryTitle as string
+            // ] = checked;
+
+            showCategoryZMembers = checked;
+            console.log(
+              "🚀 ~ file: CartesianChartCategory.tsx ~ line 176 ~ showCategoryZMembers",
+              showCategoryZMembers
+            );
 
             dispatch(
               updateParameterAction &&
-                updateParameterAction(path as string, showCategoryMembersObj)
+                updateParameterAction(
+                  "showCategoryZMembers",
+                  showCategoryZMembers
+                )
             );
+            // dispatch(
+            //   updateParameterAction &&
+            //     updateParameterAction(path as string, showCategoryMembersObj)
+            // );
           }}
           checked={membersSwitch as boolean}
           checkedColor={theme.palette.success.main}

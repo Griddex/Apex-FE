@@ -239,6 +239,8 @@ const EconomicsState: IEconomicsState = {
     "R Category": false,
   },
 
+  showCategoryZMembers: false,
+
   heatMapCategoryDragItems: {
     "X Category": {},
     "Y Category": {},

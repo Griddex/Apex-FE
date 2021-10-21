@@ -23,69 +23,97 @@ import {
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-
-const XYYZRChartCategories = React.lazy(
-  () =>
-    import(
-      "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories"
-    )
-);
-const CategoryPanelComponent = React.lazy(
-  () =>
-    import(
-      "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel"
-    )
-);
-const ChartDataPanel = React.lazy(
-  () =>
-    import("../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel")
-);
-const NoSelectionPlaceholder = React.lazy(
-  () =>
-    import(
-      "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
-    )
-);
-const SensitivitiesHeatMapTreeView = React.lazy(
-  () => import("./SensitivitiesHeatMapTreeView")
-);
+import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
+import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
+import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const selectedEconomicsResultsTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsResultsTitle,
+  (data) => data
+);
+const selectedEconomicsResultsDescriptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.selectedEconomicsResultsDescription,
+  (data) => data
+);
+const sensitivitiesHeatMapTreeSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.sensitivitiesHeatMapTree,
+  (data) => data
+);
+const heatMapVariableZOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableZOptions,
+  (data) => data
+);
+const heatMapTreeByScenarioSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
+  (data) => data
+);
+const showHeatMapCategoryZMembersSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.showCategoryZMembers,
+  (data) => data
+);
+// const showHeatMapCategoryZMembersSelector = createDeepEqualSelector(
+//   (state: RootState) =>
+//     state.economicsReducer.showHeatMapCategoryMembersObj["Z Category"],
+//   (data) => data
+// );
+const heatMapCategoryDragItemsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapCategoryDragItems,
+  (data) => data
+);
+const heatMapCategoryHasDroppedSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapCategoryHasDropped,
+  (data) => data
+);
+
+const wc = "storedDataWorkflows";
+
+const economicsResultsStoredSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc].economicsResultsStored,
+  (stored) => stored
 );
 
 const SensitivitiesHeatMapDataPanel = ({
   setSelectedZ,
 }: IEconomicsResultsVisualytics) => {
-  const wc = "storedDataWorkflows";
-
   const dispatch = useDispatch();
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
-  const economicsResultsStoredSelector = createDeepEqualSelector(
-    (state: RootState) => state.economicsReducer.economicsResultsStored,
-    (stored) => stored
-  );
-
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
-  const {
-    selectedEconomicsResultsTitle,
-    selectedEconomicsResultsDescription,
-    sensitivitiesHeatMapTree,
-    heatMapVariableZOptions,
-    heatMapTreeByScenario,
-    showHeatMapCategoryMembersObj,
-    heatMapCategoryDragItems,
-    heatMapCategoryHasDropped,
-  } = useSelector(economicsSelector);
+  const selectedEconomicsResultsTitle = useSelector(
+    selectedEconomicsResultsTitleSelector
+  );
+  const selectedEconomicsResultsDescription = useSelector(
+    selectedEconomicsResultsDescriptionSelector
+  );
+  const sensitivitiesHeatMapTree = useSelector(
+    sensitivitiesHeatMapTreeSelector
+  );
+  const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
+  const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
+
+  const showHeatMapCategoryMembersObj = useSelector(
+    (state: RootState) => state.economicsReducer.showHeatMapCategoryMembersObj
+  );
+  const showHeatMapCategoryZMembers = useSelector(
+    showHeatMapCategoryZMembersSelector
+  );
   console.log(
-    "Logged output --> ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 70 ~ heatMapVariableZOptions",
-    heatMapVariableZOptions
+    "🚀 ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 103 ~ showHeatMapCategoryZMembers",
+    showHeatMapCategoryZMembers
+  );
+
+  const heatMapCategoryDragItems = useSelector(
+    heatMapCategoryDragItemsSelector
+  );
+  const heatMapCategoryHasDropped = useSelector(
+    heatMapCategoryHasDroppedSelector
   );
 
   const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
@@ -265,8 +293,13 @@ const SensitivitiesHeatMapDataPanel = ({
     disableCollection = [false, false, false];
   }
 
-  const showMembersObjValues = Object.values(
-    showHeatMapCategoryMembersObj as Record<string, boolean>
+  const showMembersObjValues = [showHeatMapCategoryZMembers];
+  // const showMembersObjValues = Object.values(
+  //   showHeatMapCategoryMembersObj as Record<string, boolean>
+  // );
+  console.log(
+    "🚀 ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 309 ~ showMembersObjValues",
+    showMembersObjValues
   );
 
   const categoryPanelWidth = 250;
@@ -285,10 +318,12 @@ const SensitivitiesHeatMapDataPanel = ({
       showXCategoryMembersSwitch={false}
       showYCategoryMembersSwitch={false}
       showZCategoryMembersSwitch={true}
-      showCategoryMembersObj={React.useMemo(
-        () => showHeatMapCategoryMembersObj,
-        [JSON.stringify(showHeatMapCategoryMembersObj)]
-      )}
+      showCategoryMembersObj={showHeatMapCategoryMembersObj}
+      // showCategoryMembersObj={React.useMemo(
+      //   () => showHeatMapCategoryMembersObj,
+      //   [JSON.stringify(showHeatMapCategoryMembersObj)]
+      // )}
+      showCategoryZMembers={showHeatMapCategoryZMembers}
       path="showHeatMapCategoryMembersObj"
       updateParameterAction={React.useCallback(
         updateEconomicsParameterAction,
