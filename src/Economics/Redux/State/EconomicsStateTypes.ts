@@ -273,6 +273,8 @@ export interface IEconomicsState
   heatMapCategoryDragItems: Record<string, Record<string, IDragItem>>;
   heatMapCategoryHasDropped: Record<string, Record<string, true>>;
 
+  showCategoryZMembers: boolean;
+
   economicsPlotChartsTree: RenderTree;
   plotChartsResults: any[];
   plotChartsData: null;

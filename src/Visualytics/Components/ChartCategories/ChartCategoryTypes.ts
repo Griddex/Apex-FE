@@ -72,4 +72,5 @@ export interface IChartCategories {
   categoryPanelWidth?: number;
   categoryPanelComponent?: JSX.Element;
   resultsTitle?: string;
+  showCategoryZMembers?: boolean;
 }
