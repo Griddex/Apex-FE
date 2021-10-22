@@ -60,9 +60,17 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-const applicationSelector = createDeepEqualSelector(
-  (state: RootState) => state.applicationReducer,
-  (reducer) => reducer
+const moduleNameSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer.moduleName,
+  (data) => data
+);
+const subModuleNameSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer.subModuleName,
+  (data) => data
+);
+const workflowNameSelector = createDeepEqualSelector(
+  (state: RootState) => state.applicationReducer.workflowName,
+  (data) => data
 );
 
 const ExcelWorkflow = ({
@@ -90,17 +98,24 @@ const ExcelWorkflow = ({
 
   const activeStep = useSelector(activeStepSelector);
 
-  const workflowProcessSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp],
-    (wrkflwPrcss) => wrkflwPrcss
+  const currentDevOptionSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["currentDevOption"],
+    (data) => data
+  );
+  const developmentScenariosCompletedSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state[reducer][wc][wp]["developmentScenariosCompleted"],
+    (data) => data
   );
 
-  const { currentDevOption, developmentScenariosCompleted } = useSelector(
-    workflowProcessSelector
+  const currentDevOption = useSelector(currentDevOptionSelector);
+  const developmentScenariosCompleted = useSelector(
+    developmentScenariosCompletedSelector
   );
 
-  const { moduleName, subModuleName, workflowName } =
-    useSelector(applicationSelector);
+  const moduleName = useSelector(moduleNameSelector);
+  const subModuleName = useSelector(subModuleNameSelector);
+  const workflowName = useSelector(workflowNameSelector);
 
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
@@ -138,8 +153,30 @@ const ExcelWorkflow = ({
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
     reducer,
-    inputWorkbook,
-    setInputWorkbook,
+    inputWorkbook: React.useMemo(() => inputWorkbook, []),
+    setInputWorkbook: React.useCallback(setInputWorkbook, []),
+  };
+
+  const navigationButtonProps: INavigationButtonsProp = {
+    isMainNav: true,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    finalAction: () => {
+      if (wp.includes("economicsCostsRevenues")) {
+        dispatch(
+          updateEconomicsParameterAction(
+            `inputDataWorkflows.${wp}.developmentScenariosCompleted`,
+            [...developmentScenariosCompleted, currentDevOption?.value]
+          )
+        );
+      }
+      finalAction && finalAction();
+    },
+    workflowProps,
+    workflowProcess: wp,
+    workflowCategory: wc,
   };
 
   function renderImportStep(activeStep: number) {
@@ -166,28 +203,6 @@ const ExcelWorkflow = ({
         return <h1>End</h1>;
     }
   }
-
-  const navigationButtonProps: INavigationButtonsProp = {
-    isMainNav: true,
-    showReset: true,
-    showBack: true,
-    showSkip: true,
-    showNext: true,
-    finalAction: () => {
-      if (wp.includes("economicsCostsRevenues")) {
-        dispatch(
-          updateEconomicsParameterAction(
-            `inputDataWorkflows.${wp}.developmentScenariosCompleted`,
-            [...developmentScenariosCompleted, currentDevOption?.value]
-          )
-        );
-      }
-      finalAction && finalAction();
-    },
-    workflowProps,
-    workflowProcess: wp,
-    workflowCategory: wc,
-  };
 
   React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
