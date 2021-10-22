@@ -46,7 +46,6 @@ export const initialInputWorkflowParameters = {
   chosenApplicationUnitsWithoutNone: [],
   fileUnitsWithoutNone: [],
   fileAppHeaderExcludeWithNoneMap: {},
-  fileHeaderUnitIdMap: {},
   currentAppHeaderNameMap: {},
   fileHeadersUnitsAppHeadersWithoutNoneMap: {},
 
@@ -154,8 +153,8 @@ const InputState: InputStateType = {
   storedDataWorkflows: storedDataState,
 
   noneColumnIndices: {},
-  matchHeadersTable: [],
-  matchUnitsTable: [],
+  matchHeadersRows: [],
+  matchUnitsRows: [],
 };
 
 export default InputState;

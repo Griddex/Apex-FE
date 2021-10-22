@@ -163,37 +163,6 @@ export const persistFileHeadersAction = (
   };
 };
 
-export const persistFileHeadersMatchAction = (
-  reducer: ReducersType,
-  fileHeadersMatch: Record<string, number>[],
-  workflowProcess: TAllWorkflowProcesses
-) => {
-  return {
-    type: PERSIST_FILEHEADERSMATCH,
-    payload: { reducer, fileHeadersMatch, workflowProcess },
-  };
-};
-export const persistChosenApplicationHeadersIndicesAction = (
-  reducer: ReducersType,
-  chosenApplicationHeadersIndices: Record<string, number>,
-  workflowProcess: TAllWorkflowProcesses
-) => {
-  return {
-    type: PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-    payload: { reducer, chosenApplicationHeadersIndices, workflowProcess },
-  };
-};
-export const persistChosenApplicationUnitIndicesAction = (
-  reducer: ReducersType,
-  chosenApplicationUnitIndices: Record<string, number | number[]>,
-  workflowProcess: TAllWorkflowProcesses
-) => {
-  return {
-    type: PERSIST_CHOSENAPPLICATIONUNITINDICES,
-    payload: { reducer, chosenApplicationUnitIndices, workflowProcess },
-  };
-};
-
 export const persistFileUnitsAndUniqueUnitsAction = (
   reducer: ReducersType,
   selectedUnitRowIndex: number,
@@ -210,38 +179,6 @@ export const persistFileUnitsAndUniqueUnitsAction = (
       fileUniqueUnits,
       workflowProcess,
     },
-  };
-};
-
-export const persistFileUnitsMatchAction = (
-  reducer: ReducersType,
-  fileUnitsMatch: Record<string, number>[],
-  workflowProcess: TAllWorkflowProcesses
-) => {
-  return {
-    type: PERSIST_FILEUNITSMATCH,
-    payload: { reducer, fileUnitsMatch, workflowProcess },
-  };
-};
-
-export const persistChosenApplicationHeadersAction = (
-  reducer: ReducersType,
-  chosenApplicationHeaders: string[],
-  workflowProcess: TAllWorkflowProcesses
-) => {
-  return {
-    type: PERSIST_CHOSENAPPLICATIONHEADERS,
-    payload: { reducer, chosenApplicationHeaders, workflowProcess },
-  };
-};
-export const persistChosenApplicationUnitsAction = (
-  reducer: ReducersType,
-  chosenApplicationUnitsWithoutNone: string[],
-  workflowProcess: TAllWorkflowProcesses
-) => {
-  return {
-    type: PERSIST_CHOSENAPPLICATIONUNITS,
-    payload: { reducer, chosenApplicationUnitsWithoutNone, workflowProcess },
   };
 };
 

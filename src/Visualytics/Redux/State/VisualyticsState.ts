@@ -86,8 +86,8 @@ export const initialVisualyticsWorkflowState = {
   fileUnitsWithoutNone: [],
 
   appHeaderNameUnitsMap: {},
-  matchHeadersTable: [],
-  matchUnitsTable: [],
+  matchHeadersRows: [],
+  matchUnitsRows: [],
 
   currentDevOption: {},
   developmentScenarios: [],

@@ -30,18 +30,6 @@ export const ACTIVATE_DISABLEDMENUS = "ACTIVATE_DISABLEDMENUS";
 export const RESET_LAYOUT = "RESET_LAYOUT";
 
 //MAIN DRAWER
-export const mainDrawerShowAction = () => {
-  return {
-    type: SHOW_MAINDRAWER,
-    payload: { showMainDrawer: true },
-  };
-};
-export const mainDrawerHideAction = () => {
-  return {
-    type: HIDE_MAINDRAWER,
-    payload: { showMainDrawer: false },
-  };
-};
 export const mainDrawerExpandAction = () => {
   return {
     type: EXPAND_MAINDRAWER,
@@ -56,18 +44,7 @@ export const mainDrawerCollapseAction = () => {
 };
 
 //DIALOG CONTEXT DRAWER
-export const showDialogContextDrawerAction = () => {
-  return {
-    type: SHOW_DIALOGCONTEXTDRAWER,
-    payload: { showDialogContextDrawer: true },
-  };
-};
-export const dialogContextDrawerHideAction = () => {
-  return {
-    type: HIDE_DIALOGCONTEXTDRAWER,
-    payload: { showDialogContextDrawer: false },
-  };
-};
+
 export const dialogContextDrawerExpandAction = () => {
   return {
     type: EXPAND_DIALOGCONTEXTDRAWER,
@@ -80,12 +57,6 @@ export const dialogContextDrawerCollapseAction = () => {
     payload: { expandDialogContextDrawer: false },
   };
 };
-export const dialogContextDrawerSetMenuAction = (text: string) => {
-  return {
-    type: DIALOGCONTEXTDRAWERMENU_SET,
-    payload: { dialogContextDrawertext: text },
-  };
-};
 
 //CONTEXT DRAWER
 export const showContextDrawerAction = () => {
@@ -94,12 +65,7 @@ export const showContextDrawerAction = () => {
     payload: { showContextDrawer: true },
   };
 };
-export const contextDrawerHideAction = () => {
-  return {
-    type: HIDE_CONTEXTDRAWER,
-    payload: { showContextDrawer: false },
-  };
-};
+
 export const contextDrawerExpandAction = () => {
   return {
     type: EXPAND_CONTEXTDRAWER,
@@ -112,87 +78,6 @@ export const contextDrawerCollapseAction = () => {
     payload: { expandContextDrawer: false },
   };
 };
-export const contextDrawerSetMenuAction = (text: string) => {
-  return {
-    type: CONTEXTDRAWERMENU_SET,
-    payload: { contextDrawertext: text },
-  };
-};
-
-//SubNavbar
-export const subNavBarShowAction = () => {
-  return {
-    type: SHOW_SUBNAVBAR,
-    payload: { showSubNavbar: true },
-  };
-};
-export const subNavbarHideAction = () => {
-  return {
-    type: HIDE_SUBNAVBAR,
-    payload: { showSubNavbar: false },
-  };
-};
-export const subNavbarExpandAction = () => {
-  return {
-    type: EXPAND_SUBNAVBAR,
-    payload: { expandSubNavbar: true },
-  };
-};
-export const subNavbarCollapseAction = () => {
-  return {
-    type: COLLAPSE_SUBNAVBAR,
-    payload: { expandSubNavbar: false },
-  };
-};
-
-//Navbar
-export const navbarShowAction = () => {
-  return {
-    type: SHOW_NAVBAR,
-    payload: { showNavbar: true },
-  };
-};
-export const navBarAbsentAction = () => {
-  return {
-    type: HIDE_NAVBAR,
-    payload: { showNavbar: false },
-  };
-};
-export const navbarExpandAction = () => {
-  return {
-    type: EXPAND_NAVBAR,
-    payload: { expandNavbar: true },
-  };
-};
-export const navbarCollapseAction = () => {
-  return {
-    type: COLLAPSE_NAVBAR,
-    payload: { expandNavbar: false },
-  };
-};
-
-export const UILayoutDefaultAction = () => {
-  return {
-    type: DEFAULT,
-    payload: {
-      showMainDrawer: true,
-      expandMainDrawer: false,
-      showNavbar: true,
-      expandNavbar: false,
-    },
-  };
-};
-export const ImportLayoutDefaultAction = () => {
-  return {
-    type: IMPORTDEFAULT,
-    payload: {
-      showSubNavbar: true,
-      expandSubNavbar: false,
-      showContextDrawer: true,
-      expandContextDrawer: false,
-    },
-  };
-};
 
 export const loadWorkflowAction = () => {
   return {
@@ -200,17 +85,11 @@ export const loadWorkflowAction = () => {
     payload: { loadWorkflow: true },
   };
 };
+
 export const navigateResetWorkflowAction = () => {
   return {
     type: WORKFLOWS_LANDING,
     payload: { loadWorkflow: false },
-  };
-};
-
-export const simpleDialogOpenAction = (isOpen: boolean) => {
-  return {
-    type: SIMPLEDIALOG_TOGGLE,
-    payload: { simpleDialogOpen: isOpen },
   };
 };
 

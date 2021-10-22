@@ -61,7 +61,6 @@ export interface IInputState {
     string,
     Record<string, React.Key | boolean>
   >;
-  fileHeaderUnitIdMap: Record<string, string>;
   currentAppHeaderNameMap: Record<string, React.Key>;
   fileHeadersUnitsAppHeadersWithoutNoneMap: Record<
     string,
@@ -119,8 +118,8 @@ export interface InputStateType
 
   noneColumnIndices: Record<number, boolean>;
 
-  matchHeadersTable: IRawRow[];
-  matchUnitsTable: IRawRow[];
+  matchHeadersRows: IRawRow[];
+  matchUnitsRows: IRawRow[];
 }
 
 export interface INewFacilitiesInputDeckFormValues {

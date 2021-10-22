@@ -47,15 +47,6 @@ export const updateApplicationParameterAction = (
   };
 };
 
-export const putDataAction = (value: any) => {
-  return {
-    type: PUT_DATA,
-    payload: {
-      value,
-    },
-  };
-};
-
 export const persistFormTitlesAction = (
   formName: string,
   formTitlesCollection: string[]

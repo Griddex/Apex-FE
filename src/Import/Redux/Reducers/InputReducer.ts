@@ -10,16 +10,10 @@ import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
 import {
   FETCH_APPLICATIONHEADERS_SUCCESS,
   IMPORTFILE_INITIALIZATION,
-  PERSIST_CHOSENAPPLICATIONHEADERS,
-  PERSIST_CHOSENAPPLICATIONHEADERSINDICES,
-  PERSIST_CHOSENAPPLICATIONUNITINDICES,
-  PERSIST_CHOSENAPPLICATIONUNITS,
   PERSIST_COLUMNNAMETABLEDATA,
   PERSIST_FILE,
   PERSIST_FILEHEADERS,
-  PERSIST_FILEHEADERSMATCH,
   PERSIST_FILEUNITSANDUNIQUEUNITS,
-  PERSIST_FILEUNITSMATCH,
   PERSIST_TABLEDATA,
   PERSIST_TABLEROLENAMES,
   PERSIST_VARIABLEUNITS,
@@ -48,6 +42,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         return state;
       }
     }
+
     case UPDATE_SELECTEDIDTITLE: {
       const { reducer, idTitleObj } = action.payload;
 
@@ -60,19 +55,14 @@ const inputReducer = (state = InputState, action: IAction) => {
         return state;
       }
     }
+
     case IMPORTFILE_INITIALIZATION:
     case PERSIST_VARIABLEUNITS:
     case PERSIST_FILE:
     case PERSIST_WORKSHEETNAMES:
     case PERSIST_WORKSHEET:
     case PERSIST_FILEHEADERS:
-    case PERSIST_CHOSENAPPLICATIONHEADERSINDICES:
-    case PERSIST_CHOSENAPPLICATIONUNITS:
-    case PERSIST_CHOSENAPPLICATIONUNITINDICES:
-    case PERSIST_CHOSENAPPLICATIONHEADERS:
-    case PERSIST_FILEHEADERSMATCH:
     case PERSIST_FILEUNITSANDUNIQUEUNITS:
-    case PERSIST_FILEUNITSMATCH:
     case PERSIST_TABLEROLENAMES:
     case PERSIST_TABLEDATA:
     case PERSIST_COLUMNNAMETABLEDATA: {
@@ -124,6 +114,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
+
     case SAVE_INPUTDECK_SUCCESS: {
       const { workflowProcess, storedDataId, status, success } = action.payload;
       const wp = workflowProcess as TAllWorkflowProcesses;
@@ -141,6 +132,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
+
     case SAVE_INPUTDECK_FAILURE: {
       const { workflowProcess } = action.payload;
       const wp = workflowProcess as TAllWorkflowProcesses;
@@ -156,6 +148,7 @@ const inputReducer = (state = InputState, action: IAction) => {
         },
       };
     }
+
     case FETCH_APPLICATIONHEADERS_SUCCESS: {
       const {
         status,

@@ -6,7 +6,6 @@ import {
 import { IStoredDataProps } from "../../Types/ApplicationTypes";
 
 export const SET_WORKFLOWPROCESS = "SET_WORKFLOWPROCESS";
-export const REINITIALIZE_WORKFLOW = "REINITIALIZE_WORKFLOW";
 export const INITIALIZE_WORKFLOW = "INITIALIZE_WORKFLOW";
 export const RESET_WORKFLOW = "RESET_WORKFLOW";
 export const NEXT_WORKFLOW = "NEXT_WORKFLOW";
@@ -25,16 +24,6 @@ export const setWorkflowProcessAction = (
     payload: {
       workflowProcess,
       workflowCategory,
-    },
-  };
-};
-
-export const workflowReInitAction = (path: string, value: React.Key) => {
-  return {
-    type: REINITIALIZE_WORKFLOW,
-    payload: {
-      path,
-      value,
     },
   };
 };
@@ -135,7 +124,7 @@ export const updateNavButtonDisbledAction = (
   workflowCategory: TAllWorkflowCategories
 ) => {
   return {
-    type: SKIP_WORKFLOW,
+    type: NAVBUTTON_DISABLED,
     payload: {
       navButton,
       isDisabled,

@@ -33,8 +33,7 @@ export const FETCH_COSTSREVENUESHEADERS_SUCCESS =
   "FETCH_COSTSREVENUESHEADERS_SUCCESS";
 export const FETCH_COSTSREVENUESHEADERS_FAILURE =
   "FETCH_COSTSREVENUESHEADERS_FAILURE";
-export const PERSIST_COSTSREVENUESHEADERSSELECTOPTION_SUCCESS =
-  "PERSIST_COSTSREVENUESHEADERSSELECTOPTION_SUCCESS";
+
 export const PERSIST_COSTSREVENUESHEADERSSELECTOPTION_FAILURE =
   "PERSIST_COSTSREVENUESHEADERSSELECTOPTION_FAILURE";
 
@@ -51,11 +50,6 @@ export const TRANSFORM_ECONOMICSRESULTS_CHARTDATA_SUCCESS =
   "TRANSFORM_ECONOMICSRESULTS_CHARTDATA_SUCCESS";
 export const TRANSFORM_ECONOMICSRESULTS_CHARTDATA_FAILURE =
   "TRANSFORM_ECONOMICSRESULTS_CHARTDATA_FAILURE";
-
-export const PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS =
-  "PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS";
-export const PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE =
-  "PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE";
 
 export const STORED_ECONOMICSDATA_REQUEST = "STORED_ECONOMICSDATA_REQUEST";
 export const STORED_ECONOMICSDATA_SUCCESS = "STORED_ECONOMICSDATA_SUCCESS";
@@ -227,25 +221,6 @@ export const fetchStoredCostsRevenuesDataFailureAction = () => {
   };
 };
 
-export const persistCostsRevHeadersSelectOptionSuccessAction = () => {
-  return {
-    type: PERSIST_COSTSREVENUESHEADERSSELECTOPTION_SUCCESS,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const persistCostsRevDataFaiSelectOptionFailureAction = () => {
-  return {
-    type: PERSIST_COSTSREVENUESHEADERSSELECTOPTION_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
-    },
-  };
-};
-
 export const saveCostsRevenuesRequestAction = (
   workflowProcess: TAllWorkflowProcesses,
   reducer: ReducersType,
@@ -295,25 +270,6 @@ export const fetchStoredEconomicsParametersHeadersSuccessAction = () => {
 export const fetchStoredEconomicsParametersDataFailureAction = () => {
   return {
     type: FETCH_ECONOMICSPARAMETERSHEADERS_FAILURE,
-    payload: {
-      status: 0,
-      errors: { message: "" },
-    },
-  };
-};
-
-export const persistEconomicsParHeadersSelectOptionSuccessAction = () => {
-  return {
-    type: PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_SUCCESS,
-    payload: {
-      status: 0,
-    },
-  };
-};
-
-export const persistEconomicsParDataFaiSelectOptionFailureAction = () => {
-  return {
-    type: PERSIST_ECONOMICSPARAMETERSHEADERSSELECTOPTION_FAILURE,
     payload: {
       status: 0,
       errors: { message: "" },
@@ -733,7 +689,6 @@ export const fetchStoredEconomicsResultsFailureAction = () => {
 };
 
 export const getEconomicsResultsByIdRequestAction = (
-  // workflowProcess: IEconomicsWorkflows["wkPs"],
   switchToRoute: boolean,
   routeUrl?: string
 ) => {
