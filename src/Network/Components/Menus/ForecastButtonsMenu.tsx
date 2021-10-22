@@ -212,7 +212,6 @@ const ForecastButtonsMenu = () => {
         {"Forecast"}
       </Button>
       <Menu
-        keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}

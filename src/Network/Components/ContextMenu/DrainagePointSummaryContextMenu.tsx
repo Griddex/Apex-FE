@@ -43,7 +43,6 @@ const DrainagePointSummaryContextMenu = ({
     >
       {children}
       <Menu
-        keepMounted
         open={open}
         onClose={handleClose}
         onMouseLeave={handleClose}

@@ -75,7 +75,6 @@ const ForecastAggregationLevelButtonsMenu = () => {
         </Button>
       </Tooltip>
       <Menu
-        keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}

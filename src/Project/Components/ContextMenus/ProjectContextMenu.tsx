@@ -45,7 +45,6 @@ const ProjectContextMenu = ({
     >
       {children}
       <Menu
-        keepMounted
         open={open as boolean}
         onClose={handleClose}
         anchorReference="anchorPosition"

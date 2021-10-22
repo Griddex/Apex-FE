@@ -40,7 +40,6 @@ const GasfacilityContextMenu = ({ children, position }: IContextMenuProps) => {
     >
       {children}
       <Menu
-        keepMounted
         open={open}
         onClose={handleClose}
         anchorReference="anchorPosition"
