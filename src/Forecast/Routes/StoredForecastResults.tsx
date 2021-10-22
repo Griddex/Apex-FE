@@ -270,242 +270,236 @@ export default function StoredForecastResults({
 
   const dividerPositions = [50];
 
-  const generateColumns = () => {
-    const columns: Column<IStoredForecastResultsRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexGridCheckboxColumn,
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => {
-          const sn = row.sn as number;
-          const title = row.forecastResultsTitle as string;
-          const id = row.forecastResultsId as string;
-          const deleteUrl = `${mainUrl}/${id}`;
+  const columns: Column<IStoredForecastResultsRow>[] = [
+    { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+    ApexGridCheckboxColumn,
+    {
+      key: "actions",
+      name: "ACTIONS",
+      editable: false,
+      formatter: ({ row }) => {
+        const sn = row.sn as number;
+        const title = row.forecastResultsTitle as string;
+        const id = row.forecastResultsId as string;
+        const deleteUrl = `${mainUrl}/${id}`;
 
-          const editedRow = rows[sn - 1];
-          const editorData = [
-            {
-              name: "title",
-              title: "FORECAST RESULTS TITLE",
-              value: row["forecastResultsTitle"],
-              editorType: "input",
-            },
-            {
-              name: "description",
-              title: "Description",
-              value: row["description"],
-              editorType: "textArea",
-            },
-          ] as IApexEditorRow[];
+        const editedRow = rows[sn - 1];
+        const editorData = [
+          {
+            name: "title",
+            title: "FORECAST RESULTS TITLE",
+            value: row["forecastResultsTitle"],
+            editorType: "input",
+          },
+          {
+            name: "description",
+            title: "Description",
+            value: row["description"],
+            editorType: "textArea",
+          },
+        ] as IApexEditorRow[];
 
-          const apexEditorProps = {
-            editorData,
-            editedRow,
-            dividerPositions,
-          } as Partial<IApexEditor>;
+        const apexEditorProps = {
+          editorData,
+          editedRow,
+          dividerPositions,
+        } as Partial<IApexEditor>;
 
-          const EditCommand = (
-            <EditOutlinedIcon
-              onClick={() => {
-                const dialogParameters: DialogStuff = {
-                  name: "Edit_Table_Dialog",
-                  title: "Edit Table",
-                  type: "tableEditorDialog",
-                  show: true,
-                  exclusive: true,
-                  maxWidth: "xs",
-                  iconType: "edit",
-                  apexEditorProps,
-                  actionsList: () =>
-                    DialogOneCancelButtons(
-                      [true, true],
-                      [true, false],
-                      [unloadDialogsAction, () => {}],
-                      "Update",
-                      "updateOutlined"
-                    ),
-                };
+        const EditCommand = (
+          <EditOutlinedIcon
+            onClick={() => {
+              const dialogParameters: DialogStuff = {
+                name: "Edit_Table_Dialog",
+                title: "Edit Table",
+                type: "tableEditorDialog",
+                show: true,
+                exclusive: true,
+                maxWidth: "xs",
+                iconType: "edit",
+                apexEditorProps,
+                actionsList: () =>
+                  DialogOneCancelButtons(
+                    [true, true],
+                    [true, false],
+                    [unloadDialogsAction, () => {}],
+                    "Update",
+                    "updateOutlined"
+                  ),
+              };
 
-                dispatch(showDialogAction(dialogParameters));
-              }}
-            />
-          );
+              dispatch(showDialogAction(dialogParameters));
+            }}
+          />
+        );
 
-          const DeleteCommand = (
-            <DeleteOutlinedIcon
-              onClick={() =>
-                dispatch(
-                  showDialogAction(
-                    confirmationDialogParameters(
-                      "Delete_Table_Data_Dialog",
-                      `Delete ${title}`,
-                      "deleteDataDialog",
-                      "",
-                      false,
-                      true,
-                      () =>
-                        deleteDataByIdRequestAction(
-                          reducer as ReducersType,
-                          deleteUrl as string,
-                          title as string,
-                          () =>
-                            fetchStoredForecastingResultsRequestAction(
-                              currentProjectId
-                            )
-                        ),
-                      "Delete",
-                      "deleteOutlined",
-                      "delete",
-                      title
-                    )
+        const DeleteCommand = (
+          <DeleteOutlinedIcon
+            onClick={() =>
+              dispatch(
+                showDialogAction(
+                  confirmationDialogParameters(
+                    "Delete_Table_Data_Dialog",
+                    `Delete ${title}`,
+                    "deleteDataDialog",
+                    "",
+                    false,
+                    true,
+                    () =>
+                      deleteDataByIdRequestAction(
+                        reducer as ReducersType,
+                        deleteUrl as string,
+                        title as string,
+                        () =>
+                          fetchStoredForecastingResultsRequestAction(
+                            currentProjectId
+                          )
+                      ),
+                    "Delete",
+                    "deleteOutlined",
+                    "delete",
+                    title
                   )
                 )
-              }
-            />
-          );
+              )
+            }
+          />
+        );
 
-          const VisibilityOutlined = (
-            <VisibilityOutlinedIcon
-              className={classes.visibilityOutlinedIcon}
-              onClick={() =>
-                dispatch(
-                  getTableDataByIdRequestAction(
-                    reducer as ReducersType,
-                    `${mainUrl}/forecastResultData/${row.forecastResultsId}`,
-                    row.forecastParametersTitle as string,
-                    wp as TAllWorkflowProcesses,
-                    "table",
-                    collectionName as string
-                  )
+        const VisibilityOutlined = (
+          <VisibilityOutlinedIcon
+            className={classes.visibilityOutlinedIcon}
+            onClick={() =>
+              dispatch(
+                getTableDataByIdRequestAction(
+                  reducer as ReducersType,
+                  `${mainUrl}/forecastResultData/${row.forecastResultsId}`,
+                  row.forecastParametersTitle as string,
+                  wp as TAllWorkflowProcesses,
+                  "table",
+                  collectionName as string
                 )
-              }
-            />
-          );
+              )
+            }
+          />
+        );
 
-          const MoreActionsCommand = (
-            <MenuOpenOutlinedIcon
-              onClick={() =>
-                dispatch(
-                  getTableDataByIdRequestAction(
-                    reducer as ReducersType,
-                    `${mainUrl}/${row.id}`,
-                    row.forecastParametersTitle as string,
-                    wp as TAllWorkflowProcesses,
-                    "table",
-                    collectionName as string
-                  )
+        const MoreActionsCommand = (
+          <MenuOpenOutlinedIcon
+            onClick={() =>
+              dispatch(
+                getTableDataByIdRequestAction(
+                  reducer as ReducersType,
+                  `${mainUrl}/${row.id}`,
+                  row.forecastParametersTitle as string,
+                  wp as TAllWorkflowProcesses,
+                  "table",
+                  collectionName as string
                 )
-              }
-            />
-          );
+              )
+            }
+          />
+        );
 
-          return (
-            <ApexFlexContainer>
-              {EditCommand}
-              {DeleteCommand}
-              {VisibilityOutlined}
-            </ApexFlexContainer>
-          );
-        },
-        width: 120,
+        return (
+          <ApexFlexContainer>
+            {EditCommand}
+            {DeleteCommand}
+            {VisibilityOutlined}
+          </ApexFlexContainer>
+        );
       },
-      {
-        key: "approval",
-        name: "APPROVAL",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Approval approvalText={row.approval} />;
-        },
-        width: 100,
+      width: 120,
+    },
+    {
+      key: "approval",
+      name: "APPROVAL",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return <Approval approvalText={row.approval} />;
       },
-      {
-        key: "saved",
-        name: "STATUS",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Saved savedText={row.saved} />;
-        },
-        width: 100,
+      width: 100,
+    },
+    {
+      key: "saved",
+      name: "STATUS",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return <Saved savedText={row.saved} />;
       },
-      {
-        key: "forecastResultsTitle",
-        name: "FORECAST RESULTS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
+      width: 100,
+    },
+    {
+      key: "forecastResultsTitle",
+      name: "FORECAST RESULTS TITLE",
+      editable: false,
+      resizable: true,
+      width: 300,
+    },
+    {
+      key: "forecastInputDeckTitle",
+      name: "FORECAST INPUTDECK TITLE",
+      editable: false,
+      resizable: true,
+      width: 300,
+    },
+    {
+      key: "forecastParametersTitle",
+      name: "FORECAST PARAMETERS TITLE",
+      editable: false,
+      resizable: true,
+      width: 300,
+    },
+    {
+      key: "author",
+      name: "AUTHOR",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return <Author author={row.author} />;
       },
-      {
-        key: "forecastInputDeckTitle",
-        name: "FORECAST INPUTDECK TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
+      width: 200,
+    },
+    {
+      key: "createdOn",
+      name: "CREATED",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return (
+          <div>
+            {formatDate(
+              new Date(row.createdOn),
+              dayFormat,
+              monthFormat,
+              yearFormat
+            )}
+          </div>
+        );
       },
-      {
-        key: "forecastParametersTitle",
-        name: "FORECAST PARAMETERS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
+      width: 200,
+    },
+    {
+      key: "modifiedOn",
+      name: "MODIFIED",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return (
+          <div>
+            {formatDate(
+              new Date(row.modifiedOn),
+              dayFormat,
+              monthFormat,
+              yearFormat
+            )}
+          </div>
+        );
       },
-      {
-        key: "author",
-        name: "AUTHOR",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Author author={row.author} />;
-        },
-        width: 200,
-      },
-      {
-        key: "createdOn",
-        name: "CREATED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <div>
-              {formatDate(
-                new Date(row.createdOn),
-                dayFormat,
-                monthFormat,
-                yearFormat
-              )}
-            </div>
-          );
-        },
-        width: 200,
-      },
-      {
-        key: "modifiedOn",
-        name: "MODIFIED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <div>
-              {formatDate(
-                new Date(row.modifiedOn),
-                dayFormat,
-                monthFormat,
-                yearFormat
-              )}
-            </div>
-          );
-        },
-        width: 200,
-      },
-    ];
-
-    return columns;
-  };
-
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+      width: 200,
+    },
+  ];
 
   const snStoredData = forecastResultsStored.map(
     (row: IApplicationStoredForecastResultsRow, i: number) => ({
@@ -527,7 +521,7 @@ export default function StoredForecastResults({
 
   const [rows, setRows] = React.useState(snStoredData);
 
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())

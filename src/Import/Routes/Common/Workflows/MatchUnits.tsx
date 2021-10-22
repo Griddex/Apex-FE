@@ -351,14 +351,16 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   );
 
   const [rows, setRows] = React.useState(initialTableRows.current);
-  console.log("🚀 ~ file: MatchUnits.tsx ~ line 358 ~ MatchUnits ~ rows", rows);
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
 
-  const generateColumns = (keyedApplicationUnitOptions: {
-    [index: string]: AppUnitSelectOptionsType;
-  }) => {
+  const generateColumns = (
+    keyedApplicationUnitOptions: {
+      [index: string]: AppUnitSelectOptionsType;
+    },
+    rows: any
+  ) => {
     const handleUnitTypeChange = (
       option: ValueType<ISelectOption, false>,
       row: IRawRow
@@ -381,8 +383,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         type: selectedUnitType,
         unitId: selectedUnitId,
       };
-
-      console.log("newRows within unittypechange");
 
       setRows(newRows);
     };
@@ -847,9 +847,12 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     return columns;
   };
 
-  const columns = generateColumns(keyedApplicationUnitOptions.current);
+  const columns = React.useMemo(
+    () => generateColumns(keyedApplicationUnitOptions.current, rows),
+    [JSON.stringify(keyedApplicationUnitOptions.current), JSON.stringify(rows)]
+  );
 
-  const exportColumns = generateColumns(keyedApplicationUnitOptions.current)
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())
