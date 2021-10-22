@@ -98,7 +98,6 @@ const EconomicsInputButtonsMenu = ({
     <div style={{ cursor: "context-menu" }}>
       {children({ ...childrenProps })}
       <Menu
-        keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}

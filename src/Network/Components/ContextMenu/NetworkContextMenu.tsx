@@ -120,7 +120,6 @@ export const NetworkElementsMenu = ({
     >
       <div>{children}</div>
       <Menu
-        keepMounted
         open={open}
         onClose={handleClose}
         anchorReference="anchorPosition"

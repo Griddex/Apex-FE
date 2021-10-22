@@ -43,7 +43,6 @@ const DrainagePointContextMenu = ({
     >
       {children}
       <Menu
-        keepMounted
         open={open}
         onClose={handleClose}
         anchorReference="anchorPosition"

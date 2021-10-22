@@ -37,7 +37,6 @@ const ApexGridMoreActionsContextMenu = ({
     >
       {children}
       <Menu
-        keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}

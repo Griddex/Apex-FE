@@ -73,7 +73,6 @@ const ChartSelectionMenu = ({
         {plotChartOption.label}
       </Button>
       <Menu
-        keepMounted
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
