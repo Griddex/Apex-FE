@@ -155,6 +155,7 @@ const FillPopoverComponent = ({
               const currentSN = currentRow.sn;
               const currentDataToFill =
                 currentRow[columnTitleOption?.value as string];
+              const currentUnitId = currentRow["unitId"];
 
               const newRows = rows.map((row) => {
                 const { sn } = row;
@@ -165,6 +166,7 @@ const FillPopoverComponent = ({
                   return {
                     ...row,
                     [columnTitleOption?.value as string]: currentDataToFill,
+                    unitId: currentUnitId,
                   };
                 } else {
                   return row;
@@ -187,6 +189,7 @@ const FillPopoverComponent = ({
               const currentSN = currentRow.sn;
               const currentDataToFill =
                 currentRow[columnTitleOption?.value as string];
+              const currentUnitId = currentRow["unitId"];
 
               const newRows = rows.map((row) => {
                 const { sn } = row;
@@ -197,6 +200,7 @@ const FillPopoverComponent = ({
                   return {
                     ...row,
                     [columnTitleOption?.value as string]: currentDataToFill,
+                    unitId: currentUnitId,
                   };
                 } else {
                   return row;

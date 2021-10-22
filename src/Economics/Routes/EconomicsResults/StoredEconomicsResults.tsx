@@ -245,237 +245,232 @@ export default function StoredEcoResults({
 
   const dividerPositions = [50];
 
-  const generateColumns = () => {
-    const columns: Column<IStoredEconomicsResultsRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexGridCheckboxColumn,
-      {
-        key: "actions",
-        name: "ACTIONS",
-        editable: false,
-        formatter: ({ row }) => {
-          const sn = row.sn as number;
-          const title = row.title as string;
-          const id = row.id as string;
-          const deleteUrl = `${mainUrl}/${id}`;
+  const columns: Column<IStoredEconomicsResultsRow>[] = [
+    { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
+    ApexGridCheckboxColumn,
+    {
+      key: "actions",
+      name: "ACTIONS",
+      editable: false,
+      formatter: ({ row }) => {
+        const sn = row.sn as number;
+        const title = row.title as string;
+        const id = row.id as string;
+        const deleteUrl = `${mainUrl}/${id}`;
 
-          const editedRow = rows[sn - 1];
-          const editorData = [
-            {
-              name: "title",
-              title: "ECONOMICS RESULTS TITLE",
-              value: row["title"],
-              editorType: "input",
-            },
-            {
-              name: "description",
-              title: "Description",
-              value: row["description"],
-              editorType: "textArea",
-            },
-          ] as IApexEditorRow[];
+        const editedRow = rows[sn - 1];
+        const editorData = [
+          {
+            name: "title",
+            title: "ECONOMICS RESULTS TITLE",
+            value: row["title"],
+            editorType: "input",
+          },
+          {
+            name: "description",
+            title: "Description",
+            value: row["description"],
+            editorType: "textArea",
+          },
+        ] as IApexEditorRow[];
 
-          const apexEditorProps = {
-            editorData,
-            editedRow,
-            dividerPositions,
-          } as Partial<IApexEditor>;
+        const apexEditorProps = {
+          editorData,
+          editedRow,
+          dividerPositions,
+        } as Partial<IApexEditor>;
 
-          return (
-            <ApexFlexContainer>
-              <EditOutlinedIcon
-                onClick={() => {
-                  const dialogParameters: DialogStuff = {
-                    name: "Edit_Table_Dialog",
-                    title: "Edit Table",
-                    type: "tableEditorDialog",
-                    show: true,
-                    exclusive: true,
-                    maxWidth: "xs",
-                    iconType: "edit",
-                    apexEditorProps,
-                    actionsList: () =>
-                      DialogOneCancelButtons(
-                        [true, true],
-                        [true, false],
-                        [
-                          unloadDialogsAction,
-                          //Captured variable
-                          //solve with componentRef
-                          () => setShouldUpdate(!shouldUpdate),
-                        ],
-                        "Update",
-                        "updateOutlined"
-                      ),
-                  };
+        return (
+          <ApexFlexContainer>
+            <EditOutlinedIcon
+              onClick={() => {
+                const dialogParameters: DialogStuff = {
+                  name: "Edit_Table_Dialog",
+                  title: "Edit Table",
+                  type: "tableEditorDialog",
+                  show: true,
+                  exclusive: true,
+                  maxWidth: "xs",
+                  iconType: "edit",
+                  apexEditorProps,
+                  actionsList: () =>
+                    DialogOneCancelButtons(
+                      [true, true],
+                      [true, false],
+                      [
+                        unloadDialogsAction,
+                        //Captured variable
+                        //solve with componentRef
+                        () => setShouldUpdate(!shouldUpdate),
+                      ],
+                      "Update",
+                      "updateOutlined"
+                    ),
+                };
 
-                  dispatch(showDialogAction(dialogParameters));
-                }}
-              />
-              <DeleteOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    showDialogAction(
-                      confirmationDialogParameters(
-                        "Delete_Table_Data_Dialog",
-                        `Delete ${title}`,
-                        "deleteDataDialog",
-                        "",
-                        false,
-                        true,
-                        () =>
-                          deleteDataByIdRequestAction(
-                            reducer as ReducersType,
-                            deleteUrl as string,
-                            title as string,
-                            () =>
-                              fetchStoredEconomicsResultsRequestAction(
-                                currentProjectId,
-                                false
-                              )
-                          ),
-                        "Delete",
-                        "deleteOutlined",
-                        "delete",
-                        title
-                      )
+                dispatch(showDialogAction(dialogParameters));
+              }}
+            />
+            <DeleteOutlinedIcon
+              onClick={() =>
+                dispatch(
+                  showDialogAction(
+                    confirmationDialogParameters(
+                      "Delete_Table_Data_Dialog",
+                      `Delete ${title}`,
+                      "deleteDataDialog",
+                      "",
+                      false,
+                      true,
+                      () =>
+                        deleteDataByIdRequestAction(
+                          reducer as ReducersType,
+                          deleteUrl as string,
+                          title as string,
+                          () =>
+                            fetchStoredEconomicsResultsRequestAction(
+                              currentProjectId,
+                              false
+                            )
+                        ),
+                      "Delete",
+                      "deleteOutlined",
+                      "delete",
+                      title
                     )
                   )
-                }
-              />
-              <MenuOpenOutlinedIcon
-                onClick={() =>
-                  dispatch(
-                    getTableDataByIdRequestAction(
-                      reducer as ReducersType,
-                      `${mainUrl}/${row.id}`,
-                      row.title as string,
-                      wp as TAllWorkflowProcesses,
-                      "table",
-                      collectionName as string
-                    )
+                )
+              }
+            />
+            <MenuOpenOutlinedIcon
+              onClick={() =>
+                dispatch(
+                  getTableDataByIdRequestAction(
+                    reducer as ReducersType,
+                    `${mainUrl}/${row.id}`,
+                    row.title as string,
+                    wp as TAllWorkflowProcesses,
+                    "table",
+                    collectionName as string
                   )
-                }
-              />
-            </ApexFlexContainer>
-          );
-        },
-        width: 120,
+                )
+              }
+            />
+          </ApexFlexContainer>
+        );
       },
-      {
-        key: "approval",
-        name: "APPROVAL",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Approval approvalText={row.approval} />;
-        },
-        width: 100,
+      width: 120,
+    },
+    {
+      key: "approval",
+      name: "APPROVAL",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return <Approval approvalText={row.approval} />;
       },
-      {
-        key: "saved",
-        name: "STATUS",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Saved savedText={row.saved} />;
-        },
-        width: 100,
+      width: 100,
+    },
+    {
+      key: "saved",
+      name: "STATUS",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return <Saved savedText={row.saved} />;
       },
-      {
-        key: "title",
-        name: "ECONOMICS RESULTS TITLE",
-        editable: false,
-        resizable: true,
-        width: 300,
+      width: 100,
+    },
+    {
+      key: "title",
+      name: "ECONOMICS RESULTS TITLE",
+      editable: false,
+      resizable: true,
+      width: 300,
+    },
+    {
+      key: "analyis",
+      name: "ANALYSIS",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        let analysisTitle = "";
+        if (Array.isArray(row.analysis)) {
+          analysisTitle = row.analysis.map((a) => startCase(a)).join(", ");
+        } else {
+          analysisTitle = startCase(row.analysis);
+        }
+        return (
+          <ApexFlexContainer justifyContent="flex-start">
+            {analysisTitle}
+          </ApexFlexContainer>
+        );
       },
-      {
-        key: "analyis",
-        name: "ANALYSIS",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          let analysisTitle = "";
-          if (Array.isArray(row.analysis)) {
-            analysisTitle = row.analysis.map((a) => startCase(a)).join(", ");
-          } else {
-            analysisTitle = startCase(row.analysis);
-          }
-          return (
-            <ApexFlexContainer justifyContent="flex-start">
-              {analysisTitle}
-            </ApexFlexContainer>
-          );
-        },
-        width: 200,
+      width: 200,
+    },
+    {
+      key: "devScenarios",
+      name: "DEVELOPMENT SCENARIOS",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return (
+          <ApexFlexContainer justifyContent="flex-start">
+            {row.devScenarios?.join(", ")}
+          </ApexFlexContainer>
+        );
       },
-      {
-        key: "devScenarios",
-        name: "DEVELOPMENT SCENARIOS",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <ApexFlexContainer justifyContent="flex-start">
-              {row.devScenarios?.join(", ")}
-            </ApexFlexContainer>
-          );
-        },
-        width: 250,
+      width: 250,
+    },
+    {
+      key: "author",
+      name: "AUTHOR",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return <Author author={row.author} />;
       },
-      {
-        key: "author",
-        name: "AUTHOR",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return <Author author={row.author} />;
-        },
-        width: 200,
+      width: 200,
+    },
+    {
+      key: "createdOn",
+      name: "CREATED",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return (
+          <div>
+            {formatDate(
+              new Date(row.createdOn),
+              dayFormat,
+              monthFormat,
+              yearFormat
+            )}
+          </div>
+        );
       },
-      {
-        key: "createdOn",
-        name: "CREATED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <div>
-              {formatDate(
-                new Date(row.createdOn),
-                dayFormat,
-                monthFormat,
-                yearFormat
-              )}
-            </div>
-          );
-        },
-        width: 200,
+      width: 200,
+    },
+    {
+      key: "modifiedOn",
+      name: "MODIFIED",
+      editable: false,
+      resizable: true,
+      formatter: ({ row }) => {
+        return (
+          <div>
+            {formatDate(
+              new Date(row.modifiedOn),
+              dayFormat,
+              monthFormat,
+              yearFormat
+            )}
+          </div>
+        );
       },
-      {
-        key: "modifiedOn",
-        name: "MODIFIED",
-        editable: false,
-        resizable: true,
-        formatter: ({ row }) => {
-          return (
-            <div>
-              {formatDate(
-                new Date(row.modifiedOn),
-                dayFormat,
-                monthFormat,
-                yearFormat
-              )}
-            </div>
-          );
-        },
-        width: 200,
-      },
-    ];
-
-    return columns;
-  };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+      width: 200,
+    },
+  ];
 
   const snStoredData = economicsResultsStored.map(
     (row: IApplicationStoredEconomicsResultsRow, i: number) => ({
@@ -497,7 +492,7 @@ export default function StoredEcoResults({
 
   const [rows, setRows] = React.useState(snStoredData);
 
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())

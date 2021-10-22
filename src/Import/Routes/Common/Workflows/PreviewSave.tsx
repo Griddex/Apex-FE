@@ -233,6 +233,10 @@ export default function PreviewSave({
     },
     {}
   );
+  console.log(
+    "🚀 ~ file: PreviewSave.tsx ~ line 236 ~ fileHeaderUnitIdMap",
+    fileHeaderUnitIdMap
+  );
 
   //TODO
   //Get chosen date format
@@ -284,7 +288,7 @@ export default function PreviewSave({
 
   const columns = generateColumns();
 
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())
@@ -316,12 +320,20 @@ export default function PreviewSave({
       (acc: any, row: IRawRow) => {
         const { type, fileHeader } = row;
         const fileHeaderDefined = fileHeader as string;
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 323 ~ React.useEffect ~ fileHeaderDefined",
+          fileHeaderDefined
+        );
 
         const appHeaderUnitIdObj =
           fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeaderDefined];
 
         const appHeader = appHeaderUnitIdObj.chosenAppHeader;
         const chosenAppUnitId = fileHeaderUnitIdMap[fileHeaderDefined];
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 330 ~ React.useEffect ~ chosenAppUnitId",
+          chosenAppUnitId
+        );
         const appHeaderName = currentAppHeaderNameMap[appHeader];
 
         return {

@@ -99,32 +99,28 @@ const EconomicsParametersTable = ({
     resizable: true,
   }));
 
-  const generateColumns = () => {
-    const columns: Column<IRawRow>[] = [
-      { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
-      {
-        key: "from",
-        name: "FROM",
-        editable: true,
-        editor: TextEditor,
-        resizable: true,
-        width: 100,
-      },
-      {
-        key: "to",
-        name: "TO",
-        editable: true,
-        editor: TextEditor,
-        resizable: true,
-        width: 100,
-      },
-      ...additionalColumns,
-    ];
+  const columns: Column<IRawRow>[] = [
+    { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
+    {
+      key: "from",
+      name: "FROM",
+      editable: true,
+      editor: TextEditor,
+      resizable: true,
+      width: 100,
+    },
+    {
+      key: "to",
+      name: "TO",
+      editable: true,
+      editor: TextEditor,
+      resizable: true,
+      width: 100,
+    },
+    ...additionalColumns,
+  ];
 
-    return columns;
-  };
-
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())
@@ -224,8 +220,6 @@ const EconomicsParametersTable = ({
     // }));
   };
 
-  const columns = generateColumns();
-
   return (
     <ApexFlexContainer
       ref={rootRef}
@@ -267,7 +261,7 @@ const EconomicsParametersTable = ({
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => (
               <ApexGrid
-                columns={generateColumns() as Column<unknown, unknown>[]}
+                columns={columns}
                 rows={rows}
                 onRowsChange={setRows}
                 tableButtons={tableButtons}

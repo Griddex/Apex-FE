@@ -267,21 +267,17 @@ export default function ForecastData({
     columnKeys = [...originalColumnKeys];
   }
 
-  const generateColumns = () => {
-    const columns = columnKeys.map((k) => {
-      const column = {
-        key: k,
-        name: k,
-        editable: false,
-        resizable: true,
-        width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
-      };
-      return column;
-    });
-    return columns;
-  };
+  const columns = columnKeys.map((k) => {
+    const column = {
+      key: k,
+      name: k,
+      editable: false,
+      resizable: true,
+      width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
+    };
+    return column;
+  });
 
-  const columns = React.useMemo(() => generateColumns(), [selectedRows]);
   const tableRows = React.useRef<any>(snSelectedForecastData);
 
   const currentRows = tableRows.current;
@@ -384,7 +380,7 @@ export default function ForecastData({
       selectedForecastTitleOption as IExtendedSelectOption
     );
 
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())

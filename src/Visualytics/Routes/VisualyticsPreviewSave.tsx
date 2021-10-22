@@ -144,7 +144,7 @@ export default function VisualyticsPreviewSave({
 
   const columns = generateColumns();
 
-  const exportColumns = generateColumns()
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())

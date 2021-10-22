@@ -666,7 +666,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     };
   }, {} as Record<string, Record<string, React.Key | boolean>>);
 
-  const exportColumns = generateColumns(keyedAppHeaderOptions.current)
+  const exportColumns = columns
     .filter(
       (column) =>
         !["actions", "select_control_key"].includes(column.key.toLowerCase())
