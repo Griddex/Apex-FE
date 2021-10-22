@@ -276,7 +276,7 @@ const ForecastLanding = () => {
                   route={route}
                   wP={workflowProcess}
                   wC={workflowCategory}
-                />{" "}
+                />
               </Badge>
             );
           })}

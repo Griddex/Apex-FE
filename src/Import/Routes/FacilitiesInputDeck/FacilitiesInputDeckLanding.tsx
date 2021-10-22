@@ -209,6 +209,18 @@ const FacilitiesInputDeckLanding = () => {
     } as BadgeProps;
   };
 
+  const excelworkflowFinalAction = React.useCallback(
+    () => facilitiesExcelandDbWorkflowFinalAction("facilitiesInputDeckExcel"),
+    []
+  );
+
+  const databaseFinalAction = React.useCallback(
+    () => facilitiesExcelandDbWorkflowFinalAction("facilitiesInputDeckExcel"),
+    []
+  );
+
+  const storedDataFinalActionMem = React.useCallback(storedDataFinalAction, []);
+
   return (
     <>
       {loadWorkflow ? (
@@ -226,11 +238,7 @@ const FacilitiesInputDeckLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckExcel"}
-                    finalAction={() =>
-                      facilitiesExcelandDbWorkflowFinalAction(
-                        "facilitiesInputDeckExcel"
-                      )
-                    }
+                    finalAction={excelworkflowFinalAction}
                   />
                 ),
                 database: (
@@ -238,18 +246,14 @@ const FacilitiesInputDeckLanding = () => {
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckDatabase"}
-                    finalAction={() =>
-                      facilitiesExcelandDbWorkflowFinalAction(
-                        "facilitiesInputDeckExcel"
-                      )
-                    }
+                    finalAction={databaseFinalAction}
                   />
                 ),
                 approveddeck: (
                   <StoredFacilitiesDecks
                     reducer={reducer}
                     showChart={true}
-                    finalAction={storedDataFinalAction}
+                    finalAction={storedDataFinalActionMem}
                   />
                 ),
               };
@@ -269,6 +273,7 @@ const FacilitiesInputDeckLanding = () => {
               workflowProcess,
               workflowCategory,
             } = module;
+
             return (
               <Badge
                 key={name}
@@ -287,7 +292,7 @@ const FacilitiesInputDeckLanding = () => {
                   route={route}
                   wP={workflowProcess}
                   wC={workflowCategory}
-                />{" "}
+                />
               </Badge>
             );
           })}

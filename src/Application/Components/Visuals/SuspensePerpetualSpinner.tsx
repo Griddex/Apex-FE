@@ -7,23 +7,11 @@ import HashLoader from "react-spinners/HashLoader";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    opacity: 0.2,
-    zIndex: 1300,
-    position: "fixed",
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0,
-  },
   backdrop: {
+    opacity: 0.5,
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
+    backgroundColor: "#00000080",
   },
 }));
 
@@ -52,9 +40,9 @@ const SuspensePerpetualSpinner = ({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     dispatch(hideSpinnerAction());
-  };
+  }, []);
 
   return (
     <Backdrop className={classes.backdrop} open={pending} onClick={handleClose}>

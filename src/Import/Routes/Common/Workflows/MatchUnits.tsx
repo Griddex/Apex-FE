@@ -7,7 +7,7 @@ import findIndex from "lodash.findindex";
 import range from "lodash.range";
 import uniq from "lodash.uniq";
 import zipObject from "lodash.zipobject";
-import React from "react";
+import React, { Suspense } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { OptionsType, ValueType } from "react-select";
@@ -115,6 +115,7 @@ const appUnitsUnitGroupsMapSelector = createDeepEqualSelector(
 );
 
 const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
+  console.log("Matchunitsssssssssssssssssssssssssssssssssss");
   const wc = "inputDataWorkflows";
   const wp = wrkflwPrcss;
 
@@ -135,7 +136,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   );
 
   const variableNameUnitsMap = useSelector(variableNameUnitsMapSelector);
-
   const appUnitsUnitGroupsMap = useSelector(appUnitsUnitGroupsMapSelector);
 
   const currentAppHeaderOptionsSelector = createDeepEqualSelector(
@@ -1026,20 +1026,28 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         />
       </div>
       <div className={classes.table}>
-        <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid
-              columns={columns}
-              rows={rows}
-              onRowsChange={setRows}
-              tableButtons={tableButtons}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
-            />
-          )}
-        </SizeMe>
+        <Suspense
+          fallback={
+            <div>
+              <h1>{"Loading..."}</h1>
+            </div>
+          }
+        >
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => (
+              <ApexGrid
+                columns={columns}
+                rows={rows}
+                onRowsChange={setRows}
+                tableButtons={tableButtons}
+                size={size}
+                autoAdjustTableDim={true}
+                showTableHeader={true}
+                showTablePagination={true}
+              />
+            )}
+          </SizeMe>
+        </Suspense>
       </div>
     </div>
   );

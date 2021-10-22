@@ -271,7 +271,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
           />
           <DialogContextDrawer>
             <DialogVerticalWorkflowStepper {...workflowProps} />
-          </DialogContextDrawer>{" "}
+          </DialogContextDrawer>
         </div>
       </DialogContent>
       <DialogActions>
