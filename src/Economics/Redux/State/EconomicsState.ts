@@ -51,8 +51,8 @@ export const initialEconomicsWorkflowState = {
   fileUnitsWithoutNone: [],
 
   appHeaderNameUnitsMap: {},
-  matchHeadersTable: [],
-  matchUnitsTable: [],
+  matchHeadersRows: [],
+  matchUnitsRows: [],
 
   currentDevOption: {},
   developmentScenarios: [],

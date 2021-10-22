@@ -75,8 +75,8 @@ export interface IEconomicsImport {
   fileUnitsWithoutNone: string[];
 
   appHeaderNameUnitsMap: Record<string, string>;
-  matchHeadersTable: IRawRow[];
-  matchUnitsTable: IRawRow[];
+  matchHeadersRows: IRawRow[];
+  matchUnitsRows: IRawRow[];
 
   currentDevOption: { value: TDevScenarioNames; label: TDevScenarioTitles };
   developmentScenarios: TDevScenarioNames[];

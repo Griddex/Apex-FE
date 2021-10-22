@@ -1,4 +1,3 @@
-import set from "lodash.set";
 import {
   TAllWorkflowProcesses,
   TOnlyWorkflowCategories,
@@ -8,7 +7,6 @@ import {
   INITIALIZE_WORKFLOW,
   NAVBUTTON_DISABLED,
   NEXT_WORKFLOW,
-  REINITIALIZE_WORKFLOW,
   RESET_CURRENTWORKFLOW,
   RESET_WORKFLOW,
   SAVE_WORKFLOW,
@@ -29,13 +27,6 @@ const workflowReducer = (state = workflowState, action: IAction) => {
         ...state,
         currentWorkflowProcess: action.payload.workflowProcess,
       };
-
-    case REINITIALIZE_WORKFLOW: {
-      const { path, value } = action.payload;
-
-      const updatedState = set(state, path, value);
-      return updatedState;
-    }
 
     case INITIALIZE_WORKFLOW: {
       const { workflowCategory, workflowProcess } = action.payload;

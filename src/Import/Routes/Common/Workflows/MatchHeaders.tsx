@@ -444,7 +444,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             next[workflowClass]["headers"]
           );
           const matchObj = matchObjectValuesByHeaders.find(
-            (o) => o.fileHeader === strFileheader
+            (o) => o.header === strFileheader
           ) as TSingleMatchObject;
 
           let fileHeaderId: string;
@@ -759,7 +759,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     dispatch(
       updateInputParameterAction(
         reducer,
-        `inputDataWorkflows.${wp}.matchHeadersTable`,
+        `inputDataWorkflows.${wp}.matchHeadersRows`,
         rows
       )
     );

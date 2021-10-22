@@ -71,10 +71,7 @@ export default function PreviewSave({
     (state: RootState) => state[reducer][wc][wp]["currentDevOption"],
     (data) => data
   );
-  const fileHeaderUnitIdMapSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp]["fileHeaderUnitIdMap"],
-    (data) => data
-  );
+
   const currentAppHeaderNameMapSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer][wc][wp]["currentAppHeaderNameMap"],
     (data) => data
@@ -102,16 +99,15 @@ export default function PreviewSave({
     (data) => data
   );
   const matchHeadersTableSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp]["matchHeadersTable"],
+    (state: RootState) => state[reducer][wc][wp]["matchHeadersRows"],
     (data) => data
   );
   const matchUnitsTableSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer][wc][wp]["matchUnitsTable"],
+    (state: RootState) => state[reducer][wc][wp]["matchUnitsRows"],
     (data) => data
   );
 
   const currentDevOption = useSelector(currentDevOptionSelector);
-  const fileHeaderUnitIdMap = useSelector(fileHeaderUnitIdMapSelector);
   const currentAppHeaderNameMap = useSelector(currentAppHeaderNameMapSelector);
   const fileHeadersUnitsAppHeadersWithoutNoneMap = useSelector(
     fileHeadersUnitsAppHeadersWithoutNoneMapSelector
@@ -120,8 +116,8 @@ export default function PreviewSave({
   const columnNameTableData = useSelector(columnNameTableDataSelector);
   const selectedHeaderRowIndex = useSelector(selectedHeaderRowIndexSelector);
   const selectedUnitRowIndex = useSelector(selectedUnitRowIndexSelector);
-  const matchHeadersTable = useSelector(matchHeadersTableSelector);
-  const matchUnitsTable = useSelector(matchUnitsTableSelector);
+  const matchHeadersRows = useSelector(matchHeadersTableSelector);
+  const matchUnitsRows = useSelector(matchUnitsTableSelector);
 
   const facilitiesAppHeadersSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer]["facilitiesAppHeaders"],
@@ -167,7 +163,7 @@ export default function PreviewSave({
     false
   );
 
-  const includedColumnIndices = matchHeadersTable.reduce(
+  const includedColumnIndices = matchHeadersRows.reduce(
     (acc: number[], row: IRawRow, i: number) => {
       if (row.applicationHeader.toString().toLowerCase() === "none")
         return [...acc, i];
@@ -188,14 +184,14 @@ export default function PreviewSave({
     []
   );
 
-  const chosenAppHeadersWithNone = matchHeadersTable.map(
+  const chosenAppHeadersWithNone = matchHeadersRows.map(
     (row: IRawRow) => row.applicationHeader
   );
   const chosenAppHeadersWithoutNone = (
     chosenAppHeadersWithNone as string[]
   ).filter((h: string) => h.toLowerCase() !== "none");
 
-  const chosenApplicationUnitsWithoutNone = matchUnitsTable.map(
+  const chosenApplicationUnitsWithoutNone = matchUnitsRows.map(
     (row: IRawRow) => row.applicationUnit
   );
 
@@ -230,6 +226,13 @@ export default function PreviewSave({
     sn: i + 2,
     ...row,
   }));
+
+  const fileHeaderUnitIdMap = matchUnitsRows.reduce(
+    (acc: Record<string, string>, row: any) => {
+      return { ...acc, [row.fileHeader]: row.unitId };
+    },
+    {}
+  );
 
   //TODO
   //Get chosen date format
@@ -309,7 +312,7 @@ export default function PreviewSave({
   React.useEffect(() => {
     dispatch(persistTableDataAction(reducer, tableData, wp));
 
-    const appHeaderNameUnitsMap = matchUnitsTable.reduce(
+    const appHeaderNameUnitsMap = matchUnitsRows.reduce(
       (acc: any, row: IRawRow) => {
         const { type, fileHeader } = row;
         const fileHeaderDefined = fileHeader as string;
@@ -328,10 +331,6 @@ export default function PreviewSave({
         };
       },
       {}
-    );
-    console.log(
-      "Logged output --> ~ file: MatchUnits.tsx ~ line 858 ~ appHeaderNameUnitsMap ~ appHeaderNameUnitsMap",
-      appHeaderNameUnitsMap
     );
 
     dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitsMap, wp));
