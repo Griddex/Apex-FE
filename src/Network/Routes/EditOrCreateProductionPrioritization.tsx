@@ -26,10 +26,7 @@ import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGr
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
-
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

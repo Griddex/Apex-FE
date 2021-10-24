@@ -140,6 +140,7 @@ const EconomicsPlotChartsVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={economicsPlotChartsOptions}
+          initialChartIndex={2}
           putChartOptionAction={
             plotChartsResults.length > 0
               ? (chartOption: ISelectOption) => {
@@ -150,7 +151,9 @@ const EconomicsPlotChartsVisualytics = () => {
                     chartType: chartOption.value,
                     xValueCategories,
                     lineOrScatter:
-                      chartOption.value === "lineChart" ? "line" : "scatter",
+                      chartOption.value === "lineChart"
+                        ? "lineChart"
+                        : "scatterChart",
                     isYear: true,
                     selectedChartOptionTitle:
                       "selectedEconomicsPlotChartOption",

@@ -44,11 +44,7 @@ import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesType
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

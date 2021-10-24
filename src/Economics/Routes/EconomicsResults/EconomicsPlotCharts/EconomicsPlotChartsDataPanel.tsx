@@ -97,6 +97,10 @@ const EconomicsPlotChartsDataPanel = ({
   );
 
   const chartType = selectedEconomicsPlotChartOption.value;
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsDataPanel.tsx ~ line 100 ~ selectedEconomicsPlotChartOption",
+    selectedEconomicsPlotChartOption
+  );
 
   const economicsResultsTitleOptions = economicsResultsStored.map(
     (row: any) => ({

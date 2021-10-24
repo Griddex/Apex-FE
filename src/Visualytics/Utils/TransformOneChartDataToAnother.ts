@@ -30,7 +30,7 @@ export const stackedChartToLineOrScatterChartData = ({
       ...acc,
       {
         id: serie,
-        ...(lineOrScatter === "line" && { color: "#CCC" }),
+        ...(lineOrScatter === "lineChart" && { color: "#CCC" }),
         data: seriesData,
       },
     ];

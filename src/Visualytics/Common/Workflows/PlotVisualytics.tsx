@@ -173,7 +173,9 @@ const PlotVisualytics = () => {
                     chartType: chartOption.value,
                     xValueCategories,
                     lineOrScatter:
-                      chartOption.value === "lineChart" ? "line" : "scatter",
+                      chartOption.value === "lineChart"
+                        ? "lineChart"
+                        : "scatterChart",
                     selectedChartOptionTitle: "selectedVisualyticsChartOption",
                     collateBy: "yValue",
                   };

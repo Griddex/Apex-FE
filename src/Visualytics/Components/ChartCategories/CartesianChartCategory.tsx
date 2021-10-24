@@ -58,6 +58,10 @@ const CartesianChartCategory = ({
   categoryHasDroppedTitle,
   resultsTitle,
 }: IChartCategories) => {
+  console.log(
+    "🚀 ~ file: CartesianChartCategory.tsx ~ line 61 ~ categoryOptionTitle",
+    categoryOptionTitle
+  );
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();

@@ -167,19 +167,6 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
     if (selectedModIds.length === 0) {
       dispatch(updateForecastResultsParameterAction("selectedModuleIds", []));
       dispatch(resetChartDataAction("forecastReducer", wc));
-      // dispatch({
-      //   ...transformForecastChartDataAction("forecastReducer"),
-      //   payload: {
-      //     reducer: "forecastReducer",
-      //     workflowCategory: wc,
-      //     defaultChart: ch,
-      //     chartType,
-      //     chartData: [],
-      //     xValueCategories: [],
-      //     lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
-      //     isYear: true,
-      //   },
-      // });
     } else if (selectedModIds.length > 0) {
       if (selectedModIds.length > prevModuleIds.length) {
         switch (selectedView) {
@@ -222,7 +209,8 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
             chartType,
             chartData: filteredData,
             xValueCategories,
-            lineOrScatter: chartType === "lineChart" ? "line" : "scatter",
+            lineOrScatter:
+              chartType === "lineChart" ? "lineChart" : "scatterChart",
             isYear: true,
           },
         });

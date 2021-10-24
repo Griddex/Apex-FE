@@ -12,19 +12,9 @@ import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons"
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
-
-const SensitivitiesHeatMapChart = React.lazy(
-  () => import("./SensitivitiesHeatMapChart")
-);
-const SensitivitiesHeatMapDataPanel = React.lazy(
-  () => import("./SensitivitiesHeatMapDataPanel")
-);
-const VisualyticsContext = React.lazy(
-  () =>
-    import(
-      "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext"
-    )
-);
+import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
+import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
+import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {

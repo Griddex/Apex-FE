@@ -135,7 +135,7 @@ const visualyticsState: IVisualyticsState = {
   visualyticsResults: [],
   visualyticsTree: { id: "", name: "" },
   xValueCategories: [],
-  lineOrScatter: "line",
+  lineOrScatter: "lineChart",
   isYear: true,
   transVisualyticsResult: [],
   visualyticsResultsId: "",

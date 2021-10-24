@@ -3,7 +3,7 @@ import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 export interface IForecastResultsTransformers {
   data: any;
   yearsOrMonths?: number[];
-  lineOrScatter?: "line" | "scatter";
+  lineOrScatter?: "lineChart" | "scatterChart";
   isYear?: boolean;
 }
 

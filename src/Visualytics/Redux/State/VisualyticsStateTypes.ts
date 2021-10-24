@@ -69,7 +69,7 @@ export interface IVisualyticsState {
   visualyticsResults: any[];
   visualyticsTree: RenderTree;
   xValueCategories: string[];
-  lineOrScatter: "line" | "scatter";
+  lineOrScatter: "lineChart" | "scatterChart";
   isYear: boolean;
   transVisualyticsResult: any[];
   visualyticsResultsId: string;

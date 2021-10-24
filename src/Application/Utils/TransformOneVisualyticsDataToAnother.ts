@@ -132,7 +132,7 @@ export const visualyticsDataToLineOrScatterChartData = ({
       ...acc,
       {
         id: yName,
-        ...(lineOrScatter === "line" && { color: "#CCC" }),
+        ...(lineOrScatter === "lineChart" && { color: "#CCC" }),
         data: yNamesData,
       },
     ];

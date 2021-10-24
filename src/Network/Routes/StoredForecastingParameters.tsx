@@ -45,10 +45,8 @@ import {
   forecastingParametersToStored,
   storedToForecastingParameters,
 } from "../Utils/TransformForecastingParameters";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IForecastParametersStoredRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({

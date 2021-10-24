@@ -50,11 +50,8 @@ import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettings
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IStoredDataRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.primary.main,
     fontWeight: "bold",
-    width: 40,
+    minWidth: 40,
   },
   label: {
     display: "flex",
@@ -36,11 +36,12 @@ const ChartSelectionMenu = ({
   const theme = useTheme();
 
   const initialChartIndexDefined = initialChartIndex as number;
-  const i = initialChartIndexDefined === 0 ? initialChartIndexDefined : 1;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [plotChartOption, setPlotChartOption] = React.useState(
-    chartOptions[i] as ISelectOption
+    chartOptions[
+      initialChartIndexDefined ? initialChartIndexDefined : 0
+    ] as ISelectOption
   );
 
   const handleClick = (event: ChangeEvent<any>) => {
@@ -73,6 +74,7 @@ const ChartSelectionMenu = ({
         {plotChartOption.label}
       </Button>
       <Menu
+        style={{ paddingRight: 8 }}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}

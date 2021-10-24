@@ -30,10 +30,8 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IStoredForecastResultsRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
