@@ -59,6 +59,10 @@ const XYYZRChartCategories = ({
   const theme = useTheme();
 
   const chartTypeDefined = chartType as TChartTypes;
+  console.log(
+    "🚀 ~ file: XYYZRChartCategories.tsx ~ line 62 ~ chartTypeDefined",
+    chartTypeDefined
+  );
   const CategoryPanelComponent = categoryPanelComponent as JSX.Element;
 
   const categoryDetailsStyle = {

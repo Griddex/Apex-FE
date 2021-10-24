@@ -45,11 +45,8 @@ import {
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({

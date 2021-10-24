@@ -40,10 +40,8 @@ import {
   getProductionPrioritizationByIdRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IStoredDataRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({

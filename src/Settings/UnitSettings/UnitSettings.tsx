@@ -43,10 +43,8 @@ import {
   SelectedVariablesType,
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IUnitsRow, ITableButtonsProps>
 
 const useStyles = makeStyles(() => ({

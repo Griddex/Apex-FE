@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     gridArea: "footer",
     height: "100%",
+    backgroundColor: theme.palette.grey["100"],
   },
 }));
 
@@ -78,7 +79,7 @@ const LandingRoute = () => {
         </Typography>
       </div>
       <div className={classes.footer}>
-        <hr />
+        <hr style={{ margin: 0 }} />
         <Button
           className={classes.button}
           variant="contained"

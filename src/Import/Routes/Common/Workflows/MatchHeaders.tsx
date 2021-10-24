@@ -51,11 +51,7 @@ import {
   TSingleMatchObject,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
-
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

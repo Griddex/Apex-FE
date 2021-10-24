@@ -34,10 +34,7 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
-
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({

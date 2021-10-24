@@ -31,13 +31,10 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const EconomicsParametersValue = React.lazy(
   () => import("../../../Components/Parameters/EconomicsParametersValue")
-);
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
 );
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);

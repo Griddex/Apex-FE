@@ -33,10 +33,7 @@ import swapVariableNameTitleForISelectOption from "../../../Application/Utils/Sw
 import { IEconomicsParametersTable } from "./IParametersType";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const ApexGrid = React.lazy(
-  () => import("../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const useStyles = makeStyles(() => ({
   economicsParametersTable: {

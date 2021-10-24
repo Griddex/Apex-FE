@@ -70,7 +70,7 @@ const forcastResultState: IForecastResultState = {
   forecastResults: [],
   forecastTree: [],
   xValueCategories: [],
-  lineOrScatter: "line",
+  lineOrScatter: "lineChart",
   isYear: true,
   transForecastResult: [],
 

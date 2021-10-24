@@ -60,10 +60,8 @@ import {
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
-const ApexGrid = React.lazy(
-  () => import("../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
 //<IStoredEconomicsResultsRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({

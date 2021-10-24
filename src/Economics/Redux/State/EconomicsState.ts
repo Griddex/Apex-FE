@@ -263,7 +263,7 @@ const EconomicsState: IEconomicsState = {
   plotChartsData: null,
   plotChartsDataTrans: null,
   selectedEconomicsPlotChartOption: {
-    value: "line",
+    value: "lineChart",
     label: "Line Chart...",
   },
   showPlotChartsCategories: false,

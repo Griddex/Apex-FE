@@ -16,10 +16,7 @@ import { IAllWorkflows } from "../../Application/Components/Workflows/WorkflowTy
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { persistTableDataAction } from "../../Import/Redux/Actions/InputActions";
-
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {

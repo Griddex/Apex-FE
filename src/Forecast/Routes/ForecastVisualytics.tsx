@@ -123,6 +123,7 @@ const ForecastVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={forecastPlotChartsOptions}
+          initialChartIndex={1}
           putChartOptionAction={
             (chartData as any[]).length > 0
               ? (chartOption: ISelectOption) => {
@@ -134,7 +135,9 @@ const ForecastVisualytics = () => {
                     chartType: chartOption.value,
                     xValueCategories,
                     lineOrScatter:
-                      chartOption.value === "lineChart" ? "line" : "scatter",
+                      chartOption.value === "lineChart"
+                        ? "lineChart"
+                        : "scatterChart",
                     isYear: true,
                     selectedChartOptionTitle: "selectedForecastChartOption",
                   };

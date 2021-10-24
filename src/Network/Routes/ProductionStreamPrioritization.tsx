@@ -25,10 +25,7 @@ import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexConta
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-
-const ApexGrid = React.lazy(
-  () => import("../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

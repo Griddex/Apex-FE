@@ -13,11 +13,7 @@ import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import { TParametersId } from "../EconomicsAnalysesTypes";
 import { IParameterSensitivity } from "./EconomicsParametersSensitivitiesTypes";
-
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const initialRows = [
   {

@@ -78,7 +78,8 @@ function* getForecastResultsChartDataSaga(
   } = yield select((state) => state.forecastReducer);
 
   const chartType = selectedForecastChartOption.value;
-  const lineOrScatter = chartType === "lineChart" ? "line" : "scatter";
+  const lineOrScatter =
+    chartType === "lineChart" ? "lineChart" : "scatterChart";
 
   const config = {};
   const url = `${getBaseForecastUrl()}/chartData`;

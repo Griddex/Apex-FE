@@ -13,12 +13,7 @@ import {
   TEconomicsAnalysesNames,
   TSensitivitiesTable,
 } from "../EconomicsAnalysesTypes";
-
-//ISensitivitiesRow
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 export interface IEconomicsSensitivitiesTable {
   sensitivitiesTable: TSensitivitiesTable;
