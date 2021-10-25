@@ -1,4 +1,4 @@
-import { INameTitleOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
   IEconomicsWorkflows,
@@ -7,6 +7,7 @@ import {
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   TDevScenarioNames,
   TEconomicsAnalysesNames,
@@ -762,16 +763,20 @@ export const updateEconomicsChartCategoryAction = (
 export const removeEconomicsChartCategoryAction = (
   categoryMembersObjTitle: string,
   categoryDragItemsTitle: string,
+  categoryTitle: string,
   categoryOptionTitle: string,
-  id: string
+  id: string,
+  chartType: TChartTypes
 ) => {
   return {
     type: ECONOMICS_REMOVE_CHARTCATEGORY,
     payload: {
       categoryMembersObjTitle,
       categoryDragItemsTitle,
+      categoryTitle,
       categoryOptionTitle,
       id,
+      chartType,
     },
   };
 };
@@ -780,7 +785,7 @@ export const updateEconomicsHeatMapDragItemsAction = (
   reducer: ReducersType,
   categoryTitle: string,
   categoryDragItemsTitle: string,
-  item: INameTitleOption
+  item: IIdNameTitlePathOption
 ) => {
   return {
     type: ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
@@ -811,7 +816,7 @@ export const updateEconomicsPlotChartsDragItemsAction = (
   reducer: ReducersType,
   categoryTitle: string,
   categoryDragItemsTitle: string,
-  item: INameTitleOption
+  item: IIdNameTitlePathOption
 ) => {
   return {
     type: ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS,

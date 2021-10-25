@@ -52,26 +52,15 @@ function* transformEconomicsChartDataSaga(
     collateBy,
     collationFxn,
   } = payload;
-  console.log(
-    "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 56 ~ payload",
-    payload
-  );
 
   const { plotChartsResults, plotChartsCategoryDragItems } = yield select(
     (state: RootState) => state[reducer as ReducersType]
   );
-  console.log(
-    "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 64 ~ plotChartsResults",
-    plotChartsResults
-  );
+
   let data = [] as any[];
 
   if (chartData) data = chartData;
   else data = plotChartsResults;
-  console.log(
-    "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 68 ~ data",
-    data
-  );
 
   try {
     const transformedChartDataFxn =
@@ -84,10 +73,6 @@ function* transformEconomicsChartDataSaga(
       collateBy,
       collationFxn,
     });
-    console.log(
-      "Logged output --> ~ file: TransformEconomicsDataSaga.ts ~ line 82 ~ transformedChartData",
-      transformedChartData
-    );
 
     const successAction = transformEconomicsChartDataSuccessAction();
     yield put({

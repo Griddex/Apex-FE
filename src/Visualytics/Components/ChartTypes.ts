@@ -25,6 +25,7 @@ export interface IChartProps {
   selectedChartOptionTitle?: string;
   defs?: any;
   fill?: any;
+  indexBy?: string;
 }
 
 export declare type TAxisName = keyof typeof axisNameTitlesObj;

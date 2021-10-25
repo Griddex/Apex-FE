@@ -21,15 +21,11 @@ import {
   putSelectChartOptionAction,
   updateVisualyticsParameterAction,
 } from "../../Redux/Actions/VisualyticsActions";
+import NoSelectionPlaceholder from "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import { SizeMe } from "react-sizeme";
 
 const VisualyticsContext = React.lazy(
   () => import("../../Components/ContextDrawers/VisualyticsContext")
-);
-const NoSelectionPlaceholder = React.lazy(
-  () =>
-    import(
-      "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder"
-    )
 );
 const VisualyticsChartDataPanel = React.lazy(
   () => import("../VisualyticsChartDataPanel")
@@ -80,6 +76,10 @@ const useStyles = makeStyles((theme) => ({
   },
   selectChart: {
     height: `calc(100% - 50px)`,
+  },
+  plotChart: {
+    height: "100%",
+    width: "100%",
   },
 }));
 
@@ -286,16 +286,24 @@ const PlotVisualytics = () => {
             <VisualyticsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          <div className={classes.selectChart}>
-            {chartType === "Select Chart..." ? (
-              <NoSelectionPlaceholder
-                icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                text="Select chart.."
-              />
-            ) : (
-              <VisualyticsSelectChart />
-            )}
-          </div>
+
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => {
+              return chartType === "Select Chart..." ? (
+                <NoSelectionPlaceholder
+                  icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                  text="Select chart.."
+                />
+              ) : (
+                <div className={classes.plotChart}>
+                  <VisualyticsSelectChart
+                    width={size.width as number}
+                    height={size.height as number}
+                  />
+                </div>
+              );
+            }}
+          </SizeMe>
         </div>
       </div>
       {showContextDrawer && (

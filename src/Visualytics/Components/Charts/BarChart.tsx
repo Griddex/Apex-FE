@@ -15,19 +15,40 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { GridValues, IChartProps } from "../ChartTypes";
+import omit from "lodash.omit";
 
-const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
+const SimpleBarChart = ({
+  workflowCategory,
+  reducer,
+  indexBy,
+}: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const reducerWCSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc],
-    (wc) => wc
+  const commonChartPropsSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (data) => data
+  );
+  const barChartDataSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc]["barChart"]["chartData"],
+    (data) => data
+  );
+  const stackedAreaChartSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc]["stackedAreaChart"],
+    (data) => data
+  );
+  const isYearSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined][wc]["isYear"],
+    (data) => data
   );
 
-  const { commonChartProps, barChart, stackedAreaChart, isYear } =
-    useSelector(reducerWCSelector);
-  const { chartData } = barChart;
+  const commonChartProps = useSelector(commonChartPropsSelector);
+
+  const chartData = useSelector(barChartDataSelector);
+
+  const stackedAreaChart = useSelector(stackedAreaChartSelector);
+
+  const isYear = useSelector(isYearSelector);
 
   const commonChartPropsDefined = commonChartProps as IChart;
 
@@ -56,17 +77,30 @@ const SimpleBarChart = ({ workflowCategory, reducer }: IChartProps) => {
   //TODO fix isYear, keeps returning month
   //Barchart renders before payload hits store
   // commonChartPropsDefined["indexBy"] = isYear ? "Year" : "Month";
-  commonChartPropsDefined["indexBy"] = "Year";
+  commonChartPropsDefined["indexBy"] = indexBy as string;
 
-  //TODO Gift to give me this
   let keys = [] as any[];
-  if (Object.keys(stackedAreaChart.chartData).length > 0)
-    keys = Object.keys(stackedAreaChart.chartData[0]);
+  if (chartData.length > 0) {
+    const firstSeriesObj = chartData[0];
+    const allKeysWithColor = Object.keys(firstSeriesObj).filter((k) =>
+      k.toLowerCase().endsWith("color")
+    );
+
+    const keysObj = omit(firstSeriesObj, [
+      indexBy as string,
+      ...allKeysWithColor,
+    ]);
+    keys = Object.keys(keysObj);
+  }
   commonChartPropsDefined["keys"] = keys;
 
   const valueFormatBar = (v: DatumValue) =>
     format(valueFormatString)(v as number);
   commonChartPropsDefined["valueFormat"] = valueFormatBar;
+  console.log(
+    "🚀 ~ file: BarChart.tsx ~ line 90 ~ commonChartPropsDefined",
+    commonChartPropsDefined
+  );
 
   return <ResponsiveBar data={chartData} {...commonChartPropsDefined} />;
 };

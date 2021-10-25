@@ -51,18 +51,11 @@ const XYYZRChartCategories = ({
   resultsTitle,
   showCategoryZMembers,
 }: IChartCategories) => {
-  console.log(
-    "🚀 ~ file: XYYZRChartCategories.tsx ~ line 53 ~ showCategoryMembersObj",
-    showCategoryMembersObj
-  );
   const classes = useStyles();
   const theme = useTheme();
 
   const chartTypeDefined = chartType as TChartTypes;
-  console.log(
-    "🚀 ~ file: XYYZRChartCategories.tsx ~ line 62 ~ chartTypeDefined",
-    chartTypeDefined
-  );
+
   const CategoryPanelComponent = categoryPanelComponent as JSX.Element;
 
   const categoryDetailsStyle = {
@@ -93,6 +86,7 @@ const XYYZRChartCategories = ({
       <ApexFlexContainer flexDirection="column" height={"100%"}>
         {[...XYY, ...XYZ, ...XYR].includes(chartTypeDefined) && (
           <XChartCategory
+            chartType={chartType}
             reducer={reducer}
             categoryOptionTitle={xCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -117,6 +111,7 @@ const XYYZRChartCategories = ({
         )}
         {[...XYY, ...XYZ, ...XYR].includes(chartTypeDefined) && (
           <YChartCategory
+            chartType={chartType}
             reducer={reducer}
             categoryOptionTitle={yCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -141,6 +136,7 @@ const XYYZRChartCategories = ({
         )}
         {XYY.includes(chartTypeDefined) && (
           <YChartCategory
+            chartType={chartType}
             reducer={reducer}
             categoryOptionTitle={ySecondaryCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -165,6 +161,7 @@ const XYYZRChartCategories = ({
         )}
         {XYZ.includes(chartTypeDefined) && (
           <ZChartCategory
+            chartType={chartType}
             reducer={reducer}
             categoryOptionTitle={zCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -189,6 +186,7 @@ const XYYZRChartCategories = ({
         )}
         {XYR.includes(chartTypeDefined) && (
           <RChartCategory
+            chartType={chartType}
             reducer={reducer}
             categoryOptionTitle={rCategoryOptionTitle as string}
             updateAction={updateAction}

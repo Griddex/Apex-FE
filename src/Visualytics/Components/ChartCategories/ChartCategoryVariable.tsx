@@ -1,3 +1,4 @@
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import {
   IconButton,
   ListItemAvatar,
@@ -6,15 +7,13 @@ import {
   useTheme,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import omit from "lodash.omit";
 import React, { CSSProperties } from "react";
 import { useDispatch } from "react-redux";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
-import { IDragItem } from "./ChartCategoryTypes";
-import omitBy from "lodash.omitby";
-import omit from "lodash.omit";
+import { TChartTypes } from "../Charts/ChartTypes";
+import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -43,22 +42,21 @@ export interface IChartCategoryVariable {
   categoryTitle: string;
   categoryDragItemsTitle: string;
   categoryHasDroppedTitle: string;
-  removeChartCategoryAction: (
-    categoryDragItemsTitle: string,
-    categoryHasDroppedTitle: string,
-    title: string,
-    id: string
-  ) => IAction;
+  categoryOptionTitle: string;
+  removeChartCategoryAction: IChartCategories["removeAction"];
   style: CSSProperties;
+  chartType: TChartTypes;
 }
 
 const ChartCategoryVariable = ({
+  chartType,
   dragItem,
   setHasDroppedObj,
   setDragItemObj,
   categoryTitle,
   categoryDragItemsTitle,
   categoryHasDroppedTitle,
+  categoryOptionTitle,
   removeChartCategoryAction,
   style,
 }: IChartCategoryVariable) => {
@@ -104,7 +102,9 @@ const ChartCategoryVariable = ({
               categoryDragItemsTitle,
               categoryHasDroppedTitle,
               categoryTitle,
-              id
+              categoryOptionTitle,
+              id,
+              chartType
             )
           );
         }}

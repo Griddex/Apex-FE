@@ -1,5 +1,7 @@
+import omit from "lodash.omit";
 import omitBy from "lodash.omitby";
 import set from "lodash.set";
+import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
@@ -7,6 +9,7 @@ import {
   GET_TABLEDATABYID_SUCCESS,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
+import removeSeriesFromChart from "../../../Application/Utils/RemoveSeriesFromChart";
 import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_CHOSENAPPLICATIONHEADERS,
@@ -256,10 +259,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
     case GET_ECONOMICSSENSITIVITIESBYID_FAILURE:
     case GET_ECONOMICSSENSITIVITIESBYID_SUCCESS: {
-      const { analysisName, sensitivitiesTableTitle, sensitivitiesTable } =
-        action.payload;
+      const { sensitivitiesTableTitle, sensitivitiesTable } = action.payload;
 
-      const analysisNameDefined = analysisName as TEconomicsAnalysesNames;
       return {
         ...state,
         economicsAnalysisWorkflows: {
@@ -313,13 +314,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS: {
-      const {
-        reducer,
-        workflowCategory,
-        chartType,
-        chartData,
-        xValueCategories,
-      } = action.payload;
+      const { workflowCategory, chartType, chartData, xValueCategories } =
+        action.payload;
 
       return {
         ...state,
@@ -350,61 +346,62 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const {
         categoryMembersObjTitle,
         categoryDragItemsTitle,
+        categoryTitle,
         categoryOptionTitle,
         id,
+        chartType,
       } = action.payload;
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ id",
-        id
-      );
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ categoryOptionTitle",
-        categoryOptionTitle
-      );
 
       const categoryMembers = (state as any)[categoryMembersObjTitle][
-        categoryOptionTitle
+        categoryTitle
       ];
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 369 ~ economicsReducer ~ categoryMembers",
-        categoryMembers
-      );
       const categoryDragItems = (state as any)[categoryDragItemsTitle][
-        categoryOptionTitle
+        categoryTitle
       ];
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 373 ~ economicsReducer ~ categoryDragItems",
-        categoryDragItems
-      );
+      const categoryOptionTitles = (state as any)[categoryOptionTitle];
 
-      const newCategoryMembers = omitBy(categoryMembers, (k, v) => k === id);
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 378 ~ economicsReducer ~ newCategoryMembers",
-        newCategoryMembers
-      );
-      const newCategoryDragItems = omitBy(
-        categoryDragItems,
-        (k, v) => k === id
-      );
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 383 ~ economicsReducer ~ newCategoryDragItems",
-        newCategoryDragItems
+      const newCategoryMembers = omit(categoryMembers, [id]);
+      const newCategoryDragItems = omit(categoryDragItems, [id]);
+      const newCategoryOptionTitles = omit(categoryOptionTitles, [id]);
+
+      const chartData =
+        state["economicsChartsWorkflows"][chartType as TChartTypes][
+          "chartData"
+        ];
+
+      const chartVariableOption = categoryOptionTitles[
+        id
+      ] as IIdNameTitlePathOption;
+
+      const filteredChartData = removeSeriesFromChart(
+        chartType,
+        chartVariableOption,
+        chartData
       );
 
       return {
         ...state,
-        [categoryMembersObjTitle]: newCategoryMembers,
-        [categoryDragItemsTitle]: newCategoryDragItems,
+        [categoryMembersObjTitle]: {
+          ...(state as any)[categoryMembersObjTitle],
+          [categoryTitle]: newCategoryMembers,
+        },
+        [categoryDragItemsTitle]: {
+          ...(state as any)[categoryDragItemsTitle],
+          [categoryTitle]: newCategoryDragItems,
+        },
+        [categoryOptionTitle]: newCategoryOptionTitles,
+        economicsChartsWorkflows: {
+          ...state["economicsChartsWorkflows"],
+          [chartType]: {
+            ...state["economicsChartsWorkflows"][chartType as TChartTypes],
+            chartData: filteredChartData,
+          },
+        },
       };
     }
 
     case ECONOMICSHEATMAP_UPDATE_DRAGITEMS: {
-      const { reducer, categoryTitle, categoryDragItemsTitle, item } =
-        action.payload;
-      console.log(
-        "Logged output --> ~ file: EconomicsReducers.ts ~ line 324 ~ economicsReducer ~ categoryTitle",
-        categoryTitle
-      );
+      const { categoryTitle, categoryDragItemsTitle, item } = action.payload;
 
       return {
         ...state,
@@ -419,17 +416,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICSHEATMAP_UPDATE_HASDROPPED: {
-      const {
-        reducer,
-        categoryTitle,
-        categoryHasDroppedTitle,
-        id,
-        hasDropped,
-      } = action.payload;
-      console.log(
-        "Logged output --> ~ file: EconomicsReducers.ts ~ line 339 ~ economicsReducer ~ categoryTitle",
-        categoryTitle
-      );
+      const { categoryTitle, categoryHasDroppedTitle, id, hasDropped } =
+        action.payload;
 
       return {
         ...state,
@@ -444,12 +432,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICSPLOTCHARTS_UPDATE_DRAGITEMS: {
-      const { reducer, categoryTitle, categoryDragItemsTitle, item } =
-        action.payload;
-      console.log(
-        "Logged output --> ~ file: EconomicsReducers.ts ~ line 324 ~ economicsReducer ~ categoryTitle",
-        categoryTitle
-      );
+      const { categoryTitle, categoryDragItemsTitle, item } = action.payload;
 
       return {
         ...state,
@@ -464,17 +447,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICSPLOTCHARTS_UPDATE_HASDROPPED: {
-      const {
-        reducer,
-        categoryTitle,
-        categoryHasDroppedTitle,
-        id,
-        hasDropped,
-      } = action.payload;
-      console.log(
-        "Logged output --> ~ file: EconomicsReducers.ts ~ line 339 ~ economicsReducer ~ categoryTitle",
-        categoryTitle
-      );
+      const { categoryTitle, categoryHasDroppedTitle, id, hasDropped } =
+        action.payload;
 
       return {
         ...state,

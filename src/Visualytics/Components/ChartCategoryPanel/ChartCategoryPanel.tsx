@@ -3,12 +3,12 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexRadioGroup from "../../../Application/Components/Radios/ApexRadioGroup";
 import {
   IExtendedSelectOption,
-  INameTitleOption,
+  IIdNameTitlePathOption,
 } from "../../../Application/Components/Selects/SelectItemsType";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 export interface ICategoryPanelComponent {
-  variableOptions: Record<string, INameTitleOption>;
+  variableOptions: Record<string, IIdNameTitlePathOption>;
   setSelectedZ: TUseState<string>;
 }
 

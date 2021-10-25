@@ -1,7 +1,7 @@
 import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import "date-fns";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -13,12 +13,10 @@ import { store } from "./Application/Redux/Store/Store";
 import history from "./Application/Services/HistoryService";
 import theme from "./Application/Theme/Theme";
 
-
-declare module '@mui/styles/defaultTheme' {
+declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 async function prepare() {
   if (process.env.NODE_ENV === "development") {

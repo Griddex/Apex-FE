@@ -27,6 +27,7 @@ import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/Visu
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
+import { SizeMe } from "react-sizeme";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +64,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
+  },
+  plotChart: {
+    height: "100%",
+    width: "100%",
   },
 }));
 
@@ -201,14 +206,24 @@ const ForecastVisualytics = () => {
               <ForecastChartTitlePlaque />
               <ChartButtons {...chartButtons} />
             </div>
-            {chartType === "Select Chart..." ? (
-              <NoSelectionPlaceholder
-                icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                text="Select chart.."
-              />
-            ) : (
-              <ForecastSelectChart />
-            )}
+
+            <SizeMe monitorHeight refreshRate={32}>
+              {({ size }) => {
+                return chartType === "Select Chart..." ? (
+                  <NoSelectionPlaceholder
+                    icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                    text="Select chart.."
+                  />
+                ) : (
+                  <div className={classes.plotChart}>
+                    <ForecastSelectChart
+                      width={size.width as number}
+                      height={size.height as number}
+                    />
+                  </div>
+                );
+              }}
+            </SizeMe>
           </div>
         )}
       </div>

@@ -7,13 +7,13 @@ import React from "react";
 import { ControlPosition } from "react-draggable";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import XYChartCategories from "../../../../Visualytics/Components/ChartCategories/XYChartCategories";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
@@ -21,11 +21,7 @@ import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSe
 import { putSelectChartOptionAction } from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
 import { economicsPlotChartsOptions } from "../../../Data/EconomicsData";
-import {
-  removeEconomicsChartCategoryAction,
-  updateEconomicsChartCategoryAction,
-  updateEconomicsParameterAction,
-} from "../../../Redux/Actions/EconomicsActions";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 const VisualyticsContext = React.lazy(
   () =>
@@ -84,6 +80,10 @@ const useStyles = makeStyles((theme) => ({
     height: `calc(100% - 50px)`,
     width: "100%",
   },
+  plotChart: {
+    height: "100%",
+    width: "100%",
+  },
 }));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -112,6 +112,7 @@ const selectedEconomicsPlotChartOptionSelector = createDeepEqualSelector(
 const EconomicsPlotChartsVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
+  const wp = "economicsPlotCharts";
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -259,7 +260,6 @@ const EconomicsPlotChartsVisualytics = () => {
             style={{
               display: "flex",
               flexDirection: "row",
-              height: 50,
               marginTop: 2,
               marginRight: 40,
             }}
@@ -267,16 +267,23 @@ const EconomicsPlotChartsVisualytics = () => {
             <EconomicsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          <div className={classes.selectChart}>
-            {chartType === "Select Chart..." ? (
-              <NoSelectionPlaceholder
-                icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                text="Select chart.."
-              />
-            ) : (
-              <EconomicsPlotChartsSelectChart />
-            )}
-          </div>
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => {
+              return chartType === "Select Chart..." ? (
+                <NoSelectionPlaceholder
+                  icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                  text="Select chart.."
+                />
+              ) : (
+                <div className={classes.plotChart}>
+                  <EconomicsPlotChartsSelectChart
+                    width={size.width as number}
+                    height={size.height as number}
+                  />
+                </div>
+              );
+            }}
+          </SizeMe>
         </div>
       </div>
       {showContextDrawer && (

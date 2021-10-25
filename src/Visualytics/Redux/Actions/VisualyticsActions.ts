@@ -1,4 +1,4 @@
-import { INameTitleOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -341,7 +341,7 @@ export const updateVisualyticsDragItemsAction = (
   reducer: ReducersType,
   categoryTitle: string,
   categoryDragItemsTitle: string,
-  item: INameTitleOption
+  item: IIdNameTitlePathOption
 ) => {
   return {
     type: VISUALYTICS_UPDATE_DRAGITEMS,
