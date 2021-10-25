@@ -17,6 +17,7 @@ import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { TChartTypes } from "../Charts/ChartTypes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,9 +37,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type TSize = { height: number; width: number };
-
 const CartesianChartCategory = ({
+  chartType,
   reducer,
   categoryTitle,
   categoryOptionTitle,
@@ -58,10 +58,6 @@ const CartesianChartCategory = ({
   categoryHasDroppedTitle,
   resultsTitle,
 }: IChartCategories) => {
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 61 ~ categoryOptionTitle",
-    categoryOptionTitle
-  );
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -90,31 +86,35 @@ const CartesianChartCategory = ({
       drop(item) {
         const { id } = item as IDragItem;
 
-        setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
-        setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
+        const droppedIds = Object.keys(dragItemObj);
 
-        dispatch(updateAction(categoryOptionTitle as string, item));
+        if (!droppedIds.includes(id)) {
+          setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
+          setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
 
-        dispatch(
-          updateDragItemsAction &&
-            updateDragItemsAction(
-              reducer as ReducersType,
-              categoryTitle as string,
-              categoryDragItemsTitle as string,
-              item as IDragItem
-            )
-        );
+          dispatch(updateAction(categoryOptionTitle as string, item));
 
-        dispatch(
-          updateHasDroppedAction &&
-            updateHasDroppedAction(
-              reducer as ReducersType,
-              categoryTitle as string,
-              categoryHasDroppedTitle as string,
-              id,
-              true
-            )
-        );
+          dispatch(
+            updateDragItemsAction &&
+              updateDragItemsAction(
+                reducer as ReducersType,
+                categoryTitle as string,
+                categoryDragItemsTitle as string,
+                item as IDragItem
+              )
+          );
+
+          dispatch(
+            updateHasDroppedAction &&
+              updateHasDroppedAction(
+                reducer as ReducersType,
+                categoryTitle as string,
+                categoryHasDroppedTitle as string,
+                id,
+                true
+              )
+          );
+        }
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -177,10 +177,6 @@ const CartesianChartCategory = ({
             // ] = checked;
 
             showCategoryZMembers = checked;
-            console.log(
-              "🚀 ~ file: CartesianChartCategory.tsx ~ line 176 ~ showCategoryZMembers",
-              showCategoryZMembers
-            );
 
             dispatch(
               updateParameterAction &&
@@ -226,6 +222,7 @@ const CartesianChartCategory = ({
 
                   return (
                     <ChartCategoryVariable
+                      chartType={chartType as TChartTypes}
                       style={style}
                       key={id}
                       dragItem={item}
@@ -236,6 +233,7 @@ const CartesianChartCategory = ({
                       categoryHasDroppedTitle={
                         categoryHasDroppedTitle as string
                       }
+                      categoryOptionTitle={categoryOptionTitle as string}
                       removeChartCategoryAction={removeAction}
                     />
                   );

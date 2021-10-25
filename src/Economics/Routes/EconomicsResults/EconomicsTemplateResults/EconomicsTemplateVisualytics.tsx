@@ -11,6 +11,9 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
+import { SizeMe } from "react-sizeme";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 
 const EconomicsTemplateChart = React.lazy(
   () => import("./EconomicsTemplateChart")
@@ -57,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
+  },
+  plotChart: {
+    height: "100%",
+    width: "100%",
   },
 }));
 
@@ -123,7 +130,6 @@ const EconomicsTemplateVisualytics = () => {
                 display: "flex",
                 flexDirection: "row",
                 width: "100%",
-                height: 50,
                 marginTop: 2,
                 marginRight: 40,
               }}
@@ -131,7 +137,23 @@ const EconomicsTemplateVisualytics = () => {
               <EconomicsChartTitlePlaque />
               <ChartButtons {...chartButtons} />
             </div>
-            <EconomicsTemplateChart />
+            <SizeMe monitorHeight refreshRate={32}>
+              {({ size }) => {
+                return classes.chartBody === "Select Chart..." ? (
+                  <NoSelectionPlaceholder
+                    icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                    text="Select chart.."
+                  />
+                ) : (
+                  <div className={classes.plotChart}>
+                    <EconomicsTemplateChart
+                      width={size.width as number}
+                      height={size.height as number}
+                    />
+                  </div>
+                );
+              }}
+            </SizeMe>
           </div>
         )}
       </div>

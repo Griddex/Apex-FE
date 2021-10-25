@@ -1,22 +1,29 @@
 import React from "react";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import { TSize } from "../../Application/Types/ApplicationTypes";
 
 const SelectChart = React.lazy(
   () => import("../../Visualytics/Common/SelectChart")
 );
 
-const ForecastSelectChart = () => {
+const ForecastSelectChart = ({ width, height }: TSize) => {
   const reducer = "forecastReducer";
   const wc = "forecastChartsWorkflows";
 
   return (
-    <ApexFlexContainer>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: width,
+        height: height,
+      }}
+    >
       <SelectChart
         workflowCategory={wc}
         reducer={reducer}
         selectedChartOptionTitle="selectedForecastChartOption"
       />
-    </ApexFlexContainer>
+    </div>
   );
 };
 

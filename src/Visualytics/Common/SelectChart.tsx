@@ -28,6 +28,7 @@ const ChartSelector = ({
   chartType,
   workflowCategory,
   reducer,
+  indexBy,
 }: IChartProps) => {
   switch (chartType) {
     case "stackedAreaChart":
@@ -46,7 +47,13 @@ const ChartSelector = ({
         <DoughnutChart workflowCategory={workflowCategory} reducer={reducer} />
       );
     case "barChart":
-      return <BarChart workflowCategory={workflowCategory} reducer={reducer} />;
+      return (
+        <BarChart
+          workflowCategory={workflowCategory}
+          reducer={reducer}
+          indexBy={indexBy}
+        />
+      );
     case "scatterChart":
       return (
         <ScatterChart workflowCategory={workflowCategory} reducer={reducer} />
@@ -69,6 +76,7 @@ const SelectChart = ({
   workflowCategory,
   reducer,
   selectedChartOptionTitle,
+  indexBy,
 }: IChartProps) => {
   const reducerDefined = reducer as ReducersType;
 
@@ -87,6 +95,7 @@ const SelectChart = ({
       chartType={chartType}
       workflowCategory={workflowCategory}
       reducer={reducer}
+      indexBy={indexBy}
     />
   );
 };

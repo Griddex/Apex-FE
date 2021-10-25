@@ -8,6 +8,7 @@ import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButt
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getEconomicsPlotChartDataRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import { TSize } from "../../../../Application/Types/ApplicationTypes";
 
 const SelectChart = React.lazy(
   () => import("../../../../Visualytics/Common/SelectChart")
@@ -15,33 +16,44 @@ const SelectChart = React.lazy(
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const visualyticsVariableXOptionsSelector = createDeepEqualSelector(
-  (state: RootState) => state.visualyticsReducer.visualyticsVariableXOptions,
+const plotChartsVariableXOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.plotChartsVariableXOptions,
   (option) => option
 );
 
-const EconomicsPlotChartsSelectChart = () => {
+const EconomicsPlotChartsSelectChart = ({ width, height }: TSize) => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
   const wp = "economicsResultsPlotCharts";
 
   const dispatch = useDispatch();
 
-  const visualyticsVariableXOptions = useSelector(
-    visualyticsVariableXOptionsSelector
+  const plotChartsVariableXOptions = useSelector(
+    plotChartsVariableXOptionsSelector
   );
 
+  const indexByKey = Object.keys(plotChartsVariableXOptions)[0];
+  const indexBy = plotChartsVariableXOptions[indexByKey]?.name;
+
   return (
-    <ApexFlexContainer flexDirection="column">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: width,
+        height: height,
+      }}
+    >
       <SelectChart
         workflowCategory={wc}
         reducer={reducer}
         selectedChartOptionTitle="selectedEconomicsPlotChartOption"
+        indexBy={indexBy}
       />
       <ApexFlexContainer
         justifyContent="space-evenly"
         height={50}
-        moreStyles={{ marginBottom: 4, width: 270 }}
+        moreStyles={{ marginBottom: 4, width: 270, alignSelf: "center" }}
       >
         <BaseButtons
           buttonTexts={["Reset", "Display"]}
@@ -51,7 +63,7 @@ const EconomicsPlotChartsSelectChart = () => {
             <RotateLeftIcon key={1} />,
             <AirplayOutlinedIcon key={2} />,
           ]}
-          disableds={[false, visualyticsVariableXOptions === null]}
+          disableds={[false, plotChartsVariableXOptions === null]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[
@@ -60,7 +72,7 @@ const EconomicsPlotChartsSelectChart = () => {
           ]}
         />
       </ApexFlexContainer>
-    </ApexFlexContainer>
+    </div>
   );
 };
 

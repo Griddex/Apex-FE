@@ -6,6 +6,7 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import { Layout, Responsive, WidthProvider } from "react-grid-layout";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import { TSize } from "../../../../Application/Types/ApplicationTypes";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -21,7 +22,7 @@ export interface IEconomicsTemplateChart {
   rowHeight: 30;
 }
 
-const EconomicsTemplateChart = () => {
+const EconomicsTemplateChart = ({ width, height }: TSize) => {
   const theme = useTheme();
 
   const [layoutConfig, setConfigLayout] =
@@ -139,7 +140,14 @@ const EconomicsTemplateChart = () => {
   }, []);
 
   return (
-    <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: width,
+        height: height,
+      }}
+    >
       <button onClick={onNewLayout}>Generate New Layout</button>
       <button onClick={onCompactTypeChange}>Change Compaction Type</button>
       <ApexFlexContainer flexDirection="column" height={"calc(100% - 50px)"}>
@@ -163,7 +171,7 @@ const EconomicsTemplateChart = () => {
           {generateDOM()}
         </ResponsiveReactGridLayout>
       </ApexFlexContainer>
-    </ApexFlexContainer>
+    </div>
   );
 };
 

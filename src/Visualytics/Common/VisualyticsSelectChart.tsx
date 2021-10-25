@@ -8,6 +8,7 @@ import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getVisualyticsChartDataRequestAction } from "../Redux/Actions/VisualyticsActions";
+import { TSize } from "../../Application/Types/ApplicationTypes";
 
 const SelectChart = React.lazy(() => import("./SelectChart"));
 
@@ -18,7 +19,7 @@ const visualyticsVariableXOptionsSelector = createDeepEqualSelector(
   (load) => load
 );
 
-const VisualyticsSelectChart = () => {
+const VisualyticsSelectChart = ({ width, height }: TSize) => {
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
 
@@ -28,12 +29,23 @@ const VisualyticsSelectChart = () => {
     visualyticsVariableXOptionsSelector
   );
 
+  const indexByKey = Object.keys(visualyticsVariableXOptions)[0];
+  const indexBy = visualyticsVariableXOptions[indexByKey].name;
+
   return (
-    <ApexFlexContainer flexDirection="column">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: width,
+        height: height,
+      }}
+    >
       <SelectChart
         workflowCategory={wc}
         reducer={reducer}
         selectedChartOptionTitle="selectedVisualyticsChartOption"
+        indexBy={indexBy}
       />
       <ApexFlexContainer
         justifyContent="space-evenly"
@@ -57,7 +69,7 @@ const VisualyticsSelectChart = () => {
           ]}
         />
       </ApexFlexContainer>
-    </ApexFlexContainer>
+    </div>
   );
 };
 

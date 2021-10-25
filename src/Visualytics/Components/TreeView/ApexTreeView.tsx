@@ -222,15 +222,7 @@ const ApexTreeView = ({
         const sensitivitiesJoined = path?.split("@#$%")[3];
 
         newName = `${name}_${sensitivitiesJoined}`;
-        console.log(
-          "🚀 ~ file: ApexTreeView.tsx ~ line 220 ~ newName",
-          newName
-        );
         newTitle = `${title}_${sensitivitiesJoined}`;
-        console.log(
-          "🚀 ~ file: ApexTreeView.tsx ~ line 222 ~ newTitle",
-          newTitle
-        );
       } else {
         newName = name as string;
         newTitle = title as string;

@@ -36,10 +36,7 @@ function* putSelectChartOptionSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
-  console.log(
-    "Logged output --> ~ file: PutSelectChartOptionSaga.ts ~ line 39 ~ payload",
-    payload
-  );
+
   const { reducer, selectedChartOptionTitle, chartOption } = payload;
 
   try {

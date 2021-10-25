@@ -176,3 +176,5 @@ export type TPastePosition = {
   topLeft: { rowIdx?: number; colIdx?: number };
   botRight: { rowIdx?: number; colIdx?: number };
 };
+
+export type TSize = { height: number; width: number };

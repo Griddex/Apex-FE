@@ -3,6 +3,7 @@ import CartesianChartCategory from "./CartesianChartCategory";
 import { IChartCategories } from "./ChartCategoryTypes";
 
 const YChartCategory = ({
+  chartType,
   reducer,
   categoryOptionTitle,
   updateAction,
@@ -22,6 +23,7 @@ const YChartCategory = ({
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
+      chartType={chartType}
       reducer={reducer}
       categoryTitle={
         categoryOptionTitle?.includes("Secondary")

@@ -27,7 +27,7 @@ import {
 import { RenderTree } from "../../Components/TreeView/ApexTreeViewTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import {
-  INameTitleOption,
+  IIdNameTitlePathOption,
   ISelectOption,
 } from "../../../Application/Components/Selects/SelectItemsType";
 import {
@@ -83,11 +83,11 @@ export interface IVisualyticsState {
   selectedVisualyticsDescription: string;
   isVisualyticsDeckSaved: boolean;
 
-  visualyticsVariableXOptions: Record<string, INameTitleOption>;
-  visualyticsVariableYOptions: Record<string, INameTitleOption>;
-  visualyticsSecondaryVariableYOptions: Record<string, INameTitleOption>;
-  visualyticsVariableZOptions: Record<string, INameTitleOption>;
-  visualyticsVariableROptions: Record<string, INameTitleOption>;
+  visualyticsVariableXOptions: Record<string, IIdNameTitlePathOption>;
+  visualyticsVariableYOptions: Record<string, IIdNameTitlePathOption>;
+  visualyticsSecondaryVariableYOptions: Record<string, IIdNameTitlePathOption>;
+  visualyticsVariableZOptions: Record<string, IIdNameTitlePathOption>;
+  visualyticsVariableROptions: Record<string, IIdNameTitlePathOption>;
   showVisualyticsCategoryMembersObj: Record<string, boolean>;
 
   visualyticsCategoryDragItems: Record<string, Record<string, IDragItem>>;

@@ -25,7 +25,7 @@ import {
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import { IDragItem } from "./../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import {
-  INameTitleOption,
+  IIdNameTitlePathOption,
   ISelectOption,
 } from "./../../../Application/Components/Selects/SelectItemsType";
 
@@ -265,11 +265,12 @@ export interface IEconomicsState
     heatMapBackgroundColor: string;
     relationalOperatorOption: ISelectOption;
   };
-  heatMapVariableXOptions: Record<string, INameTitleOption>;
-  heatMapVariableYOptions: Record<string, INameTitleOption>;
-  heatMapVariableZOptions: Record<string, INameTitleOption>;
-  showHeatMapCategoryMembersObj: Record<string, boolean>;
 
+  heatMapVariableXOptions: Record<string, IIdNameTitlePathOption>;
+  heatMapVariableYOptions: Record<string, IIdNameTitlePathOption>;
+  heatMapVariableZOptions: Record<string, IIdNameTitlePathOption>;
+
+  showHeatMapCategoryMembersObj: Record<string, boolean>;
   heatMapCategoryDragItems: Record<string, Record<string, IDragItem>>;
   heatMapCategoryHasDropped: Record<string, Record<string, true>>;
 
@@ -281,13 +282,14 @@ export interface IEconomicsState
   plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;
   showPlotChartsCategories: boolean;
-  plotChartsVariableXOptions: Record<string, INameTitleOption>;
-  plotChartsVariableYOptions: Record<string, INameTitleOption>;
-  plotChartsSecondaryVariableYOptions: Record<string, INameTitleOption>;
-  plotChartsVariableZOptions: Record<string, INameTitleOption>;
-  plotChartsVariableROptions: Record<string, INameTitleOption>;
-  showPlotChartsCategoryMembersObj: Record<string, boolean>;
 
+  plotChartsVariableXOptions: Record<string, IIdNameTitlePathOption>;
+  plotChartsVariableYOptions: Record<string, IIdNameTitlePathOption>;
+  plotChartsSecondaryVariableYOptions: Record<string, IIdNameTitlePathOption>;
+  plotChartsVariableZOptions: Record<string, IIdNameTitlePathOption>;
+  plotChartsVariableROptions: Record<string, IIdNameTitlePathOption>;
+
+  showPlotChartsCategoryMembersObj: Record<string, boolean>;
   plotChartsCategoryDragItems: Record<string, Record<string, IDragItem>>;
   plotChartsCategoryHasDropped: Record<string, Record<string, true>>;
 

@@ -8,11 +8,14 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
+import NavigationPrompt from "react-router-navigation-prompt";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions/InputActions";
 import { fetchStoredProjectsRequestAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
+import DialogOneCancelButtons from "../Components/DialogButtons/DialogOneCancelButtons";
 import Dialogs from "../Components/Dialogs/Dialogs";
+import TextDialog from "../Components/Dialogs/TextDialog";
 import Spinners from "../Components/Visuals/Spinners";
 import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
@@ -99,34 +102,41 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <Switch>
-          {/* <NavigationPrompt when={isPageRefreshed}>
-              {({ onConfirm, onCancel }) => (
-                <React.Fragment>
-                  <TextDialog
-                    name={"Refresh_Confirmation_Dialog"}
-                    title={"Refresh Confirmation"}
-                    type={"textDialog"}
-                    show={true}
-                    exclusive={true}
-                    maxWidth={"xs"}
-                    dialogText={`Do you confirm page refresh? 
+        <NavigationPrompt
+          when={(crntLocation: any, nextLocation: any) => {
+            console.log("crntLocation", crntLocation);
+            console.log("nextLocation", nextLocation);
+
+            return false;
+          }}
+        >
+          {({ onConfirm, onCancel }) => (
+            <React.Fragment>
+              <TextDialog
+                name={"Refresh_Confirmation_Dialog"}
+                title={"Refresh Confirmation"}
+                type={"textDialog"}
+                show={true}
+                exclusive={true}
+                maxWidth={"xs"}
+                dialogText={`Do you confirm page refresh? 
                 You will lose all workflow progress to this point`}
-                    iconType={"success"}
-                    actionsList={() =>
-                      DialogOneCancelButtons(
-                        [true, true],
-                        [false, false],
-                        [onCancel, onConfirm],
-                        "Proceed",
-                        "doneOutlined"
-                      )
-                    }
-                    dialogContentStyle={{ paddingTop: 40, paddingBottom: 40 }}
-                  />
-                </React.Fragment>
-              )}
-            </NavigationPrompt> */}
+                iconType={"success"}
+                actionsList={() =>
+                  DialogOneCancelButtons(
+                    [true, true],
+                    [false, false],
+                    [onCancel, onConfirm],
+                    "Proceed",
+                    "doneOutlined"
+                  )
+                }
+                dialogContentStyle={{ paddingTop: 40, paddingBottom: 40 }}
+              />
+            </React.Fragment>
+          )}
+        </NavigationPrompt>
+        <Switch>
           <Route exact path={url} component={ProductBackground} />
           <Route path={`${url}/:layoutId`}>
             {(props: RouteComponentProps<IdType>) => {

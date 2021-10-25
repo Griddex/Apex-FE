@@ -116,7 +116,6 @@ const SensitivitiesHeatMapVisualytics = () => {
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              height: 30,
               marginTop: 2,
               marginRight: 40,
             }}
