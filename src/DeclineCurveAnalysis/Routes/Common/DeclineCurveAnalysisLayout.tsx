@@ -1,12 +1,16 @@
 import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React, { Suspense } from "react";
+import { useDispatch } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
+  useLocation,
   useRouteMatch,
 } from "react-router-dom";
+import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
+import { resetActions } from "../../../Application/Utils/ResetModuleState";
 import {
   IDeclineCurveAnalysisLayouts,
   IdType,
@@ -38,11 +42,20 @@ const useStyles = makeStyles(() => {
 
 const DeclineCurveAnalysisLayout = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { path, url } = useRouteMatch();
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
+
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
 
   return (
     <main className={classes.declineCurveAnalysisLayoutRoot}>
       <div className={clsx(classes.declineCurveAnalysisLayoutContainer)}>
+        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={path}>
             {() => <DeclineCurveAnalysisBackground />}

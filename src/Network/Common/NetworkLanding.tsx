@@ -6,6 +6,7 @@ import {
   Route,
   RouteComponentProps,
   Switch,
+  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
@@ -21,6 +22,8 @@ import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import StoredDeck from "../Images/StoredDeck.svg";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import { IdType } from "./NetworkLandingTypes";
+import { resetActions } from "../../Application/Utils/ResetModuleState";
+import { NavigationApexPrompt } from "../../Application/Components/Prompts/ApexPrompt";
 
 const DeclineCurveParameters = React.lazy(
   () => import("../Routes/DeclineCurveParameters")
@@ -70,35 +73,26 @@ const loadNetworkGenerationWorkflowSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer.loadNetworkGenerationWorkflow,
   (data) => data
 );
-const networkStoredSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer.storedDataWorkflows.networkStored,
-  (data) => data
-);
-const forecastingParametersStoredSelector = createDeepEqualSelector(
-  (state: RootState) =>
-    state.networkReducer.storedDataWorkflows.forecastingParametersStored,
-  (data) => data
-);
+// const networkStoredSelector = createDeepEqualSelector(
+//   (state: RootState) => state.networkReducer.storedDataWorkflows.networkStored,
+//   (data) => data
+// );
+// const forecastingParametersStoredSelector = createDeepEqualSelector(
+//   (state: RootState) =>
+//     state.networkReducer.storedDataWorkflows.forecastingParametersStored,
+//   (data) => data
+// );
 
 const NetworkLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
 
   const loadNetworkGenerationWorkflow = useSelector(
     loadNetworkGenerationWorkflowSelector
   );
-  const networkStored = useSelector(networkStoredSelector);
-  const forecastingParametersStored = useSelector(
-    forecastingParametersStoredSelector
-  );
-
-  const storedNetworksPresent =
-    Array.isArray(networkStored) && networkStored.length > 0;
-
-  const storedForecastParametersPresent =
-    Array.isArray(forecastingParametersStored) &&
-    forecastingParametersStored.length > 0;
 
   const networkLandingData: ILandingData[] = [
     {
@@ -207,10 +201,16 @@ const NetworkLanding = () => {
     },
   ];
 
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
+
   return (
     <>
       {loadNetworkGenerationWorkflow ? (
         <div className={classes.networkWorkflow}>
+          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Switch>
             <Route exact path={`${url}/:dataInputId`}>
               {(props: RouteComponentProps<IdType>) => {

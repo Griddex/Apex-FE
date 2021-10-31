@@ -8,24 +8,23 @@ import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React from "react";
 import isEqual from "react-fast-compare";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
+  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
+import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
+import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { resetActions } from "../../../Application/Utils/ResetModuleState";
+import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
 import { IdType } from "./InputLayoutTypes";
 import { IEconomicsInputButton } from "./Workflows/InputWorkflowsTypes";
 
-const SubNavbar = React.lazy(
-  () => import("../../../Application/Components/Navbars/SubNavbar")
-);
-const EconomicsInputButtonsMenu = React.lazy(
-  () => import("../../../Economics/Components/Menus/EconomicsInputButtonsMenu")
-);
 const EconomicsCostsRevenuesLanding = React.lazy(
   () =>
     import(
@@ -78,6 +77,16 @@ const InputLayout = () => {
   const theme = useTheme();
   const classes = useStyles();
   const { path, url } = useRouteMatch();
+  const dispatch = useDispatch();
+
+  console.log("🚀 ~ file: InputLayout.tsx ~ line 82 ~ InputLayout ~ url", url);
+  console.log(
+    "🚀 ~ file: InputLayout.tsx ~ line 82 ~ InputLayout ~ path",
+    path
+  );
+
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
 
   const showSubNavbar = useSelector(showSubNavbarSelector);
 
@@ -139,10 +148,16 @@ const InputLayout = () => {
     },
   ]);
 
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
+
   return (
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData.current} />}
       <div className={clsx(classes.importLayoutContainer)}>
+        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={path} component={InputBackground} />
           <Route path={`${url}/:subNavbarId`}>

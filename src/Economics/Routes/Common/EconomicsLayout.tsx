@@ -13,6 +13,7 @@ import {
   Route,
   RouteComponentProps,
   Switch,
+  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
@@ -24,14 +25,11 @@ import {
 } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IdType } from "./EconomicsLayoutTypes";
+import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
+import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
+import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
+import { resetActions } from "../../../Application/Utils/ResetModuleState";
 
-const EconomicsInputButtonsMenu = React.lazy(
-  () => import("../../Components/Menus/EconomicsInputButtonsMenu")
-);
-
-const SubNavbar = React.lazy(
-  () => import("../../../Application/Components/Navbars/SubNavbar")
-);
 const EconomicsAnalysesLanding = React.lazy(
   () => import("../EconomicsAnalyses/EconomicsAnalysesLanding")
 );
@@ -81,6 +79,8 @@ const EconomicsLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
 
   const showSubNavbar = useSelector(showSubNavbarSelector);
 
@@ -157,6 +157,11 @@ const EconomicsLayout = () => {
     },
   ];
 
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
+
   React.useEffect(() => {
     //TODO Find more appropriate location
     dispatch(hideSpinnerAction());
@@ -166,6 +171,7 @@ const EconomicsLayout = () => {
     <main className={classes.economicsLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.economicsLayoutContainer)}>
+        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={path} component={() => <EconomicsBackground />} />
           <Route path={`${url}/:economicsId`}>

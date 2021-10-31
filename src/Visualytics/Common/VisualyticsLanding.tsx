@@ -2,7 +2,12 @@ import { Badge, BadgeProps } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import {
+  Route,
+  RouteComponentProps,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -28,6 +33,8 @@ import {
 import { IdType } from "./VisualyticsLandingTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { NavigationApexPrompt } from "../../Application/Components/Prompts/ApexPrompt";
+import { resetActions } from "../../Application/Utils/ResetModuleState";
 
 const StoredVisualyticsDecks = React.lazy(
   () => import("./StoredVisualyticsDecks")
@@ -71,12 +78,13 @@ const loadVisualyticsWorkflowSelector = createDeepEqualSelector(
   (load) => load
 );
 
+const reducer = "visualyticsReducer";
 const VisualyticsLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const reducer = "visualyticsReducer";
   const { url, path } = useRouteMatch();
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
 
   const loadVisualyticsWorkflow = useSelector(loadVisualyticsWorkflowSelector);
 
@@ -209,10 +217,16 @@ const VisualyticsLanding = () => {
     } as BadgeProps;
   };
 
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
+
   return (
     <>
       {loadVisualyticsWorkflow ? (
         <div className={classes.importWorkflow}>
+          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
               const { match } = props;

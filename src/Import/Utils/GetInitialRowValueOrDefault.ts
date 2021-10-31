@@ -5,9 +5,10 @@ const getInitialRowValueOrDefault = <T>(
   searchElement: string,
   returnElement: keyof TSingleMatchObject,
   matchCollection: TSingleMatchObject[],
-  defaultValue: T
+  defaultValue: T,
+  key: string
 ) => {
-  const index = matchCollection.findIndex((o) => o.header === searchElement);
+  const index = matchCollection.findIndex((o: any) => o[key] === searchElement);
   if (index !== -1) return matchCollection[index][returnElement];
   else return defaultValue;
 };

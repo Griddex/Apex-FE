@@ -21,7 +21,12 @@ import TuneIcon from "@mui/icons-material/Tune";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import {
+  useHistory,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
@@ -109,6 +114,11 @@ const MainDrawer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { url } = useRouteMatch();
+
+  const params = useParams();
+
+  const loc = useLocation();
+  console.log("🚀 ~ file: MainDrawer.tsx ~ line 116 ~ MainDrawer ~ loc", loc);
 
   const [open, setOpen] = React.useState(false);
   const handleClose = React.useCallback(() => {

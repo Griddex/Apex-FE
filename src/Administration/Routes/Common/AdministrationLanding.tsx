@@ -1,7 +1,12 @@
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { useSelector } from "react-redux";
-import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Route,
+  RouteComponentProps,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -12,6 +17,8 @@ import RegisterRoute from "../Register/RegisterRoute";
 import { IdType } from "./AdministrationLandingTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
+import { resetActions } from "../../../Application/Utils/ResetModuleState";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -45,7 +52,10 @@ const loadAdminWorkflowSelector = createDeepEqualSelector(
 
 const AdministrationLanding = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
 
   const loadAdminWorkflow = useSelector(loadAdminWorkflowSelector);
 
@@ -66,16 +76,18 @@ const AdministrationLanding = () => {
     },
   ] as ILandingData[];
 
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
+
   return (
     <>
       {loadAdminWorkflow ? (
         <div className={classes.adminWorkflow}>
+          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
-              console.log(
-                "Logged output --> ~ file: AdministrationLanding.tsx ~ line 68 ~ AdministrationLanding ~ props",
-                props
-              );
               const { match } = props;
               const {
                 params: { dataInputId },

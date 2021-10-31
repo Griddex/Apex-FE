@@ -87,12 +87,12 @@ const computeFileUnitMatches = (
     if (specificSavedMatchObjectKeys.includes(fileUnit.trim())) {
       const matchUnit = specificSavedMatchObject[fileUnit];
 
-      pullAll(mtchdUnits, [matchUnit.header]);
-      mtchdUnits.unshift(matchUnit.header);
+      pullAll(mtchdUnits, [matchUnit.appUnit]);
+      mtchdUnits.unshift(matchUnit.appUnit as string);
 
       cleanedMatchedScores.unshift(100);
 
-      const matchUnitIndex = matchedUnits.indexOf(matchUnit.header);
+      const matchUnitIndex = matchedUnits.indexOf(matchUnit.appUnit as string);
       const matchUnitId = matchedUnitIds[matchUnitIndex];
       pullAll(matchedUnitIds, [matchUnitId]);
       matchedUnitIds.unshift(matchUnitId);

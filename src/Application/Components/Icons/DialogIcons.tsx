@@ -16,6 +16,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import CategoryIcon from "@mui/icons-material/Category";
 import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
+import NavigationIcon from "@mui/icons-material/Navigation";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
   const theme = useTheme();
@@ -44,6 +45,9 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
     ),
     category: <CategoryIcon style={{ color: theme.palette.primary.main }} />,
     link: <LinkOutlinedIcon style={{ color: theme.palette.primary.main }} />,
+    navigation: (
+      <NavigationIcon style={{ color: theme.palette.primary.main }} />
+    ),
   };
 
   return icons[iconType];

@@ -57,7 +57,10 @@ const DialogOneCancelButtons = (
       variant: "contained",
       color: "secondary",
       startIcon: <ClearOutlinedIcon />,
-      handleAction: () => dispatch(hideDialogAction()),
+      handleAction: () => {
+        finalActions[0]();
+        dispatch(hideDialogAction());
+      },
     },
     {
       title: oneButtonTitle,

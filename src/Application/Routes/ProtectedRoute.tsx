@@ -10,7 +10,7 @@ const ProtectedRoute = ({
   // const auth = authService("identity");
   const auth = {
     isAuthenticated: true,
-    role: "Asset Forecaster",
+    role: "Corporate Forecaster",
   };
 
   return (
