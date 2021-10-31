@@ -109,6 +109,10 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
   );
+  console.log(
+    "🚀 ~ file: MatchHeaders.tsx ~ line 112 ~ MatchHeaders ~ specificSavedMatchObjectValues",
+    specificSavedMatchObjectValues
+  );
 
   const facilitiesAppHeadersSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer]["facilitiesAppHeaders"],
@@ -280,15 +284,15 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         initialAppHeader,
         "type",
         specificSavedMatchObjectValues,
-        "Text"
+        "Text",
+        "appHeader"
       );
 
       const scoreOpts = keyedScoreOptions.current[fileHeader];
       const score = scoreOpts[0];
 
-      const include = true;
       const acceptMatch = specificSavedMatchObjectValues
-        .map((h) => h.header)
+        .map((h) => h.appHeader)
         .includes(initialAppHeader)
         ? true
         : false;
@@ -296,14 +300,18 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       const matchObj = specificSavedMatchObjectValues.find(
         (o) => o.fileHeader === fileHeader
       ) as TSingleMatchObject;
+      console.log(
+        "🚀 ~ file: MatchHeaders.tsx ~ line 299 ~ fileHeaders.map ~ matchObj",
+        matchObj
+      );
 
       return {
         sn: i + 1,
         fileHeader,
-        applicationHeader: matchObj ? matchObj.header : initialAppHeader,
+        applicationHeader: matchObj ? matchObj.appHeader : initialAppHeader,
         type: initialHeaderType,
         match: score.value,
-        include,
+        include: matchObj ? matchObj.include : true,
         acceptMatch,
       };
     })
@@ -325,6 +333,10 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
+  console.log(
+    "🚀 ~ file: MatchHeaders.tsx ~ line 327 ~ MatchHeaders ~ userMatchObject",
+    userMatchObject
+  );
 
   const generateColumns = (keyedAppHeaderOptions: TKeyedSelectOptions) => {
     const handleHeaderTypeChange = (
@@ -418,7 +430,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     ) => {
       const isChecked = event.target.checked;
 
-      const { fileHeader, type, applicationHeader } = row;
+      const { fileHeader, type, applicationHeader, include } = row;
       const strFileheader = fileHeader as string;
       const strApplicationHeader = applicationHeader as string;
       const strHeaderType = type as THeader;
@@ -440,7 +452,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             next[workflowClass]["headers"]
           );
           const matchObj = matchObjectValuesByHeaders.find(
-            (o) => o.header === strFileheader
+            (o) => o.appHeader === strFileheader
           ) as TSingleMatchObject;
 
           let fileHeaderId: string;
@@ -450,8 +462,10 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           next[workflowClass]["headers"][fileHeaderId] = {
             ...matchObj,
             id: fileHeaderId,
-            header: strApplicationHeader,
+            fileHeader: strFileheader,
             type: strHeaderType,
+            appHeader: strApplicationHeader,
+            include: include as boolean,
             acceptMatch: true,
           };
 
@@ -464,7 +478,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           );
 
           const matchObj = specificSavedMatchObjectValues.find(
-            (o) => o.fileHeader === fileHeader
+            (o) => o.appHeader === fileHeader
           ) as TSingleMatchObject;
 
           const matchObject = { ...prev };
@@ -717,6 +731,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
                 const chosenAppHeader = chosenRow.applicationHeader as string;
                 const chosenType = chosenRow.type as THeader;
+                const include = chosenRow.include as boolean;
 
                 const matchObjectValuesByHeaders = Object.values(
                   userMatchObject[workflowClass]["headers"]
@@ -732,11 +747,14 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 userMatchObject[workflowClass]["headers"][fileHeaderId] = {
                   ...matchObj,
                   id: fileHeaderId,
-                  header: chosenAppHeader,
+                  fileHeader: fileHeader as string,
+                  appHeader: chosenAppHeader,
                   type: chosenType,
+                  include,
                   acceptMatch: currentAcceptMatchValue,
                 };
               }
+
               setRows(rowsAllAcceptMatch);
               setUserMatchObject(userMatchObject);
               setAcceptmatchToggle(currentAcceptMatchValue);
@@ -802,6 +820,11 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           willUseThemeColor={false}
           defs={defs}
           fill={fill}
+          colors={[
+            theme.palette.success.main,
+            theme.palette.primary.main,
+            theme.palette.secondary.main,
+          ]}
         />
       </div>
       <div className={classes.table}>

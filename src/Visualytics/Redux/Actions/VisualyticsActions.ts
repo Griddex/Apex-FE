@@ -32,7 +32,7 @@ export const SET_CHARTCOLOR = "SET_CHARTCOLOR";
 export const SET_CHARTCELLCOLORS = "SET_CHARTCELLCOLORS";
 export const SET_CHARTOBJECT = "SET_CHARTOBJECT";
 export const UPDATE_CHARTOBJECT = "UPDATE_CHARTOBJECT";
-export const RESET_CHART = "RESET_CHART";
+export const RESET_VISUALYTICS = "RESET_VISUALYTICS";
 
 export const PUT_SELECTCHART = "PUT_SELECTCHART";
 export const PUT_SELECTCHART_SUCCESS = "PUT_SELECTCHART_SUCCESS";
@@ -394,9 +394,9 @@ export const resetVisualyticsChartsWorkflowsAction = () => {
   };
 };
 
-export const resetChartAction = () => {
+export const resetVisualyticsAction = () => {
   return {
-    type: RESET_CHART,
+    type: RESET_VISUALYTICS,
   };
 };
 

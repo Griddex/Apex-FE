@@ -1,3 +1,5 @@
+import { OrdinalColorScaleConfig } from "@nivo/colors";
+import { ComputedDatum } from "@nivo/pie";
 import type { FluidValue } from "@react-spring/shared";
 import type { Any, Lookup } from "@react-spring/types";
 import {
@@ -26,6 +28,9 @@ export interface IChartProps {
   defs?: any;
   fill?: any;
   indexBy?: string;
+  colors?: OrdinalColorScaleConfig<
+    Omit<ComputedDatum<any>, "color" | "fill" | "arc">
+  >;
 }
 
 export declare type TAxisName = keyof typeof axisNameTitlesObj;

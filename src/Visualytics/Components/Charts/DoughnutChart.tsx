@@ -21,7 +21,12 @@ const commonChartPropsSelector = createDeepEqualSelector(
   (props) => props
 );
 
-export const DoughnutChartAnalytics = ({ data, defs, fill }: IChartProps) => {
+export const DoughnutChartAnalytics = ({
+  data,
+  defs,
+  fill,
+  colors,
+}: IChartProps) => {
   const adjustedProps = {
     legends: undefined,
     innerRadius: 0.65,
@@ -41,7 +46,7 @@ export const DoughnutChartAnalytics = ({ data, defs, fill }: IChartProps) => {
       width={500}
       fit={true}
       margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-      colors={undefined}
+      colors={colors}
       defs={defs}
       fill={fill}
     />

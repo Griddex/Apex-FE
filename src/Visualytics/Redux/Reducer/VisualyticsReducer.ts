@@ -32,7 +32,7 @@ import {
   PERSIST_CHARTINDEX,
   PUT_SELECTCHART,
   PUT_SELECTCHART_SUCCESS,
-  RESET_CHART,
+  RESET_VISUALYTICS,
   RESET_CHART_DATA,
   RESET_VISUALYTICS_CHARTWORKFLOWS,
   SET_CHARTCELLCOLORS,
@@ -396,7 +396,7 @@ const visualyticsReducer = (
       };
     }
 
-    case RESET_CHART: {
+    case RESET_VISUALYTICS: {
       return visualyticsState;
     }
 

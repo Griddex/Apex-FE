@@ -6,7 +6,7 @@ import findIndex from "lodash.findindex";
 import range from "lodash.range";
 import uniq from "lodash.uniq";
 import zipObject from "lodash.zipobject";
-import React, { Suspense } from "react";
+import React from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ import {
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -51,7 +52,6 @@ import {
   TUnit,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const useStyles = makeStyles(() => ({
   rootMatchUnits: {
@@ -296,10 +296,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     zipObject(fileHeadersWithoutNone.current, scoreOptions.current)
   );
 
-  const matchObjectHeaders = React.useRef(
-    specificSavedMatchObjectValues.map((h) => h.header)
-  );
-
   const initialTableRows = React.useRef(
     fileHeadersWithoutNone.current.map((fileHeader: string, i: number) => {
       const unitOptions = keyedApplicationUnitOptions.current[fileHeader];
@@ -309,18 +305,15 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         selectedApplicationUnit.label,
         "type",
         specificSavedMatchObjectValues,
-        "Single"
+        "Single",
+        "appUnit"
       );
 
       const selectedUnitClassification =
         appUnitsUnitGroupsMap[selectedApplicationUnit.label];
+
       const scoreOpts = keyedScoreOptions.current[fileHeader];
       const score = scoreOpts[0];
-      const acceptMatch = matchObjectHeaders.current.includes(
-        selectedApplicationUnit.label
-      )
-        ? true
-        : false;
 
       const matchObj = specificSavedMatchObjectValues.find(
         (o) => o.fileHeader === fileHeader
@@ -328,18 +321,20 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
       return {
         sn: i + 1,
-        fileHeader: fileHeader,
+        fileHeader,
         fileUnit:
           fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeader]["unit"],
-        type: initialUnitType,
+        type: matchObj ? matchObj.type : initialUnitType,
         applicationUnit: matchObj
-          ? matchObj.header
+          ? matchObj.appUnit
           : selectedApplicationUnit.value,
-        unitClassification: selectedUnitClassification
+        unitClassification: matchObj
+          ? matchObj.unitGroup
+          : selectedUnitClassification
           ? selectedUnitClassification
           : "General",
-        match: score.value,
-        acceptMatch,
+        match: matchObj ? matchObj.match : score.value,
+        acceptMatch: matchObj ? matchObj.acceptMatch : false,
         unitId: selectedApplicationUnit.unitId,
         appUnitOptionIndex: 0,
       };
@@ -350,6 +345,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
+  console.log(
+    "🚀 ~ file: MatchUnits.tsx ~ line 352 ~ MatchUnits ~ userMatchObject",
+    userMatchObject
+  );
 
   const generateColumns = (
     keyedApplicationUnitOptions: {
@@ -361,7 +360,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       option: ValueType<ISelectOption, false>,
       row: IRawRow
     ) => {
-      const { sn, unitId } = row;
+      const { sn, unitId, fileHeader, fileUnit, applicationUnit } = row;
       const rowSN = sn as number;
 
       const selectedValue = option && option.label;
@@ -381,12 +380,42 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       };
 
       setRows(newRows);
+      setUserMatchObject((prev) => {
+        const next = { ...prev };
+
+        const matchObjectValuesByUnits = Object.values(
+          next[workflowClass]["units"]
+        );
+
+        const matchObj = matchObjectValuesByUnits.find(
+          (o) => o.fileHeader === fileHeader
+        ) as TSingleMatchObject;
+
+        let fileUnitId: string;
+        if (matchObj) fileUnitId = matchObj.id;
+        else fileUnitId = uuidv4();
+
+        let unitType: string;
+        if (matchObj) unitType = matchObj.type;
+        else unitType = selectedUnitType;
+
+        next[workflowClass]["units"][fileUnitId] = {
+          ...matchObj,
+          fileUnit: fileUnit as string,
+          type: selectedUnitType,
+          appUnit:
+            unitType === "Multiple"
+              ? ([applicationUnit] as string[])
+              : (applicationUnit as string),
+        };
+
+        return next;
+      });
     };
 
     const handleApplicationUnitChange = <T extends boolean>(
       option: NonNullable<ValueType<IExtendedSelectOption, T>>,
       row: IRawRow,
-      fileHeader: string,
       type: TUnit,
       unitOptions: IExtendedSelectOption[],
       scoreOptions: IExtendedSelectOption[]
@@ -489,13 +518,16 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       const strApplicationUnit = applicationUnit as string;
       const strUnitType = type as TUnit;
 
+      const newRows = [...rows];
       const selectedRowSN = row.sn as number;
-      const selectedRow = rows[selectedRowSN - 1];
+      const selectedRow = newRows[selectedRowSN - 1];
 
-      rows[selectedRowSN - 1] = {
+      newRows[selectedRowSN - 1] = {
         ...selectedRow,
         acceptMatch: isChecked,
       };
+
+      setRows(newRows);
 
       //Update usermatchobject
       if (isChecked) {
@@ -516,7 +548,8 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           next[workflowClass]["units"][fileUnitId] = {
             ...matchObj,
             id: fileUnitId,
-            header: strApplicationUnit,
+            fileHeader: strFileUnit,
+            appHeader: strApplicationUnit,
             type: strUnitType,
             acceptMatch: true,
           };
@@ -539,7 +572,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           );
 
           const matchObj = specificSavedMatchObjectValues.find(
-            (o) => o.header === strFileUnit
+            (o) => o.appHeader === strFileUnit
           ) as TSingleMatchObject;
           console.log(
             "🚀 ~ file: MatchUnits.tsx ~ line 540 ~ setUserMatchObject ~ matchObj",
@@ -703,6 +736,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           const type = row.type as TUnit;
 
           const unitOptions = keyedApplicationUnitOptions[fileHeader];
+          console.log(
+            "🚀 ~ file: MatchUnits.tsx ~ line 733 ~ MatchUnits ~ unitOptions",
+            unitOptions
+          );
           const scoreOptions = keyedScoreOptions.current[fileHeader];
 
           let appUnit: string | string[];
@@ -710,6 +747,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           let IsMulti: boolean;
           if (type === "Single") {
             appUnit = row.applicationUnit as string | string[];
+            console.log(
+              "🚀 ~ file: MatchUnits.tsx ~ line 744 ~ MatchUnits ~ appUnit",
+              appUnit
+            );
             if (Array.isArray(appUnit)) {
               appUnit = appUnit[0];
             }
@@ -719,6 +760,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 (option.value as string).toLowerCase() ===
                 (appUnit as string).toLowerCase()
             ) as IExtendedSelectOption;
+            console.log(
+              "🚀 ~ file: MatchUnits.tsx ~ line 754 ~ MatchUnits ~ valueOption",
+              valueOption
+            );
 
             IsMulti = false;
           } else {
@@ -770,7 +815,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                       ValueType<IExtendedSelectOption, IsMultiType>
                     >,
                     row,
-                    fileHeader,
                     type,
                     unitOptions,
                     scoreOptions
@@ -896,18 +940,21 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               });
 
               const fileHeaderKeys = rows.map((row: IRawRow) => row.fileHeader);
-              for (const fileUnit of fileHeaderKeys) {
+              for (const fileHeader of fileHeaderKeys) {
                 const chosenRow = rows.find(
-                  (row: IRawRow) => row.fileHeader === fileUnit
+                  (row: IRawRow) => row.fileHeader === fileHeader
                 ) as IRawRow;
-                const chosenAppUnit = chosenRow.fileUnit as string;
+                const chosenAppUnit = chosenRow.applicationUnit as string;
                 const chosenUnitType = chosenRow.type as TUnit;
+                const chosenUnitGroup = chosenRow.unitClassification as string;
+                const chosenMatchScore = chosenRow.match as string;
 
                 const matchObjectValuesByUnits = Object.values(
                   userMatchObject[workflowClass]["headers"]
                 );
+
                 const matchObj = matchObjectValuesByUnits.find(
-                  (o) => o.fileHeader === fileUnit
+                  (o) => o.fileHeader === fileHeader
                 ) as TSingleMatchObject;
 
                 let fileUnitId: string;
@@ -917,8 +964,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 userMatchObject[workflowClass]["units"][fileUnitId] = {
                   ...matchObj,
                   id: fileUnitId,
-                  header: chosenAppUnit as string,
                   type: chosenUnitType,
+                  appUnit: chosenAppUnit,
+                  unitGroup: chosenUnitGroup,
+                  match: chosenMatchScore,
                   acceptMatch: currentAcceptMatchValue,
                 };
               }
@@ -987,6 +1036,11 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         <DoughnutChartAnalytics
           data={unitsMatchChartData.current}
           willUseThemeColor={false}
+          colors={[
+            theme.palette.success.main,
+            theme.palette.primary.main,
+            theme.palette.secondary.main,
+          ]}
         />
       </div>
       <div className={classes.table}>

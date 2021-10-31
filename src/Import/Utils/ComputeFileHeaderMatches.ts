@@ -43,9 +43,9 @@ const computeFileHeaderMatches = (
 
     if (specificSavedMatchObjectKeys.includes(fileHeader.trim())) {
       const matchHeader = specificSavedMatchObject[fileHeader];
-      pullAll(mtchdHeaders, [matchHeader.header]);
+      pullAll(mtchdHeaders, [matchHeader.appHeader]);
 
-      mtchdHeaders.unshift(matchHeader.header);
+      mtchdHeaders.unshift(matchHeader.appHeader as string);
       cleanedMatchedScores.unshift(100);
     }
 

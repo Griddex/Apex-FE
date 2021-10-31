@@ -10,7 +10,7 @@ export const userState: Partial<IUserState> = {
   middleName: "",
   lastName: "",
   mobileNumber: "",
-  role: "Asset Forecaster",
+  role: "Corporate Forecaster",
   avatarUrl: "",
 };
 

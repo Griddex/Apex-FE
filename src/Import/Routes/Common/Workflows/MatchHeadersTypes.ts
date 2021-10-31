@@ -12,9 +12,14 @@ export interface IApplicationHeaders {
 
 export type TSingleMatchObject = {
   id: string;
-  fileHeader: string;
-  header: string;
+  fileHeader?: string;
+  appHeader?: string;
+  include: boolean;
+  fileUnit?: string;
+  appUnit?: string | string[];
   type: THeader | TUnit;
+  unitGroup?: string;
+  match: string;
   acceptMatch: boolean;
 };
 

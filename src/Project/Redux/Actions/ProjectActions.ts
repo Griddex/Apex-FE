@@ -105,7 +105,7 @@ export const createProjectAction = (
   return {
     type: CREATE_PROJECT_REQUEST,
     payload: { titleDesc },
-    meta: { showSpinner, message: "Creating project" },
+    meta: { showSpinner },
   };
 };
 
