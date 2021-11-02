@@ -1,13 +1,13 @@
 import { alpha, Input, TextareaAutosize, Theme, useTheme } from "@mui/material";
-import { ErrorMessage, FormikProps } from "formik";
+import grey from "@mui/material/colors/grey";
+import makeStyles from "@mui/styles/makeStyles";
+import { FormikProps } from "formik";
 import React from "react";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import {
   ITitleAndDescriptionFormProps,
   ITitleAndDescriptionFormValues,
 } from "./FormTypes";
-import makeStyles from "@mui/styles/makeStyles";
-import grey from "@mui/material/colors/grey";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -33,10 +33,15 @@ const TitleAndDescription = ({
   isValid,
   dirty,
   handleChange,
+  storedTitles,
 }: ITitleAndDescriptionFormProps &
   FormikProps<ITitleAndDescriptionFormValues>) => {
   const theme = useTheme();
   const classes = useStyles();
+
+  const [style, setStyle] = React.useState({
+    width: "100%",
+  } as React.CSSProperties);
 
   const { title, description } = values;
 
@@ -55,16 +60,21 @@ const TitleAndDescription = ({
       setDescription && setDescription(value);
     }
 
-    setDisable && setDisable(!isValid || !dirty);
+    const alreadyExists = storedTitles
+      ?.map((v) => v.toLowerCase())
+      .includes(value.toLowerCase());
+
+    if (alreadyExists) setDisable && setDisable(true);
+    else setDisable && setDisable(false);
+
+    if (alreadyExists)
+      setStyle({
+        width: "100%",
+        outline: `1px solid ${theme.palette.secondary.main}`,
+        boxShadow: `${alpha(theme.palette.secondary.main, 0.25)} 0 0 0 2px`,
+      });
+    else setStyle({ width: "100%" });
   };
-
-  const style = isValid
-    ? { width: "100%" }
-    : { width: "100%", border: `1px solid ${theme.palette.secondary.main}` };
-
-  React.useEffect(() => {
-    setDisable && setDisable(!isValid || !dirty);
-  }, []);
 
   return (
     <>
@@ -84,7 +94,9 @@ const TitleAndDescription = ({
               autoFocus
               fullWidth
             />
-            <ErrorMessage name="title" />
+            <div style={{ height: 24, color: theme.palette.secondary.main }}>
+              {Object.keys(style).includes("outline") && "Title already exists"}
+            </div>
           </>
         }
       />
@@ -102,7 +114,6 @@ const TitleAndDescription = ({
               value={description}
               onChange={handleTitleDescChange}
             />
-            <ErrorMessage name="description" />
           </>
         }
       />

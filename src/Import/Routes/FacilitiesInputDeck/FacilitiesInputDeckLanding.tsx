@@ -1,33 +1,29 @@
 import { Badge, BadgeProps } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
-import {
-  IAllWorkflows,
-  TAllWorkflowProcesses,
-} from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import StoredDeck from "../../Images/StoredDeck.svg";
+import { ILandingData } from "../../../Application/Types/ApplicationTypes";
+import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
 import MSExcel from "../../Images/MSExcel.svg";
+import StoredDeck from "../../Images/StoredDeck.svg";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
-import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { ILandingData } from "../../../Application/Types/ApplicationTypes";
-import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const ExcelWorkflow = React.lazy(
   () => import("../Common/InputWorkflows/ExcelWorkflow")
@@ -163,7 +159,7 @@ const FacilitiesInputDeckLanding = () => {
       exclusive: true,
       maxWidth: "sm",
       iconType: "save",
-      actionsList: (titleDesc?: Record<string, string>) =>
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
         DialogOneCancelButtons(
           [true, true],
           [true, false],
@@ -176,7 +172,7 @@ const FacilitiesInputDeckLanding = () => {
           ],
           "Save",
           "saveOutlined",
-          false,
+          flag,
           "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

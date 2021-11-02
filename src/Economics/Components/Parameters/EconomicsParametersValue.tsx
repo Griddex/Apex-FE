@@ -1,8 +1,8 @@
-import { ListItemIcon, Typography, useTheme } from "@mui/material";
 import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
+import { ListItemIcon, Typography, useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import noEventPropagation from "../../../Application/Events/NoEventPropagation";
@@ -61,12 +61,14 @@ const EconomicsParametersValue = ({
       iconType: "information",
       economicsTableData: economicsTableDataDefined,
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [unloadDialogsAction, () => console.log("hello")],
+          "Save",
+          "saveOutlined",
           false,
-          "All"
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

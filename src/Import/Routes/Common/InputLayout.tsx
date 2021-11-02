@@ -18,9 +18,7 @@ import {
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { resetActions } from "../../../Application/Utils/ResetModuleState";
 import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
 import { IdType } from "./InputLayoutTypes";
 import { IEconomicsInputButton } from "./Workflows/InputWorkflowsTypes";
@@ -148,16 +146,10 @@ const InputLayout = () => {
     },
   ]);
 
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
-
   return (
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData.current} />}
       <div className={clsx(classes.importLayoutContainer)}>
-        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={path} component={InputBackground} />
           <Route path={`${url}/:subNavbarId`}>

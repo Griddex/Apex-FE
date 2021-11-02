@@ -8,7 +8,7 @@ import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import BadgeComingSoon from "../../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
-import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -198,7 +198,7 @@ const EconomicsCostsRevenuesLanding = () => {
         dialogText: `Do you want to save the economics costs schedule?`,
         iconType: "confirmation",
         actionsList: () =>
-          DialogSaveCancelButtons(
+          DialogOneCancelButtons(
             [true, true],
             [true, true],
             [
@@ -210,8 +210,10 @@ const EconomicsCostsRevenuesLanding = () => {
                   titleDesc as Record<string, string>
                 ),
             ],
+            "Save",
+            "saveOutlined",
             false,
-            "All"
+            "None"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
@@ -227,8 +229,8 @@ const EconomicsCostsRevenuesLanding = () => {
       exclusive: false,
       maxWidth: "sm",
       iconType: "save",
-      actionsList: (titleDesc?: Record<string, string>) =>
-        DialogSaveCancelButtons(
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [
@@ -238,7 +240,9 @@ const EconomicsCostsRevenuesLanding = () => {
                 titleDesc as Record<string, string>
               ),
           ],
-          false,
+          "Save",
+          "saveOutlined",
+          flag,
           "None"
         ),
     };
@@ -257,12 +261,14 @@ const EconomicsCostsRevenuesLanding = () => {
       iconType: "select",
       workflowProcess: wp,
       workflowCategory: wc,
-      actionsList: (isFinalButtonDisabled) =>
-        DialogSaveCancelButtons(
+      actionsList: (flag: boolean) =>
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [unloadDialogsAction, () => costsRevenueWorkflowSaveAction(wp)],
-          isFinalButtonDisabled,
+          "Finalize",
+          "finalize",
+          flag,
           "None"
         ),
     };

@@ -119,14 +119,13 @@ const forecastResultTitlesSelector = createDeepEqualSelector(
 
 const SaveForecastDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType } = props;
-  const [isSaveForecastResultsValid, setIsSaveForecastResultsValid] =
-    React.useState(true);
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   const storedTitles = useSelector(forecastResultTitlesSelector);
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   const titleDesc = {
     title: formTitle,
@@ -156,13 +155,11 @@ const SaveForecastDialog: React.FC<DialogStuff> = (props) => {
           description={formDescription}
           setDescription={setFormDescription}
           storedTitles={storedTitles}
+          setDisable={setDisable}
         />
       </DialogContent>
       <DialogActions>
-        <SaveForecastResultsDialogButtons
-          isSaveForecastResultsValid={true}
-          titleDesc={titleDesc}
-        />
+        {actionsList && actionsList(titleDesc, disable)}
       </DialogActions>
     </Dialog>
   );

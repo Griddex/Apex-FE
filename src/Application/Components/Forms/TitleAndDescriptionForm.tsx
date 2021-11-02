@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import * as Yup from "yup";
@@ -25,22 +25,7 @@ const TitleAndDescriptionForm = ({
     <Formik
       initialValues={{ title: "", description: "" }}
       validationSchema={Yup.object({
-        title: Yup.string(),
-          // .required("Title is required")
-          // .test("alreadyExists", "Title already exists", (v) => {
-          //   if (v) {
-          //     const exi = storedTitlesDefined
-          //       .map((t) => t.toLowerCase())
-          //       .includes((v as string).trim().toLowerCase());
-          //     console.log(
-          //       "Logged output --> ~ file: TitleAndDescriptionForm.tsx ~ line 35 ~ .test ~ exi",
-          //       exi
-          //     );
-
-          //     return !exi;
-          //   } else return true;
-          // })
-          
+        title: Yup.mixed().required("Title is required"),
         description: Yup.string(),
       })}
       onSubmit={() => {}}
@@ -50,6 +35,7 @@ const TitleAndDescriptionForm = ({
           setTitle,
           setDescription,
           setDisable,
+          storedTitles: storedTitlesDefined,
         };
 
         return (

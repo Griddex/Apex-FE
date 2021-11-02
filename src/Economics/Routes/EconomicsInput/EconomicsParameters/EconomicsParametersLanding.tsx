@@ -1,13 +1,13 @@
 import { Badge, BadgeProps } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import BadgeComingSoon from "../../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../../Application/Components/Cards/ModuleCard";
-import DialogSaveCancelButtons from "../../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -158,7 +158,7 @@ const EconomicsParametersLanding = () => {
           dialogText: `Do you want to save the current economics parameters Inputdeck?`,
           iconType: "confirmation",
           actionsList: () =>
-            DialogSaveCancelButtons(
+            DialogOneCancelButtons(
               [true, true],
               [true, true],
               [
@@ -170,8 +170,11 @@ const EconomicsParametersLanding = () => {
                     titleDesc as Record<string, string>
                   ),
               ],
+
+              "Save",
+              "saveOutlined",
               false,
-              "All"
+              "None"
             ),
           dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
         };
@@ -187,8 +190,8 @@ const EconomicsParametersLanding = () => {
         exclusive: true,
         maxWidth: "sm",
         iconType: "save",
-        actionsList: (titleDesc?: Record<string, string>) =>
-          DialogSaveCancelButtons(
+        actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+          DialogOneCancelButtons(
             [true, true],
             [true, false],
             [
@@ -198,7 +201,10 @@ const EconomicsParametersLanding = () => {
                   titleDesc as Record<string, string>
                 ),
             ],
-            false,
+
+            "Save",
+            "saveOutlined",
+            flag,
             "None"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

@@ -28,7 +28,7 @@ const generateMatchData = (
     } else return acc;
   }, 0);
 
-  const headerMatchChartData = [
+  const initheaderMatchChartData = [
     {
       id: "Full_Match",
       label: "Full Match",
@@ -48,6 +48,10 @@ const generateMatchData = (
       color: theme.palette.secondary.main,
     },
   ];
+
+  const headerMatchChartData = initheaderMatchChartData.filter(
+    (row) => row.value > 0
+  );
 
   return headerMatchChartData;
 };

@@ -1,16 +1,15 @@
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { ReactFlowProvider } from "react-flow-renderer";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
-  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import Image from "../../Application/Components/Visuals/Image";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -22,8 +21,6 @@ import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import StoredDeck from "../Images/StoredDeck.svg";
 import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import { IdType } from "./NetworkLandingTypes";
-import { resetActions } from "../../Application/Utils/ResetModuleState";
-import { NavigationApexPrompt } from "../../Application/Components/Prompts/ApexPrompt";
 
 const DeclineCurveParameters = React.lazy(
   () => import("../Routes/DeclineCurveParameters")
@@ -87,8 +84,6 @@ const NetworkLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
-  const location = useLocation();
-  const module = location.pathname.split("/")[2];
 
   const loadNetworkGenerationWorkflow = useSelector(
     loadNetworkGenerationWorkflowSelector
@@ -201,16 +196,10 @@ const NetworkLanding = () => {
     },
   ];
 
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
-
   return (
     <>
       {loadNetworkGenerationWorkflow ? (
         <div className={classes.networkWorkflow}>
-          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Switch>
             <Route exact path={`${url}/:dataInputId`}>
               {(props: RouteComponentProps<IdType>) => {

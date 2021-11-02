@@ -33,6 +33,14 @@ export const DoughnutChartAnalytics = ({
     arcLinkLabelsDiagonalLength: 5,
     arcLinkLabelsStraightLength: 5,
     cornerRadius: 1,
+    padAngle: 2,
+    fit: true,
+    margin: { top: 10, right: 10, bottom: 10, left: 10 },
+    colors: colors,
+    defs: defs,
+    fill: fill,
+    isInteractive: true,
+    animate: true,
   } as Partial<IChart>;
 
   const commonChartProps = useSelector(commonChartPropsSelector);
@@ -44,11 +52,6 @@ export const DoughnutChartAnalytics = ({
       {...adjustedProps}
       height={120}
       width={500}
-      fit={true}
-      margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-      colors={colors}
-      defs={defs}
-      fill={fill}
     />
   );
 };

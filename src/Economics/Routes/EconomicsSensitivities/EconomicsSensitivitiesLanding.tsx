@@ -2,12 +2,12 @@ import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
 import {
@@ -124,8 +124,8 @@ const EconomicsSensitivitiesLanding = () => {
       maxWidth: "sm",
       iconType: "save",
       workflowProcess: wp,
-      actionsList: (titleDesc?: Record<string, string>) =>
-        DialogSaveCancelButtons(
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [
@@ -135,7 +135,9 @@ const EconomicsSensitivitiesLanding = () => {
                 titleDesc as Record<string, string>
               ),
           ],
-          false,
+          "Save",
+          "saveOutlined",
+          flag,
           "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -157,7 +159,7 @@ const EconomicsSensitivitiesLanding = () => {
       dialogText: "Do you want to save the current economics sensitivities?",
       iconType: "confirmation",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
@@ -170,8 +172,10 @@ const EconomicsSensitivitiesLanding = () => {
                 titleDesc as Record<string, string>
               ),
           ],
+          "Save",
+          "saveOutlined",
           false,
-          "All"
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,

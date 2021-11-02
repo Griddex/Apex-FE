@@ -4,14 +4,14 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import {
   ButtonProps,
   DialogStuff,
@@ -26,7 +26,6 @@ import { confirmationDialogParameters } from "../../../Import/Components/DialogP
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { TAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
-
 const useStyles = makeStyles(() => ({
   dialogButtons: {
     display: "flex",
@@ -112,8 +111,8 @@ const ForecastInputDeckFinalization = ({
       iconType: "save",
       workflowProcess,
       workflowCategory: "inputDataWorkflows",
-      actionsList: (titleDesc?: Record<string, string>) =>
-        DialogSaveCancelButtons(
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [
@@ -123,7 +122,9 @@ const ForecastInputDeckFinalization = ({
                 titleDesc as Record<string, string>
               ),
           ],
-          false,
+          "Save",
+          "saveOutlined",
+          flag,
           "None"
         ),
     };

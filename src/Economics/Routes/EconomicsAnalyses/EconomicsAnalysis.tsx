@@ -5,11 +5,10 @@ import ViewDayTwoToneIcon from "@mui/icons-material/ViewDayTwoTone";
 import { Button, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
@@ -19,10 +18,12 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics";
 import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
   runEconomicsAnalysisRequestAction,
+  saveEconomicsResultsRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -35,12 +36,6 @@ import {
   TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
 
-const SelectScenariosByButtonsWithForecastCaseEconomics = React.lazy(
-  () =>
-    import(
-      "../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCaseEconomics"
-    )
-);
 const EconomicsDecksSelectionTable = React.lazy(
   () => import("./EconomicsDecksSelectionTable")
 );
@@ -140,7 +135,7 @@ const EconomicsAnalysis = ({
     setAnalysisPerspective(checked);
   };
 
-  const createSensitivities = () => {
+  const extrudeSensitivities = () => {
     const dialogParameters: DialogStuff = {
       name: "Create_Economics_Sensitivities_Dialog",
       title: "Create Economics Sensitivities",
@@ -151,10 +146,12 @@ const EconomicsAnalysis = ({
       iconType: "create",
       workflowProcess,
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, saveSensitivitiesAction],
+          [unloadDialogsAction, saveSensitivities],
+          "Save",
+          "saveOutlined",
           false,
           "None"
         ),
@@ -165,7 +162,7 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const saveSensitivitiesAction = () => {
+  const saveSensitivities = () => {
     const dialogParameters: DialogStuff = {
       name: "Save_Economics_Sensitivities_Dialog",
       title: "Save Economics Sensitivities",
@@ -175,8 +172,8 @@ const EconomicsAnalysis = ({
       maxWidth: "sm",
       iconType: "save",
       workflowProcess,
-      actionsList: (titleDesc?: Record<string, string>) =>
-        DialogSaveCancelButtons(
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
           [true, true],
           [true, false],
           [
@@ -186,7 +183,9 @@ const EconomicsAnalysis = ({
                 titleDesc as Record<string, string>
               ),
           ],
-          false,
+          "Save",
+          "saveOutlined",
+          flag,
           "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -207,7 +206,7 @@ const EconomicsAnalysis = ({
       dialogText: "Do you want to save the current economics sensitivities?",
       iconType: "confirmation",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [
@@ -220,8 +219,10 @@ const EconomicsAnalysis = ({
                 titleDesc as Record<string, string>
               ),
           ],
+          "Save",
+          "saveOutlined",
           false,
-          "All"
+          "None"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
@@ -309,7 +310,7 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
-  const saveeconomicsResultsFinalAction = () => {
+  const saveEconomicsResultsAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Save_Economics_Results_Dialog",
       title: "Save Economics Results",
@@ -318,6 +319,57 @@ const EconomicsAnalysis = ({
       exclusive: true,
       maxWidth: "sm",
       iconType: "save",
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, false],
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsResultsConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          flag,
+          "None"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      reducer,
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const saveEconomicsResultsConfirmation = (
+    titleDesc: Record<string, string>
+  ) => {
+    const dialogParameters: DialogStuff = {
+      name: "Save_Economics_Results_Dialog",
+      title: "Save Economics Results Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current economics results?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsResultsRequestAction(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          false,
+          "All"
+        ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
     };
@@ -374,7 +426,7 @@ const EconomicsAnalysis = ({
             <Button
               className={classes.button}
               startIcon={<AddBoxTwoToneIcon />}
-              onClick={createSensitivities}
+              onClick={extrudeSensitivities}
             >
               Create
             </Button>
@@ -412,7 +464,7 @@ const EconomicsAnalysis = ({
         <Button
           className={classes.primaryButton}
           startIcon={<SaveOutlinedIcon />}
-          onClick={saveeconomicsResultsFinalAction}
+          onClick={saveEconomicsResultsAction}
         >
           Save Results
         </Button>

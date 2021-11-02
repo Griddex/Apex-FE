@@ -6,11 +6,8 @@ import {
   Route,
   RouteComponentProps,
   Switch,
-  useLocation,
   useRouteMatch,
 } from "react-router-dom";
-import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
-import { resetActions } from "../../../Application/Utils/ResetModuleState";
 import { IdType } from "./SettingsLayoutTypes";
 
 const Settings = React.lazy(() => import("../../Settings"));
@@ -37,18 +34,10 @@ const SettingsLayout = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
-  const location = useLocation();
-  const module = location.pathname.split("/")[2];
-
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
 
   return (
     <main className={classes.settingsLayoutRoot}>
       <div className={clsx(classes.settingsLayoutContainer)}>
-        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={path} component={() => <Settings />} />
           <Route path={`${url}/:settingsId`}>

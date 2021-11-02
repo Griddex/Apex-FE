@@ -1,9 +1,9 @@
-import { Button } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { Button } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import DialogSaveCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveCancelButtons";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import {
   ButtonProps,
   DialogStuff,
@@ -33,10 +33,12 @@ const SaveForecastResultsDialogButtons = ({
       dialogText: "Do you want to save the current forecast results?",
       iconType: "confirmation",
       actionsList: () =>
-        DialogSaveCancelButtons(
+        DialogOneCancelButtons(
           [true, true],
           [true, true],
           [unloadDialogsAction, () => saveForecastRequestAction(titleDesc)],
+          "Save",
+          "saveOutlined",
           false,
           "All"
         ),

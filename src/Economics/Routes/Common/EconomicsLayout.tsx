@@ -6,29 +6,26 @@ import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import { Button, Typography } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
-import React, { Suspense } from "react";
+import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
-  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
+import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IEconomicsInputButton,
   ISubNavbarData,
 } from "../../../Import/Routes/Common/Workflows/InputWorkflowsTypes";
+import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IdType } from "./EconomicsLayoutTypes";
-import EconomicsInputButtonsMenu from "../../Components/Menus/EconomicsInputButtonsMenu";
-import SubNavbar from "../../../Application/Components/Navbars/SubNavbar";
-import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
-import { resetActions } from "../../../Application/Utils/ResetModuleState";
 
 const EconomicsAnalysesLanding = React.lazy(
   () => import("../EconomicsAnalyses/EconomicsAnalysesLanding")
@@ -79,8 +76,6 @@ const EconomicsLayout = () => {
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const dispatch = useDispatch();
-  const location = useLocation();
-  const module = location.pathname.split("/")[2];
 
   const showSubNavbar = useSelector(showSubNavbarSelector);
 
@@ -157,11 +152,6 @@ const EconomicsLayout = () => {
     },
   ];
 
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
-
   React.useEffect(() => {
     //TODO Find more appropriate location
     dispatch(hideSpinnerAction());
@@ -171,7 +161,6 @@ const EconomicsLayout = () => {
     <main className={classes.economicsLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
       <div className={clsx(classes.economicsLayoutContainer)}>
-        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={path} component={() => <EconomicsBackground />} />
           <Route path={`${url}/:economicsId`}>

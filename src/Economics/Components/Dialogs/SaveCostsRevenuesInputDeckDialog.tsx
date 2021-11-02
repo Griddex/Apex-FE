@@ -115,6 +115,7 @@ const SaveCostsRevenuesInputDeckDialog: React.FC<DialogStuff> = (props) => {
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   const titleDesc = {
     title: formTitle,
@@ -144,9 +145,12 @@ const SaveCostsRevenuesInputDeckDialog: React.FC<DialogStuff> = (props) => {
           description={formDescription}
           setDescription={setFormDescription}
           storedTitles={storedTitles}
+          setDisable={setDisable}
         />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>
+      <DialogActions>
+        {actionsList && actionsList(titleDesc, disable)}
+      </DialogActions>
     </Dialog>
   );
 };
