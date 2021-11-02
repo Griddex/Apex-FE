@@ -300,10 +300,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       const matchObj = specificSavedMatchObjectValues.find(
         (o) => o.fileHeader === fileHeader
       ) as TSingleMatchObject;
-      console.log(
-        "🚀 ~ file: MatchHeaders.tsx ~ line 299 ~ fileHeaders.map ~ matchObj",
-        matchObj
-      );
 
       return {
         sn: i + 1,
@@ -333,10 +329,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
-  console.log(
-    "🚀 ~ file: MatchHeaders.tsx ~ line 327 ~ MatchHeaders ~ userMatchObject",
-    userMatchObject
-  );
 
   const generateColumns = (keyedAppHeaderOptions: TKeyedSelectOptions) => {
     const handleHeaderTypeChange = (
@@ -820,11 +812,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           willUseThemeColor={false}
           defs={defs}
           fill={fill}
-          colors={[
-            theme.palette.success.main,
-            theme.palette.primary.main,
-            theme.palette.secondary.main,
-          ]}
+          colors={headerMatchChartData.current.map((d: any) => d.color)}
         />
       </div>
       <div className={classes.table}>

@@ -1,14 +1,16 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
@@ -16,9 +18,6 @@ import { IconNameType } from "../../../Application/Components/Icons/DialogIconsT
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import SaveEconomicsResultsDialogButtons from "../DialogButtons/SaveEconomicsResultsDialogButtons";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -122,12 +121,11 @@ const SaveEconomicsResultsDialog: React.FC<DialogStuff> = (props) => {
 
   const storedTitles = useSelector(economicsResultTitlesSelector);
 
-  const { title, show, maxWidth, iconType } = props;
-  const [isSaveEconomicsResultsValid, setIsSaveEconomicsResultsValid] =
-    React.useState(true);
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   const titleDesc = {
     title: formTitle,
@@ -157,14 +155,11 @@ const SaveEconomicsResultsDialog: React.FC<DialogStuff> = (props) => {
           description={formDescription}
           setDescription={setFormDescription}
           storedTitles={storedTitles}
+          setDisable={setDisable}
         />
       </DialogContent>
       <DialogActions>
-        <SaveEconomicsResultsDialogButtons
-          // isSaveEconomicsResultsValid={isSaveEconomicsResultsValid}
-          isSaveEconomicsResultsValid={true}
-          titleDesc={titleDesc}
-        />
+        {actionsList && actionsList(titleDesc, disable)}
       </DialogActions>
     </Dialog>
   );

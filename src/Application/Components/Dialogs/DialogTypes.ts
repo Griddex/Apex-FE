@@ -182,7 +182,7 @@ export interface DialogStuff<TRow = TDataRow> {
   iconType?: IconNameType;
   contentText?: string;
   contentList?: Record<string, any>;
-  actionsList?: (arg?: any) => JSX.Element | JSX.Element[];
+  actionsList?: (arg?: any, flag?: boolean) => JSX.Element | JSX.Element[];
   onClose?: () => void;
   classes?: Record<string, string>;
   dialogData?: IDialogData<TRow>;

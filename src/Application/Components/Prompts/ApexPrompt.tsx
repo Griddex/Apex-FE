@@ -66,14 +66,9 @@ export const NavigationApexPrompt = ({
     afterConfirm={afterConfirm}
     whenFunc={(crntLoc: any, nxtLoc: any) => {
       const crntModule = crntLoc.pathname.split("/")[2];
-      console.log(
-        "🚀 ~ file: ApexPrompt.tsx ~ line 69 ~ crntModule",
-        crntModule
-      );
       const nxtModule = nxtLoc.pathname.split("/")[2];
-      console.log("🚀 ~ file: ApexPrompt.tsx ~ line 71 ~ nxtModule", nxtModule);
 
-      if (crntModule !== nxtModule) return true;
+      if (crntModule && crntModule !== nxtModule) return true;
       else return false;
     }}
     name={"Navigation_Confirmation_Dialog"}

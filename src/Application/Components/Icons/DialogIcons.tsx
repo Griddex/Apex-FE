@@ -17,6 +17,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import CategoryIcon from "@mui/icons-material/Category";
 import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
 import NavigationIcon from "@mui/icons-material/Navigation";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
   const theme = useTheme();
@@ -48,6 +49,7 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
     navigation: (
       <NavigationIcon style={{ color: theme.palette.primary.main }} />
     ),
+    finalize: <DoneAllIcon style={{ color: theme.palette.primary.main }} />,
   };
 
   return icons[iconType];

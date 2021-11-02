@@ -1,12 +1,9 @@
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Route,
-  RouteComponentProps,
-  useLocation,
-  useRouteMatch,
-} from "react-router-dom";
+import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -15,10 +12,6 @@ import SingleRegistration from "../../Images/SingleRegistration.svg";
 import { loadAdminWorkflowAction } from "../../Redux/Actions/AdminActions";
 import RegisterRoute from "../Register/RegisterRoute";
 import { IdType } from "./AdministrationLandingTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
-import { resetActions } from "../../../Application/Utils/ResetModuleState";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -54,8 +47,6 @@ const AdministrationLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
-  const location = useLocation();
-  const module = location.pathname.split("/")[2];
 
   const loadAdminWorkflow = useSelector(loadAdminWorkflowSelector);
 
@@ -76,16 +67,10 @@ const AdministrationLanding = () => {
     },
   ] as ILandingData[];
 
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
-
   return (
     <>
       {loadAdminWorkflow ? (
         <div className={classes.adminWorkflow}>
-          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
               const { match } = props;

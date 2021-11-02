@@ -12,8 +12,6 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogSaveAndGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveAndGenerateNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -125,6 +123,8 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const steps = ["Select Facilities Deck", "Save & Generate"];
 const forecastTitlesSelector = createDeepEqualSelector(
   (state: RootState) =>
@@ -146,6 +146,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   const titleDesc = {
     title: formTitle,

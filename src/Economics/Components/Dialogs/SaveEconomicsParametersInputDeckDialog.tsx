@@ -20,8 +20,6 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     margin: 0,
@@ -101,6 +99,8 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const economicsParametersTitlesSelector = createDeepEqualSelector(
   (state: RootState) =>
     state.applicationReducer["allFormTitles"]["economicsParametersTitles"],
@@ -117,6 +117,7 @@ const SaveEconomicsParametersInputDeckDialog: React.FC<DialogStuff> = (
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   const titleDesc = {
     title: formTitle,
@@ -146,9 +147,12 @@ const SaveEconomicsParametersInputDeckDialog: React.FC<DialogStuff> = (
           description={formDescription}
           setDescription={setFormDescription}
           storedTitles={storedTitles}
+          setDisable={setDisable}
         />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>
+      <DialogActions>
+        {actionsList && actionsList(titleDesc, disable)}
+      </DialogActions>
     </Dialog>
   );
 };

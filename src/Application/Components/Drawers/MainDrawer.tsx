@@ -1,3 +1,12 @@
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
+import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
+import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
+import TimelineIcon from "@mui/icons-material/Timeline";
+import TuneIcon from "@mui/icons-material/Tune";
 import {
   Badge,
   BadgeProps,
@@ -9,24 +18,12 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
-import LocalAtmOutlinedIcon from "@mui/icons-material/LocalAtmOutlined";
-import SupervisorAccountOutlinedIcon from "@mui/icons-material/SupervisorAccountOutlined";
-import TimelineIcon from "@mui/icons-material/Timeline";
-import TuneIcon from "@mui/icons-material/Tune";
 import clsx from "clsx";
 import React, { useState } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useHistory,
-  useLocation,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
@@ -36,8 +33,6 @@ import { mainDrawerSetMenuAction } from "../../Redux/Actions/ApplicationActions"
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import CustomTooltip from "../Tooltips/CustomTooltip";
 import { IMainDrawerData } from "./MainDrawerTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -114,11 +109,6 @@ const MainDrawer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { url } = useRouteMatch();
-
-  const params = useParams();
-
-  const loc = useLocation();
-  console.log("🚀 ~ file: MainDrawer.tsx ~ line 116 ~ MainDrawer ~ loc", loc);
 
   const [open, setOpen] = React.useState(false);
   const handleClose = React.useCallback(() => {
@@ -259,7 +249,7 @@ const MainDrawer = () => {
                     }}
                   />
                 ) : (
-                  name
+                  <>{name}</>
                 )
               }
               placement="right"

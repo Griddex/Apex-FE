@@ -1,16 +1,15 @@
 import { Badge, BadgeProps } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
   RouteComponentProps,
   Switch,
-  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import BadgeComingSoon from "../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
@@ -28,8 +27,6 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IdType } from "./ForecastLandingTypes";
-import { resetActions } from "../../Application/Utils/ResetModuleState";
-import { NavigationApexPrompt } from "../../Application/Components/Prompts/ApexPrompt";
 
 const ForecastData = React.lazy(() => import("../Routes/ForecastData"));
 const ForecastQualityAssurance = React.lazy(
@@ -80,8 +77,6 @@ const ForecastLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
-  const location = useLocation();
-  const module = location.pathname.split("/")[2];
 
   const loadForecastResultsWorkflow = useSelector(
     loadForecastResultsWorkflowSelector
@@ -159,11 +154,6 @@ const ForecastLanding = () => {
     },
   ];
 
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
-
   const storedDataFinalAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
@@ -198,7 +188,6 @@ const ForecastLanding = () => {
     <>
       {loadForecastResultsWorkflow ? (
         <div className={classes.forecastWorkflow}>
-          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Switch>
             <Route exact path={`${url}/:dataInputId`}>
               {(props: RouteComponentProps<IdType>) => {

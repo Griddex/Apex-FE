@@ -5,12 +5,9 @@ import {
   Route,
   RouteComponentProps,
   Switch,
-  useLocation,
   useRouteMatch,
 } from "react-router-dom";
-import { NavigationApexPrompt } from "../../../Application/Components/Prompts/ApexPrompt";
 import Loading from "../../../Application/Components/Visuals/Loading";
-import { resetActions } from "../../../Application/Utils/ResetModuleState";
 import { ICorporateLayouts, IdType } from "./CorporateLayoutTypes";
 
 const CorporateBackground = React.lazy(() => import("./CorporateBackground"));
@@ -36,19 +33,11 @@ const CorporateLayout = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
-  const location = useLocation();
-  const module = location.pathname.split("/")[2];
-
-  const afterConfirmAction = React.useCallback(() => {
-    const action = resetActions[module];
-    dispatch(action());
-  }, []);
 
   return (
     <main className={classes.declineCurveAnalysisLayoutRoot}>
       <div className={classes.declineCurveAnalysisLayoutContainer}>
         <Suspense fallback={Loading}>
-          <NavigationApexPrompt afterConfirm={afterConfirmAction} />
           <Switch>
             <Route exact path={path}>
               {() => <CorporateBackground />}

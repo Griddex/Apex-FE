@@ -12,8 +12,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import TitleAndDescriptionForm from "../../../Application/Components/Forms/TitleAndDescriptionForm";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
@@ -101,6 +99,8 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const forecastTitlesSelector = createDeepEqualSelector(
   (state: RootState) =>
     state.applicationReducer["allFormTitles"]["forecastTitles"],
@@ -116,6 +116,7 @@ const SaveForecastInputDeckDialog: React.FC<DialogStuff> = (props) => {
 
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   const titleDesc = {
     title: formTitle,
@@ -145,9 +146,12 @@ const SaveForecastInputDeckDialog: React.FC<DialogStuff> = (props) => {
           description={formDescription}
           setDescription={setFormDescription}
           storedTitles={storedTitles}
+          setDisable={setDisable}
         />
       </DialogContent>
-      <DialogActions>{actionsList && actionsList(titleDesc)}</DialogActions>
+      <DialogActions>
+        {actionsList && actionsList(titleDesc, disable)}
+      </DialogActions>
     </Dialog>
   );
 };

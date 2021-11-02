@@ -6,6 +6,7 @@ import {
   Route,
   RouteComponentProps,
   Switch,
+  useLocation,
   useRouteMatch,
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
@@ -13,9 +14,11 @@ import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions
 import { fetchStoredProjectsRequestAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import Dialogs from "../Components/Dialogs/Dialogs";
+import { NavigationApexPrompt } from "../Components/Prompts/ApexPrompt";
 import Spinners from "../Components/Visuals/Spinners";
 import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
 import { RootState } from "../Redux/Reducers/AllReducers";
+import { resetActions } from "../Utils/ResetModuleState";
 import { IdType, ILayouts, LayoutNames } from "./LayoutTypes";
 
 const useStyles = makeStyles(() => ({
@@ -83,10 +86,17 @@ const Layout = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
+  const location = useLocation();
+  const module = location.pathname.split("/")[2];
   console.log("🚀 ~ file: Layout.tsx ~ line 86 ~ Layout ~ url", url);
 
   const showMainDrawer = useSelector(showMainDrawerSelector);
   const showNavbar = useSelector(showNavbarSelector);
+
+  const afterConfirmAction = React.useCallback(() => {
+    const action = resetActions[module];
+    dispatch(action());
+  }, []);
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());
@@ -100,6 +110,7 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
+        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
         <Switch>
           <Route exact path={url} component={ProductBackground} />
           <Route path={`${url}/:layoutId`}>

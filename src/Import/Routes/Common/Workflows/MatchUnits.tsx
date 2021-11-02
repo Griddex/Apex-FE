@@ -345,10 +345,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const [userMatchObject, setUserMatchObject] =
     React.useState<TUserMatchObject>(savedMatchObjectAll);
-  console.log(
-    "🚀 ~ file: MatchUnits.tsx ~ line 352 ~ MatchUnits ~ userMatchObject",
-    userMatchObject
-  );
 
   const generateColumns = (
     keyedApplicationUnitOptions: {
@@ -562,28 +558,12 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             prev[workflowClass]["units"]
           );
 
-          console.log(
-            "🚀 ~ file: MatchUnits.tsx ~ line 535 ~ setUserMatchObject ~ workflowClass",
-            workflowClass
-          );
-          console.log(
-            "🚀 ~ file: MatchUnits.tsx ~ line 535 ~ setUserMatchObject ~ specificSavedMatchObjectValues",
-            specificSavedMatchObjectValues
-          );
-
           const matchObj = specificSavedMatchObjectValues.find(
             (o) => o.appHeader === strFileUnit
           ) as TSingleMatchObject;
-          console.log(
-            "🚀 ~ file: MatchUnits.tsx ~ line 540 ~ setUserMatchObject ~ matchObj",
-            matchObj
-          );
 
           const matchObject = { ...prev };
-          console.log(
-            "🚀 ~ file: MatchUnits.tsx ~ line 541 ~ setUserMatchObject ~ matchObject",
-            matchObject
-          );
+
           delete matchObject[workflowClass]["units"][matchObj.id];
 
           return matchObject;
@@ -736,10 +716,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           const type = row.type as TUnit;
 
           const unitOptions = keyedApplicationUnitOptions[fileHeader];
-          console.log(
-            "🚀 ~ file: MatchUnits.tsx ~ line 733 ~ MatchUnits ~ unitOptions",
-            unitOptions
-          );
+
           const scoreOptions = keyedScoreOptions.current[fileHeader];
 
           let appUnit: string | string[];
@@ -747,10 +724,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           let IsMulti: boolean;
           if (type === "Single") {
             appUnit = row.applicationUnit as string | string[];
-            console.log(
-              "🚀 ~ file: MatchUnits.tsx ~ line 744 ~ MatchUnits ~ appUnit",
-              appUnit
-            );
+
             if (Array.isArray(appUnit)) {
               appUnit = appUnit[0];
             }
@@ -760,10 +734,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 (option.value as string).toLowerCase() ===
                 (appUnit as string).toLowerCase()
             ) as IExtendedSelectOption;
-            console.log(
-              "🚀 ~ file: MatchUnits.tsx ~ line 754 ~ MatchUnits ~ valueOption",
-              valueOption
-            );
 
             IsMulti = false;
           } else {
@@ -987,7 +957,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   };
 
   React.useEffect(() => {
-    console.log("useeffect rowssssssssss");
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -996,13 +965,8 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       )
     );
   }, [JSON.stringify(rows)]);
-  console.log(
-    "🚀 ~ file: MatchUnits.tsx ~ line 932 ~ React.useEffect ~ rows",
-    rows
-  );
 
   React.useEffect(() => {
-    console.log("useeffect currentAppHeaderNameMappppppppppp");
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -1013,9 +977,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   }, [JSON.stringify(currentAppHeaderNameMap.current)]);
 
   React.useEffect(() => {
-    console.log(
-      "useeffect fileHeadersUnitsAppHeadersWithoutNoneMappppppppppppppp"
-    );
     dispatch(
       updateInputParameterAction(
         reducer,
@@ -1026,7 +987,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   }, [JSON.stringify(fileHeadersUnitsAppHeadersWithoutNoneMap)]);
 
   React.useEffect(() => {
-    console.log("useeffect userMatchObjecttttttttttttttt");
     dispatch(saveUserMatchAction(userMatchObject));
   }, [JSON.stringify(userMatchObject)]);
 
@@ -1036,11 +996,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         <DoughnutChartAnalytics
           data={unitsMatchChartData.current}
           willUseThemeColor={false}
-          colors={[
-            theme.palette.success.main,
-            theme.palette.primary.main,
-            theme.palette.secondary.main,
-          ]}
+          colors={unitsMatchChartData.current.map((d: any) => d.color)}
         />
       </div>
       <div className={classes.table}>
