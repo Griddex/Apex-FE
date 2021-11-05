@@ -106,7 +106,7 @@ const SensitivitiesHeatMapVisualytics = () => {
         <div className={classes.chartPanel}>
           <SensitivitiesHeatMapDataPanel
             selectedZ={selectedZ}
-            setSelectedZ={setSelectedZ}
+            setSelectedZ={React.useCallback(setSelectedZ, [])}
           />
         </div>
 
@@ -134,9 +134,12 @@ const SensitivitiesHeatMapVisualytics = () => {
             reducer={reducer}
             chartType="heatMapChart"
             basePath={basePath}
-            updateParameterAction={updateEconomicsParameterAction}
+            updateParameterAction={React.useCallback(
+              updateEconomicsParameterAction,
+              []
+            )}
             openContextWindow={openContextWindow}
-            setOpenContextWindow={setOpenContextWindow}
+            setOpenContextWindow={React.useCallback(setOpenContextWindow, [])}
           />
         )}
       </div>

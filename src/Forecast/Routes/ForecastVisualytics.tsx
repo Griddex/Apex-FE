@@ -219,6 +219,7 @@ const ForecastVisualytics = () => {
                     <ForecastSelectChart
                       width={size.width as number}
                       height={size.height as number}
+                      indexBy={"Year"}
                     />
                   </div>
                 );

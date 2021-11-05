@@ -87,16 +87,16 @@ const Layout = () => {
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
   const location = useLocation();
-  const module = location.pathname.split("/")[2];
-  console.log("🚀 ~ file: Layout.tsx ~ line 86 ~ Layout ~ url", url);
 
   const showMainDrawer = useSelector(showMainDrawerSelector);
   const showNavbar = useSelector(showNavbarSelector);
 
   const afterConfirmAction = React.useCallback(() => {
+    const module = location.pathname.split("/")[2];
+    console.log("🚀 ~ file: Layout.tsx ~ line 91 ~ Layout ~ module", module);
     const action = resetActions[module];
     dispatch(action());
-  }, []);
+  }, [JSON.stringify(location)]);
 
   React.useEffect(() => {
     dispatch(fetchApplicationHeadersRequestAction());

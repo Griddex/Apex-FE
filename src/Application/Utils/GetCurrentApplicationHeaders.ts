@@ -13,6 +13,10 @@ const getCurrentApplicationHeaders = (
     costsRevenuesAppHeaders,
     economicsParametersAppHeaders,
   } = allAppHeadersObj;
+  console.log(
+    "🚀 ~ file: GetCurrentApplicationHeaders.ts ~ line 16 ~ allAppHeadersObj",
+    allAppHeadersObj
+  );
 
   if (wp.includes("facilities")) appHeaders = facilitiesAppHeaders;
   else if (wp.includes("forecast")) appHeaders = forecastAppHeaders;

@@ -1,12 +1,13 @@
 import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import { useTheme } from "@mui/material";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { ValueType } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
@@ -75,7 +76,6 @@ const SensitivitiesHeatMapChart = ({
   selectedZ,
 }: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const sensitivitiesHeatMap1or2D = useSelector(
     sensitivitiesHeatMap1or2DSelector
@@ -169,15 +169,10 @@ const SensitivitiesHeatMapChart = ({
       >
         {sensitivitiesHeatMap1or2D &&
         sensitivitiesHeatMap1or2D?.length === 0 ? (
-          <ApexFlexContainer
-            moreStyles={{
-              border: `1px solid ${theme.palette.grey[400]}`,
-              backgroundColor: theme.palette.grey[200],
-              width: theme.breakpoints.values["md"],
-            }}
-          >
-            {"No map"}
-          </ApexFlexContainer>
+          <NoSelectionPlaceholder
+            icon={<ArrowUpwardOutlinedIcon color="primary" />}
+            text="Select result.."
+          />
         ) : (
           <EconomicsSensitivitiesHeatMap />
         )}
@@ -249,4 +244,4 @@ const SensitivitiesHeatMapChart = ({
   );
 };
 
-export default SensitivitiesHeatMapChart;
+export default React.memo(SensitivitiesHeatMapChart);

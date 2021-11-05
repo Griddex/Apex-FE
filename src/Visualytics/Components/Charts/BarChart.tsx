@@ -6,8 +6,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -16,6 +14,8 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { GridValues, IChartProps } from "../ChartTypes";
 import omit from "lodash.omit";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const SimpleBarChart = ({
   workflowCategory,
@@ -33,22 +33,10 @@ const SimpleBarChart = ({
     (state: RootState) => state[reducerDefined][wc]["barChart"]["chartData"],
     (data) => data
   );
-  const stackedAreaChartSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc]["stackedAreaChart"],
-    (data) => data
-  );
-  const isYearSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc]["isYear"],
-    (data) => data
-  );
 
   const commonChartProps = useSelector(commonChartPropsSelector);
 
   const chartData = useSelector(barChartDataSelector);
-
-  const stackedAreaChart = useSelector(stackedAreaChartSelector);
-
-  const isYear = useSelector(isYearSelector);
 
   const commonChartPropsDefined = commonChartProps as IChart;
 
@@ -78,19 +66,31 @@ const SimpleBarChart = ({
   //Barchart renders before payload hits store
   // commonChartPropsDefined["indexBy"] = isYear ? "Year" : "Month";
   commonChartPropsDefined["indexBy"] = indexBy as string;
+  console.log("🚀 ~ file: BarChart.tsx ~ line 81 ~ indexBy", indexBy);
 
   let keys = [] as any[];
   if (chartData.length > 0) {
     const firstSeriesObj = chartData[0];
+    console.log(
+      "🚀 ~ file: BarChart.tsx ~ line 85 ~ firstSeriesObj",
+      firstSeriesObj
+    );
     const allKeysWithColor = Object.keys(firstSeriesObj).filter((k) =>
       k.toLowerCase().endsWith("color")
+    );
+    console.log(
+      "🚀 ~ file: BarChart.tsx ~ line 89 ~ allKeysWithColor",
+      allKeysWithColor
     );
 
     const keysObj = omit(firstSeriesObj, [
       indexBy as string,
       ...allKeysWithColor,
     ]);
+    console.log("🚀 ~ file: BarChart.tsx ~ line 95 ~ keysObj", keysObj);
+
     keys = Object.keys(keysObj);
+    console.log("🚀 ~ file: BarChart.tsx ~ line 105 ~ keys", keys);
   }
   commonChartPropsDefined["keys"] = keys;
 

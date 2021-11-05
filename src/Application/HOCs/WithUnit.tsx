@@ -28,10 +28,7 @@ const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
   const unitValueLower = unitValue?.toLowerCase();
   const isUnitValue =
     unitValueLower !== "select" && unitValueLower !== undefined;
-  console.log(
-    "🚀 ~ file: WithUnit.tsx ~ line 15 ~ WithUnit ~ unitValue",
-    unitValue
-  );
+
   const InnerComponent = innerComponent as JSX.Element;
 
   const variableNameUnitsMap = useSelector(variableNameUnitsMapSelector);
@@ -43,10 +40,6 @@ const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
     const displayUnitObj = (variableUnits as IUnitsRow[]).find(
       (o) => o.variableName === unitValue
     ) as IUnitsRow;
-    console.log(
-      "🚀 ~ file: WithUnit.tsx ~ line 38 ~ WithUnit ~ displayUnitObj",
-      displayUnitObj
-    );
 
     const displayUnitsId = displayUnitObj?.displayUnitId as string;
 
@@ -60,7 +53,9 @@ const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
   return (
     <div style={{ display: "flex" }}>
       {InnerComponent}
-      <div>{isUnitValue ? displayUnitsObj?.title : "No unit"}</div>
+      <div style={{ alignSelf: "center", marginLeft: 5 }}>{`[${
+        isUnitValue ? displayUnitsObj?.title : "No unit"
+      }]`}</div>
     </div>
   );
 };

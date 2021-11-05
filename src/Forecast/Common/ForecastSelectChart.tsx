@@ -5,7 +5,17 @@ const SelectChart = React.lazy(
   () => import("../../Visualytics/Common/SelectChart")
 );
 
-const ForecastSelectChart = ({ width, height }: TSize) => {
+export type TForecastSelectChart = {
+  height: number;
+  width: number;
+  indexBy: string;
+};
+
+const ForecastSelectChart = ({
+  width,
+  height,
+  indexBy,
+}: TForecastSelectChart) => {
   const reducer = "forecastReducer";
   const wc = "forecastChartsWorkflows";
 
@@ -22,6 +32,7 @@ const ForecastSelectChart = ({ width, height }: TSize) => {
         workflowCategory={wc}
         reducer={reducer}
         selectedChartOptionTitle="selectedForecastChartOption"
+        indexBy={indexBy}
       />
     </div>
   );
