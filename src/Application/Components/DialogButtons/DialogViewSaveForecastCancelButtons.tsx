@@ -8,12 +8,43 @@ import { useHistory } from "react-router-dom";
 import {
   hideDialogAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
+import DialogOneCancelButtons from "./DialogOneCancelButtons";
+import { saveForecastRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 
 const DialogViewSaveForecastCancelButtons = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const extrudeSaveForecastRunConfirmation = (
+    titleDesc: Record<string, string>
+  ) => {
+    const confirmationDialogParameters: DialogStuff = {
+      name: "Save_Forecast_Results_Dialog",
+      title: "Save Forecast Results Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current forecast results?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, true],
+          [unloadDialogsAction, () => saveForecastRequestAction(titleDesc)],
+          "Save",
+          "saveOutlined",
+          false,
+          "All"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(confirmationDialogParameters));
+  };
 
   const extrudeSaveForecastRun = () => {
     const confirmationDialogParameters: DialogStuff = {
@@ -23,7 +54,20 @@ const DialogViewSaveForecastCancelButtons = () => {
       show: true,
       exclusive: false,
       maxWidth: "sm",
-      iconType: "confirmation",
+      iconType: "save",
+      actionsList: (titleDesc: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, false],
+          [
+            unloadDialogsAction,
+            () => extrudeSaveForecastRunConfirmation(titleDesc),
+          ],
+          "Save",
+          "saveOutlined",
+          flag,
+          "None"
+        ),
     };
 
     dispatch(showDialogAction(confirmationDialogParameters));

@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material";
 import React from "react";
-import Select, { createFilter } from "react-select";
+import Select from "react-select";
 import generateSelectOptions from "../../Utils/GenerateSelectOptions";
 import getRSStyles from "../../Utils/GetRSStyles";
 import getRSTheme from "../../Utils/GetRSTheme";
@@ -47,7 +47,6 @@ const ApexSelectRS = <T extends ISelectOption>({
       isClearable={isClearable}
       isSearchable={isSearchable}
       components={components}
-      // filterOption={createFilter({ ignoreAccents: false })}
       {...rest}
     />
   );

@@ -156,4 +156,4 @@ const VisualyticsContext = ({
   );
 };
 
-export default VisualyticsContext;
+export default React.memo(VisualyticsContext);

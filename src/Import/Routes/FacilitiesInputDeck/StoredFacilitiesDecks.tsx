@@ -70,6 +70,11 @@ export default function StoredFacilitiesDecks({
   const facilitiesInputDeckStored = useSelector(
     facilitiesInputDeckStoredSelector
   );
+  console.log(
+    "🚀 ~ file: StoredFacilitiesDecks.tsx ~ line 73 ~ facilitiesInputDeckStored",
+    facilitiesInputDeckStored
+  );
+  console.log("IsArray: ", Array.isArray(facilitiesInputDeckStored));
 
   const componentRef = React.useRef();
 

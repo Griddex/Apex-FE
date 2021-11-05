@@ -196,7 +196,7 @@ const CartesianChartCategory = ({
           hasLabels={true}
           leftLabel="Hide"
           rightLabel="Show"
-          moreStyles={{ justifyContent: "flex-end" }}
+          moreStyles={{ alignSelf: "flex-end" }}
         />
       )}
       <AnalyticsComp

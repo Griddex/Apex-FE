@@ -291,9 +291,12 @@ const EconomicsPlotChartsVisualytics = () => {
           reducer={reducer}
           chartType={chartType as TChartTypes}
           basePath={basePath}
-          updateParameterAction={updateEconomicsParameterAction}
+          updateParameterAction={React.useCallback(
+            updateEconomicsParameterAction,
+            []
+          )}
           openContextWindow={openContextWindow}
-          setOpenContextWindow={setOpenContextWindow}
+          setOpenContextWindow={React.useCallback(setOpenContextWindow, [])}
         />
       )}
     </div>

@@ -476,3 +476,9 @@ export const resetForecastChartsWorkflowsAction = () => {
     type: RESET_FORECAST_CHARTWORKFLOWS,
   };
 };
+
+export const resetForecastAction = () => {
+  return {
+    type: RESET_FORECAST,
+  };
+};

@@ -406,11 +406,7 @@ const EconomicsAnalysis = ({
         }
       />
 
-      <ApexFlexContainer
-        justifyContent="space-between"
-        width={"95%"}
-        height={40}
-      >
+      <ApexFlexContainer justifyContent="space-between" width={400} height={40}>
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
           handleChange={handleSensitivitiesSwitchChange}
