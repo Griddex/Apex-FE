@@ -8,8 +8,8 @@ import {
   IApplicationStoredDataRow,
   IStoredDataProps,
   IStoredDataRow,
+  IStoredDeck,
 } from "../../../../Application/Types/ApplicationTypes";
-import { IStoredInputDeck } from "../../../../Import/Routes/InputDeckTypes";
 import {
   fetchStoredEconomicsDataRequestAction,
   updateEconomicsParameterAction,
@@ -43,7 +43,7 @@ export default function StoredCostsAndRevenuesDecks({
   reducer,
   containerStyle,
   showChart,
-}: IStoredInputDeck) {
+}: IStoredDeck) {
   const theme = useTheme();
 
   //TODO: Calculate classification data from collection

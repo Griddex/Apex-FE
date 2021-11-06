@@ -107,7 +107,7 @@ const ForecastButtonsMenu = () => {
   const runForecastWorkflow = () => {
     const dialogParameters: DialogStuff = {
       name: "Run_Forecast_Dialog",
-      title: "Run Forecast Workflow",
+      title: "Run Forecast",
       type: "runForecastWorkflowDialog",
       show: true,
       exclusive: false,

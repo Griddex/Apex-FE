@@ -178,3 +178,12 @@ export type TPastePosition = {
 };
 
 export type TSize = { height: number; width: number };
+
+export interface IStoredDeck {
+  activeStep?: number;
+  reducer: ReducersType;
+  showChart: boolean;
+  finalAction: () => void;
+  containerStyle?: CSSProperties;
+  handleCheckboxChange?: IStoredDataProps["handleCheckboxChange"];
+}

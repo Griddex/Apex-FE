@@ -19,8 +19,8 @@ import { getBaseVisualyticsUrl } from "../../Application/Services/BaseUrlService
 import {
   IApplicationStoredDataRow,
   IStoredDataProps,
+  IStoredDeck,
 } from "../../Application/Types/ApplicationTypes";
-import { IStoredInputDeck } from "../../Import/Routes/InputDeckTypes";
 import { fetchStoredVisualyticsDataRequestAction } from "../Redux/Actions/VisualyticsActions";
 
 const StoredDataRoute = React.lazy(
@@ -38,7 +38,7 @@ export default function StoredVisualyticsDecks({
   reducer,
   containerStyle,
   showChart,
-}: IStoredInputDeck) {
+}: IStoredDeck) {
   const theme = useTheme();
 
   //TODO: Calculate classification data from collection

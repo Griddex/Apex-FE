@@ -88,20 +88,10 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
 
   commonChartPropsDefined["keys"] = keys;
 
-  const toolTip = commonChartPropsDefined[
-    "tooltipLabel"
-  ] as ITooltipLabel["stackedArea"];
+  commonChartPropsDefined["valueFormat"] = (v) =>
+    `${Number(v).toLocaleString("ru-RU", { maximumFractionDigits: 2 })} ₽`;
 
-  // commonChartPropsDefined["tooltipLabel"] = (d: any) => d.id;
-  // commonChartPropsDefined["tooltip"] = undefined;
-
-  return (
-    <ResponsiveStream
-      data={chartData}
-      {...commonChartPropsDefined}
-      tooltipFormat={undefined}
-    />
-  );
+  return <ResponsiveStream data={chartData} {...commonChartPropsDefined} />;
 };
 
 export default StackedAreaChart;

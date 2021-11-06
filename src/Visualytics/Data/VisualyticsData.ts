@@ -603,7 +603,9 @@ export const commonChartProps = {
   indexBy: "Year", //TODO here for now
   minValue: "auto",
   maxValue: "auto",
-  valueFormat: " >-.0f",
+  valueFormat: (v) =>
+    `${Number(v).toLocaleString("en-US", { maximumFractionDigits: 1 })}`,
+  // valueFormat: " >-.0f",
   valueScale: { type: "linear" },
   indexScale: { type: "band", round: true },
   // theme: pretty big object, implement later?
@@ -635,7 +637,7 @@ export const commonChartProps = {
 
   //Motion
   isInteractive: true,
-  animate: false,
+  animate: true,
   motionConfig: "default",
   renderWrapper: true,
   useMesh: true,

@@ -1,7 +1,7 @@
 import React from "react";
 import { ITitleAndDescriptionFormProps } from "../../../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../../../Application/Components/Forms/TitleAndDescriptionForm";
-import { IStoredInputDeck } from "../../InputDeckTypes";
+import { IStoredDeck } from "../../../../Application/Types/ApplicationTypes";
 
 const StoredFacilitiesDecks = React.lazy(
   () => import("../../FacilitiesInputDeck/StoredFacilitiesDecks")
@@ -17,7 +17,7 @@ const SaveInputDeckGenerateNetworkWorkflow = ({
   description,
   setDescription,
   storedTitles,
-}: IStoredInputDeck & ITitleAndDescriptionFormProps) => {
+}: IStoredDeck & ITitleAndDescriptionFormProps) => {
   const props = {
     reducer,
     containerStyle: { boxShadow: "none" },

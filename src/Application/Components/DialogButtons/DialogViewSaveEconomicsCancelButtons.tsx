@@ -5,12 +5,17 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { updateEconomicsParameterAction } from "../../../Economics/Redux/Actions/EconomicsActions";
+import {
+  saveEconomicsResultsRequestAction,
+  updateEconomicsParameterAction,
+} from "../../../Economics/Redux/Actions/EconomicsActions";
 import {
   hideDialogAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps, DialogStuff } from "../Dialogs/DialogTypes";
+import DialogOneCancelButtons from "./DialogOneCancelButtons";
 
 const DialogViewSaveEconomicsCancelButtons = () => {
   const dispatch = useDispatch();
@@ -24,10 +29,60 @@ const DialogViewSaveEconomicsCancelButtons = () => {
       show: true,
       exclusive: false,
       maxWidth: "sm",
-      iconType: "confirmation",
+      iconType: "save",
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, false],
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsResultsConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          flag,
+          "None"
+        ),
     };
 
     dispatch(showDialogAction(confirmationDialogParameters));
+  };
+
+  const saveEconomicsResultsConfirmation = (
+    titleDesc: Record<string, string>
+  ) => {
+    const dialogParameters: DialogStuff = {
+      name: "Save_Economics_Results_Dialog",
+      title: "Save Economics Results Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current economics results?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsResultsRequestAction(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          false,
+          "All"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
   };
 
   const buttonsData: ButtonProps[] = [

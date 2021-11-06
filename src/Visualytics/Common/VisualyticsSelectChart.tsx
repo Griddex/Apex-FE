@@ -30,7 +30,7 @@ const VisualyticsSelectChart = ({ width, height }: TSize) => {
   );
 
   const indexByKey = Object.keys(visualyticsVariableXOptions)[0];
-  const indexBy = visualyticsVariableXOptions[indexByKey].name;
+  const indexBy = visualyticsVariableXOptions[indexByKey]?.name;
 
   return (
     <div

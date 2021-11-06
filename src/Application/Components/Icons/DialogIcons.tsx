@@ -34,13 +34,27 @@ const DialogIcons = ({ iconType }: { iconType: IconNameType }) => {
     confirmation: (
       <HelpOutlineOutlinedIcon style={{ color: theme.palette.primary.main }} />
     ),
-    edit: <EditIcon style={{ color: theme.palette.primary.main }} />,
+    edit: (
+      <EditIcon
+        style={{
+          color: theme.palette.primary.main,
+          border: `2px solid ${theme.palette.primary.main}`,
+        }}
+      />
+    ),
     network: <AccountTreeIcon style={{ color: theme.palette.primary.main }} />,
     table: <TocIcon style={{ color: theme.palette.primary.main }} />,
     save: <SaveIcon style={{ color: theme.palette.primary.main }} />,
     create: <AddBoxIcon style={{ color: theme.palette.primary.main }} />,
     delete: <DeleteIcon style={{ color: theme.palette.secondary.main }} />,
-    run: <PlayArrowIcon style={{ color: theme.palette.primary.main }} />,
+    run: (
+      <PlayArrowIcon
+        style={{
+          color: theme.palette.primary.main,
+          border: `2px solid ${theme.palette.primary.main}`,
+        }}
+      />
+    ),
     remove: (
       <RemoveCircleIcon style={{ color: theme.palette.secondary.main }} />
     ),

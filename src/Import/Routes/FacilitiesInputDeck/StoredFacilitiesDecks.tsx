@@ -9,9 +9,9 @@ import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService
 import {
   IApplicationStoredDataRow,
   IStoredDataProps,
+  IStoredDeck,
 } from "../../../Application/Types/ApplicationTypes";
 import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInputDeckActions";
-import { IStoredInputDeck } from "../InputDeckTypes";
 
 const StoredDataRoute = React.lazy(
   () => import("../Common/InputWorkflows/StoredDataRoute")
@@ -28,7 +28,7 @@ export default function StoredFacilitiesDecks({
   reducer,
   containerStyle,
   showChart,
-}: IStoredInputDeck) {
+}: IStoredDeck) {
   const theme = useTheme();
 
   //TODO: Calculate classification data from collection

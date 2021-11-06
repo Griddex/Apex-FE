@@ -148,33 +148,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const dividerPositions = [50];
     const isCustomComponent = false;
 
-    const cloneSelectedRow = (currentRow: IStoredDataRow, noOfRows: number) => {
-      const {
-        approval,
-        approvers,
-        author,
-        createdOn,
-        description,
-        id,
-        modifiedOn,
-        sn,
-        title,
-      } = currentRow;
-
-      const newRow = {
-        approval,
-        approvers,
-        author,
-        createdOn,
-        description,
-        id,
-        modifiedOn,
-        sn: noOfRows + 1,
-        title,
-      } as IStoredDataRow;
-
-      return newRow;
-    };
+    const cloneSelectedRow = (
+      currentRow: IStoredDataRow,
+      noOfRows: number
+    ) => ({ ...currentRow, sn: noOfRows + 1 });
 
     const generateColumns = () => {
       const columns: Column<IStoredDataRow>[] = [
@@ -191,6 +168,10 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "ACTIONS",
           editable: false,
           formatter: ({ row }) => {
+            console.log(
+              "🚀 ~ file: StoredDataRoute.tsx ~ line 171 ~ generateColumns ~ row",
+              row
+            );
             const sn = row.sn as number;
             const currentSN = sn as number;
 
@@ -231,14 +212,73 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
               },
             ];
 
-            const style =
-              title.toLowerCase() === "default"
-                ? {
-                    pointerEvents: "none",
-                    color: theme.palette.grey[200],
-                    backgroundColor: theme.palette.grey[400],
-                  }
-                : {};
+            const editOutlined = (
+              <EditOutlinedIcon
+                onClick={() => {
+                  const dialogParameters: DialogStuff = {
+                    name: "Edit_Table_Dialog",
+                    title: "Edit Table",
+                    type: "tableEditorDialog",
+                    show: true,
+                    exclusive: false,
+                    maxWidth: isCustomComponent ? "lg" : "sm",
+                    iconType: "edit",
+                    isCustomComponent,
+                    apexEditorProps: {
+                      editorData,
+                      editedRow,
+                      dividerPositions,
+                    },
+                    actionsList: (titleDesc: Record<string, string>) =>
+                      DialogOneCancelButtons(
+                        [true, true],
+                        [true, false],
+                        [
+                          unloadDialogsAction,
+                          () =>
+                            updateTableActionConfirmationDefined(id)(titleDesc),
+                        ],
+                        "Update",
+                        "updateOutlined",
+                        false,
+                        "None"
+                      ),
+                  };
+
+                  dispatch(showDialogAction(dialogParameters));
+                }}
+              />
+            );
+
+            const deleteOutlined = (
+              <DeleteOutlinedIcon
+                onClick={() =>
+                  dispatch(
+                    showDialogAction(
+                      confirmationDialogParameters(
+                        "Delete_Table_Data_Dialog",
+                        `Delete ${title}`,
+                        "deleteDataDialog",
+                        "",
+                        false,
+                        true,
+                        () =>
+                          deleteDataByIdRequestAction(
+                            reducer as ReducersType,
+                            deleteUrl as string,
+                            title as string,
+                            fetchStoredRequestAction as () => IAction
+                          ),
+                        "Delete",
+                        "deleteOutlined",
+                        "delete",
+                        title
+                      )
+                    )
+                  )
+                }
+              />
+            );
 
             const VisibilityOutlined =
               isDataVisibility == true ? (
@@ -270,71 +310,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
             return (
               <ApexFlexContainer>
-                <EditOutlinedIcon
-                  onClick={() => {
-                    const dialogParameters: DialogStuff = {
-                      name: "Edit_Table_Dialog",
-                      title: "Edit Table",
-                      type: "tableEditorDialog",
-                      show: true,
-                      exclusive: false,
-                      maxWidth: isCustomComponent ? "lg" : "sm",
-                      iconType: "edit",
-                      isCustomComponent,
-                      apexEditorProps: {
-                        editorData,
-                        editedRow,
-                        dividerPositions,
-                      },
-                      actionsList: (titleDesc: Record<string, string>) =>
-                        DialogOneCancelButtons(
-                          [true, true],
-                          [true, false],
-                          [
-                            unloadDialogsAction,
-                            () =>
-                              updateTableActionConfirmationDefined(id)(
-                                titleDesc
-                              ),
-                          ],
-                          "Update",
-                          "updateOutlined",
-                          false,
-                          "None"
-                        ),
-                    };
-
-                    dispatch(showDialogAction(dialogParameters));
-                  }}
-                />
-
-                <DeleteOutlinedIcon
-                  onClick={() =>
-                    dispatch(
-                      showDialogAction(
-                        confirmationDialogParameters(
-                          "Delete_Table_Data_Dialog",
-                          `Delete ${title}`,
-                          "deleteDataDialog",
-                          "",
-                          false,
-                          true,
-                          () =>
-                            deleteDataByIdRequestAction(
-                              reducer as ReducersType,
-                              deleteUrl as string,
-                              title as string,
-                              fetchStoredRequestAction as () => IAction
-                            ),
-                          "Delete",
-                          "deleteOutlined",
-                          "delete",
-                          title
-                        )
-                      )
-                    )
-                  }
-                />
+                {editOutlined}
+                {deleteOutlined}
                 {VisibilityOutlined}
                 {ApexGridMoreActionsContext}
               </ApexFlexContainer>

@@ -213,7 +213,7 @@ const EconomicsCostsRevenuesLanding = () => {
             "Save",
             "saveOutlined",
             false,
-            "None"
+            "All"
           ),
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };

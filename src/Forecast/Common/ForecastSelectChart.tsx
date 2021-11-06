@@ -1,9 +1,5 @@
 import React from "react";
-import { TSize } from "../../Application/Types/ApplicationTypes";
-
-const SelectChart = React.lazy(
-  () => import("../../Visualytics/Common/SelectChart")
-);
+import SelectChart from "../../Visualytics/Common/SelectChart";
 
 export type TForecastSelectChart = {
   height: number;

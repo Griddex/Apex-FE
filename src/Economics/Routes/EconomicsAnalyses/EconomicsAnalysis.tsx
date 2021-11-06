@@ -105,10 +105,6 @@ const EconomicsAnalysis = ({
   const showSensitivitiesTable = useSelector(showSensitivitiesTableSelector);
 
   const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
-  console.log(
-    "🚀 ~ file: EconomicsAnalysis.tsx ~ line 107 ~ showSensitivitiesTable",
-    showSensitivitiesTable
-  );
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;
@@ -222,7 +218,7 @@ const EconomicsAnalysis = ({
           "Save",
           "saveOutlined",
           false,
-          "None"
+          "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       reducer,
@@ -335,8 +331,6 @@ const EconomicsAnalysis = ({
           flag,
           "None"
         ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      reducer,
     };
 
     dispatch(showDialogAction(dialogParameters));
@@ -406,7 +400,11 @@ const EconomicsAnalysis = ({
         }
       />
 
-      <ApexFlexContainer justifyContent="space-between" width={400} height={40}>
+      <ApexFlexContainer
+        justifyContent="space-between"
+        width={"95%"}
+        height={40}
+      >
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
           handleChange={handleSensitivitiesSwitchChange}
@@ -416,6 +414,7 @@ const EconomicsAnalysis = ({
           hasLabels={true}
           leftLabel="No Sensitivities"
           rightLabel="Use Sensitivities"
+          moreStyles={{ width: 500 }}
         />
         <ApexFlexContainer width={"100%"} justifyContent="flex-end">
           {analysisPerspective && (
