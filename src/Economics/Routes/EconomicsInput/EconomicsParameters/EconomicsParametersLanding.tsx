@@ -150,7 +150,7 @@ const EconomicsParametersLanding = () => {
       ) => {
         const confirmationDialogParameters: DialogStuff = {
           name: "Save_EconomicsParametersDeck_Confirmation",
-          title: "Save EconomicsParameters Confirmation",
+          title: "Save Economics Parameters Confirmation",
           type: "textDialog",
           show: true,
           exclusive: false,
@@ -184,7 +184,7 @@ const EconomicsParametersLanding = () => {
 
       const dialogParameters: DialogStuff = {
         name: "Save_EconomicsParameters_Input_Deck_Dialog",
-        title: "Save EconomicsParameters InputDeck",
+        title: "Save Economics Parameters",
         type: "saveEconomicsParametersInputDeckDialog",
         show: true,
         exclusive: true,

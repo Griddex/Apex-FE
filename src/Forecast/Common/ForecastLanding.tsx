@@ -164,12 +164,13 @@ const ForecastLanding = () => {
       maxWidth: "xl",
       iconType: "information",
     };
+
     dispatch(showDialogAction(dialogParameters));
   };
 
   const dialogParameters: DialogStuff = {
     name: "Run_Forecast_Dialog",
-    title: "Run Forecast Workflow",
+    title: "Run Forecast",
     type: "runForecastWorkflowDialog",
     show: true,
     exclusive: false,

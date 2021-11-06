@@ -90,18 +90,6 @@ const useStyles = makeStyles(() => ({
     border: "1px solid #E7E7E7",
     backgroundColor: "#FFF",
   },
-  networkCanvas: {
-    height: `calc(100% - 30px)`,
-  },
-  networkContentIcons: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottom: "1px solid #E7E7E7",
-    height: 28,
-  },
-  CanvasWidget: { height: "100%", backgroundColor: "#FFF" },
 }));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);

@@ -331,7 +331,6 @@ export default function StoredForecastingParameters({
               <EditOutlinedIcon
                 style={style as CSSProperties}
                 onClick={() => {
-                  console.log("currentRow: ", currentRow);
                   dispatch(
                     showDialogAction(
                       extrudeForecastParametersDPs(

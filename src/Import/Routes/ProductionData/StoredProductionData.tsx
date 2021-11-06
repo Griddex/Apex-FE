@@ -1,17 +1,16 @@
 import { useTheme } from "@mui/material";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   IStoredDataProps,
   IStoredDataRow,
+  IStoredDeck,
 } from "../../../Application/Types/ApplicationTypes";
 import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
-import { IStoredInputDeck } from "../InputDeckTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -21,7 +20,7 @@ type wpTypeNon = NonNullable<IStoredDataProps["wkPs"]>;
 export default function StoredProductionData({
   reducer,
   finalAction,
-}: IStoredInputDeck) {
+}: IStoredDeck) {
   const dispatch = useDispatch();
   const theme = useTheme();
 

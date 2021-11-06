@@ -150,10 +150,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 152 ~ workflowProcessDefined",
-    workflowProcessDefined
-  );
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
@@ -244,9 +240,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
           [true, true],
           [
             unloadDialogsAction,
-            () =>
-              //as Record<string, any>
-              saveForecastParametersRequestAction(forecastingParametersObj),
+            () => saveForecastParametersRequestAction(forecastingParametersObj),
           ],
           "Save",
           "saveOutlined",
@@ -259,6 +253,13 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const nextOrFinalDisabledFunc = () => {
+    if (activeStep >= 1) {
+      if (formTitle) return false;
+      else return true;
+    } else return false;
+  };
+
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
@@ -269,6 +270,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     workflowProps,
     workflowProcess,
     workflowCategory,
+    nextOrFinalDisabled: nextOrFinalDisabledFunc(),
   };
 
   React.useEffect(() => {

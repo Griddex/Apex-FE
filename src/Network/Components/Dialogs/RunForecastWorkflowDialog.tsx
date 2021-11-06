@@ -11,8 +11,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
@@ -124,21 +122,23 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const steps = ["Select Network", "Select Forecast Parameters"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
+
+const activeStepSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
+  (activeStep) => activeStep
+);
 
 const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, isDialog } = props;
 
   const skipped = new Set<number>();
-
-  const activeStepSelector = createDeepEqualSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
-    (activeStep) => activeStep
-  );
 
   const activeStep = useSelector(activeStepSelector);
 

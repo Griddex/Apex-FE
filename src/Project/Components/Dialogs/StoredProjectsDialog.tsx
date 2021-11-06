@@ -141,7 +141,10 @@ const StoredProjectsDialog: React.FC<DialogStuff> = (props) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <StoredProjects containerStyle={{ boxShadow: "none" }} />
+        <StoredProjects
+          reducer="projectReducer"
+          containerStyle={{ boxShadow: "none" }}
+        />
       </DialogContent>
       <DialogActions>
         {actionsList && actionsList(isFinalButtonDisabled)}

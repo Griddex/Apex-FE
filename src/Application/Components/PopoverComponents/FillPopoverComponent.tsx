@@ -58,7 +58,7 @@ const FillPopoverComponent = ({
   return (
     <div>
       <AnalyticsComp
-        title="Column Title"
+        title="Column"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
