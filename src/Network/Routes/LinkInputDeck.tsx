@@ -91,10 +91,6 @@ const LinkInputDeck = () => {
     const nodeElementsManualByNode = (nodeElementsManual as Node[]).filter(
       (node) => node.data.label.toLowerCase() === ntp
     );
-    console.log(
-      "Logged output --> ~ file: LinkInputDeck.tsx ~ line 83 ~ idxNodesByNodeObj ~ nodeElementsManualByNode",
-      nodeElementsManualByNode
-    );
 
     const nodeRows = (nodeElementsManualByNode as Node[]).map((n, i) => {
       const { label, title } = n.data;
@@ -113,15 +109,7 @@ const LinkInputDeck = () => {
     };
   }, {});
 
-  console.log(
-    "Logged output --> ~ file: LinkInputDeck.tsx ~ line 102 ~ LinkInputDeck ~ idxNodesByNodeObj",
-    idxNodesByNodeObj
-  );
   const [idxNodesObj, setIdxNodesObj] = React.useState(idxNodesByNodeObj);
-  console.log(
-    "Logged output --> ~ file: LinkInputDeck.tsx ~ line 102 ~ LinkInputDeck ~ idxNodesObj",
-    idxNodesObj
-  );
 
   const linkInputDeckNodesObj = uniqNodeTypes.reduce((acc, ntyp) => {
     const nytpLowerCase = ntyp.toLowerCase();

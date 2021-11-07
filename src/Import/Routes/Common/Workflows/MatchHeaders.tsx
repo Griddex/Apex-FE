@@ -156,6 +156,10 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     forecastHeadersSelectOptionsSelector
   );
   const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
+  console.log(
+    "🚀 ~ file: MatchHeaders.tsx ~ line 159 ~ MatchHeaders ~ costsRevenuesAppHeaders",
+    costsRevenuesAppHeaders
+  );
   const cRHeaders = costsRevenuesAppHeaders;
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
