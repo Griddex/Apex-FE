@@ -156,9 +156,17 @@ export default function StoredEconomicsSensitivities() {
   const economicsSensitivitiesStored = useSelector(
     economicsSensitivitiesStoredSelector
   );
+  console.log(
+    "🚀 ~ file: StoredEconomicsSensitivities.tsx ~ line 159 ~ StoredEconomicsSensitivities ~ economicsSensitivitiesStored",
+    economicsSensitivitiesStored
+  );
 
   const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
     React.useState(economicsSensitivitiesStored);
+  console.log(
+    "🚀 ~ file: StoredEconomicsSensitivities.tsx ~ line 162 ~ StoredEconomicsSensitivities ~ storedEconomicsSensitivities",
+    storedEconomicsSensitivities
+  );
 
   const transStoredSensitivitiesData = (
     storedEconomicsSensitivities as IApplicationStoredDataRow[]
@@ -411,7 +419,7 @@ export default function StoredEconomicsSensitivities() {
 
   React.useEffect(() => {
     setStoredEconomicsSensitivities(economicsSensitivitiesStored);
-  }, [economicsSensitivitiesStored]);
+  }, [JSON.stringify(economicsSensitivitiesStored)]);
 
   return (
     <div className={classes.rootStoredData}>

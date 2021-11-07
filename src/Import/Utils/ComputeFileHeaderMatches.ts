@@ -10,6 +10,10 @@ const computeFileHeaderMatches = (
   savedMatchObjectAll: TUserMatchObject,
   workflowClass: string
 ) => {
+  console.log(
+    "🚀 ~ file: ComputeFileHeaderMatches.ts ~ line 13 ~ workflowClass",
+    workflowClass
+  );
   const specificSavedMatchObject =
     savedMatchObjectAll[workflowClass]["headers"];
 

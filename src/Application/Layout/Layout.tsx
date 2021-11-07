@@ -93,7 +93,6 @@ const Layout = () => {
 
   const afterConfirmAction = React.useCallback(() => {
     const module = location.pathname.split("/")[2];
-    console.log("🚀 ~ file: Layout.tsx ~ line 91 ~ Layout ~ module", module);
     const action = resetActions[module];
     dispatch(action());
   }, [JSON.stringify(location)]);
@@ -110,7 +109,7 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
-        <NavigationApexPrompt afterConfirm={afterConfirmAction} />
+        {/* <NavigationApexPrompt afterConfirm={afterConfirmAction} /> */}
         <Switch>
           <Route exact path={url} component={ProductBackground} />
           <Route path={`${url}/:layoutId`}>
