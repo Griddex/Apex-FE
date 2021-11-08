@@ -526,7 +526,7 @@ export const colorModifierOptions = [
 ];
 
 export const commonChartProps = {
-  //Statcked
+  //Stacked
   offsetType: "none",
   order: "none",
 
@@ -678,7 +678,7 @@ export const commonChartProps = {
     tickRotation: 0,
     format: (v) => format(" >-.0f")(v),
     legend: "",
-    legendOffset: -40,
+    legendOffset: -70,
     legendPosition: "middle",
   },
   enableApexAxes: {

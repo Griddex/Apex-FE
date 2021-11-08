@@ -27,7 +27,10 @@ import {
   getEconomicsPlotChartDataFailureAction,
   getEconomicsPlotChartDataSuccessAction,
   GET_ECONOMICSPLOT_CHARTDATA_REQUEST,
+  updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
+import uniq from "lodash.uniq";
+import uniqBy from "lodash.uniqby";
 
 export default function* watchGetEconomicsPlotChartDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -66,6 +69,8 @@ function* getEconomicsPlotChartDataSaga(
     plotChartsCategoryDragItems,
     selectedEconomicsPlotChartOption,
   } = yield select((state) => state.economicsReducer);
+
+  const { variableUnits } = yield select((state) => state.unitSettingsReducer);
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
@@ -144,9 +149,66 @@ function* getEconomicsPlotChartDataSaga(
         title: `${variableObj.title}_${sensitivityJoined}`,
       };
     });
-    console.log(
-      "Logged output --> ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 148 ~ economicsResults ~ economicsResults",
-      economicsResults
+
+    const yUnitNamesTitles = uniqBy(
+      Object.values(plotChartsCategoryDragItems["Y Category"]).map(
+        (u: any) => ({
+          name: u.name.split("_")[0],
+          title: u.title.split("_")[0],
+        })
+      ),
+      (o) => o.name
+    );
+
+    const yUnitNames = yUnitNamesTitles.map((u) => u.name);
+
+    const varYObjArrayByNames = variableUnits.filter((v: any) =>
+      yUnitNames.includes(v.variableName)
+    );
+
+    const selectedVarYObjArray = varYObjArrayByNames.map((obj: any) => {
+      const unitsObj = obj["units"].find(
+        (o: any) => o.unitId === obj.displayUnitId
+      );
+
+      return unitsObj;
+    });
+
+    const selectedVarTitleUnitTitleArray = selectedVarYObjArray.map(
+      (u: any, i: number) => {
+        const selectedVarTitle = yUnitNamesTitles[i].title;
+
+        return `${selectedVarTitle} [${u.title}]`;
+      }
+    );
+
+    const selectedVarTitleUnitTitleString =
+      selectedVarTitleUnitTitleArray.join(",");
+
+    if (Object.keys(selectedVarYObjArray).length > 0) {
+      yield put(
+        updateEconomicsParameterAction(
+          "economicsChartsWorkflows.commonChartProps.axisLeft.legend",
+          selectedVarTitleUnitTitleString
+        )
+      );
+    }
+
+    const xUnitNamesTitles = uniqBy(
+      Object.values(plotChartsCategoryDragItems["X Category"]).map(
+        (u: any) => ({
+          name: u.name.split("_")[0],
+          title: u.title.split("_")[0],
+        })
+      ),
+      (o) => o.name
+    );
+
+    yield put(
+      updateEconomicsParameterAction(
+        "economicsChartsWorkflows.commonChartProps.axisBottom.legend",
+        "Year"
+      )
     );
 
     const chartData = economicsResults;

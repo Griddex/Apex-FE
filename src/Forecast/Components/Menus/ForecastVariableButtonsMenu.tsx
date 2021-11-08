@@ -5,10 +5,13 @@ import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
 import React, { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { updateForecastResultsParameterAction } from "../../Redux/Actions/ForecastActions";
 import { forecastVariablesMap } from "../../Utils/ForecastVariables";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import isEqual from "react-fast-compare";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
@@ -23,10 +26,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const variableUnitsSelector = createDeepEqualSelector(
+  (state: RootState) => state.unitSettingsReducer.variableUnits,
+  (data) => data
+);
+
 const ForecastVariableButtonsMenu = () => {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const variableUnits = useSelector(variableUnitsSelector);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [forecastVariableTitle, setForecastVariableTitle] =
     React.useState("Oil Rate");
@@ -100,6 +113,7 @@ const ForecastVariableButtonsMenu = () => {
                       selectedVar
                     )
                   );
+
                   handleClose();
                 }}
               >

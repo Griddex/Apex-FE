@@ -95,6 +95,10 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const theme = useTheme();
 
   const workflowClass = getWorkflowClass(wp);
+  console.log(
+    "🚀 ~ file: MatchHeaders.tsx ~ line 98 ~ MatchHeaders ~ workflowClass",
+    workflowClass
+  );
 
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
@@ -102,8 +106,11 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const dateFormatOptions = React.useRef(generateSelectOptions(dateFormatData));
 
   const savedMatchObjectAll: TUserMatchObject = useSelector(
-    (state: RootState) => state.applicationReducer["savedMatchObjectAll"],
-    (prev, next) => isEqual(prev, next)
+    (state: RootState) => state.applicationReducer["savedMatchObjectAll"]
+  );
+  console.log(
+    "🚀 ~ file: MatchHeaders.tsx ~ line 109 ~ MatchHeaders ~ savedMatchObjectAll",
+    savedMatchObjectAll
   );
 
   const specificSavedMatchObjectValues = Object.values(
