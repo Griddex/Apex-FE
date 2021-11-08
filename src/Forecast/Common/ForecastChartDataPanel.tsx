@@ -9,6 +9,7 @@ import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import {
   fetchForecastTreeviewKeysRequestAction,
   resetForecastChartsWorkflowsAction,
+  updateForecastResultsParameterAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
@@ -102,6 +103,18 @@ const ForecastChartDataPanel = () => {
           selectedForecastingResultsDescription: "",
           isForecastResultsSaved: false,
         })
+      );
+      dispatch(
+        updateForecastResultsParameterAction(
+          "forecastChartsWorkflows.commonChartProps.axisLeft.legend",
+          ""
+        )
+      );
+      dispatch(
+        updateForecastResultsParameterAction(
+          "forecastChartsWorkflows.commonChartProps.axisBottom.legend",
+          ""
+        )
       );
     } else {
       const idTitleDescIsSaved = {

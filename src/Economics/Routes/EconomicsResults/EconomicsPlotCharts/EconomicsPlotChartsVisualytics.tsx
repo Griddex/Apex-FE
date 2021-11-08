@@ -226,6 +226,21 @@ const EconomicsPlotChartsVisualytics = () => {
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
+
+    dispatch(
+      updateEconomicsParameterAction(
+        "economicsChartsWorkflows.commonChartProps.axisLeft.legend",
+        ""
+      )
+    );
+
+    dispatch(
+      updateEconomicsParameterAction(
+        "economicsChartsWorkflows.commonChartProps.axisBottom.legend",
+        ""
+      )
+    );
+
     setMousePosition({ x: panelRef.current?.offsetWidth as number, y: 0 });
   }, [dispatch]);
 

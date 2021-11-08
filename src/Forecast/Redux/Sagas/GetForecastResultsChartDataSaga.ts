@@ -27,6 +27,7 @@ import {
   getForecastResultsChartDataFailureAction,
   getForecastResultsChartDataSuccessAction,
   GET_FORECASTRESULTS_CHARTDATA_REQUEST,
+  updateForecastResultsParameterAction,
 } from "../Actions/ForecastActions";
 
 export default function* watchGetForecastResultsChartDataSaga(): Generator<
@@ -76,6 +77,7 @@ function* getForecastResultsChartDataSaga(
     isForecastResultsSaved,
     selectedForecastChartOption,
   } = yield select((state) => state.forecastReducer);
+  const { variableUnits } = yield select((state) => state.unitSettingsReducer);
 
   const chartType = selectedForecastChartOption.value;
   const lineOrScatter =
@@ -111,6 +113,31 @@ function* getForecastResultsChartDataSaga(
     const chartData = transformForecastForChart(xAxesData);
 
     const isYear = true;
+    const selectedVarYObj = variableUnits.find(
+      (v: any) => v.variableName === selectedForecastChartVariable
+    );
+
+    if (selectedVarYObj) {
+      const selectedVarTitle = selectedVarYObj?.variableTitle;
+      const unitObj = selectedVarYObj["units"].find(
+        (o: any) => o.unitId === selectedVarYObj.displayUnitId
+      );
+      const unitTitle = unitObj.title ? unitObj.title : "";
+
+      yield put(
+        updateForecastResultsParameterAction(
+          "forecastChartsWorkflows.commonChartProps.axisLeft.legend",
+          `${selectedVarTitle} [${unitTitle}]`
+        )
+      );
+
+      yield put(
+        updateForecastResultsParameterAction(
+          "forecastChartsWorkflows.commonChartProps.axisBottom.legend",
+          "Year"
+        )
+      );
+    }
 
     const successAction = getForecastResultsChartDataSuccessAction();
 
