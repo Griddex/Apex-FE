@@ -6,6 +6,7 @@ import {
   HIDE_DIALOG,
   SHOW_DIALOG,
   UNLOAD_DIALOGS,
+  UNLOAD_DIALOGS_BYNUMBER,
 } from "../Actions/DialogsAction";
 import dialogsState from "../State/DialogsState";
 
@@ -52,6 +53,20 @@ const dialogsReducer = (
 
     case UNLOAD_DIALOGS: {
       return { ...state, dialogs: [] };
+    }
+
+    case UNLOAD_DIALOGS_BYNUMBER: {
+      const { noOfDialogs } = action.payload as any;
+
+      const noOfDlgs = noOfDialogs ? noOfDialogs : 0;
+      const totalNoOfDialogs = state.dialogs.length;
+      const lastIndex = totalNoOfDialogs - noOfDlgs;
+      const keptDialogs = state.dialogs.slice(0, lastIndex);
+
+      return {
+        ...state,
+        dialogs: keptDialogs,
+      };
     }
 
     default:

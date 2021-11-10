@@ -70,7 +70,9 @@ function* getEconomicsPlotChartDataSaga(
     selectedEconomicsPlotChartOption,
   } = yield select((state) => state.economicsReducer);
 
-  const { variableUnits } = yield select((state) => state.unitSettingsReducer);
+  const { variableUnits, variableNameUnitsMap } = yield select(
+    (state) => state.unitSettingsReducer
+  );
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
@@ -159,11 +161,23 @@ function* getEconomicsPlotChartDataSaga(
       ),
       (o) => o.name
     );
+    console.log(
+      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 162 ~ yUnitNamesTitles",
+      yUnitNamesTitles
+    );
 
     const yUnitNames = yUnitNamesTitles.map((u) => u.name);
+    console.log(
+      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 164 ~ yUnitNames",
+      yUnitNames
+    );
 
     const varYObjArrayByNames = variableUnits.filter((v: any) =>
       yUnitNames.includes(v.variableName)
+    );
+    console.log(
+      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 168 ~ varYObjArrayByNames",
+      varYObjArrayByNames
     );
 
     const selectedVarYObjArray = varYObjArrayByNames.map((obj: any) => {
@@ -173,6 +187,10 @@ function* getEconomicsPlotChartDataSaga(
 
       return unitsObj;
     });
+    console.log(
+      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 177 ~ selectedVarYObjArray ~ selectedVarYObjArray",
+      selectedVarYObjArray
+    );
 
     const selectedVarTitleUnitTitleArray = selectedVarYObjArray.map(
       (u: any, i: number) => {
@@ -180,6 +198,10 @@ function* getEconomicsPlotChartDataSaga(
 
         return `${selectedVarTitle} [${u.title}]`;
       }
+    );
+    console.log(
+      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 186 ~ selectedVarTitleUnitTitleArray",
+      selectedVarTitleUnitTitleArray
     );
 
     const selectedVarTitleUnitTitleString =

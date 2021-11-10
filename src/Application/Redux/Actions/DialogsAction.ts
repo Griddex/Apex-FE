@@ -3,6 +3,7 @@ import { DialogStuff } from "./../../Components/Dialogs/DialogTypes";
 export const SHOW_DIALOG = "SHOW_DIALOG";
 export const HIDE_DIALOG = "HIDE_DIALOG";
 export const UNLOAD_DIALOGS = "UNLOAD_DIALOGS";
+export const UNLOAD_DIALOGS_BYNUMBER = "UNLOAD_DIALOGS_BYNUMBER";
 
 export const showDialogAction = <TRow = IRawRow>(dialog: DialogStuff<TRow>) => {
   return {
@@ -21,5 +22,12 @@ export const hideDialogAction = () => {
 export const unloadDialogsAction = () => {
   return {
     type: UNLOAD_DIALOGS,
+  };
+};
+
+export const unloadDialogsByNumberAction = (noOfDialogs: number) => {
+  return {
+    type: UNLOAD_DIALOGS_BYNUMBER,
+    payload: { noOfDialogs },
   };
 };

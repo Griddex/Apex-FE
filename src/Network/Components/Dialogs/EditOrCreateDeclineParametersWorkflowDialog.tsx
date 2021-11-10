@@ -262,7 +262,8 @@ const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
           "Save",
           "saveOutlined",
           false,
-          "All"
+          "Some",
+          2
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
     };

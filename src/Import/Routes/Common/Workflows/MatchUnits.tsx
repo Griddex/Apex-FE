@@ -198,7 +198,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     (data) => data
   );
 
-  //Get current variableNameUnitsMap
   const facilitiesHeadersNameMap = useSelector(
     facilitiesHeadersNameMapSelector
   );
@@ -233,11 +232,38 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     getCurrentAppHeaderTitleNameMap(wp, allAppHeadersNameMap)
   );
 
+  const getFileUnitsChosenAppHeaderNamesWoutNone = () => {
+    const fileUnitsWithoutNone = Object.values(
+      fileHeadersUnitsAppHeadersWithoutNoneMap.current
+    ).map((o) => o.unit);
+
+    const chosenAppHeadersWithoutNone = Object.values(
+      fileHeadersUnitsAppHeadersWithoutNoneMap.current
+    ).map((obj) => obj.chosenAppHeader);
+
+    const chosenAppHeaderNamesWithoutNone = [];
+    for (const header of chosenAppHeadersWithoutNone) {
+      for (const option of currentAppHeaderOptions) {
+        if (header === option.label) {
+          chosenAppHeaderNamesWithoutNone.push(option.value);
+          break;
+        }
+      }
+    }
+
+    return { fileUnitsWithoutNone, chosenAppHeaderNamesWithoutNone };
+  };
+
+  const fileUnitsChosenAppHeaderNamesWoutNone = React.useRef(
+    getFileUnitsChosenAppHeaderNamesWoutNone()
+  );
+
   const fileUnitMatches = React.useRef(
     computeFileUnitMatches(
       variableNameUnitsMap,
-      currentAppHeaderOptions,
-      fileHeadersUnitsAppHeadersWithoutNoneMap.current,
+      fileUnitsChosenAppHeaderNamesWoutNone.current.fileUnitsWithoutNone,
+      fileUnitsChosenAppHeaderNamesWoutNone.current
+        .chosenAppHeaderNamesWithoutNone,
       savedMatchObjectAll,
       workflowClass
     )
@@ -335,8 +361,8 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           : "General",
         match: matchObj ? matchObj.match : score.value,
         acceptMatch: matchObj ? matchObj.acceptMatch : false,
-        unitId: selectedApplicationUnit.unitId,
-        appUnitOptionIndex: 0,
+        unitId: matchObj ? matchObj.unitId : selectedApplicationUnit.unitId,
+        appUnitOptionIndex: matchObj ? matchObj.optionIndex : 0,
       };
     })
   );
@@ -403,6 +429,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             unitType === "Multiple"
               ? ([applicationUnit] as string[])
               : (applicationUnit as string),
+          unitId: selectedUnitId as string | string[],
         };
 
         return next;
@@ -416,7 +443,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       unitOptions: IExtendedSelectOption[],
       scoreOptions: IExtendedSelectOption[]
     ) => {
-      const { sn } = row;
+      const { sn, fileHeader } = row;
       const rowSN = sn as number;
 
       if (type === "Multiple") {
@@ -473,6 +500,29 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         };
 
         setRows(newRows);
+        setUserMatchObject((prev) => {
+          const next = { ...prev };
+
+          const matchObjectValuesByUnits = Object.values(
+            next[workflowClass]["units"]
+          );
+
+          const matchObj = matchObjectValuesByUnits.find(
+            (o) => o.fileHeader === (fileHeader as string)
+          ) as TSingleMatchObject;
+
+          let fileUnitId: string;
+          if (matchObj) fileUnitId = matchObj.id;
+          else fileUnitId = uuidv4();
+
+          next[workflowClass]["units"][fileUnitId] = {
+            ...matchObj,
+            unitId: selectedUnitIds as string[],
+            optionIndex: selectedUnitOptionIndices,
+          };
+
+          return next;
+        });
       } else {
         const selectedValue = option && (option as IExtendedSelectOption).label;
         const selectedAppUnit = selectedValue as string;
@@ -500,6 +550,29 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         };
 
         setRows(newRows);
+        setUserMatchObject((prev) => {
+          const next = { ...prev };
+
+          const matchObjectValuesByUnits = Object.values(
+            next[workflowClass]["units"]
+          );
+
+          const matchObj = matchObjectValuesByUnits.find(
+            (o) => o.fileHeader === (fileHeader as string)
+          ) as TSingleMatchObject;
+
+          let fileUnitId: string;
+          if (matchObj) fileUnitId = matchObj.id;
+          else fileUnitId = uuidv4();
+
+          next[workflowClass]["units"][fileUnitId] = {
+            ...matchObj,
+            unitId: selectedUnitId as string,
+            optionIndex: selectedUnitOptionIndex,
+          };
+
+          return next;
+        });
       }
     };
 
@@ -918,6 +991,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 const chosenUnitType = chosenRow.type as TUnit;
                 const chosenUnitGroup = chosenRow.unitClassification as string;
                 const chosenMatchScore = chosenRow.match as string;
+                const chosenUnitId = chosenRow.unitId as string | string[];
 
                 const matchObjectValuesByUnits = Object.values(
                   userMatchObject[workflowClass]["headers"]
@@ -936,6 +1010,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                   id: fileUnitId,
                   type: chosenUnitType,
                   appUnit: chosenAppUnit,
+                  unitId: chosenUnitId,
                   unitGroup: chosenUnitGroup,
                   match: chosenMatchScore,
                   acceptMatch: currentAcceptMatchValue,

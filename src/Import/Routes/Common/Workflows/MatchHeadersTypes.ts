@@ -17,6 +17,8 @@ export type TSingleMatchObject = {
   include: boolean;
   fileUnit?: string;
   appUnit?: string | string[];
+  unitId?: string | string[];
+  optionIndex: number | number[];
   type: THeader | TUnit;
   unitGroup?: string;
   match: string;

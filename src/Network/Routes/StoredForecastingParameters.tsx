@@ -214,7 +214,6 @@ export default function StoredForecastingParameters({
       }
     );
   } else {
-    console.log("filter seen");
     forecastingParametersFiltered = forecastingParametersStored.filter(
       (row: any) => {
         if (selectedNetwork != undefined) {
@@ -650,7 +649,7 @@ export default function StoredForecastingParameters({
     );
 
     setRows(updatedStoredData);
-  }, [forecastingParametersStored.length]);
+  }, [JSON.stringify(forecastingParametersStored)]);
 
   return (
     <div className={classes.rootStoredData}>
