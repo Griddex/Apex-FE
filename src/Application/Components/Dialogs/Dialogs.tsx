@@ -139,12 +139,14 @@ const Dialogs: React.FC<DialogStuff> = () => {
             } else if (type === "createDeclineParametersWorkflowDialog") {
               const SpecificDialog = applicationDialogs[type];
               const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
+
               return <SpecificDialog key={i} {...dialogDefined} />;
             } else if (
               type === "createPrioritizationParametersWorkflowDialog"
             ) {
               const SpecificDialog = applicationDialogs[type];
               const dialogDefined = dialog as DialogStuff<IStoredDataRow>;
+
               return <SpecificDialog key={i} {...dialogDefined} />;
             } else {
               const SpecificDialog = applicationDialogs[type];

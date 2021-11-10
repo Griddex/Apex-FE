@@ -112,12 +112,20 @@ export default function PreviewSave({
   const fileHeadersUnitsAppHeadersWithoutNoneMap = useSelector(
     fileHeadersUnitsAppHeadersWithoutNoneMapSelector
   );
+  console.log(
+    "🚀 ~ file: PreviewSave.tsx ~ line 115 ~ fileHeadersUnitsAppHeadersWithoutNoneMap",
+    fileHeadersUnitsAppHeadersWithoutNoneMap
+  );
   const tableRoleNames = useSelector(tableRoleNamesSelector);
   const columnNameTableData = useSelector(columnNameTableDataSelector);
   const selectedHeaderRowIndex = useSelector(selectedHeaderRowIndexSelector);
   const selectedUnitRowIndex = useSelector(selectedUnitRowIndexSelector);
   const matchHeadersRows = useSelector(matchHeadersTableSelector);
   const matchUnitsRows = useSelector(matchUnitsTableSelector);
+  console.log(
+    "🚀 ~ file: PreviewSave.tsx ~ line 121 ~ matchUnitsRows",
+    matchUnitsRows
+  );
 
   const facilitiesAppHeadersSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer]["facilitiesAppHeaders"],

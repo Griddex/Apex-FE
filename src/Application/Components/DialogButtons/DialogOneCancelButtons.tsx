@@ -7,6 +7,7 @@ import { IButtonsConfigProps } from "../../Layout/LayoutTypes";
 import {
   hideDialogAction,
   unloadDialogsAction,
+  unloadDialogsByNumberAction,
 } from "../../Redux/Actions/DialogsAction";
 import { ButtonProps } from "../Dialogs/DialogTypes";
 import HourglassFullOutlinedIcon from "@mui/icons-material/HourglassFullOutlined";
@@ -30,7 +31,8 @@ const DialogOneCancelButtons = (
   oneButtonTitle: string,
   oneButtonIconTitle: string,
   isFinalButtonDisabled?: boolean,
-  dialogPresence?: "All" | "Current" | "None"
+  dialogPresence?: "All" | "Some" | "Current" | "None",
+  noOfDialogs?: number
 ) => {
   const icons: Record<string, JSX.Element> = {
     saveOutlined: <SaveOutlinedIcon />,
@@ -79,6 +81,9 @@ const DialogOneCancelButtons = (
           switch (dialogPresence) {
             case "All":
               dispatch(unloadDialogsAction());
+              break;
+            case "Some":
+              dispatch(unloadDialogsByNumberAction(noOfDialogs as number));
               break;
             case "Current":
               dispatch(hideDialogAction());

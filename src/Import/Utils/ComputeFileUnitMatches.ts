@@ -2,38 +2,24 @@ import pullAll from "lodash.pullall";
 import sortBy from "lodash.sortby";
 import React from "react";
 import stringSimilarity, { BestMatch } from "string-similarity";
-import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { IUnit } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { TUserMatchObject } from "../Routes/Common/Workflows/MatchHeadersTypes";
 
 const computeFileUnitMatches = (
   variableNameUnitsMap: Record<string, IUnit[]>,
-  currentAppHeaderOptions: ISelectOption[],
-  fileHeadersUnitsAppHeadersWithoutNoneMap: Record<
-    string,
-    Record<string, string>
-  >,
+  fileUnitsWithoutNone: any[],
+  chosenAppHeaderNamesWithoutNone: any[],
   savedMatchObjectAll: TUserMatchObject,
   workflowClass: string
 ) => {
-  const fileUnitsWithoutNone = Object.values(
-    fileHeadersUnitsAppHeadersWithoutNoneMap
-  ).map((o) => o.unit);
-
-  const chosenAppHeadersWithoutNone = Object.values(
-    fileHeadersUnitsAppHeadersWithoutNoneMap
-  ).map((obj) => obj.chosenAppHeader);
-
-  const chosenAppHeaderNamesWithoutNone = [];
-  for (const header of chosenAppHeadersWithoutNone) {
-    for (const option of currentAppHeaderOptions) {
-      if (header === option.label) {
-        chosenAppHeaderNamesWithoutNone.push(option.value);
-        break;
-      }
-    }
-  }
-
+  console.log(
+    "🚀 ~ file: ComputeFileUnitMatches.ts ~ line 15 ~ chosenAppHeaderNamesWithoutNone",
+    chosenAppHeaderNamesWithoutNone
+  );
+  console.log(
+    "🚀 ~ file: ComputeFileUnitMatches.ts ~ line 15 ~ fileUnitsWithoutNone",
+    fileUnitsWithoutNone
+  );
   const specificSavedMatchObject = savedMatchObjectAll[workflowClass]["units"];
   const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
 

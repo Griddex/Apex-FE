@@ -15,7 +15,10 @@ import {
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../../Forecast/Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
@@ -67,6 +70,9 @@ function* runEconomicsForecastAggregationSaga(
   const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastCase}`;
 
   try {
+    const message = "Fetching aggregated forecast results...";
+    yield put(showSpinnerAction(message));
+
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
 
