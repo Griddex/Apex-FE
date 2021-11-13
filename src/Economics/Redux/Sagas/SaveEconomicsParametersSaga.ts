@@ -1,3 +1,4 @@
+import pick from "lodash.pick";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -20,19 +21,19 @@ import {
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
+import history from "../../../Application/Services/HistoryService";
+import {
+  failureDialogParameters,
+  successDialogParameters,
+} from "../../Components/DialogParameters/EconomicsParameterSuccessFailureDialogParameters";
 import {
   fetchStoredEconomicsDataRequestAction,
-  fetchStoredEconomicsParametersHeadersRequestAction,
+  loadEconomicsWorkflowAction,
   saveEconomicsParametersFailureAction,
   saveEconomicsParametersSuccessAction,
   SAVE_ECONOMICSPARAMETERS_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
-import pick from "lodash.pick";
-import {
-  failureDialogParameters,
-  successDialogParameters,
-} from "../../Components/DialogParameters/EconomicsParameterSuccessFailureDialogParameters";
 
 export default function* watchSaveEconomicsParametersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -161,6 +162,9 @@ function* saveEconomicsParametersSaga(
       payload: { ...payload, status, success, selectedEconomicsParametersId },
     });
 
+    yield put(loadEconomicsWorkflowAction("loadCostsRevenueWorkflow"));
+    yield call(forwardTo, "/apex/economics/parameters/approveddeck");
+
     yield put(
       updateEconomicsParameterAction("selectedEconomicsParametersTitle", title)
     );
@@ -175,10 +179,13 @@ function* saveEconomicsParametersSaga(
     });
 
     yield put(
-      // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters((errors as any).message))
     );
   } finally {
     yield put(hideSpinnerAction());
   }
+}
+
+function forwardTo(routeUrl: string) {
+  history.replace(routeUrl);
 }

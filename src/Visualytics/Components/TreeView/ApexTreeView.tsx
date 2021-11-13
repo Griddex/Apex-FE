@@ -4,7 +4,7 @@ import styled from "@mui/system/styled";
 import get from "lodash.get";
 import objectScan from "object-scan";
 import React from "react";
-import { ConnectDragSource, useDrag } from "react-dnd";
+import { useDrag } from "react-dnd";
 import { FixedSizeTree as Tree } from "react-vtree";
 import ApexCheckbox2 from "../../../Application/Components/Checkboxes/ApexCheckbox2";
 import {
@@ -13,8 +13,6 @@ import {
   TTreeStack,
   TTreeStackObj,
 } from "./ApexTreeViewTypes";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function MinusSquare(props: any) {
   return (

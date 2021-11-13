@@ -70,19 +70,6 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
     y: 0,
   });
 
-  const SelectTitle = () => {
-    return (
-      <ApexSelectRS<IExtendedSelectOption>
-        valueOption={selectedOption}
-        data={titleOptions}
-        handleSelect={handleSelectChange}
-        isSelectOptionType={true}
-        menuPortalTarget={document.body}
-        containerWidth={300}
-      />
-    );
-  };
-
   const categoryExpanded = showMembersObjValues?.some((v) => v === true);
 
   React.useEffect(() => {
@@ -95,7 +82,14 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
         title={selectLabel}
         content={
           <div style={{ display: "flex", alignItems: "center" }}>
-            <SelectTitle />
+            <ApexSelectRS<IExtendedSelectOption>
+              valueOption={selectedOption}
+              data={titleOptions}
+              handleSelect={handleSelectChange}
+              isSelectOptionType={true}
+              menuPortalTarget={document.body}
+              containerWidth={300}
+            />
             <OpenInNewOutlinedIcon style={getApexIconButtonStyle(theme)} />
           </div>
         }

@@ -4,20 +4,31 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
-const networkSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer,
-  (reducer) => reducer
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const isNetworkAutoSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.isNetworkAuto,
+  (isAuto) => isAuto
+);
+
+const selectedNetworkTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedNetworkTitle,
+  (data) => data
+);
+
+const nodeElementsSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.nodeElements,
+  (data) => data
 );
 
 const NetworkTitlePlaque = () => {
   const theme = useTheme();
 
-  const { isNetworkAuto, selectedNetworkTitle, nodeElements } =
-    useSelector(networkSelector);
+  const isNetworkAuto = useSelector(isNetworkAutoSelector);
+  const selectedNetworkTitle = useSelector(selectedNetworkTitleSelector);
+  const nodeElements = useSelector(nodeElementsSelector);
 
   const isNetworkSaved = !(selectedNetworkTitle === "");
   const isNetworkDisplayed = nodeElements.length > 0;

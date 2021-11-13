@@ -232,12 +232,12 @@ const MainDrawer = () => {
         <img src={ApexLogo} alt="Company logo" height={24} width={24} />
       </div>
       <MenuList>
-        {mainDrawerData.map((drawerData) => {
+        {mainDrawerData.map((drawerData, i) => {
           const { name, route, icon } = drawerData;
 
           return (
             <Tooltip
-              key={name}
+              key={i}
               title={
                 name === "DCA" ? (
                   <CustomTooltip

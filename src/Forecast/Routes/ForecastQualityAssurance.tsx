@@ -36,16 +36,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     padding: 5,
   },
-  chartContent: {
-    display: "flex",
-    flexDirection: "column",
-    marginLeft: 5,
-    height: "100%",
-    width: "90%",
-    backgroundColor: "#FFF",
-    border: `1px solid ${theme.palette.grey[200]}`,
-    maxWidth: "90%",
-  },
 }));
 
 const ForecastQualityAssurance = () => {
