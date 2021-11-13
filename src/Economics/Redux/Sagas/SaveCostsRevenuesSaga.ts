@@ -1,4 +1,3 @@
-import { access } from "fs";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -30,13 +29,14 @@ import { devScenarios } from "../../Data/EconomicsData";
 import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
-  fetchStoredCostsRevenuesHeadersRequestAction,
   fetchStoredEconomicsDataRequestAction,
+  loadEconomicsWorkflowAction,
   saveCostsRevenuesFailureAction,
   saveCostsRevenuesSuccessAction,
   SAVE_COSTSREVENUES_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
+import history from "../../../Application/Services/HistoryService";
 
 export default function* watchSaveCostsRevenuesSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -133,6 +133,9 @@ function* saveCostsRevenuesSaga(
       payload: { ...payload, status, success, selectedCostsRevenuesId },
     });
 
+    yield put(loadEconomicsWorkflowAction("loadCostsRevenueWorkflow"));
+    yield call(forwardTo, "/apex/economics/costsrevenue/approveddeck");
+
     yield put(
       updateEconomicsParameterAction("selectedCostsRevenuesTitle", title)
     );
@@ -147,10 +150,13 @@ function* saveCostsRevenuesSaga(
     });
 
     yield put(
-      // showDialogAction(failureDialogParameters(errors["errors"][0].message))
       showDialogAction(failureDialogParameters((errors as any).message))
     );
   } finally {
     yield put(hideSpinnerAction());
   }
+}
+
+function forwardTo(routeUrl: string) {
+  history.replace(routeUrl);
 }

@@ -11,12 +11,12 @@ export const forecastAggregationTypes = [
 
 export const forecastAggregationLevels = [
   {
-    value: "select",
-    label: "Select...",
+    value: "module",
+    label: "Module...",
   },
   {
-    value: "none",
-    label: "None...",
+    value: "drainagePoint",
+    label: "Drainage Point",
   },
   {
     value: "station",
@@ -25,6 +25,38 @@ export const forecastAggregationLevels = [
   {
     value: "scenario",
     label: "Scenario",
+  },
+  {
+    value: "field",
+    label: "Field",
+  },
+  {
+    value: "reservoir",
+    label: "Reservoir",
+  },
+  {
+    value: "projectCode",
+    label: "Project Code",
+  },
+  {
+    value: "projectName",
+    label: "Project Name",
+  },
+  {
+    value: "hydrocarbonStream",
+    label: "Hydrocarbon Stream",
+  },
+  {
+    value: "hydrocarbonType",
+    label: "Hydrocarbon Type",
+  },
+  {
+    value: "resourceClass",
+    label: "Resource Class",
+  },
+  {
+    value: "developmentTranche",
+    label: "Development Tranche",
   },
 ];
 

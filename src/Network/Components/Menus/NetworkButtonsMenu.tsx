@@ -16,8 +16,6 @@ import React, { ChangeEvent, CSSProperties } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogRemoveNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogRemoveNetworkCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -32,9 +30,20 @@ import {
   updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const isNetworkAutoSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer.isNetworkAuto,
   (isAuto) => isAuto
+);
+const selectedNetworkIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedNetworkId,
+  (data) => data
+);
+
+const nodeElementsSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.nodeElements,
+  (data) => data
 );
 
 const NetworkButtonsMenu = () => {
@@ -42,6 +51,8 @@ const NetworkButtonsMenu = () => {
   const dispatch = useDispatch();
 
   const isNetworkAuto = useSelector(isNetworkAutoSelector);
+  const selectedNetworkId = useSelector(selectedNetworkIdSelector);
+  const nodeElements = useSelector(nodeElementsSelector);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -187,6 +198,35 @@ const NetworkButtonsMenu = () => {
     },
   ];
 
+  const getDisableStyle = (title: string) => {
+    let style = {};
+
+    if (!isNetworkAuto) {
+      style = ["Generate Network", "Stored Networks"].includes(title)
+        ? {
+            pointerEvents: "none",
+            backgroundColor: theme.palette.grey[200],
+          }
+        : {};
+    } else {
+      if (title === "Save Network") {
+        if (nodeElements.length > 0 && selectedNetworkId === "") {
+          style = {};
+        } else {
+          // } else if (nodeElements.length <= 0 && selectedNetworkId === "") {
+          style = {
+            pointerEvents: "none",
+            backgroundColor: theme.palette.grey[200],
+          };
+        }
+      } else {
+        style = {};
+      }
+    }
+
+    return style;
+  };
+
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>
       <Button
@@ -219,18 +259,10 @@ const NetworkButtonsMenu = () => {
       >
         {buttons.map((row, i) => {
           const { title, action, icon } = row;
-          const style =
-            !isNetworkAuto &&
-            ["Generate Network", "Stored Networks"].includes(title)
-              ? {
-                  pointerEvents: "none",
-                  backgroundColor: theme.palette.grey[200],
-                }
-              : {};
 
           return (
             <MenuItem
-              style={style as CSSProperties}
+              style={getDisableStyle(title) as CSSProperties}
               key={i}
               onClick={() => {
                 action();

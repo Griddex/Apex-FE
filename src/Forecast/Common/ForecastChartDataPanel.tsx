@@ -48,10 +48,6 @@ const ForecastChartDataPanel = () => {
   const selectedForecastingResultsDescription = useSelector(
     selectedForecastingResultsDescriptionSelector
   );
-  console.log(
-    "🚀 ~ file: ForecastChartDataPanel.tsx ~ line 42 ~ ForecastChartDataPanel ~ selectedForecastingResultsTitle",
-    selectedForecastingResultsTitle
-  );
 
   const forecastRunTitleOptions = forecastResultsStored.map((row) => ({
     value: row.title,

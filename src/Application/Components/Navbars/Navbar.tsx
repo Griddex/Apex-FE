@@ -141,6 +141,7 @@ const Navbar = () => {
         <Toolbar className={classes.appbarToolBar}>
           {!expandMainDrawer ? (
             <IconButton
+              style={{ marginLeft: 1 }}
               color="inherit"
               aria-label="open drawer"
               onClick={() => dispatch(mainDrawerExpandAction())}

@@ -1,22 +1,22 @@
-import { Button, MenuItem, Tooltip, Typography, useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
+import { Button, MenuItem, Tooltip, Typography, useTheme } from "@mui/material";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Menu from "@mui/material/Menu";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { ChangeEvent } from "react";
 import { useDispatch } from "react-redux";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
 import { forecastAggregationLevels } from "../../Data/ForecastData";
 import { updateForecastResultsParameterAction } from "../../Redux/Actions/ForecastActions";
-import { forecastVariablesMap } from "../../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
   listItemAvatar: {
     textAlign: "center",
     color: theme.palette.primary.main,
     fontWeight: "bold",
-    width: 40,
+    minWidth: 20,
+    marginRight: 5,
   },
   label: {
     display: "flex",
@@ -40,10 +40,6 @@ const ForecastAggregationLevelButtonsMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  React.useEffect(() => {
-    setForecastAggregationOption({ value: "none", label: "None" });
-  }, []);
 
   return (
     <div style={{ cursor: "context-menu", backgroundColor: "#F7F7F7" }}>

@@ -1,38 +1,26 @@
-import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
-import { ClickAwayListener, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
+import zipObject from "lodash.zipobject";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
-import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { persistSelectedIdTitleAction } from "../../Application/Redux/Actions/ApplicationActions";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
-import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
-import {
-  fetchForecastTreeviewKeysRequestAction,
-  getForecastDataByIdRequestAction,
-  updateForecastResultsParameterAction,
-} from "../Redux/Actions/ForecastActions";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
-import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-
-//<IStoredForecastResultsRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -55,41 +43,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     padding: 20,
-  },
-  status: {
-    height: "100%",
-    width: "100%",
-    fontSize: 14,
-  },
-  image: { height: 30, width: 30 },
-  author: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  approvers: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  dcaTable: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-    justifyContent: "space-around",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  visibilityOutlinedIcon: {
-    "&:hover": {
-      color: theme.palette.primary.main,
-    },
   },
 }));
 
@@ -140,41 +93,18 @@ export default function ForecastQualityAssuranceData({
 
   const qualityAssuranceResults = useSelector(qualityAssuranceResultsSelector);
 
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (row: IStoredForecastResultsRow) => {
-    const id = row.forecastResultsId as string;
-    const title = row.forecastResultsTitle as string;
-    const saved = row.saved as string;
-    const isSaved = saved === "Saved" ? true : false;
-    const networkId = row.networkId as string;
-
-    persistSelectedIdTitleAction &&
-      dispatch(
-        persistSelectedIdTitleAction("forecastReducer", {
-          selectedForecastingResultsId: id,
-          selectedForecastingResultsTitle: title,
-        })
-      );
-
-    dispatch(
-      updateForecastResultsParameterAction("isForecastResultsSaved", isSaved)
-    );
-
-    dispatch(updateNetworkParameterAction("selectedNetworkId", networkId));
-
-    setCheckboxSelected(!checkboxSelected);
-  };
-
   const [selectedRows, setSelectedRows] = React.useState(
     () => new Set<React.Key>()
   );
 
-  const rows = qualityAssuranceResults.map((row: any, i: number) => ({
-    ...row,
-  })) as any[];
-
   let columnKeys = ["SN"];
-  if (rows.length > 0) columnKeys = Object.keys(rows[0]);
+  if (qualityAssuranceResults.length > 0)
+    columnKeys = Object.keys(qualityAssuranceResults[0]).map((v) =>
+      v.toUpperCase()
+    );
+  const rows = qualityAssuranceResults.map((row) =>
+    zipObject(columnKeys, Object.values(row) as string[])
+  );
 
   const columns = columnKeys.map((k) => {
     const column = {
@@ -195,7 +125,7 @@ export default function ForecastQualityAssuranceData({
     .map((column) => ({
       label: column.name,
       value: column.key,
-    })) as IExcelSheetData<IStoredForecastResultsRow>["columns"];
+    })) as IExcelSheetData<any>["columns"];
 
   const exportTableProps = {
     fileName: "QualityAssuranceResults",
@@ -205,7 +135,7 @@ export default function ForecastQualityAssuranceData({
         columns: exportColumns,
       },
     },
-  } as IExcelExportTable<IStoredForecastResultsRow>;
+  } as IExcelExportTable<any>;
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
@@ -221,7 +151,6 @@ export default function ForecastQualityAssuranceData({
   };
 
   React.useEffect(() => {
-    console.log("seen");
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
@@ -234,66 +163,26 @@ export default function ForecastQualityAssuranceData({
           <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
         </div>
       )}
-      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-        <div className={classes.table}>
-          <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid
-                columns={columns}
-                rows={rows}
-                tableButtons={tableButtons}
-                newTableRowHeight={35}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                selectedRow={sRow}
-                onSelectedRowChange={setSRow}
-                size={size}
-                autoAdjustTableDim={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
-          </SizeMe>
-        </div>
-      </ClickAwayListener>
-      {showBaseButtons && (
-        <ApexFlexContainer
-          justifyContent="space-between"
-          height={50}
-          moreStyles={{ marginBottom: 4, width: 270 }}
-        >
-          <BaseButtons
-            buttonTexts={["Reset", "Display"]}
-            variants={["contained", "contained"]}
-            colors={["secondary", "primary"]}
-            startIcons={[
-              <TableChartOutlinedIcon key={1} />,
-              <InsertPhotoOutlinedIcon key={2} />,
-            ]}
-            disableds={[sRow === -1, sRow === -1]}
-            shouldExecute={[true, true]}
-            shouldDispatch={[false, false]}
-            finalActions={[
-              () => {
-                dispatch(
-                  getForecastDataByIdRequestAction(
-                    "forecastResultsVisualytics",
-                    true,
-                    "/apex/forecast/forecastdata"
-                  )
-                );
-              },
-              () =>
-                dispatch(
-                  fetchForecastTreeviewKeysRequestAction(
-                    reducer,
-                    "forecastAssurance"
-                  )
-                ),
-            ]}
-          />
-        </ApexFlexContainer>
-      )}
+      <div className={classes.table}>
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => (
+            <ApexGrid
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+              newTableRowHeight={35}
+              selectedRows={selectedRows}
+              setSelectedRows={setSelectedRows}
+              selectedRow={sRow}
+              onSelectedRowChange={setSRow}
+              size={size}
+              autoAdjustTableDim={true}
+              showTableHeader={true}
+              showTablePagination={true}
+            />
+          )}
+        </SizeMe>
+      </div>
     </div>
   );
 }

@@ -34,6 +34,8 @@ import {
 import { fetchStoredInputDeckRequestAction } from "../Actions/StoredInputDeckActions";
 import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 import { initialInputWorkflowParameters } from "../State/InputState";
+import history from "../../../Application/Services/HistoryService";
+import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 
 function getInputDeckType(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "Facilities InputDeck";
@@ -44,6 +46,14 @@ function getInputDeckType(workflowProcess: TAllWorkflowProcesses) {
 function getInputDeckRouteParam(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "facilities-inputdeck";
   else if (workflowProcess.includes("forecast")) return "forecast-inputdeck";
+  else return "";
+}
+
+function getGotoRouteUrl(workflowProcess: TAllWorkflowProcesses) {
+  if (workflowProcess.includes("facilities"))
+    return "/apex/import/facilitiesdeck/approveddeck";
+  else if (workflowProcess.includes("forecast"))
+    return "/apex/import/forecastdeck/approveddeck";
   else return "";
 }
 
@@ -147,6 +157,8 @@ export function* saveInputDeckSaga(
       },
     });
 
+    yield put(loadWorkflowAction());
+    yield call(forwardTo, getGotoRouteUrl(workflowProcess));
     yield put(workflowResetAction(0, wp, wc));
     yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
@@ -172,4 +184,8 @@ export function* saveInputDeckSaga(
   } finally {
     yield put(hideSpinnerAction());
   }
+}
+
+function forwardTo(routeUrl: string) {
+  history.replace(routeUrl);
 }

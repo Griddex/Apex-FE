@@ -82,10 +82,12 @@ const isForecastResultsLoadingSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.isForecastResultsLoading,
   (data) => data
 );
+
 const selectedForecastChartOptionSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.selectedForecastChartOption,
   (data) => data
 );
+
 const xValueCategoriesSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.xValueCategories,
   (data) => data

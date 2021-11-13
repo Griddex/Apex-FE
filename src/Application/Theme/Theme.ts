@@ -156,6 +156,15 @@ const theme = createTheme({
       },
     },
 
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          paddingLeft: 8,
+          paddingRight: 8,
+        },
+      },
+    },
+
     MuiMenuItem: {
       styleOverrides: {
         root: {

@@ -142,7 +142,11 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
           break;
       }
     }
-  }, [selectedForecastChartVariable]);
+  }, [
+    selectedForecastChartVariable,
+    selectedForecastAggregationType,
+    selectedForecastAggregationLevel,
+  ]);
 
   React.useEffect(() => {
     const selectedModIds = selectedModulePaths.map((path) => {
