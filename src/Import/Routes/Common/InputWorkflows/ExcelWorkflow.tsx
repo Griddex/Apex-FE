@@ -13,10 +13,8 @@ import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/Wor
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
+import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 
-const ContextDrawer = React.lazy(
-  () => import("../../../../Application/Components/Drawers/ContextDrawer")
-);
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
 const SelectHeaderUnitData = React.lazy(

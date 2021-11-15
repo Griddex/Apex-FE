@@ -117,7 +117,11 @@ export function* autoGenerateNetworkSaga(
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters()));
+    const errorMessages = (errors as any)["errors"]
+      .map((row: any) => row.message)
+      .join(",");
+
+    yield put(showDialogAction(failureDialogParameters(errorMessages)));
   } finally {
     yield put(hideSpinnerAction());
   }

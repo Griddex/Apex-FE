@@ -19,3 +19,5 @@ export interface IInputLanding {
 export type IdType = {
   subNavbarId: keyof ISubModuleData;
 };
+
+export type TfinalizationChoice = "save" | "saveManual" | "saveAuto";

@@ -121,6 +121,9 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       return {
         ...state,
+        selectedForecastInputDeckId: wp.toLowerCase().includes("forecast")
+          ? storedDataId
+          : "",
         inputDataWorkflows: {
           ...state.inputDataWorkflows,
           [wp]: {

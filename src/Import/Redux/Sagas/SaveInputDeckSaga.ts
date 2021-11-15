@@ -15,12 +15,18 @@ import {
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowResetAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
+import history from "../../../Application/Services/HistoryService";
 import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
-import { fetchStoredForecastingParametersRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
+import {
+  autoGenerateNetworkRequestAction,
+  fetchStoredForecastingParametersRequestAction,
+  updateNetworkParameterAction,
+} from "../../../Network/Redux/Actions/NetworkActions";
 import {
   failureDialogParameters,
   successDialogParameters,
@@ -32,10 +38,8 @@ import {
   updateInputParameterAction,
 } from "../Actions/InputActions";
 import { fetchStoredInputDeckRequestAction } from "../Actions/StoredInputDeckActions";
-import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 import { initialInputWorkflowParameters } from "../State/InputState";
-import history from "../../../Application/Services/HistoryService";
-import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
+import { showSpinnerAction } from "./../../../Application/Redux/Actions/UISpinnerActions";
 
 function getInputDeckType(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities")) return "Facilities InputDeck";
@@ -81,7 +85,7 @@ export function* saveInputDeckSaga(
   const { payload, meta } = action;
   const message = meta && meta.message ? meta.message : "";
 
-  const { workflowProcess, reducer, titleDesc } = payload;
+  const { workflowProcess, reducer, titleDesc, finalizationChoice } = payload;
   const currentTitleDesc = autoTitleDesc ? autoTitleDesc : titleDesc;
   const { title, description } = currentTitleDesc;
 
@@ -113,9 +117,6 @@ export function* saveInputDeckSaga(
 
   const inputDeckData = [...inputDeck];
   inputDeckData.shift();
-
-  const dateFormat = "DD/MM/YYYY";
-
   const data = {
     userId: "Gideon",
     projectId: currentProjectId,
@@ -157,20 +158,53 @@ export function* saveInputDeckSaga(
       },
     });
 
-    yield put(loadWorkflowAction());
-    yield call(forwardTo, getGotoRouteUrl(workflowProcess));
     yield put(workflowResetAction(0, wp, wc));
     yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
-    yield put(
-      showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
-    );
+    //TODO - reset this in reducer
     yield put(
       updateInputParameterAction(
         "inputReducer",
         `${wc}.${wp}`,
         initialInputWorkflowParameters
       )
+    );
+
+    if (finalizationChoice === "saveManual") {
+      yield put(
+        updateInputParameterAction(
+          "inputReducer",
+          "selectedForecastInputDeckTitle",
+          title
+        )
+      );
+      yield put(updateNetworkParameterAction("isNetworkAuto", false));
+      yield put(
+        updateNetworkParameterAction("loadNetworkGenerationWorkflow", true)
+      );
+      yield call(forwardTo, "/apex/network/networkManual");
+    } else if (finalizationChoice === "saveAuto") {
+      yield put(
+        updateInputParameterAction(
+          "inputReducer",
+          "selectedForecastInputDeckTitle",
+          title
+        )
+      );
+      yield put(updateNetworkParameterAction("isNetworkAuto", true));
+      yield put(
+        updateNetworkParameterAction("loadNetworkGenerationWorkflow", true)
+      );
+
+      yield call(forwardTo, "/apex/network/networkAuto");
+      yield put(autoGenerateNetworkRequestAction());
+    } else {
+      yield put(loadWorkflowAction());
+      yield call(forwardTo, getGotoRouteUrl(workflowProcess));
+    }
+
+    yield put(
+      showDialogAction(successDialogParameters(reducer, inputDeckType, wp))
     );
   } catch (errors) {
     const failureAction = saveInputDeckFailureAction();
@@ -179,8 +213,15 @@ export function* saveInputDeckSaga(
       ...failureAction,
       payload: { ...payload, errors },
     });
+    console.log("🚀 ~ file: SaveInputDeckSaga.ts ~ line 225 ~ errors", errors);
 
-    yield put(showDialogAction(failureDialogParameters(inputDeckType)));
+    const errorMessages = (errors as any)["errors"]
+      .map((row: any) => row.message)
+      .join(",");
+
+    yield put(
+      showDialogAction(failureDialogParameters(inputDeckType, errorMessages))
+    );
   } finally {
     yield put(hideSpinnerAction());
   }
