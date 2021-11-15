@@ -38,7 +38,8 @@ export const successDialogParameters = (
 });
 
 export const failureDialogParameters = (
-  inputDeckType: string
+  inputDeckType: string,
+  error: string
 ): DialogStuff => ({
   name: "Save_InputDeck_Failure_Dialog",
   title: `Save  ${inputDeckType} Failure`,
@@ -46,7 +47,7 @@ export const failureDialogParameters = (
   show: true,
   exclusive: true,
   maxWidth: "xs",
-  dialogText: `Save ${inputDeckType} failure`,
+  dialogText: error,
   iconType: "error",
   actionsList: () => DialogOkayButton([true], [true], [unloadDialogsAction]),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

@@ -35,6 +35,7 @@ import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowA
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { saveAndAutoGenerateNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
 import SaveInputDeckGenerateNetworkWorkflow from "../../Routes/Common/InputWorkflows/SaveInputDeckGenerateNetworkWorkflow";
+import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -162,7 +163,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
   };
 
   const activeStepSelector = createDeepEqualSelector(
-    (state: RootState) => state.applicationReducer[wc][wp]["activeStep"],
+    (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
     (activeStep) => activeStep
   );
 
@@ -203,7 +204,12 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
           [true, true],
           [
             unloadDialogsAction,
-            () => saveAndAutoGenerateNetworkRequestAction(wp, titleDesc),
+            () =>
+              saveInputDeckRequestAction(
+                wp,
+                titleDesc as Record<string, string>,
+                "saveAuto"
+              ),
           ]
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

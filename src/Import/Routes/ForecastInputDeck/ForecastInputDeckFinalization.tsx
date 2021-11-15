@@ -25,7 +25,9 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
+import { TfinalizationChoice } from "../Common/InputLayoutTypes";
 import { TAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
+
 const useStyles = makeStyles(() => ({
   dialogButtons: {
     display: "flex",
@@ -78,7 +80,10 @@ const ForecastInputDeckFinalization = ({
     });
   }
 
-  const saveForecastInputdeck = (workflowProcess: TAllWorkflowProcesses) => {
+  const saveForecastInputdeck = (
+    workflowProcess: TAllWorkflowProcesses,
+    finalizationChoice: TfinalizationChoice
+  ) => {
     const saveForecastInputdeckConfirmation = (
       titleDesc: Record<string, string>
     ) => {
@@ -92,7 +97,8 @@ const ForecastInputDeckFinalization = ({
         () =>
           saveInputDeckRequestAction(
             workflowProcess,
-            titleDesc as Record<string, string>
+            titleDesc as Record<string, string>,
+            finalizationChoice
           ),
         "Save",
         "saveOutlined"
@@ -158,7 +164,7 @@ const ForecastInputDeckFinalization = ({
       startIcon: <SaveOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
         dispatch(hideDialogAction());
-        saveForecastInputdeck(wp);
+        saveForecastInputdeck(wp, "save");
       },
     },
     {
@@ -167,9 +173,8 @@ const ForecastInputDeckFinalization = ({
       variant: "contained",
       startIcon: <ControlCameraOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
-        dispatch(updateNetworkParameterAction("isNetworkAuto", true));
         dispatch(hideDialogAction());
-        saveForecastInputdeckAndGenerateNetwork(workflowProcess);
+        saveForecastInputdeckAndGenerateNetwork(wp);
       },
     },
     {
@@ -178,18 +183,12 @@ const ForecastInputDeckFinalization = ({
       variant: "contained",
       startIcon: <DeviceHubOutlinedIcon fontSize="large" color="primary" />,
       handleAction: () => {
-        dispatch(updateNetworkParameterAction("isNetworkAuto", false));
-        dispatch(hideDialogAction());
-        enqueueSnackbar(`${subModuleName} saved`, {
-          persist: false,
-          variant: "success",
-        });
+        saveForecastInputdeck(wp, "saveManual");
 
-        dispatch(
-          updateNetworkParameterAction("loadNetworkGenerationWorkflow", true)
-        );
-
-        history.push("/apex/network/networkManual");
+        // enqueueSnackbar(`${subModuleName} saved`, {
+        //   persist: false,
+        //   variant: "success",
+        // });
       },
     },
   ];

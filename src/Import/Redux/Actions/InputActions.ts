@@ -7,6 +7,7 @@ import {
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TApexData } from "../../../Application/Types/ApplicationTypes";
+import { TfinalizationChoice } from "../../Routes/Common/InputLayoutTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
 export const RESET_INPUT = "RESET_INPUT";
@@ -48,6 +49,14 @@ export const FETCH_APPLICATIONHEADERS_SUCCESS =
 export const FETCH_APPLICATIONHEADERS_FAILURE =
   "FETCH_APPLICATIONHEADERS_FAILURE";
 export const SAVE_USERMATCH_ALL = "SAVE_USERMATCH_ALL";
+export const VALIDATE_FORECASTINPUTDECK_REQUEST =
+  "VALIDATE_FORECASTINPUTDECK_REQUEST";
+export const VALIDATE_FORECASTINPUTDECK_SUCCESS_NOERROR =
+  "VALIDATE_FORECASTINPUTDECK_SUCCESS_NOERROR";
+export const VALIDATE_FORECASTINPUTDECK_SUCCESS_ERROR =
+  "VALIDATE_FORECASTINPUTDECK_SUCCESS_ERROR";
+export const VALIDATE_FORECASTINPUTDECK_FAILURE =
+  "VALIDATE_FORECASTINPUTDECK_FAILURE";
 
 export const updateInputParameterAction = (
   reducer: ReducersType,
@@ -217,7 +226,8 @@ export const persistColumnNameTableDataAction = (
 
 export const saveInputDeckRequestAction = (
   workflowProcess: TAllWorkflowProcesses,
-  titleDesc: Record<string, string>
+  titleDesc: Record<string, string>,
+  finalizationChoice: TfinalizationChoice
 ) => {
   let inputDeck;
   const { title } = titleDesc;
@@ -230,7 +240,7 @@ export const saveInputDeckRequestAction = (
 
   return {
     type: SAVE_INPUTDECK_REQUEST,
-    payload: { workflowProcess, reducer, titleDesc },
+    payload: { workflowProcess, reducer, titleDesc, finalizationChoice },
     meta: { message: `Saving ${title}...` },
   };
 };
@@ -276,6 +286,36 @@ export const fetchApplicationHeadersSuccessAction = () => {
 export const fetchApplicationHeadersFailureAction = () => {
   return {
     type: FETCH_APPLICATIONHEADERS_SUCCESS,
+    payload: {
+      status: 0,
+    },
+  };
+};
+
+export const validateForecastInputDeckRequestAction = () => {
+  return {
+    type: VALIDATE_FORECASTINPUTDECK_REQUEST,
+    meta: { showSpinner: true, message: "Validating forecast inputdeck..." },
+  };
+};
+
+export const validateForecastInputDeckSuccessNoErrorAction = () => {
+  return {
+    type: VALIDATE_FORECASTINPUTDECK_SUCCESS_NOERROR,
+    payload: {},
+  };
+};
+
+export const validateForecastInputDeckSuccessErrorAction = () => {
+  return {
+    type: VALIDATE_FORECASTINPUTDECK_SUCCESS_ERROR,
+    payload: {},
+  };
+};
+
+export const validateForecastInputDeckFailureAction = () => {
+  return {
+    type: VALIDATE_FORECASTINPUTDECK_FAILURE,
     payload: {
       status: 0,
     },

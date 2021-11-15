@@ -2,14 +2,14 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { ClickAwayListener, useTheme } from "@mui/material";
+import { ClickAwayListener } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
@@ -23,6 +23,7 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -44,15 +45,13 @@ import {
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
+import generateDoughnutAnalyticsData from "../../../../Application/Utils/GenerateDoughnutAnalyticsData";
 import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
 import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-
-//<IStoredDataRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -96,7 +95,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       snStoredData,
       dataKey,
       dataTitle,
-      chartData,
       wkPs,
       showChart,
       containerStyle,
@@ -113,7 +111,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     },
     ref
   ) => {
-    const theme = useTheme();
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -132,10 +129,15 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     );
     const [sRow, setSRow] = React.useState(-1);
 
-    const snStoredDataCopy = snStoredData as IStoredDataRow[];
-    const currentRows = snStoredData as IStoredDataRow[];
+    const storedDataDefined = snStoredData as IStoredDataRow[];
+    const storedDataTitlesString = storedDataDefined
+      .map((row) => row.title)
+      .join();
+    const storedDataDescriptionsString = storedDataDefined
+      .map((row) => row.description)
+      .join();
 
-    const [rows, setRows] = React.useState(currentRows);
+    const [rows, setRows] = React.useState(storedDataDefined);
 
     const ApexGridCheckboxColumn = apexGridCheckbox({
       shouldExecute: true,
@@ -168,10 +170,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           name: "ACTIONS",
           editable: false,
           formatter: ({ row }) => {
-            console.log(
-              "🚀 ~ file: StoredDataRoute.tsx ~ line 171 ~ generateColumns ~ row",
-              row
-            );
             const sn = row.sn as number;
             const currentSN = sn as number;
 
@@ -205,7 +203,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                   const currentRow = rows[currentSN - 1];
                   const clonedRow = cloneSelectedRow(currentRow, rows.length);
 
-                  const newRows = [...snStoredDataCopy, clonedRow];
+                  const newRows = [...storedDataDefined, clonedRow];
 
                   dispatch(updateNetworkParameterAction(wc, newRows));
                 },
@@ -320,6 +318,13 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           width: 100,
         },
         {
+          key: `${dataKey}`,
+          name: `${dataTitle}`,
+          editable: false,
+          resizable: true,
+          width: 300,
+        },
+        {
           key: "approval",
           name: "APPROVAL",
           editable: false,
@@ -328,13 +333,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             return <Approval approvalText={row.approval} />;
           },
           width: 100,
-        },
-        {
-          key: `${dataKey}`,
-          name: `${dataTitle}`,
-          editable: false,
-          resizable: true,
-          width: 300,
         },
         {
           key: "author",
@@ -394,6 +392,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
 
       return columns;
     };
+
     const columns = React.useMemo(() => generateColumns(), [selectedRows]);
 
     const exportColumns = columns
@@ -425,13 +424,14 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       ),
     };
 
-    const storedDataDefined = snStoredData as IStoredDataRow[];
-    const storedDataTitlesString = storedDataDefined
-      .map((row) => row.title)
-      .join();
-    const storedDataDescriptionsString = storedDataDefined
-      .map((row) => row.description)
-      .join();
+    const chartData = generateDoughnutAnalyticsData(
+      storedDataDefined,
+      "approval"
+    );
+    console.log(
+      "🚀 ~ file: StoredDataRoute.tsx ~ line 428 ~ chartData",
+      chartData
+    );
 
     React.useEffect(() => {
       dispatch(hideSpinnerAction());

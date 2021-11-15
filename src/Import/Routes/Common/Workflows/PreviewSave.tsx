@@ -21,9 +21,12 @@ import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyse
 import {
   persistTableDataAction,
   persistVariableUnitsAction,
+  validateForecastInputDeckRequestAction,
 } from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
 import { IApplicationHeaders } from "./MatchHeadersTypes";
+import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
+import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 
 const useStyles = makeStyles((theme) => ({
   rootPreviewSave: {
@@ -314,7 +317,18 @@ export default function PreviewSave({
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
-    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+    extraButtons: () => (
+      <div>
+        <IconButtonWithTooltip
+          toolTipKey="validateToolTip"
+          toolTipTitle="Validate"
+          toolTipPlacement="bottom-end"
+          icon={() => <FactCheckOutlinedIcon />}
+          action={() => dispatch(validateForecastInputDeckRequestAction())}
+        />
+        <ExcelExportTable<IRawRow> {...exportTableProps} />,
+      </div>
+    ),
   };
 
   React.useEffect(() => {

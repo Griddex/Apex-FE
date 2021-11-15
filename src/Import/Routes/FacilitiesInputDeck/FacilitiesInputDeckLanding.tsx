@@ -142,7 +142,8 @@ const FacilitiesInputDeckLanding = () => {
         () =>
           saveInputDeckRequestAction(
             workflowProcess,
-            titleDesc as Record<string, string>
+            titleDesc as Record<string, string>,
+            "save"
           ),
         "Save",
         "saveOutlined"

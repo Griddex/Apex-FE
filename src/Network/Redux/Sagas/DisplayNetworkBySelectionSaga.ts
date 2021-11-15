@@ -123,7 +123,11 @@ export function* displayNetworkBySelectionSaga(
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters()));
+    const errorMessages = (errors as any)["errors"]
+      .map((row: any) => row.message)
+      .join(",");
+
+    yield put(showDialogAction(failureDialogParameters(errorMessages)));
   } finally {
     //TODO: Remove from here.
     //Should be in success case only
