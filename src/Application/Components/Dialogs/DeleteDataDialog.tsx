@@ -1,4 +1,4 @@
-import { DialogActions, Input } from "@mui/material";
+import { DialogActions, Input, Chip } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
@@ -17,6 +17,9 @@ import { IconNameType } from "../Icons/DialogIconsTypes";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import { DialogStuff } from "./DialogTypes";
 import grey from "@mui/material/colors/grey";
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { getApexIconButtonStyle } from "../../Styles/IconButtonStyles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -127,12 +130,19 @@ const DeleteDataDialog: React.FC<DialogStuff> = (props) => {
   } = props;
 
   const [deleteTitleConfirm, setDeleteTitleConfirm] = React.useState("");
+  const [counter, setCounter] = React.useState(0);
 
   const isFinalButtonDisabled =
     (deleteTitleConfirm as string).trim().toLowerCase() ===
     (deleteTitle as string).trim().toLowerCase()
       ? false
       : true;
+
+  const iconBtnStyle = getApexIconButtonStyle(theme);
+
+  React.useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
 
   return (
     <Dialog
@@ -162,14 +172,34 @@ const DeleteDataDialog: React.FC<DialogStuff> = (props) => {
           </Typography>
           <span>&nbsp;</span>
           <span>&nbsp;</span>
-          <strong
-            style={{
-              fontSize: theme.typography.h6.fontSize,
-              color: theme.palette.secondary.main,
-            }}
-          >
-            {deleteTitle}
-          </strong>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <strong
+              style={{
+                fontSize: theme.typography.h6.fontSize,
+                color: theme.palette.secondary.main,
+                marginRight: 5,
+              }}
+            >
+              {deleteTitle}
+            </strong>
+            <CopyToClipboard
+              text={deleteTitle as string}
+              onCopy={() => setCounter(5)}
+            >
+              <ContentCopyOutlinedIcon style={iconBtnStyle} />
+            </CopyToClipboard>
+            {counter > 0 && (
+              <Chip
+                style={{
+                  backgroundColor: theme.palette.success.main,
+                  marginLeft: 5,
+                  color: "white",
+                }}
+                size="small"
+                label={"Copied"}
+              />
+            )}
+          </div>
           <span>&nbsp;</span>
           <span>&nbsp;</span>
           <Typography variant="body1">

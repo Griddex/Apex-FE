@@ -231,20 +231,17 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
 
   return (
     <ApexTreeView
-      rootTree={rootTree}
-      selectedIds={React.useMemo(
-        () => selectedIds,
-        [JSON.stringify(selectedIds)]
-      )}
+      rootTree={React.useMemo(() => rootTree, [])}
+      selectedIds={React.useMemo(() => selectedIds, [selectedIds.length])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
       selectedNames={React.useMemo(
         () => selectedModuleNames,
-        [JSON.stringify(selectedModuleNames)]
+        [selectedModuleNames.length]
       )}
       setSelectedNames={React.useCallback(setSelectedModuleNames, [])}
       selectedPathsUnfiltered={React.useMemo(
         () => selectedModulePathsUnfiltered,
-        [JSON.stringify(selectedModulePathsUnfiltered)]
+        [selectedModulePathsUnfiltered.length]
       )}
       setSelectedPathsUnfiltered={React.useCallback(
         setSelectedModulePathsUnfiltered,

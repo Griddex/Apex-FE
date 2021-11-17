@@ -14,22 +14,30 @@ const ApexChartGridAxes = ({
   apexChartAxesData,
   apexMultiAccordionsData,
 }: IApexChartFormatProps) => {
-  const apexAxesComponents = apexChartAxesData.map((obj, i) => {
-    return (
-      <ApexChartAxis
-        key={i}
-        {...obj}
-        basePath={basePath}
-        updateParameterAction={updateParameterAction}
-        chartType={chartType}
-      />
-    );
-  });
+  const apexAxesComponents = React.useMemo(
+    () =>
+      apexChartAxesData.map((obj, i) => {
+        return (
+          <ApexChartAxis
+            key={i}
+            {...obj}
+            basePath={basePath}
+            updateParameterAction={updateParameterAction}
+            chartType={chartType}
+          />
+        );
+      }),
+    []
+  );
 
-  const updatedAcordionsData = apexMultiAccordionsData.map((props, i) => ({
-    ...props,
-    content: apexAxesComponents[i],
-  }));
+  const updatedAcordionsData = React.useMemo(
+    () =>
+      apexMultiAccordionsData.map((props, i) => ({
+        ...props,
+        content: apexAxesComponents[i],
+      })),
+    []
+  );
 
   return (
     <ApexFlexContainer flexDirection="column" justifyContent="flex-start">

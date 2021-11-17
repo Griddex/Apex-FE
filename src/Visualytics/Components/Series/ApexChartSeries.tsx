@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {
   InheritedColorConfigFromContext,
   OrdinalColorScaleConfigScheme,
@@ -380,7 +380,6 @@ const ApexChartSeries = ({
             <ApexSlider
               name="fillOpacity"
               sliderValue={fillOpacity}
-              setSliderValue={setChartProps}
               step={0.05}
               min={0}
               max={1}

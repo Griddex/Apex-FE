@@ -338,14 +338,34 @@ export default function PreviewSave({
       (acc: any, row: IRawRow) => {
         const { type, fileHeader } = row;
         const fileHeaderDefined = fileHeader as string;
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 341 ~ React.useEffect ~ fileHeaderDefined",
+          fileHeaderDefined
+        );
 
         const appHeaderUnitIdObj =
           fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeaderDefined];
 
         const appHeader = appHeaderUnitIdObj.chosenAppHeader;
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 347 ~ React.useEffect ~ appHeader",
+          appHeader
+        );
         const chosenAppUnitId = fileHeaderUnitIdMap[fileHeaderDefined];
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 348 ~ React.useEffect ~ fileHeaderUnitIdMap",
+          fileHeaderUnitIdMap
+        );
 
         const appHeaderName = currentAppHeaderNameMap[appHeader];
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 352 ~ React.useEffect ~ appHeaderName",
+          appHeaderName
+        );
+        console.log(
+          "🚀 ~ file: PreviewSave.tsx ~ line 352 ~ React.useEffect ~ currentAppHeaderNameMap",
+          currentAppHeaderNameMap
+        );
 
         return {
           ...acc,
