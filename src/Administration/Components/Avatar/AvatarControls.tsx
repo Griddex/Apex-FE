@@ -124,12 +124,17 @@ const AvatarControls = ({
             actionPath={`${basePath}.position`}
             action={(path, value) =>
               updateParameterAction &&
-              dispatch(updateParameterAction(path, { ...position, x: value }))
+              dispatch(
+                updateParameterAction(path, { ...position, x: Number(value) })
+              )
             }
             sliderContextFxn={(value: any) => {
               setAvatarProps((prev) => ({
                 ...prev,
-                position: { ...(prev["position"] as Position), x: value },
+                position: {
+                  ...(prev["position"] as Position),
+                  x: Number(value),
+                },
               }));
             }}
           />

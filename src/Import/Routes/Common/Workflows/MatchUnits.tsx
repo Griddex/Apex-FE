@@ -324,6 +324,11 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const initialTableRows = React.useRef(
     fileHeadersWithoutNone.current.map((fileHeader: string, i: number) => {
+      console.log(
+        "🚀 ~ file: MatchUnits.tsx ~ line 371 ~ fileHeadersWithoutNone.current.map ~ fileHeader",
+        fileHeader
+      );
+
       const unitOptions = keyedApplicationUnitOptions.current[fileHeader];
 
       const selectedApplicationUnit = unitOptions[0];
@@ -344,6 +349,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       const matchObj = specificSavedMatchObjectValues.find(
         (o) => o.fileHeader === fileHeader
       ) as TSingleMatchObject;
+      console.log(
+        "🚀 ~ file: MatchUnits.tsx ~ line 347 ~ fileHeadersWithoutNone.current.map ~ matchObj",
+        matchObj
+      );
 
       return {
         sn: i + 1,

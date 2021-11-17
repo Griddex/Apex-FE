@@ -1,22 +1,32 @@
+import { alpha, Theme } from "@mui/material";
+import grey from "@mui/material/colors/grey";
 import Input from "@mui/material/Input";
 import Slider from "@mui/material/Slider";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     alignItems: "center",
     width: "100%",
-    minWidth: 200,
   },
   input: {
     width: 80,
     fontSize: 14,
     marginLeft: 5,
+    border: `1px solid ${grey[500]}`,
+    "&:hover": {
+      border: `1px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
+    "&:active": {
+      outline: `2px solid ${theme.palette.primary.main}`,
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    },
   },
-});
+}));
 
 export type TApexSlider = number | number[] | Array<string | number>;
 export interface IApexSlider {
@@ -27,21 +37,19 @@ export interface IApexSlider {
   actionPath?: string;
   action?: (path: string, value: any) => void;
   sliderValue: TApexSlider;
-  setSliderValue?: TUseState<any>;
   sliderContextFxn?: (value: any, name?: any) => void;
 }
 
-export default function ApexSlider({
+const ApexSlider = ({
   name,
   sliderValue,
-  setSliderValue,
   step,
   min,
   max,
   actionPath,
   action,
   sliderContextFxn,
-}: IApexSlider) {
+}: IApexSlider) => {
   const classes = useStyles();
 
   const handleSliderChange = (event: any, value: number | number[]) => {
@@ -96,4 +104,6 @@ export default function ApexSlider({
       />
     </div>
   );
-}
+};
+
+export default React.memo(ApexSlider);

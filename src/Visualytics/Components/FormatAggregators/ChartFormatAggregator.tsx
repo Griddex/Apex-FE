@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import makeStyles from "@mui/styles/makeStyles";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { axisNameTitlesObj, TAxisType } from "../../Data/VisualyticsData";
@@ -45,10 +45,6 @@ const ChartFormatAggregator = ({
   const classes = useStyles();
 
   const chartTypeDefined = chartType as string;
-  console.log(
-    "Logged output --> ~ file: ChartFormatAggregator.tsx ~ line 46 ~ chartTypeDefined",
-    chartTypeDefined
-  );
 
   const { chartProps } = React.useContext(ChartFormatAggregatorContext);
 
@@ -57,56 +53,70 @@ const ChartFormatAggregator = ({
 
   const [perspective, setPerspective] = React.useState("series");
 
-  const handleChange = (_: React.ChangeEvent<any>, value: string) => {
+  const handleChange = (_: React.ChangeEvent<any>, value: string) =>
     setPerspective(value);
-  };
 
-  const apexChartGridData = [
-    {
-      gridName: "gridX",
-      gridTitle: "Horizontal Grid",
-      enableGrid: enableGridX,
-      gridValuesName: "gridXValues",
-      gridValues: gridXValues,
-    },
-    {
-      gridName: "gridY",
-      gridTitle: "Vertical Grid",
-      enableGrid: enableGridY,
-      gridValuesName: "gridYValues",
-      gridValues: gridYValues,
-    },
-  ];
-
-  const apexChartAxesData = Object.keys(axisNameTitlesObj).map((name) => ({
-    axisName: name,
-    axisCaption: "Chart Axes",
-    enableName: `${name}Enable`,
-    axisEnabled: enableApexAxes[name as TAxisName],
-  }));
-
-  const apexMultiAccordionsData = Object.keys(axisNameTitlesObj).map(
-    (name) => ({
-      name: `${name}Accordion`,
-      title: axisNameTitlesObj[name as TAxisType],
-      content: <ApexFlexContainer>No Content</ApexFlexContainer>,
-    })
+  const apexChartGridData = React.useMemo(
+    () => [
+      {
+        gridName: "gridX",
+        gridTitle: "Horizontal Grid",
+        enableGrid: enableGridX,
+        gridValuesName: "gridXValues",
+        gridValues: gridXValues,
+      },
+      {
+        gridName: "gridY",
+        gridTitle: "Vertical Grid",
+        enableGrid: enableGridY,
+        gridValuesName: "gridYValues",
+        gridValues: gridYValues,
+      },
+    ],
+    [JSON.stringify(gridXValues), JSON.stringify(gridYValues)]
   );
 
-  const apexChartProps = {
-    basePath,
-    updateParameterAction,
-    chartType,
-  };
+  const apexChartAxesData = React.useMemo(
+    () =>
+      Object.keys(axisNameTitlesObj).map((name) => ({
+        axisName: name,
+        axisCaption: "Chart Axes",
+        enableName: `${name}Enable`,
+        axisEnabled: enableApexAxes[name as TAxisName],
+      })),
+    [JSON.stringify(enableApexAxes)]
+  );
 
-  const apexGridAxesProps = {
-    basePath,
-    updateParameterAction,
-    chartType,
-    apexChartGridData,
-    apexChartAxesData,
-    apexMultiAccordionsData,
-  };
+  const apexMultiAccordionsData = React.useMemo(
+    () =>
+      Object.keys(axisNameTitlesObj).map((name) => ({
+        name: `${name}Accordion`,
+        title: axisNameTitlesObj[name as TAxisType],
+        content: <ApexFlexContainer>No Content</ApexFlexContainer>,
+      })),
+    []
+  );
+
+  const apexChartProps = React.useMemo(
+    () => ({
+      basePath,
+      updateParameterAction,
+      chartType,
+    }),
+    [basePath, chartType]
+  );
+
+  const apexGridAxesProps = React.useMemo(
+    () => ({
+      basePath,
+      updateParameterAction,
+      chartType,
+      apexChartGridData,
+      apexChartAxesData,
+      apexMultiAccordionsData,
+    }),
+    [basePath, chartType, apexChartGridData, apexChartAxesData]
+  );
 
   const renderFormatPerspective = () => {
     switch (perspective) {

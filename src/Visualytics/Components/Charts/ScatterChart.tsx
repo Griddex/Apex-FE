@@ -17,9 +17,9 @@ const ScatterChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const commonChartPropsSelector = createDeepEqualSelector(
+  const commonChartProps = useSelector(
     (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
-    (data) => data
+    () => false
   );
 
   const chartDataSelector = createDeepEqualSelector(
@@ -28,7 +28,6 @@ const ScatterChart = ({ workflowCategory, reducer }: IChartProps) => {
     (data) => data
   );
 
-  const commonChartProps = useSelector(commonChartPropsSelector);
   const chartData = useSelector(chartDataSelector);
 
   const commonChartPropsDefined = commonChartProps as IChart;

@@ -25,16 +25,15 @@ const SimpleBarChart = ({
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
-  const commonChartPropsSelector = createDeepEqualSelector(
+  const commonChartProps = useSelector(
     (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
-    (data) => data
+    () => false
   );
+
   const barChartDataSelector = createDeepEqualSelector(
     (state: RootState) => state[reducerDefined][wc]["barChart"]["chartData"],
     (data) => data
   );
-
-  const commonChartProps = useSelector(commonChartPropsSelector);
 
   const chartData = useSelector(barChartDataSelector);
 

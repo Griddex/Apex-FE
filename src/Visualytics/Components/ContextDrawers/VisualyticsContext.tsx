@@ -17,6 +17,7 @@ import NewWindow from "react-new-window";
 import { Rnd } from "react-rnd";
 import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { ApexNewWindow } from "../../../Application/Components/NewWindows/ApexNewWindow";
 
 export interface IVisualyticsContext {
   reducer: ReducersType;
@@ -133,20 +134,32 @@ const VisualyticsContext = ({
                 // </Rnd>
 
                 // <NewImprovedWindow
-                <NewWindow
-                  // onClose={() => {
-                  //   setOpenContextWindow(false);
-                  // }}
-                  copyStyles={true}
-                  // height={800}
-                  // width={490}
+                <ApexNewWindow
+                  closeWindowPortal={() => {
+                    setOpenContextWindow(false);
+                  }}
+                  // copyStyles={true}
+                  // center="parent"
                 >
                   <ChartFormatAggregator
                     basePath={basePath}
                     updateParameterAction={updateParameterAction}
                     chartType={chartType as TChartTypes}
                   />
-                </NewWindow>
+                </ApexNewWindow>
+                // <NewWindow
+                //   onBlock={() => {
+                //     setOpenContextWindow(false);
+                //   }}
+                //   copyStyles={true}
+                //   center="parent"
+                // >
+                //   <ChartFormatAggregator
+                //     basePath={basePath}
+                //     updateParameterAction={updateParameterAction}
+                //     chartType={chartType as TChartTypes}
+                //   />
+                // </NewWindow>
               )}
             </ApexFlexContainer>
           }
