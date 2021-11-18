@@ -11,9 +11,9 @@ import {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    border: `1px solid ${grey[500]}`,
+    outline: `1px solid ${grey[500]}`,
     "&:hover": {
-      border: `1px solid ${theme.palette.primary.main}`,
+      outline: `1px solid ${theme.palette.primary.main}`,
       boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
     },
     "&:active": {

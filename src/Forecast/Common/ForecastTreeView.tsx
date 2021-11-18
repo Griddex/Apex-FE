@@ -231,7 +231,7 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
 
   return (
     <ApexTreeView
-      rootTree={React.useMemo(() => rootTree, [])}
+      rootTree={rootTree}
       selectedIds={React.useMemo(() => selectedIds, [selectedIds.length])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
       selectedNames={React.useMemo(

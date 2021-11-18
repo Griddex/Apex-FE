@@ -91,16 +91,16 @@ const DialogViewSaveForecastCancelButtons = () => {
         extrudeSaveForecastRun();
       },
     },
-    {
-      title: "View",
-      variant: "contained",
-      color: "inherit",
-      startIcon: <VisibilityOutlinedIcon />,
-      handleAction: () => {
-        history.replace("/apex/forecast");
-        dispatch(hideDialogAction());
-      },
-    },
+    // {
+    //   title: "View",
+    //   variant: "contained",
+    //   color: "inherit",
+    //   startIcon: <VisibilityOutlinedIcon />,
+    //   handleAction: () => {
+    //     history.replace("/apex/forecast");
+    //     dispatch(hideDialogAction());
+    //   },
+    // },
   ];
 
   return (

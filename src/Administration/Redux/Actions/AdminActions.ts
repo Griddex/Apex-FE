@@ -19,11 +19,12 @@ export const updateAdminsParameterAction = (updateObj: Record<string, any>) => {
   };
 };
 
-export const loadAdminWorkflowAction = () => {
+export const loadAdminWorkflowAction = (name: string, trueOrFalse: boolean) => {
   return {
     type: LOAD_ADMIN_WORKFLOW,
     payload: {
-      name: true,
+      name,
+      trueOrFalse,
     },
   };
 };

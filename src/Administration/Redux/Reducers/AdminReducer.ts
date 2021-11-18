@@ -27,9 +27,10 @@ const adminReducer = (state = adminState, action: IAction) => {
     }
 
     case LOAD_ADMIN_WORKFLOW: {
+      const { name, trueOrFalse } = action.payload;
       return {
         ...state,
-        loadAdminWorkflow: action.payload.name,
+        [name]: trueOrFalse,
       };
     }
 
