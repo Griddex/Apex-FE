@@ -27,7 +27,7 @@ export interface IProjectWorkflows {
 }
 export interface IAdminWorkflows {
   reducer: ReducersType;
-  wkPs: "userRegistration";
+  wkPs: "userRegistration" | "manageProfile";
   wkCy: "inputDataWorkflows";
 }
 export interface IInputWorkflows {

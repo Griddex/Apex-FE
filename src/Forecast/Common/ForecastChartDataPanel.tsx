@@ -112,6 +112,9 @@ const ForecastChartDataPanel = () => {
           ""
         )
       );
+      dispatch(
+        updateForecastResultsParameterAction("qualityAssuranceResults", [])
+      );
     } else {
       const idTitleDescIsSaved = {
         selectedForecastingResultsId: id,

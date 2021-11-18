@@ -24,6 +24,7 @@ import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
+import { loadAdminWorkflowAction } from "../../../Administration/Redux/Actions/AdminActions";
 import { loadForecastResultsWorkflowAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import ProjectContextMenu from "../../../Project/Components/ContextMenus/ProjectContextMenu";
@@ -288,6 +289,10 @@ const MainDrawer = () => {
                         "loadVisualyticsWorkflow",
                         false
                       )
+                    );
+                  } else if (name === "Admin") {
+                    dispatch(
+                      loadAdminWorkflowAction("loadAdminWorkflow", false)
                     );
                   }
 

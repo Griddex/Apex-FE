@@ -1,13 +1,15 @@
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import isEqual from "react-fast-compare";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
+import ManageProfileForm from "../../Components/Forms/ManageProfileForm";
+import ManageProfile from "../../Images/ManageProfile.svg";
 import SingleRegistration from "../../Images/SingleRegistration.svg";
 import { loadAdminWorkflowAction } from "../../Redux/Actions/AdminActions";
 import RegisterRoute from "../Register/RegisterRoute";
@@ -45,7 +47,6 @@ const loadAdminWorkflowSelector = createDeepEqualSelector(
 
 const AdministrationLanding = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { url, path } = useRouteMatch();
 
   const loadAdminWorkflow = useSelector(loadAdminWorkflowSelector);
@@ -58,11 +59,21 @@ const AdministrationLanding = () => {
         <Image
           className={classes.image}
           src={SingleRegistration}
-          alt="Excel logo"
+          alt="User logo"
         />
       ),
       route: `${url}/userRegistration`,
       workflowProcess: "userRegistration",
+      workflowCategory: "inputDataWorkflows",
+    },
+    {
+      name: "Manage Profile",
+      description: `Manage profiles`,
+      icon: (
+        <Image className={classes.image} src={ManageProfile} alt="Excel logo" />
+      ),
+      route: `${url}/manageProfile`,
+      workflowProcess: "manageProfile",
       workflowCategory: "inputDataWorkflows",
     },
   ] as ILandingData[];
@@ -80,6 +91,7 @@ const AdministrationLanding = () => {
 
               const administrationDeckWorkflows = {
                 userRegistration: <RegisterRoute />,
+                manageProfile: <ManageProfileForm />,
               };
 
               return administrationDeckWorkflows[dataInputId];
@@ -102,7 +114,9 @@ const AdministrationLanding = () => {
               <ModuleCard
                 key={name}
                 isDispatched={true}
-                moduleAction={loadAdminWorkflowAction}
+                moduleAction={() =>
+                  loadAdminWorkflowAction("loadAdminWorkflow", true)
+                }
                 title={name}
                 description={description}
                 icon={icon}
