@@ -1,5 +1,4 @@
-import { alpha, Button, Input, useTheme } from "@mui/material";
-import grey from "@mui/material/colors/grey";
+import { Button, Input } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
@@ -9,6 +8,8 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import { registerUserRequestAction } from "../../Redux/Actions/UserActions";
 import userState from "../../Redux/State/UserState";
 import { IUserState } from "../../Redux/State/UserStateTypes";
+import SingleRegistration from "../../Images/SingleRegistration.svg";
+import Image from "../../../Application/Components/Visuals/Image";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -39,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
   input: {
     height: 40,
   },
+  image: { height: 70, width: 70 },
 }));
 
 const SingleRegisterForm = () => {
-  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -52,7 +53,9 @@ const SingleRegisterForm = () => {
     <Formik
       initialValues={userState as IUserState}
       validationSchema={Yup.object({
-        userName: Yup.string().required("Username is required"),
+        userName: Yup.string()
+          .min(3, "Username must be  3 or more letters long")
+          .required("Username is required"),
         email: Yup.string().email().required("Email is required"),
         password: Yup.string().required("Password is required"),
       })}
@@ -61,13 +64,7 @@ const SingleRegisterForm = () => {
       }}
     >
       {(props: FormikProps<IUserState>) => {
-        const {
-          values: { userName, email, password },
-          errors,
-          touched,
-          handleChange,
-          isSubmitting,
-        } = props;
+        const { errors, touched, handleChange, isSubmitting, isValid } = props;
 
         const handleFormChange =
           (name: string) =>
@@ -75,18 +72,21 @@ const SingleRegisterForm = () => {
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
             handleChange(event);
-            const { value } = event.target;
 
+            const { value } = event.target;
             setRegistration((prev) => ({ ...prev, [name]: value }));
           };
 
         const helperText = (name: keyof IUserState) =>
           touched && touched[name] ? errors && errors[name] : "";
 
-        const isDisabled = userName === "" && email === "" && password === "";
-
         return (
           <Form className={classes.form}>
+            <Image
+              className={classes.image}
+              src={SingleRegistration}
+              alt="Excel logo"
+            />
             <div className={classes.formFields}>
               <AnalyticsComp
                 title="UserName*"
@@ -143,7 +143,7 @@ const SingleRegisterForm = () => {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={isDisabled}
+              disabled={!isValid}
               fullWidth
             >
               {isSubmitting ? "Registering..." : "Register"}

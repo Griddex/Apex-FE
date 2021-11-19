@@ -169,8 +169,8 @@ const ManageProfileForm = () => {
             event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
           ) => {
             handleChange(event);
-            const { value } = event.target;
 
+            const { value } = event.target;
             setRegistration((prev) => ({ ...prev, [name]: value }));
           };
 

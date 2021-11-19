@@ -67,7 +67,7 @@ const NetworkPanel = () => {
 
   const nodeTypes = Object.keys(networkIcons);
 
-  const forecastInputDeckOptions = forecastInputDeckStored.map(
+  const forecastInputDeckOptions = forecastInputDeckStored?.map(
     (row: IApplicationStoredDataRow) => ({
       value: row.title,
       label: row.title,
