@@ -8,19 +8,12 @@ import { ReducersType } from "../../Application/Components/Workflows/WorkflowTyp
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
 import { IChartProps } from "../Components/ChartTypes";
-
-const BarChart = React.lazy(() => import("../Components/Charts/BarChart"));
-const DoughnutChart = React.lazy(
-  () => import("../Components/Charts/DoughnutChart")
-);
-const LineChart = React.lazy(() => import("../Components/Charts/LineChart"));
-const RadarChart = React.lazy(() => import("../Components/Charts/RadarChart"));
-const ScatterChart = React.lazy(
-  () => import("../Components/Charts/ScatterChart")
-);
-const StackedAreaChart = React.lazy(
-  () => import("../Components/Charts/StackedAreaChart")
-);
+import BarChart from "../Components/Charts/BarChart";
+import DoughnutChart from "../Components/Charts/DoughnutChart";
+import LineChart from "../Components/Charts/LineChart";
+import RadarChart from "../Components/Charts/RadarChart";
+import ScatterChart from "../Components/Charts/ScatterChart";
+import StackedAreaChart from "../Components/Charts/StackedAreaChart";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

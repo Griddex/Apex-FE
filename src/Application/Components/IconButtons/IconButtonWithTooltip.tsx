@@ -8,8 +8,28 @@ const IconButtonWithTooltip = ({
   toolTipPlacement,
   icon,
   action,
+  style,
+  isDisabled,
 }: IIconButtonWithTooltip) => {
   const theme = useTheme();
+
+  const commonStyle: React.CSSProperties = {
+    height: "28px",
+    borderRadius: 2,
+    marginLeft: 4,
+  };
+
+  const finalStyle: React.CSSProperties = isDisabled
+    ? {
+        pointerEvents: "none",
+        color: theme.palette.grey[200],
+        backgroundColor: theme.palette.grey[400],
+      }
+    : {
+        backgroundColor: theme.palette.primary.light,
+        border: `1px solid ${theme.palette.primary.main}`,
+        ...style,
+      };
 
   return (
     <Tooltip
@@ -19,15 +39,10 @@ const IconButtonWithTooltip = ({
       arrow
     >
       <IconButton
-        style={{
-          height: "28px",
-          backgroundColor: theme.palette.primary.light,
-          border: `1px solid ${theme.palette.primary.main}`,
-          borderRadius: 2,
-          marginLeft: 4,
-        }}
+        style={{ ...commonStyle, ...finalStyle }}
         onClick={action}
-        size="large">
+        size="large"
+      >
         {icon && icon()}
       </IconButton>
     </Tooltip>

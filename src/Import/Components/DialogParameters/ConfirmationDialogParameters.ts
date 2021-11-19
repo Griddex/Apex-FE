@@ -26,14 +26,14 @@ export const confirmationDialogParameters = (
     dialogText,
     iconType,
     deleteTitle,
-    actionsList: (isFinalButtonDisabled: boolean) =>
+    actionsList: (arg?: any, flag?: boolean) =>
       DialogOneCancelButtons(
         [true, true],
         [true, shouldDispatch],
         [unloadDialogsAction, action],
         oneButtonTitle,
         oneButtonIconTitle,
-        isFinalButtonDisabled,
+        flag,
         "All"
       ),
     dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },

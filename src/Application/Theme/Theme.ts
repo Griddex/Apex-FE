@@ -83,25 +83,6 @@ const theme = createTheme({
       },
     },
 
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          outline: `1px solid ${grey[500]}`,
-          // outline: `1px solid transparent`,
-          padding: 1,
-          "&:hover": {
-            outline: `1px solid ${ApexPalette.primary.main}`,
-            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
-          },
-          "&:active": {
-            outline: `2px solid ${ApexPalette.primary.main}`,
-            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
-          },
-          borderRadius: 1,
-        },
-      },
-    },
-
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -120,6 +101,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           height: 36,
+          paddingLeft: 4,
           borderRadius: 1,
           outline: `1px solid ${grey[500]}`,
           "&:hover": {
