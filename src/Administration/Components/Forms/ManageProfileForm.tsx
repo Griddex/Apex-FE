@@ -115,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 2,
     height: "100%",
     width: "100%",
+    padding: 20,
     "&:hover": { backgroundColor: theme.palette.primary.light },
   },
   imageDnD: {
@@ -227,6 +228,7 @@ const ManageProfileForm = () => {
                     }
                   />
                 </div>
+
                 <div className={classes.emailMobileContainer}>
                   <AnalyticsComp
                     title="MobileNumber"
@@ -243,6 +245,7 @@ const ManageProfileForm = () => {
                     }
                   />
                 </div>
+
                 <div className={classes.jobRoleContainer}>
                   <AnalyticsComp
                     title="JobTitle"

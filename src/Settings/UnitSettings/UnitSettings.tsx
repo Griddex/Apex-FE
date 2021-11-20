@@ -382,6 +382,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                     const newSelectedVariables = Object.values(
                       newSelectedVariablesDict
                     );
+
                     dispatch(
                       updateSelectedVariableUnitsAction(newSelectedVariables)
                     );

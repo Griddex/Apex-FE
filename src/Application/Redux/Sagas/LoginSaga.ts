@@ -50,7 +50,11 @@ function* loginSaga(
 
   yield put(showSpinnerAction("Logging in..."));
 
+  const role = "Corporate Forecaster";
   try {
+    localStorage.setItem("userName", "Gideon Sanni");
+    localStorage.setItem("role", role);
+
     yield call(forwardTo, "/apex");
   } catch (errors) {
     const failureAction = loginFailureAction();

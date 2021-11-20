@@ -9,8 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
@@ -63,6 +61,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
   },
 }));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const storedProjectsSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.storedProjects,

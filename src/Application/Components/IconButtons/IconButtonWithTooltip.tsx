@@ -1,5 +1,6 @@
 import { IconButton, Tooltip, useTheme } from "@mui/material";
 import React from "react";
+import { getDisabledStyle } from "../../Styles/disabledStyles";
 import { IIconButtonWithTooltip } from "./IconButtonTypes";
 
 const IconButtonWithTooltip = ({
@@ -20,11 +21,7 @@ const IconButtonWithTooltip = ({
   };
 
   const finalStyle: React.CSSProperties = isDisabled
-    ? {
-        pointerEvents: "none",
-        color: theme.palette.grey[200],
-        backgroundColor: theme.palette.grey[400],
-      }
+    ? getDisabledStyle(theme)
     : {
         backgroundColor: theme.palette.primary.light,
         border: `1px solid ${theme.palette.primary.main}`,

@@ -29,6 +29,7 @@ import {
   removeCurrentNetworkAction,
   updateNetworkParameterAction,
 } from "../../Redux/Actions/NetworkActions";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -203,21 +204,14 @@ const NetworkButtonsMenu = () => {
 
     if (!isNetworkAuto) {
       style = ["Generate Network", "Stored Networks"].includes(title)
-        ? {
-            pointerEvents: "none",
-            backgroundColor: theme.palette.grey[200],
-          }
+        ? getDisabledStyle(theme)
         : {};
     } else {
       if (title === "Save Network") {
         if (nodeElements.length > 0 && selectedNetworkId === "") {
           style = {};
         } else {
-          // } else if (nodeElements.length <= 0 && selectedNetworkId === "") {
-          style = {
-            pointerEvents: "none",
-            backgroundColor: theme.palette.grey[200],
-          };
+          style = getDisabledStyle(theme);
         }
       } else {
         style = {};
