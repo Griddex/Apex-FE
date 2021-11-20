@@ -1,15 +1,22 @@
-import { Button, Input } from "@mui/material";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import PersonIcon from "@mui/icons-material/Person";
+import { Button, TextField } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
 import makeStyles from "@mui/styles/makeStyles";
 import { Form, Formik, FormikProps } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
+import Image from "../../../Application/Components/Visuals/Image";
+import SingleRegistration from "../../Images/SingleRegistration.svg";
 import { registerUserRequestAction } from "../../Redux/Actions/UserActions";
 import userState from "../../Redux/State/UserState";
 import { IUserState } from "../../Redux/State/UserStateTypes";
-import SingleRegistration from "../../Images/SingleRegistration.svg";
-import Image from "../../../Application/Components/Visuals/Image";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import LockIcon from "@mui/icons-material/Lock";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -38,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   input: {
-    height: 40,
+    height: 44,
   },
   image: { height: 70, width: 70 },
 }));
@@ -47,6 +54,7 @@ const SingleRegisterForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const [showPassword, setShowPassword] = React.useState(false);
   const [registration, setRegistration] = React.useState(userState);
 
   return (
@@ -91,14 +99,23 @@ const SingleRegisterForm = () => {
               <AnalyticsComp
                 title="UserName*"
                 direction="Vertical"
-                containerStyle={{ marginTop: 50, width: 500, height: 40 }}
+                containerStyle={{ marginTop: 50, width: 500, height: 44 }}
                 content={
-                  <Input
+                  <TextField
                     className={classes.input}
                     name="userName"
+                    helperText={helperText("userName")}
                     error={Boolean(helperText("userName"))}
                     value={registration["userName"]}
                     onChange={handleFormChange("userName")}
+                    InputProps={{
+                      sx: { height: 44 },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     required
                     autoFocus
                     fullWidth
@@ -110,13 +127,23 @@ const SingleRegisterForm = () => {
                 direction="Vertical"
                 containerStyle={{ marginTop: 50, width: 500, height: 40 }}
                 content={
-                  <Input
+                  <TextField
                     className={classes.input}
                     name="email"
+                    helperText={helperText("email")}
                     error={Boolean(helperText("email"))}
                     value={registration["email"]}
                     onChange={handleFormChange("email")}
+                    InputProps={{
+                      sx: { height: 44 },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailOutlinedIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     required
+                    autoFocus
                     fullWidth
                   />
                 }
@@ -126,13 +153,34 @@ const SingleRegisterForm = () => {
                 direction="Vertical"
                 containerStyle={{ marginTop: 50, width: 500, height: 40 }}
                 content={
-                  <Input
-                    className={classes.input}
+                  <TextField
                     name="password"
+                    helperText={helperText("password")}
                     error={Boolean(helperText("password"))}
+                    autoComplete="current-password"
+                    InputProps={{
+                      sx: { height: 44 },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockIcon />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={(event) => setShowPassword(!showPassword)}
+                            size="large"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    required
+                    type={showPassword ? "text" : "password"}
                     value={registration["password"]}
                     onChange={handleFormChange("password")}
-                    required
                     fullWidth
                   />
                 }

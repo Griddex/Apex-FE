@@ -107,7 +107,9 @@ const Navbar = () => {
     layoutPartialPropsSelector
   );
 
-  const { userName, role } = useSelector(loginPartialPropsSelector);
+  // const { userName, role } = useSelector(loginPartialPropsSelector);
+  const role = localStorage.getItem("role");
+  const userName = localStorage.getItem("userName");
 
   const classes = useStyles({ expandMainDrawer, showNavbar } as ReturnType<
     typeof layoutReducer
@@ -116,7 +118,7 @@ const Navbar = () => {
   const avatarSrc = localStorage.getItem("avatar");
   const [avatar, setAvatar] = React.useState(avatarSrc);
 
-  const username = userName;
+  const username = userName as string;
   const userinitials = GetInitials(username);
 
   const currentProjectTitle = useSelector(currentProjectTitleSelector);

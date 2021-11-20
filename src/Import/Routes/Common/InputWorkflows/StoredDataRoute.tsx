@@ -2,7 +2,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { ClickAwayListener } from "@mui/material";
+import { ClickAwayListener, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -40,6 +40,7 @@ import {
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { getDisabledStyle } from "../../../../Application/Styles/disabledStyles";
 import {
   IStoredDataProps,
   IStoredDataRow,
@@ -86,7 +87,11 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const unitSettingsSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+  (data) => data
+);
+const currentProjectTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectTitle,
+  (data) => data
 );
 
 const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
@@ -111,8 +116,11 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     },
     ref
   ) => {
+    const theme = useTheme();
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const currentProjectTitle = useSelector(currentProjectTitleSelector);
 
     const updateTableActionConfirmationDefined =
       updateTableActionConfirmation as NonNullable<
@@ -248,8 +256,14 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
               />
             );
 
+            const style: React.CSSProperties =
+              reducer === "projectReducer" && title === currentProjectTitle
+                ? getDisabledStyle(theme)
+                : ({} as React.CSSProperties);
+
             const deleteOutlined = (
               <DeleteOutlinedIcon
+                style={style}
                 onClick={() =>
                   dispatch(
                     showDialogAction(
@@ -427,10 +441,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     const chartData = generateDoughnutAnalyticsData(
       storedDataDefined,
       "approval"
-    );
-    console.log(
-      "🚀 ~ file: StoredDataRoute.tsx ~ line 428 ~ chartData",
-      chartData
     );
 
     React.useEffect(() => {

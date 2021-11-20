@@ -70,7 +70,11 @@ const AdministrationLanding = () => {
       name: "Manage Profile",
       description: `Manage profiles`,
       icon: (
-        <Image className={classes.image} src={ManageProfile} alt="Excel logo" />
+        <Image
+          className={classes.image}
+          src={ManageProfile}
+          alt="Manage Profile logo"
+        />
       ),
       route: `${url}/manageProfile`,
       workflowProcess: "manageProfile",

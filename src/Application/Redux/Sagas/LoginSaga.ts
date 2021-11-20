@@ -50,6 +50,7 @@ function* loginSaga(
 
   yield put(showSpinnerAction("Logging in..."));
 
+  const role = "Corporate Forecaster";
   try {
     const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
     const { status, data } = response;

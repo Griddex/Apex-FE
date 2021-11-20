@@ -46,6 +46,7 @@ import {
   declineParametersStoredWithSN,
 } from "../Utils/TransformDeclineParameters";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { getDisabledStyle } from "../../Application/Styles/disabledStyles";
 
 //<IStoredDataRow, ITableButtonsProps>
 
@@ -311,13 +312,7 @@ export default function StoredDeclineCurveParameters({
           ];
 
           const style =
-            title.toLowerCase() === "default"
-              ? {
-                  pointerEvents: "none",
-                  color: theme.palette.grey[200],
-                  backgroundColor: theme.palette.grey[400],
-                }
-              : {};
+            title.toLowerCase() === "default" ? getDisabledStyle(theme) : {};
 
           const VisibilityOutlined = (
             <VisibilityOutlinedIcon

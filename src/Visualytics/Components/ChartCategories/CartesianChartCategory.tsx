@@ -18,6 +18,7 @@ import ChartCategoryVariable from "./ChartCategoryVariable";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { TChartTypes } from "../Charts/ChartTypes";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -138,13 +139,7 @@ const CartesianChartCategory = ({
     };
   }
 
-  const disableStyle = disable
-    ? {
-        pointerEvents: "none",
-        color: theme.palette.grey[200],
-        backgroundColor: theme.palette.grey[400],
-      }
-    : {};
+  const disableStyle = disable ? getDisabledStyle(theme) : {};
 
   const style = {
     ...dropTargetStyle,

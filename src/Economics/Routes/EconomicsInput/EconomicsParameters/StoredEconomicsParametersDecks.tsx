@@ -49,6 +49,7 @@ import {
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { getDisabledStyle } from "../../../../Application/Styles/disabledStyles";
 
 const ForecastParametersMoreActionsPopover = React.lazy(
   () =>
@@ -304,13 +305,7 @@ export default function StoredEconomicsParametersDecks({
           ];
 
           const style =
-            title.toLowerCase() === "default"
-              ? {
-                  pointerEvents: "none",
-                  color: theme.palette.grey[200],
-                  backgroundColor: theme.palette.grey[400],
-                }
-              : {};
+            title.toLowerCase() === "default" ? getDisabledStyle(theme) : {};
 
           const VisibilityOutlined = (
             <VisibilityOutlinedIcon

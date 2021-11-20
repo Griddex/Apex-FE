@@ -130,6 +130,7 @@ export default function StoredProjects({
     };
 
   const props = {
+    reducer,
     snStoredData,
     dataKey,
     dataTitle,
