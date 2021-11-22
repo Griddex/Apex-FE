@@ -125,7 +125,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "typecheck": "tsc",
-    "postinstall": "patch-package",
     "e2e": "cypress open"
   },
   "browserslist": {
