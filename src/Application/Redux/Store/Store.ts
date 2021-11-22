@@ -1,72 +1,67 @@
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import allReducers from "../Reducers/AllReducers";
 import createSagaMiddleware from "redux-saga";
-import watchLoginSaga from "../Sagas/LoginSaga";
-import watchCreateNewProjectSaga from "../../../Project/Redux/Sagas/CreateProjectSaga";
-import watchRegisterSaga from "../../../Administration/Redux/Sagas/RegisterSaga";
-import watchConnectDatabaseSaga from "../../../Import/Redux/Sagas/ConnectDatabaseSaga";
 import { spawn } from "redux-saga/effects";
-import authMiddleware from "../Middlewares/AuthMiddleware";
-import uiSpinnerMiddleware from "../Middlewares/UISpinnerMiddleware";
-import watchRunForecastSaga from "../../../Network/Redux/Sagas/RunForecastSaga";
-import rootReducer from "../Reducers/RootReducer";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import watchOpenRecentProjectSaga from "../../../Project/Redux/Sagas/OpenRecentProjectSaga";
+import watchRegisterSaga from "../../../Administration/Redux/Sagas/RegisterSaga";
+import economicsMiddleware from "../../../Economics/Redux/Middleware/EconomicsMiddleware";
+import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/FetchEconomicsTreeviewKeysSaga";
+import watchFetchHeatMapDataSaga from "../../../Economics/Redux/Sagas/FetchHeatMapDataSaga";
+import watchFetchStoredEconomicsDataSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsDataSaga";
+import watchFetchStoredEconomicsResultsSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsResultsSaga";
+import watchFetchStoredEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsSensitivitiesSaga";
+import watchGetEconomicsPlotChartDataSaga from "../../../Economics/Redux/Sagas/GetEconomicsPlotChartDataSaga";
+import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsResultsByIdSaga";
+import watchGetEconomicsSensitivitiesByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsSensitivitiesByIdSaga";
+import watchRunEconomicsAnalysisSaga from "../../../Economics/Redux/Sagas/RunEconomicsAnalysisSaga";
+import watchRunEconomicsForecastAggregationSaga from "../../../Economics/Redux/Sagas/RunEconomicsForecastAggregationSaga";
+import watchSaveCostsRevenuesSaga from "../../../Economics/Redux/Sagas/SaveCostsRevenuesSaga";
+import watchSaveEconomicsParametersSaga from "../../../Economics/Redux/Sagas/SaveEconomicsParametersSaga";
+import watchSaveEconomicsResultsSaga from "../../../Economics/Redux/Sagas/SaveEconomicsResultsSaga";
+import watchSaveEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/SaveEconomicsSensitivitiesSaga";
+import watchTransformEconomicsChartDataSaga from "../../../Economics/Redux/Sagas/TransformEconomicsPlotChartsDataSaga";
+import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchForecastTreeviewKeysSaga";
+import watchFetchStoredForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchStoredForecastingResultsSaga";
+import watchGetForecastQADataSaga from "../../../Forecast/Redux/Sagas/GetForecastQualityAssuranceDataSaga";
+import watchGetForecastResultsChartDataSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsChartDataSaga";
+import watchGetSelectedForecastDataByIdSaga from "../../../Forecast/Redux/Sagas/GetSelectedForecastDataByIdSaga";
+import watchPutSelectChartOptionSaga from "../../../Forecast/Redux/Sagas/PutSelectChartOptionSaga";
+import watchTransformForecastChartDataSaga from "../../../Forecast/Redux/Sagas/TransformForecastChartDataSaga";
+import watchConnectDatabaseSaga from "../../../Import/Redux/Sagas/ConnectDatabaseSaga";
+import watchFetchApplicationHeadersSaga from "../../../Import/Redux/Sagas/FetchApplicationHeadersSaga";
 import watchFetchStoredInputDeckSaga from "../../../Import/Redux/Sagas/FetchStoredInputDeckSaga";
 import watchSaveInputDeckSaga from "../../../Import/Redux/Sagas/SaveInputDeckSaga";
+import watchValidateForecastInputDeckSaga from "../../../Import/Redux/Sagas/ValidateForecastInputDeckSaga";
 import watchAutogenerateNetworkSaga from "../../../Network/Redux/Sagas/AutogenerateNetworkSaga";
-import watchSaveForecastParametersSaga from "../../../Network/Redux/Sagas/SaveForecastParametersSaga";
-import watchSaveNetworkSaga from "../../../Network/Redux/Sagas/SaveNetworkSaga";
-import watchFetchUnitSettingsSaga from "../../../Settings/Redux/Sagas/Sagas/UnitSettingsSaga";
-import watchFetchApplicationHeadersSaga from "../../../Import/Redux/Sagas/FetchApplicationHeadersSaga";
-import watchFetchStoredNetworkDataSaga from "../../../Network/Redux/Sagas/FetchStoredNetworkDataSaga";
-import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/UpdateForecastParametersSaga";
-import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
-import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
-import watchFetchStoredForecastingResultsSaga from "../../../Forecast/Redux/Sagas/FetchStoredForecastingResultsSaga";
-import watchFetchStoredProjectsSaga from "../../../Project/Redux/Sagas/FetchStoredProjectsSaga";
 import watchDisplayNetworkBySelectionSaga from "../../../Network/Redux/Sagas/DisplayNetworkBySelectionSaga";
-import watchFetchMatchObjectSaga from "../Sagas/FetchMatchObjectSaga";
-import watchGetSelectedForecastDataByIdSaga from "../../../Forecast/Redux/Sagas/GetSelectedForecastDataByIdSaga";
-import watchGetForecastResultsChartDataSaga from "../../../Forecast/Redux/Sagas/GetForecastResultsChartDataSaga";
-import watchSaveEconomicsParametersSaga from "../../../Economics/Redux/Sagas/SaveEconomicsParametersSaga";
-import watchSaveCostsRevenuesSaga from "../../../Economics/Redux/Sagas/SaveCostsRevenuesSaga";
-import watchFetchStoredEconomicsDataSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsDataSaga";
-import watchFetchStoredEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsSensitivitiesSaga";
-import watchGetEconomicsSensitivitiesByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsSensitivitiesByIdSaga";
-import watchSaveEconomicsSensitivitiesSaga from "../../../Economics/Redux/Sagas/SaveEconomicsSensitivitiesSaga";
-import watchRunEconomicsAnalysisSaga from "../../../Economics/Redux/Sagas/RunEconomicsAnalysisSaga";
-import economicsMiddleware from "../../../Economics/Redux/Middleware/EconomicsMiddleware";
-import watchRunEconomicsForecastAggregationSaga from "../../../Economics/Redux/Sagas/RunEconomicsForecastAggregationSaga";
-import watchFetchHeatMapDataSaga from "../../../Economics/Redux/Sagas/FetchHeatMapDataSaga";
-import watchGetTableDataByIdSaga from "../Sagas/GetTableDataByIdSaga";
 import watchFetchStoredDeclineCurveParametersSaga from "../../../Network/Redux/Sagas/FetchStoredDeclineCurveParametersSaga";
+import watchFetchStoredForecastParametersSaga from "../../../Network/Redux/Sagas/FetchStoredForecastParametersSaga";
+import watchFetchStoredNetworkDataSaga from "../../../Network/Redux/Sagas/FetchStoredNetworkDataSaga";
 import watchFetchStoredProductionPrioritizationSaga from "../../../Network/Redux/Sagas/FetchStoredProductionPrioritizationSaga";
 import watchGetDeclineParametersByIdSaga from "../../../Network/Redux/Sagas/GetDeclineParametersByIdSaga";
 import watchGetProductionPrioritizationByIdSaga from "../../../Network/Redux/Sagas/GetProductionPrioritizationByIdSaga";
-import watchFetchStoredForecastParametersSaga from "../../../Network/Redux/Sagas/FetchStoredForecastParametersSaga";
-import watchFetchStoredEconomicsResultsSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsResultsSaga";
-import watchSaveEconomicsResultsSaga from "../../../Economics/Redux/Sagas/SaveEconomicsResultsSaga";
-import watchGetEconomicsResultsByIdSaga from "../../../Economics/Redux/Sagas/GetEconomicsResultsByIdSaga";
-import watchDeleteDataByIdSaga from "../Sagas/DeleteDataByIdSaga";
+import watchRunForecastSaga from "../../../Network/Redux/Sagas/RunForecastSaga";
 import watchSaveDeclineParametersSaga from "../../../Network/Redux/Sagas/SaveDeclineParametersSaga";
+import watchSaveForecastParametersSaga from "../../../Network/Redux/Sagas/SaveForecastParametersSaga";
+import watchSaveForecastSaga from "../../../Network/Redux/Sagas/SaveForecastSaga";
+import watchSaveNetworkSaga from "../../../Network/Redux/Sagas/SaveNetworkSaga";
 import watchSaveProductionPrioritizationSaga from "../../../Network/Redux/Sagas/SaveProductionPrioritizationSaga";
-import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/FetchEconomicsTreeviewKeysSaga";
-import watchFetchForecastTreeviewKeysSaga from "../../../Forecast/Redux/Sagas/FetchForecastTreeviewKeysSaga";
-import watchGetForecastQADataSaga from "../../../Forecast/Redux/Sagas/GetForecastQualityAssuranceDataSaga";
-import watchPutSelectChartOptionSaga from "../../../Forecast/Redux/Sagas/PutSelectChartOptionSaga";
-import watchTransformForecastChartDataSaga from "../../../Forecast/Redux/Sagas/TransformForecastChartDataSaga";
-import watchSaveVisualyticsSaga from "../../../Visualytics/Redux/Sagas/SaveVisualyticsSaga";
-import watchFetchVisualyticsTreeviewKeysSaga from "../../../Visualytics/Redux/Sagas/FetchVisualyticsTreeviewKeysSaga";
+import watchUpdateForecastParametersSaga from "../../../Network/Redux/Sagas/UpdateForecastParametersSaga";
+import watchCreateNewProjectSaga from "../../../Project/Redux/Sagas/CreateProjectSaga";
+import watchFetchStoredProjectsSaga from "../../../Project/Redux/Sagas/FetchStoredProjectsSaga";
+import watchOpenRecentProjectSaga from "../../../Project/Redux/Sagas/OpenRecentProjectSaga";
+import watchFetchUnitSettingsSaga from "../../../Settings/Redux/Sagas/Sagas/UnitSettingsSaga";
 import watchFetchStoredVisualyticsDataSaga from "../../../Visualytics/Redux/Sagas/FetchStoredVisualyticsDataSaga";
-import watchUpdateDataByIdSaga from "../Sagas/UpdateDataByIdSaga";
+import watchFetchVisualyticsTreeviewKeysSaga from "../../../Visualytics/Redux/Sagas/FetchVisualyticsTreeviewKeysSaga";
 import watchGetVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/GetVisualyticsChartDataSaga";
+import watchSaveVisualyticsSaga from "../../../Visualytics/Redux/Sagas/SaveVisualyticsSaga";
 import watchTransformVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/TransformVisualyticsDataSaga";
-import watchGetEconomicsPlotChartDataSaga from "../../../Economics/Redux/Sagas/GetEconomicsPlotChartDataSaga";
-import watchTransformEconomicsChartDataSaga from "../../../Economics/Redux/Sagas/TransformEconomicsPlotChartsDataSaga";
-import watchValidateForecastInputDeckSaga from "../../../Import/Redux/Sagas/ValidateForecastInputDeckSaga";
+import rootReducer from "../Reducers/RootReducer";
+import watchDeleteDataByIdSaga from "../Sagas/DeleteDataByIdSaga";
+import watchFetchMatchObjectSaga from "../Sagas/FetchMatchObjectSaga";
+import watchFetchUserDetailsSaga from "../Sagas/FetchUserDetailsSaga";
+import watchGetTableDataByIdSaga from "../Sagas/GetTableDataByIdSaga";
+import watchLoginSaga from "../Sagas/LoginSaga";
+import watchUpdateDataByIdSaga from "../Sagas/UpdateDataByIdSaga";
 
 //TODO Will need a registration mechanism for each module
 function* rootSaga() {
@@ -132,28 +127,11 @@ function* rootSaga() {
 
 const sagaMiddleware = createSagaMiddleware();
 
-const persistConfig = {
-  // configuration object for redux-persist
-  key: "root",
-  storage, // define which storage to use
-};
-// const persistedRootReducer = persistReducer(persistConfig, rootReducer);
-
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(
-      //uiSpinnerMiddleware,d
-      // authMiddleware,
-      economicsMiddleware,
-      sagaMiddleware
-    )
-  )
+  composeWithDevTools(applyMiddleware(economicsMiddleware, sagaMiddleware))
 );
-
-// const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 
-// export { store, persistor };
 export { store };
