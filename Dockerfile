@@ -1,4 +1,4 @@
-FROM node:14.17.3-buster as build
+FROM node:1.12-alpine as build
 
 WORKDIR /app
 
