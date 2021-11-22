@@ -103,19 +103,19 @@ const DialogViewSaveEconomicsCancelButtons = () => {
         extrudeSaveEconomicsRun();
       },
     },
-    {
-      title: "View",
-      variant: "contained",
-      color: "inherit",
-      startIcon: <VisibilityOutlinedIcon />,
-      handleAction: () => {
-        dispatch(
-          updateEconomicsParameterAction("loadEconomicsResultsWorkflow", false)
-        ),
-          history.replace("/apex/economics/viewresults");
-        dispatch(hideDialogAction());
-      },
-    },
+    // {
+    //   title: "View",
+    //   variant: "contained",
+    //   color: "inherit",
+    //   startIcon: <VisibilityOutlinedIcon />,
+    //   handleAction: () => {
+    //     dispatch(
+    //       updateEconomicsParameterAction("loadEconomicsResultsWorkflow", false)
+    //     ),
+    //       history.replace("/apex/economics/viewresults");
+    //     dispatch(hideDialogAction());
+    //   },
+    // },
   ];
 
   return (

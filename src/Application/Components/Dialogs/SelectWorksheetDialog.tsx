@@ -1,3 +1,7 @@
+import CloseIcon from "@mui/icons-material/Close";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import {
   Button,
   Divider,
@@ -12,16 +16,14 @@ import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme, useTheme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import { useSnackbar } from "notistack";
-import React, { ReactNode } from "react";
+import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import * as xlsx from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
@@ -32,8 +34,6 @@ import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IInputWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -212,7 +212,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
       selectedWorksheetName
     ];
 
-    const selectedWorksheetData = xlsx.utils.sheet_to_json<
+    let selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
     >(selectedWorksheetDataXLSX);
 
@@ -220,6 +220,27 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
       return;
     }
+
+    const tableDataTemp = selectedWorksheetData.map((row: any, i: number) => {
+      if (i > 0) {
+        const keysData = Object.keys(row);
+        const nRows = keysData.length;
+        let iRow = 0;
+        for (iRow = 0; iRow < nRows; iRow++) {
+          if (row[keysData[iRow]] instanceof Date) {
+            const date = row[keysData[iRow]] as Date;
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            row[keysData[iRow]] = `${day}/${month}/${year}` as string;
+          }
+        }
+      }
+
+      return { ...row } as any;
+    }) as [];
+
+    selectedWorksheetData = [...tableDataTemp];
 
     dispatch(
       persistWorksheetAction(

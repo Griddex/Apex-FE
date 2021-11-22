@@ -83,25 +83,6 @@ const theme = createTheme({
       },
     },
 
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          border: `1px solid ${grey[500]}`,
-          outline: `1px solid transparent`,
-          padding: 1,
-          "&:hover": {
-            border: `1px solid ${ApexPalette.primary.main}`,
-            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
-          },
-          "&:active": {
-            outline: `2px solid ${ApexPalette.primary.main}`,
-            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
-          },
-          borderRadius: 1,
-        },
-      },
-    },
-
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -120,7 +101,17 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           height: 36,
-          borderRadius: 2,
+          paddingLeft: 4,
+          borderRadius: 1,
+          outline: `1px solid ${grey[500]}`,
+          "&:hover": {
+            outline: `1px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+          },
+          "&:active": {
+            outline: `2px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+          },
 
           // "&:hover": { backgroundColor: "#F7F7F7" },
           //       input:-webkit-autofill,
@@ -139,9 +130,6 @@ const theme = createTheme({
           // }
         },
         input: {
-          // "&:hover": { opacity: 0, color: grey[900] },
-          // "&:focus": { opacity: 0, color: grey[900] },
-
           "&:-webkit-autofill": {
             WebkitBoxShadow: "0 0 0 100px #FFF inset",
             WebkitTextFillColor: `${grey[900]}`,
@@ -151,6 +139,20 @@ const theme = createTheme({
     },
 
     MuiInput: {
+      styleOverrides: {
+        root: {
+          outline: `1px solid ${grey[500]}`,
+          "&:hover": {
+            outline: `1px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+          },
+          "&:active": {
+            outline: `2px solid ${ApexPalette.primary.main}`,
+            boxShadow: `${alpha(ApexPalette.primary.main, 0.25)} 0 0 0 2px`,
+          },
+          borderRadius: 1,
+        },
+      },
       defaultProps: {
         disableUnderline: true,
       },

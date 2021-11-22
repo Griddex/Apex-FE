@@ -39,7 +39,7 @@ export const extrudeSaveForecastRun = () => {
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
-  const confirmationDialogParameters: DialogStuff = {
+  const dialogParameters: DialogStuff = {
     name: "Save_Forecast_Dialog",
     title: "Save Forecast Run",
     type: "saveForecastDialog",
@@ -62,5 +62,5 @@ export const extrudeSaveForecastRun = () => {
       ),
   };
 
-  return showDialogAction(confirmationDialogParameters);
+  return showDialogAction(dialogParameters);
 };

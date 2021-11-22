@@ -7,12 +7,10 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
-import React, { LazyExoticComponent } from "react";
+import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
 import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
@@ -20,7 +18,6 @@ import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsActi
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import StoredProjects from "../../Routes/StoredProjects";
-import { TDataRow } from "../../../Application/Components/Export/ExcelExportTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +66,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const DialogTitle: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles(props);
@@ -115,14 +114,26 @@ const selectedProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.selectedProjectId,
   (id) => id
 );
+const selectedProjectTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.selectedProjectTitle,
+  (data) => data
+);
+const selectedProjectDescriptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.selectedProjectDescription,
+  (data) => data
+);
 
 const StoredProjectsDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 
   const selectedProjectId = useSelector(selectedProjectIdSelector);
+  const selectedProjectTitle = useSelector(selectedProjectTitleSelector);
+  const selectedProjectDescription = useSelector(
+    selectedProjectDescriptionSelector
+  );
 
-  const isFinalButtonDisabled = selectedProjectId ? false : true;
+  const flag = selectedProjectId ? false : true;
 
   return (
     <Dialog
@@ -147,7 +158,15 @@ const StoredProjectsDialog: React.FC<DialogStuff> = (props) => {
         />
       </DialogContent>
       <DialogActions>
-        {actionsList && actionsList(isFinalButtonDisabled)}
+        {actionsList &&
+          actionsList(
+            {
+              selectedProjectId,
+              selectedProjectTitle,
+              selectedProjectDescription,
+            },
+            flag
+          )}
       </DialogActions>
     </Dialog>
   );

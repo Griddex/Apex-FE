@@ -11,6 +11,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IEconomicsParametersSensitivitiesProps } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 
 const useStyles = makeStyles(() => ({
   economicsAnalysisPanel: {
@@ -91,10 +92,7 @@ const EconomicsAnalysesPanel = ({
                 };
               else style = {};
             } else {
-              style = {
-                pointerEvents: "none",
-                backgroundColor: theme.palette.grey[200],
-              };
+              style = getDisabledStyle(theme);
             }
 
             return (

@@ -179,7 +179,7 @@ const ForecastButtonsMenu = () => {
       disable: false,
     },
     {
-      title: "View Parameters",
+      title: "Stored Parameters",
       action: storedForecastParameters,
       icon: <ListOutlinedIcon color="primary" fontSize="small" />,
       disable: false,

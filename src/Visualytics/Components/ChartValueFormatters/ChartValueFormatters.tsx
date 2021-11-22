@@ -26,6 +26,7 @@ import {
   IChartSwitchSubFormatters,
   IChartValueFormatters,
 } from "./ChartValueFormattersTypes";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 
 const Option = (props: OptionProps<IExtendedSelectOption, false>) => (
   <components.Option {...props}>
@@ -233,9 +234,7 @@ const ChartValueFormatters = ({
         <Input
           style={{
             width: 130,
-            pointerEvents: "none",
-            backgroundColor: theme.palette.grey[200],
-            border: `1px solid ${theme.palette.primary.main}`,
+            ...getDisabledStyle(theme),
           }}
           value={formatValue.format}
           readOnly

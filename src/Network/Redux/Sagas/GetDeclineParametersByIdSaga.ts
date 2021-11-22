@@ -15,7 +15,10 @@ import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { getTableDataByIdSuccessAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import { failureDialogParameters } from "../../Components/DialogParameters/StoredDeclineCurveParametersDialogParameters";
@@ -68,6 +71,8 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
+    yield put(showSpinnerAction("Fetching..."));
+
     const declineParametersResults = yield call(
       getDeclineParametersByIdAPI,
       declineParametersUrl
@@ -80,14 +85,6 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
     const forecastInputDeckId = data["forecastInputDeckId"];
 
     const successAction = getTableDataByIdSuccessAction();
-    console.log("ans: ", {
-      ...successAction,
-      payload: {
-        ...payload,
-        reducer,
-        selectedTableData,
-      },
-    });
 
     yield put({
       ...successAction,
@@ -120,9 +117,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
         dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
         reducer,
       };
-      console.log("tableDataDialog called");
       yield put(showDialogAction(dialogParameters));
-      console.log("tableDataDialog executed");
     } else {
       yield put({
         type: UPDATE_NETWORKPARAMETER,
@@ -135,7 +130,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
       yield put(
         showDialogAction(
           extrudeStoredDataDPs(
-            "Edit Decline Parameters",
+            "Modify Decline Parameters",
             currentRow,
             currentSN - 1,
             "editForecastingParametersWorkflow"

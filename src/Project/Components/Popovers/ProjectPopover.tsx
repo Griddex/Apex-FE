@@ -9,8 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
@@ -64,22 +62,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
 const storedProjectsSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.storedProjects,
   (data) => data
 );
-const selectedProjectIdSelector = createDeepEqualSelector(
-  (state: RootState) => state.projectReducer.selectedProjectId,
-  (data) => data
-);
-const selectedProjectTitleSelector = createDeepEqualSelector(
-  (state: RootState) => state.projectReducer.selectedProjectTitle,
-  (data) => data
-);
-const selectedProjectDescriptionSelector = createDeepEqualSelector(
-  (state: RootState) => state.projectReducer.selectedProjectDescription,
-  (data) => data
-);
+
 const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.currentProjectId,
   (data) => data
@@ -93,12 +82,6 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const storedProjects = useSelector(storedProjectsSelector);
 
   const recentProjects = storedProjects.slice(0, 6);
-
-  const selectedProjectId = useSelector(storedProjectsSelector);
-  const selectedProjectTitle = useSelector(selectedProjectIdSelector);
-  const selectedProjectDescription = useSelector(
-    selectedProjectDescriptionSelector
-  );
 
   const currentProjectId = useSelector(currentProjectIdSelector);
 
@@ -165,7 +148,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const extrudeMoreStoredProjects = () => {
+  const extrudeAllStoredProjects = () => {
     const confirmationDialogParameters: DialogStuff = {
       name: "Stored_Projects_Dialog",
       title: "Stored Projects",
@@ -174,23 +157,31 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
       exclusive: false,
       maxWidth: "lg",
       iconType: "table",
-      actionsList: (isFinalButtonDisabled: boolean) =>
+      actionsList: (arg?: any, flag?: boolean) =>
         DialogOneCancelButtons(
           [true, true],
-          [true, true],
+          [true, false],
           [
             unloadDialogsAction,
-            () =>
-              openRecentProjectAction(
-                "Gideon",
-                selectedProjectId as string,
-                selectedProjectTitle as string,
-                selectedProjectDescription as string
-              ),
+            () => {
+              dispatch(
+                openRecentProjectAction(
+                  "Gideon",
+                  arg?.selectedProjectId as string,
+                  arg?.selectedProjectTitle as string,
+                  arg?.selectedProjectDescription as string
+                )
+              );
+              loadProjectMetadata(
+                arg?.selectedProjectId as string,
+                arg?.selectedProjectTitle as string,
+                arg?.selectedProjectDescription as string
+              );
+            },
           ],
           "Open",
           "openOutlined",
-          isFinalButtonDisabled,
+          flag,
           "All"
         ),
       dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
@@ -201,7 +192,11 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
 
   //TODO These actions will be registered in a central area
   //based on what modules are licensed
-  const openProject = (id: string, title: string, description: string) => {
+  const loadProjectMetadata = (
+    id: string,
+    title: string,
+    description: string
+  ) => {
     dispatch(showSpinnerAction(`Loading ${title}...`));
     dispatch(fetchStoredForecastingParametersRequestAction(id));
     dispatch(fetchStoredDeclineCurveParametersRequestAction(id));
@@ -220,7 +215,11 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
     id: string,
     title: string,
     description: string,
-    openProject: (id: string, title: string, description: string) => void
+    loadProjectMetadata: (
+      id: string,
+      title: string,
+      description: string
+    ) => void
   ) => {
     const dialogParameters: DialogStuff = {
       name: "Open_Project_Confirmation",
@@ -245,7 +244,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               dispatch(
                 openRecentProjectAction("Gideon", id, title, description)
               );
-              openProject(id, title, description);
+              loadProjectMetadata(id, title, description);
 
               history.push("/apex");
             },
@@ -345,13 +344,17 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                   projectTitle={titleDefined}
                   handleClick={() => {
                     if (currentProjectId === "") {
-                      openProject(idDefined, titleDefined, descriptionDefined);
+                      loadProjectMetadata(
+                        idDefined,
+                        titleDefined,
+                        descriptionDefined
+                      );
                     } else {
                       openProjectConfirmation(
                         idDefined,
                         titleDefined,
                         descriptionDefined,
-                        openProject
+                        loadProjectMetadata
                       );
                     }
                   }}
@@ -371,7 +374,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
               className={classes.primaryIcon}
             />
           }
-          handleClick={extrudeMoreStoredProjects}
+          handleClick={extrudeAllStoredProjects}
         />
       </div>
       <div>

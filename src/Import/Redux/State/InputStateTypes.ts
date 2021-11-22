@@ -49,6 +49,7 @@ export interface IInputState {
   columnNameTableData: Record<string, React.Key>[];
   inputDeckData: Record<string, React.Key>[];
   selectedRow: Record<string, React.Key>;
+  validationErrorsData: any[];
 
   chosenAppHeadersWithNone: string[];
   chosenAppHeadersWithoutNone: string[];

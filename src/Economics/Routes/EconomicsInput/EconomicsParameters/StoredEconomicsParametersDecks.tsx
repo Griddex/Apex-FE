@@ -1,14 +1,15 @@
-import { useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import { CSSProperties } from "react";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import React from "react";
+import { useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import Approval from "../../../../Application/Components/Approval/Approval";
 import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
@@ -18,7 +19,9 @@ import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
+import MoreActionsPopover from "../../../../Application/Components/Popovers/MoreActionsPopover";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -32,6 +35,7 @@ import {
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
+import { getDisabledStyle } from "../../../../Application/Styles/disabledStyles";
 import {
   IApplicationStoredDataRow,
   IStoredDataProps,
@@ -40,23 +44,11 @@ import {
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { fetchStoredForecastingParametersRequestAction } from "../../../../Network/Redux/Actions/NetworkActions";
-import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   getEconomicsParametersByIdRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-
-const ForecastParametersMoreActionsPopover = React.lazy(
-  () =>
-    import(
-      "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover"
-    )
-);
-//<IStoredDataRow, ITableButtonsProps>
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -304,13 +296,7 @@ export default function StoredEconomicsParametersDecks({
           ];
 
           const style =
-            title.toLowerCase() === "default"
-              ? {
-                  pointerEvents: "none",
-                  color: theme.palette.grey[200],
-                  backgroundColor: theme.palette.grey[400],
-                }
-              : {};
+            title.toLowerCase() === "default" ? getDisabledStyle(theme) : {};
 
           const VisibilityOutlined = (
             <VisibilityOutlinedIcon
@@ -331,7 +317,7 @@ export default function StoredEconomicsParametersDecks({
 
           const ApexGridMoreActionsContext = (
             <ApexGridMoreActionsContextMenu
-              component={ForecastParametersMoreActionsPopover}
+              component={MoreActionsPopover}
               data={importMoreActionsData}
             >
               <MenuOpenOutlinedIcon />
@@ -343,6 +329,7 @@ export default function StoredEconomicsParametersDecks({
               style={style as CSSProperties}
               onClick={() => {
                 const isCreateOrEdit = true;
+
                 dispatch(
                   getEconomicsParametersByIdRequestAction(
                     currentRow.id as string,

@@ -60,6 +60,7 @@ import { IForecastParametersStoredRow } from "../../../Network/Components/Dialog
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 import { IAction } from "../../Redux/Actions/ActionTypes";
+import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -109,6 +110,8 @@ export interface IApplicationDialogs {
 
   openProjectConfirmationDialog: typeof OpenProjectConfirmationDialog;
   saveVisualyticsDeckDialog: typeof SaveVisualyticsDeckDialog;
+
+  forecastValidationErrorsDataDialog: typeof ForecastValidationErrorsDataDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -174,7 +177,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "linkInputDeckDialog"
     | "openProjectConfirmationDialog"
     | "createPrioritizationParametersWorkflowDialog"
-    | "saveVisualyticsDeckDialog";
+    | "saveVisualyticsDeckDialog"
+    | "forecastValidationErrorsDataDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -217,6 +221,7 @@ export interface DialogStuff<TRow = TDataRow> {
   fetchStoredRequestAction?: () => IAction;
   errorText?: string;
   isDialog?: boolean;
+  validationErrorsData?: any[];
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

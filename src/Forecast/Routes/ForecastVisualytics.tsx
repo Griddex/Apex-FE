@@ -21,6 +21,7 @@ import { forecastPlotChartsOptions } from "../Data/ForecastData";
 import {
   removeCurrentForecastAction,
   updateForecastResultsParameterAction,
+  updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
 import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
@@ -28,6 +29,9 @@ import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/No
 import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
 import ForecastSelectChart from "../Common/ForecastSelectChart";
 import { SizeMe } from "react-sizeme";
+import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,6 +87,11 @@ const isForecastResultsLoadingSelector = createDeepEqualSelector(
   (data) => data
 );
 
+const isForecastResultsSavedSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.isForecastResultsSaved,
+  (data) => data
+);
+
 const selectedForecastChartOptionSelector = createDeepEqualSelector(
   (state: RootState) => state.forecastReducer.selectedForecastChartOption,
   (data) => data
@@ -115,6 +124,7 @@ const ForecastVisualytics = () => {
   const isForecastResultsLoading = useSelector(
     isForecastResultsLoadingSelector
   );
+  const isForecastResultsSaved = useSelector(isForecastResultsSavedSelector);
   const selectedForecastChartOption = useSelector(
     selectedForecastChartOptionSelector
   );
@@ -164,17 +174,59 @@ const ForecastVisualytics = () => {
         <ForecastVariableButtonsMenu />
         <IconButtonWithTooltip
           toolTipKey="saveToolTip"
-          toolTipTitle="Save Forecast"
+          toolTipTitle="Save"
           toolTipPlacement="bottom-end"
           icon={() => <SaveOutlinedIcon />}
-          action={() => dispatch(extrudeSaveForecastRun())}
+          action={extrudeSaveForecastRun}
+          isDisabled={isForecastResultsSaved}
         />
         <IconButtonWithTooltip
-          toolTipKey="removeToolTip"
-          toolTipTitle="Remove Forecast"
+          toolTipKey="resetToolTip"
+          toolTipTitle="Reset"
           toolTipPlacement="bottom-end"
-          icon={() => <RemoveOutlinedIcon />}
-          action={() => dispatch(removeCurrentForecastAction)}
+          icon={() => <RotateLeftOutlinedIcon />}
+          action={() => {
+            const dialogParameters = confirmationDialogParameters(
+              "ForecastCharts_Reset_Confirmation",
+              "Reset Confirmation",
+              "textDialog",
+              `Do you want to reset current forecast chart results?`,
+              true,
+              false,
+              () => {
+                dispatch(
+                  updateForecastResultsParametersAction({
+                    selectedForecastingResultsId: "",
+                    selectedForecastingResultsTitle: "Select...",
+                    selectedForecastingResultsDescription: "",
+                    isForecastResultsSaved: false,
+                  })
+                );
+                dispatch(
+                  updateForecastResultsParameterAction(
+                    "forecastChartsWorkflows.commonChartProps.axisLeft.legend",
+                    ""
+                  )
+                );
+                dispatch(
+                  updateForecastResultsParameterAction(
+                    "forecastChartsWorkflows.commonChartProps.axisBottom.legend",
+                    ""
+                  )
+                );
+                dispatch(
+                  updateForecastResultsParameterAction(
+                    "qualityAssuranceResults",
+                    []
+                  )
+                );
+              },
+              "Reset",
+              "reset"
+            );
+
+            dispatch(showDialogAction(dialogParameters));
+          }}
         />
       </div>
     ),

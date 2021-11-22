@@ -89,7 +89,7 @@ export default function StoredProjects({
       );
   };
 
-  const fetchStoredRequestAction = () => fetchStoredProjectsRequestAction();
+  const fetchStoredRequestAction = fetchStoredProjectsRequestAction;
 
   const updateTableActionConfirmation =
     (id: string) => (titleDesc: Record<string, string>) => {
@@ -130,6 +130,7 @@ export default function StoredProjects({
     };
 
   const props = {
+    reducer,
     snStoredData,
     dataKey,
     dataTitle,

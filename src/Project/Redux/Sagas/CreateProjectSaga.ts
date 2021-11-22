@@ -83,8 +83,10 @@ function* createProjectSaga(
   const createProjectAPI = (url: string) => authService.post(url, data, config);
 
   try {
-    const message = "Creating project...";
-    if (showSpinner) yield put(showSpinnerAction(message));
+    // const message = "Creating project...";
+    // if (showSpinner) yield put(showSpinnerAction(message));
+
+    yield put(showSpinnerAction("Creating project..."));
 
     const result = yield call(
       createProjectAPI,

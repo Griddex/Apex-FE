@@ -2,7 +2,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { ClickAwayListener } from "@mui/material";
+import { ClickAwayListener, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -22,6 +22,7 @@ import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
+import MoreActionsPopover from "../../../../Application/Components/Popovers/MoreActionsPopover";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -40,13 +41,13 @@ import {
 } from "../../../../Application/Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { getDisabledStyle } from "../../../../Application/Styles/disabledStyles";
 import {
   IStoredDataProps,
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
 import generateDoughnutAnalyticsData from "../../../../Application/Utils/GenerateDoughnutAnalyticsData";
-import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
@@ -86,7 +87,11 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const unitSettingsSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer,
-  (redcuer) => redcuer
+  (data) => data
+);
+const currentProjectTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.projectReducer.currentProjectTitle,
+  (data) => data
 );
 
 const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
@@ -111,8 +116,11 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     },
     ref
   ) => {
+    const theme = useTheme();
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const currentProjectTitle = useSelector(currentProjectTitleSelector);
 
     const updateTableActionConfirmationDefined =
       updateTableActionConfirmation as NonNullable<
@@ -177,7 +185,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const id = row.id as string;
             const deleteUrl = `${mainUrl}/${id}`;
 
-            const editedRow = rows[sn - 1];
+            const editedRow = rows[currentSN - 1];
             const editorData = [
               {
                 name: dataKey,
@@ -248,8 +256,14 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
               />
             );
 
+            const style: React.CSSProperties =
+              reducer === "projectReducer" && title === currentProjectTitle
+                ? getDisabledStyle(theme)
+                : ({} as React.CSSProperties);
+
             const deleteOutlined = (
               <DeleteOutlinedIcon
+                style={style}
                 onClick={() =>
                   dispatch(
                     showDialogAction(
@@ -299,7 +313,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const ApexGridMoreActionsContext =
               isCloning == true ? (
                 <ApexGridMoreActionsContextMenu
-                  component={ForecastParametersMoreActionsPopover}
+                  component={MoreActionsPopover}
                   data={importMoreActionsData}
                 >
                   <MenuOpenOutlinedIcon />
@@ -424,13 +438,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       ),
     };
 
-    const chartData = generateDoughnutAnalyticsData(
-      storedDataDefined,
-      "approval"
-    );
-    console.log(
-      "🚀 ~ file: StoredDataRoute.tsx ~ line 428 ~ chartData",
-      chartData
+    const chartData = React.useRef(
+      generateDoughnutAnalyticsData(storedDataDefined, "approval")
     );
 
     React.useEffect(() => {
@@ -450,7 +459,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
         {showChart && (
           <div className={classes.chart}>
             <DoughnutChartAnalytics
-              data={chartData as IChartProps["data"]}
+              data={chartData.current as IChartProps["data"]}
               willUseThemeColor={false}
             />
           </div>

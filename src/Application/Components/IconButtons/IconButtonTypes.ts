@@ -6,4 +6,6 @@ export interface IIconButtonWithTooltip {
   toolTipPlacement: TooltipProps["placement"];
   icon: () => JSX.Element;
   action?: () => void;
+  style?: React.CSSProperties;
+  isDisabled?: boolean;
 }

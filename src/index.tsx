@@ -1,12 +1,11 @@
-import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { StyledEngineProvider, Theme, ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 import "date-fns";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-// import { BrowserRouter as Router } from "react-router-dom";
 import { Router } from "react-router-dom";
 import App from "./Application/App";
 import { store } from "./Application/Redux/Store/Store";
@@ -19,13 +18,6 @@ declare module "@mui/styles/defaultTheme" {
 }
 
 async function prepare() {
-  if (process.env.NODE_ENV === "development") {
-    const { worker } = await import("./mocks/browser");
-    // const { server } = await import("./Mocks/Server");
-
-    // worker.start();
-    // server.listen();
-  }
   return Promise.resolve();
 }
 
@@ -35,20 +27,9 @@ prepare().then(() => {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Router
-              history={history}
-              // getUserConfirmation={(
-              //   message: string,
-              //   callback: (ok: boolean) => void
-              // ) => {
-              //   const allowTransition = window.confirm(message);
-              //   callback(allowTransition);
-              // }}
-            >
+            <Router history={history}>
               <CssBaseline />
-              {/* <PersistGate loading={null} persistor={persistor}> */}
               <App />
-              {/* </PersistGate> */}
             </Router>
           </LocalizationProvider>
         </ThemeProvider>

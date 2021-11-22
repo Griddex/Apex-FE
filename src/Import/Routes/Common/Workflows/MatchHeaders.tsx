@@ -95,10 +95,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const theme = useTheme();
 
   const workflowClass = getWorkflowClass(wp);
-  console.log(
-    "🚀 ~ file: MatchHeaders.tsx ~ line 98 ~ MatchHeaders ~ workflowClass",
-    workflowClass
-  );
 
   const [acceptmatchToggle, setAcceptmatchToggle] = React.useState(false);
 
@@ -108,17 +104,9 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const savedMatchObjectAll: TUserMatchObject = useSelector(
     (state: RootState) => state.applicationReducer["savedMatchObjectAll"]
   );
-  console.log(
-    "🚀 ~ file: MatchHeaders.tsx ~ line 109 ~ MatchHeaders ~ savedMatchObjectAll",
-    savedMatchObjectAll
-  );
 
   const specificSavedMatchObjectValues = Object.values(
     savedMatchObjectAll[workflowClass]["headers"]
-  );
-  console.log(
-    "🚀 ~ file: MatchHeaders.tsx ~ line 112 ~ MatchHeaders ~ specificSavedMatchObjectValues",
-    specificSavedMatchObjectValues
   );
 
   const facilitiesAppHeadersSelector = createDeepEqualSelector(

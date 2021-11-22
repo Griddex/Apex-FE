@@ -39,6 +39,7 @@ export const initialInputWorkflowParameters = {
   columnNameTableData: [],
   inputDeckData: [],
   selectedRow: null,
+  validationErrorsData: [],
 
   chosenAppHeadersWithNone: [],
   chosenAppHeadersWithoutNone: [],
@@ -98,18 +99,7 @@ const generateStoredDataState = () => {
   const wf = storedDataWorkflowNames.reduce((acc, workflowName) => {
     return {
       ...acc,
-      [workflowName]: {
-        sn: 0,
-        id: "",
-        userId: "",
-        approval: "Not Started",
-        title: "",
-        description: "",
-        author: "",
-        approvers: "",
-        createdOn: "",
-        modifiedOn: "",
-      },
+      [workflowName]: [],
     };
   }, {});
 
