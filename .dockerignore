@@ -2,5 +2,4 @@
 .dockerignore
 Dockerfile
 build
-node_modules
 README.md
