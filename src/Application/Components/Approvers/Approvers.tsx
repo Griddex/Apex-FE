@@ -1,8 +1,7 @@
-import { Avatar, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import { Avatar, Stack, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import capitalize from "lodash.capitalize";
 import React from "react";
-import AvatarStack from "react-avatar-stack";
 import Image from "../../../Application/Components/Visuals/Image";
 import { numberToWords } from "./../../Utils/NumberToWords";
 import { IApprover } from "./ApproversTypes";
@@ -28,7 +27,6 @@ const Approvers = ({
 }: {
   approvers: IApprover[] | string | undefined;
 }) => {
-  const theme = useTheme();
   const classes = useStyles();
   const isApprovers = approversCheck(approvers);
 
@@ -41,12 +39,7 @@ const Approvers = ({
 
       return (
         <div className={classes.approvers}>
-          <AvatarStack
-            nextOverlapPrevious={true}
-            maxAvatarNumber={3}
-            numberLeftBackgroundColor={theme.palette.primary.main}
-            numberLeftColor={"white"}
-          >
+          <Stack spacing={15}>
             {apprvrs.map((approver, i) => {
               const { avatarUrl } = approver;
 
@@ -70,7 +63,7 @@ const Approvers = ({
                 );
               }
             })}
-          </AvatarStack>
+          </Stack>
           {apprvrs[0].name !== "" && (
             <Typography
               className={classes.noOfApprovers}
