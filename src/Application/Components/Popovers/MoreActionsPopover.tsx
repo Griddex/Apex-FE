@@ -10,9 +10,9 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
 import NestedMenuItem from "material-ui-nested-menu-item";
 import React from "react";
-import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
-import noEventPropagation from "../../../Application/Events/NoEventPropagation";
+import ApexFlexContainer from "../Styles/ApexFlexContainer";
+import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
+import noEventPropagation from "../../Events/NoEventPropagation";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    width: "90%",
+    width: "100%",
     alignSelf: "center",
   },
-  menuItem: { padding: 0, cursor: "pointer" },
+  menuItem: { padding: 0, cursor: "pointer", height: 35 },
   listItemAvatar: {
     textAlign: "center",
     color: theme.palette.primary.main,
@@ -157,40 +157,39 @@ const generateMoreActionsMenuItems = (
   });
 };
 
-const ForecastParametersMoreActionsPopover = React.forwardRef<
-  HTMLDivElement,
-  IPopoverProps
->(({ anchorEl, handleClose, data }, ref) => {
-  const classes = useStyles();
+const MoreActionsPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
+  ({ anchorEl, handleClose, data }, ref) => {
+    const classes = useStyles();
 
-  return (
-    <div className={classes.container} ref={ref}>
-      <div className={classes.header}>
-        <div className={classes.icon}>
-          <FilterListOutlinedIcon />
+    return (
+      <div className={classes.container} ref={ref}>
+        <div className={classes.header}>
+          <div className={classes.icon}>
+            <FilterListOutlinedIcon />
+          </div>
+          <div className={classes.title}></div>
+          <div className={classes.closeIcon}>
+            <CloseOutlinedIcon
+              {...noEventPropagation(() => handleClose && handleClose())}
+            />
+          </div>
         </div>
-        <div className={classes.title}></div>
-        <div className={classes.closeIcon}>
-          <CloseOutlinedIcon
+        <div className={classes.body}>
+          <List style={{ height: "100%", width: "100%", padding: 0 }}>
+            {generateMoreActionsMenuItems(data, classes, anchorEl, handleClose)}
+          </List>
+        </div>
+        <div className={classes.footer}>
+          <Button
             {...noEventPropagation(() => handleClose && handleClose())}
-          />
+            className={classes.cancelButton}
+          >
+            Cancel
+          </Button>
         </div>
       </div>
-      <div className={classes.body}>
-        <List style={{ height: "100%", width: "100%", padding: 0 }}>
-          {generateMoreActionsMenuItems(data, classes, anchorEl, handleClose)}
-        </List>
-      </div>
-      <div className={classes.footer}>
-        <Button
-          {...noEventPropagation(() => handleClose && handleClose())}
-          className={classes.cancelButton}
-        >
-          Cancel
-        </Button>
-      </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
-export default ForecastParametersMoreActionsPopover;
+export default MoreActionsPopover;

@@ -6,29 +6,37 @@ import { Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import Author from "../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ApexGridMoreActionsContextMenu from "../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
+import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import { IApexEditorRow } from "../../Application/Components/Editors/ApexEditor";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
+import MoreActionsPopover from "../../Application/Components/Popovers/MoreActionsPopover";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
 import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
+import { getDisabledStyle } from "../../Application/Styles/disabledStyles";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
-import ForecastParametersMoreActionsPopover from "../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
+import generateDoughnutAnalyticsData from "../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
@@ -45,10 +53,6 @@ import {
   forecastingParametersToStored,
   storedToForecastingParameters,
 } from "../Utils/TransformForecastingParameters";
-import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { getDisabledStyle } from "../../Application/Styles/disabledStyles";
-
-//<IForecastParametersStoredRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -115,7 +119,6 @@ const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.currentProjectId,
   (id) => id
 );
-
 const dayFormatSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer.dayFormat,
   (data) => data
@@ -134,7 +137,6 @@ const selectedNetworkIdSelector = createDeepEqualSelector(
 );
 
 const wc = "storedDataWorkflows";
-const wp = "forecastingParametersStored";
 
 const networkStoredSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer[wc]["networkStored"],
@@ -148,35 +150,18 @@ const forecastingParametersStoredSelector = createDeepEqualSelector(
 export default function StoredForecastingParameters({
   showChart,
   isAllForecastParameters,
+  updateTableActionConfirmation,
 }: IStoredDataProps) {
   const theme = useTheme();
-
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
-
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const componentRef = React.useRef();
+
+  const updateTableActionConfirmationDefined =
+    updateTableActionConfirmation as NonNullable<
+      IStoredDataProps["updateTableActionConfirmation"]
+    >;
+
   const currentProjectId = useSelector(currentProjectIdSelector);
 
   const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
@@ -277,6 +262,9 @@ export default function StoredForecastingParameters({
     apexGridCheckboxFxn: handleCheckboxChange,
   });
 
+  const dividerPositions = [50];
+  const isCustomComponent = false;
+
   const generateColumns = () => {
     const columns: Column<IForecastParametersStoredRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -293,6 +281,25 @@ export default function StoredForecastingParameters({
           const title = row.title as string;
           const id = row.forecastingParametersId as string;
           const deleteUrl = `${mainUrl}/${id}`;
+
+          const editedRow = rows[currentSN - 1];
+          const editorData = [
+            {
+              name: "title",
+              title: "Title",
+              value: (row as IForecastParametersStoredRow)["title"],
+              editorType: "input",
+              width: "100%",
+            },
+            {
+              name: "description",
+              title: "Description",
+              value: (row as IForecastParametersStoredRow)["description"],
+              editorType: "textArea",
+              width: "100%",
+              height: "100%",
+            },
+          ] as IApexEditorRow[];
 
           const importMoreActionsData = [
             {
@@ -315,6 +322,37 @@ export default function StoredForecastingParameters({
                 );
               },
             },
+            {
+              title: "Modify",
+              action: () => {
+                dispatch(
+                  showDialogAction(
+                    extrudeForecastParametersDPs(
+                      "Modify Forecast Parameters",
+                      currentRow,
+                      currentSN - 1,
+                      "editForecastingParametersWorkflow",
+                      "edit"
+                    )
+                  )
+                );
+
+                dispatch(
+                  updateNetworkParametersAction({
+                    selectedDeclineParametersId:
+                      currentRow.wellDeclineParameterId,
+                    selectedDeclineParametersTitle:
+                      currentRow.wellDeclineParameterTitle,
+                    selectedProductionPrioritizationId:
+                      currentRow.wellPrioritizationId,
+                    selectedProductionPrioritizationTitle:
+                      currentRow.wellPrioritizationTitle,
+                    selectedForecastingParametersId:
+                      row.forecastingParametersId,
+                  })
+                );
+              },
+            },
           ];
 
           const style =
@@ -325,33 +363,40 @@ export default function StoredForecastingParameters({
               <EditOutlinedIcon
                 style={style as CSSProperties}
                 onClick={() => {
-                  dispatch(
-                    showDialogAction(
-                      extrudeForecastParametersDPs(
-                        "Edit Forecast Parameters",
-                        currentRow,
-                        currentSN - 1,
-                        "editForecastingParametersWorkflow"
-                      )
-                    )
-                  );
+                  const dialogParameters: DialogStuff = {
+                    name: "Edit_Table_Dialog",
+                    title: "Edit Table",
+                    type: "tableEditorDialog",
+                    show: true,
+                    exclusive: false,
+                    maxWidth: isCustomComponent ? "lg" : "sm",
+                    iconType: "edit",
+                    isCustomComponent,
+                    apexEditorProps: {
+                      editorData,
+                      editedRow,
+                      dividerPositions,
+                    },
+                    actionsList: (titleDesc: Record<string, string>) =>
+                      DialogOneCancelButtons(
+                        [true, true],
+                        [true, false],
+                        [
+                          unloadDialogsAction,
+                          () =>
+                            updateTableActionConfirmationDefined(id)(titleDesc),
+                        ],
+                        "Update",
+                        "updateOutlined",
+                        false,
+                        "None"
+                      ),
+                  };
 
-                  dispatch(
-                    updateNetworkParametersAction({
-                      selectedDeclineParametersId:
-                        currentRow.wellDeclineParameterId,
-                      selectedDeclineParametersTitle:
-                        currentRow.wellDeclineParameterTitle,
-                      selectedProductionPrioritizationId:
-                        currentRow.wellPrioritizationId,
-                      selectedProductionPrioritizationTitle:
-                        currentRow.wellPrioritizationTitle,
-                      selectedForecastingParametersId:
-                        row.forecastingParametersId,
-                    })
-                  );
+                  dispatch(showDialogAction(dialogParameters));
                 }}
               />
+
               <DeleteOutlinedIcon
                 style={style as CSSProperties}
                 onClick={() => {
@@ -385,7 +430,7 @@ export default function StoredForecastingParameters({
                 }}
               />
               <ApexGridMoreActionsContextMenu
-                component={ForecastParametersMoreActionsPopover}
+                component={MoreActionsPopover}
                 data={importMoreActionsData}
               >
                 <MenuOpenOutlinedIcon />
@@ -537,6 +582,15 @@ export default function StoredForecastingParameters({
         name: "START FORECAST",
         editable: false,
         resizable: true,
+        formatter: ({ row }) => {
+          return (
+            <ApexFlexContainer
+              moreStyles={{ backgroundColor: theme.palette.primary.light }}
+            >
+              {row.startForecast}
+            </ApexFlexContainer>
+          );
+        },
         width: 200,
       },
       {
@@ -544,6 +598,15 @@ export default function StoredForecastingParameters({
         name: "END FORECAST",
         editable: false,
         resizable: true,
+        formatter: ({ row }) => {
+          return (
+            <ApexFlexContainer
+              moreStyles={{ backgroundColor: theme.palette.success.light }}
+            >
+              {row.endForecast}
+            </ApexFlexContainer>
+          );
+        },
         width: 200,
       },
       {
@@ -635,6 +698,8 @@ export default function StoredForecastingParameters({
     componentRef,
   };
 
+  const chartData = React.useRef(generateDoughnutAnalyticsData(rows, "title"));
+
   React.useEffect(() => {
     const updatedStoredData = storedToForecastingParameters(
       forecastingParametersFiltered,
@@ -650,7 +715,10 @@ export default function StoredForecastingParameters({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics
+            data={chartData.current}
+            willUseThemeColor={false}
+          />
         </div>
       )}
       <div className={classes.table}>

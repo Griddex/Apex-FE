@@ -2,21 +2,21 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { ClickAwayListener } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import findIndex from "lodash.findindex";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
+import { ValueType } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import apexGridCheckbox from "../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
+import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { IDeclineCurveParametersDetail } from "../Components/Dialogs/StoredNetworksDialogTypes";
@@ -82,6 +82,7 @@ export default function EditOrCreateDeclineParameters({
 }: IStoredDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const tableRef = React.useRef<HTMLDivElement>(null);
 
   const selectedDeclineParametersData = useSelector(
     selectedDeclineParametersDataSelector
@@ -90,22 +91,9 @@ export default function EditOrCreateDeclineParameters({
   const declineTypes = ["Exponential", "Hyperbolic", "Harmonic"];
   const declineTypeOptions = generateSelectData(declineTypes);
 
-  const [checkboxSelected, setCheckboxSelected] = React.useState(false);
-  const handleCheckboxChange = (row: IDeclineCurveParametersDetail) => {
-    alert(row);
-    setCheckboxSelected(!checkboxSelected);
-  };
-
-  const ApexGridCheckboxColumn = apexGridCheckbox({
-    shouldExecute: true,
-    shouldDispatch: false,
-    apexGridCheckboxFxn: handleCheckboxChange,
-  });
-
   const generateColumns = () => {
     const columns: Column<IDeclineCurveParametersDetail>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
-      ApexGridCheckboxColumn,
       {
         key: "actions",
         name: "ACTIONS",
@@ -115,7 +103,7 @@ export default function EditOrCreateDeclineParameters({
             <EditOutlinedIcon onClick={() => alert(`Edit Row is:${row}`)} />
             <DeleteOutlinedIcon onClick={() => alert(`Delete Row is:${row}`)} />
 
-            {/*Both functionalities below are tie-ins to the DCA module in V2 */}
+            {/*TODO Both functionalities below are tie-ins to the DCA module in V2 */}
             {/* <VisibilityOutlinedIcon
               onClick={() => alert(`View decline curve:${row}`)}
             />
@@ -124,7 +112,7 @@ export default function EditOrCreateDeclineParameters({
             /> */}
           </div>
         ),
-        width: 120,
+        width: 70,
       },
       // {
       //   key: "forecastVersion",
@@ -167,7 +155,7 @@ export default function EditOrCreateDeclineParameters({
         name: "STRING",
         editable: false,
         resizable: true,
-        minWidth: 50,
+        minWidth: 70,
       },
       {
         key: "module",
@@ -181,54 +169,32 @@ export default function EditOrCreateDeclineParameters({
         name: "DECLINE METHOD",
         editable: false,
         resizable: true,
-        formatter: ({ row, onRowChange }) => {
-          const module = row.module as string;
-          const declineTypeValue = row.declineMethod as string;
+        formatter: ({ row }) => {
+          const currentSN = row.sn as number;
+          const declineTypeOption = declineTypeOptions.find(
+            (option) => option.value === row.declineMethod
+          );
 
           return (
-            <select
-              style={{ width: "100%", height: "95%" }}
-              value={declineTypeValue as string}
-              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                //event.stopPropagation();
-                const selectedValue = event.target.value;
-                const updatedRow = {
-                  ...row,
-                  declineMethod: selectedValue as string,
-                };
+            <ApexSelectRS
+              valueOption={declineTypeOption as ISelectOption}
+              data={declineTypeOptions as ISelectOption[]}
+              handleSelect={(option: ValueType<ISelectOption, false>) => {
+                setRows((prev: any) => {
+                  const newRows = [...prev];
+                  const currentRow = newRows.find(
+                    (row: any) => row.sn === currentSN
+                  );
 
-                console.log("updatedRow: ", updatedRow);
-                const currentSN = updatedRow.sn as number;
-                rows[currentSN - 1] = updatedRow;
-                /*  dispatch(
-                  updateNetworkParameterAction(
-                    "selectedDeclineParametersData",
-                    rows
-                  )
-                ); */
+                  currentRow["declineMethod"] = option?.value as string;
+                  newRows[currentSN - 1] = currentRow;
 
-                onRowChange(updatedRow);
-
-                const selectedDeclineTypeOptionIndex = findIndex(
-                  declineTypeOptions,
-                  (option) => option.value === selectedValue
-                );
-
-                // setChosenApplicationDeclineTypeIndices((prev) => ({
-                //   ...prev,
-                //   [`${module}`]: selectedDeclineTypeOptionIndex,
-                // }));
-
-                modifyTableRows(module, selectedDeclineTypeOptionIndex);
-                setRerender((rerender) => !rerender);
+                  return newRows;
+                });
               }}
-            >
-              {declineTypeOptions.map((option, i: number) => (
-                <option key={i} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+              menuPortalTarget={tableRef.current as HTMLDivElement}
+              isSelectOptionType={true}
+            />
           );
         },
         width: 150,
@@ -257,7 +223,7 @@ export default function EditOrCreateDeclineParameters({
 
       {
         key: "rateofChangeRate1P1C",
-        name: "DECLINE RATE (LOW)",
+        name: "DECLINE RATE (LOW)*",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -265,7 +231,7 @@ export default function EditOrCreateDeclineParameters({
       },
       {
         key: "rateofChangeRate2P2C",
-        name: "DECLINE RATE (BASE)",
+        name: "DECLINE RATE (BASE)*",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -273,7 +239,7 @@ export default function EditOrCreateDeclineParameters({
       },
       {
         key: "rateofChangeRate3P3C",
-        name: "DECLINE RATE (HIGH)",
+        name: "DECLINE RATE (HIGH)*",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -281,7 +247,7 @@ export default function EditOrCreateDeclineParameters({
       },
       {
         key: "declineExponent1P1C",
-        name: "DECLINE EXPONENT (LOW)",
+        name: "DECLINE EXPONENT (LOW)*",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -289,7 +255,7 @@ export default function EditOrCreateDeclineParameters({
       },
       {
         key: "declineExponent2P2C",
-        name: "DECLINE EXPONENT (BASE)",
+        name: "DECLINE EXPONENT (BASE)*",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -297,7 +263,7 @@ export default function EditOrCreateDeclineParameters({
       },
       {
         key: "declineExponent3P3C",
-        name: "DECLINE EXPONENT (HIGH)",
+        name: "DECLINE EXPONENT (HIGH)*",
         editable: true,
         editor: TextEditor,
         resizable: true,
@@ -316,28 +282,8 @@ export default function EditOrCreateDeclineParameters({
     })
   );
 
-  const tableRows = React.useRef<IDeclineCurveParametersDetail[]>(
-    snDeclineCurveParametersList
-  );
-
-  const [, setRerender] = React.useState(false);
-
-  const modifyTableRows = (
-    selectedModule: string,
-    selectedDeclineTypeOptionIndex: number
-  ) => {
-    const modifiedRows = tableRows.current.map((row, i: number) => {
-      if (row.module === selectedModule) {
-        return {
-          ...row,
-          sn: i + 1,
-        };
-      } else return row;
-    });
-
-    tableRows.current = modifiedRows;
-  };
-  const rows = tableRows.current;
+  const [sRow, setSRow] = React.useState(-1);
+  const [rows, setRows] = React.useState(snDeclineCurveParametersList);
 
   const exportColumns = columns
     .filter(
@@ -367,21 +313,18 @@ export default function EditOrCreateDeclineParameters({
   };
 
   React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-
     dispatch(updateNetworkParameterAction("declineParameters", rows));
-  }, [dispatch, rows]);
-
-  const [sRow, setSRow] = React.useState(-1);
+  }, [rows]);
 
   return (
     <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <div className={classes.rootStoredData}>
+          <div className={classes.rootStoredData} ref={tableRef}>
             <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
               columns={columns}
               rows={rows}
+              onRowsChange={setRows}
               tableButtons={tableButtons}
               newTableRowHeight={35}
               selectedRow={sRow}

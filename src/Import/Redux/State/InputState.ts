@@ -39,6 +39,7 @@ export const initialInputWorkflowParameters = {
   columnNameTableData: [],
   inputDeckData: [],
   selectedRow: null,
+  validationErrorsData: [],
 
   chosenAppHeadersWithNone: [],
   chosenAppHeadersWithoutNone: [],

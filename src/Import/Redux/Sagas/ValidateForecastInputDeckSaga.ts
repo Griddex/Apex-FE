@@ -13,7 +13,11 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { generalFailureDialogParameters } from "../../../Application/Components/DialogParameters/GeneralSuccessFailureDialogParameters";
+import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
+import {
+  generalFailureDialogParameters,
+  generalSuccessDialogParameters,
+} from "../../../Application/Components/DialogParameters/GeneralSuccessFailureDialogParameters";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -27,6 +31,7 @@ import {
   validateForecastInputDeckSuccessNoErrorAction,
   validateForecastInputDeckSuccessErrorAction,
   VALIDATE_FORECASTINPUTDECK_REQUEST,
+  updateInputParameterAction,
 } from "../Actions/InputActions";
 
 export default function* watchValidateForecastInputDeckSaga(): Generator<
@@ -54,8 +59,14 @@ function* validateForecastInputDeckSaga(
   void,
   any
 > {
-  const { meta } = action;
-  const { inputDeck } = yield select((state) => state.inputReducer);
+  const {
+    payload: { workflowCategory, workflowProcess },
+    meta,
+  } = action;
+
+  const { tableData: inputDeck } = yield select(
+    (state) => state.inputReducer[workflowCategory][workflowProcess]
+  );
 
   const data = {
     inputDeck,
@@ -79,18 +90,41 @@ function* validateForecastInputDeckSaga(
     } = result;
 
     if (Object.keys(data).length > 0) {
-      const successAction = validateForecastInputDeckSuccessErrorAction();
+      yield put(
+        updateInputParameterAction(
+          "inputReducer",
+          "inputReducer.validationErrorsData",
+          data
+        )
+      );
 
-      // yield put(showDialogAction(
-      //     generalFailureDialogParameters(
-      //         "Validate_Forecast_InputDeck",
-      //         "Forecast InputDeck Validation",
-      //         true,
-
-      //     )
-      // ))
+      yield put(
+        showDialogAction({
+          name: "Validate_Forecast_InputDeck_Failure",
+          title: "Forecast InputDeck Validation Failure",
+          type: "forecastValidationErrorsDataDialog",
+          show: true,
+          exclusive: true,
+          maxWidth: "sm",
+          dialogText:
+            "The following validation errors were found in your forecast inpudeck for your review",
+          iconType: "error",
+          actionsList: () => DialogCancelButton(),
+        })
+      );
     } else {
       const successAction = validateForecastInputDeckSuccessNoErrorAction();
+
+      yield put(
+        showDialogAction(
+          generalSuccessDialogParameters(
+            "Validate_Forecast_InputDeck_Success",
+            "Forecast InputDeck Validation Success",
+            true,
+            "Forecast inputdeck validation was successful!"
+          )
+        )
+      );
     }
   } catch (errors) {
     const failureAction = validateForecastInputDeckFailureAction();

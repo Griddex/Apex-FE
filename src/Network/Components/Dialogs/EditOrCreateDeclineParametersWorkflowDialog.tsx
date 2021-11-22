@@ -169,9 +169,10 @@ const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
 
   const storedTitles = useSelector(declineParametersTitlesSelector);
 
-  console.log("storedTitles: ", storedTitles);
-  const [formTitle, setFormTitle] = React.useState("");
-  const [formDescription, setFormDescription] = React.useState("");
+  const [formTitle, setFormTitle] = React.useState(currentRow?.title as string);
+  const [formDescription, setFormDescription] = React.useState(
+    currentRow?.description as string
+  );
   const [currRow, setCurrRow] = React.useState(currentRow);
 
   const titleDesc = {

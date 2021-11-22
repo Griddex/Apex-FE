@@ -57,9 +57,9 @@ export interface IBackendDeclineParametersRow {
   title: string;
   description: string;
   forecastInputDeckId: string;
+  forecastInputdeckTitle?: string;
   id: string;
   projectId: string;
-  userId: string;
 }
 
 export interface IParametersEntity {
@@ -92,6 +92,7 @@ export interface IBackendForecastingParametersRow {
   parametersEntity: IParametersEntity;
   author: IUserDetails;
 }
+
 export interface IForecastParametersStoredRow {
   sn?: number;
   forecastingParametersId: string;

@@ -53,7 +53,7 @@ const EconomicsParametersValue = ({
   const handleAction = () => {
     const dialogParameters: DialogStuff = {
       name: "Create_EconomicsParameters_Table_Dialog",
-      title: "Create EconomicsParameters Table",
+      title: "Create Economics Parameters Table",
       type: "createEconomicsParametersTableDialog",
       show: true,
       exclusive: true,

@@ -236,6 +236,7 @@ const NetworkLanding = () => {
                     <StoredDeclineCurveParameters
                       workflowProcess={"declineParametersStored"}
                       containerStyle={{ boxShadow: "none" }}
+                      showChart={true}
                       isAllDeclineParameters={true}
                     />
                   ),

@@ -21,6 +21,8 @@ export type TApproval = "Approved" | "Pending" | "Returned" | "Not Started";
 export interface IStoredDataRow {
   sn?: number;
   id?: string;
+  forecastInputDeckId?: string;
+  forecastInputdeckTitle?: string;
   userId?: string;
   approval?: TApproval;
   title?: string;
@@ -94,6 +96,7 @@ export interface IStoredDataProps {
   wcc?: string;
   isCreateOrEdit?: boolean;
   willFetchForecast?: boolean;
+  isDialog?: boolean;
 }
 
 export interface IApplicationStoredDataRow {

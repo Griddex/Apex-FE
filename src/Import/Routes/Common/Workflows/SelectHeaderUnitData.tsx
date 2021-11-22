@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { omit } from "lodash";
 import capitalize from "lodash.capitalize";
-import React from "react";
+import React, { Suspense } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
 import Select, { ValueType } from "react-select";
@@ -15,7 +15,6 @@ import {
   ISelectOption,
   TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ApexGridRolesState } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridState";
 import {
   IRawRow,
@@ -41,6 +40,11 @@ import {
 } from "../../../Redux/Actions/InputActions";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+
+const ApexGrid = React.lazy(
+  () =>
+    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
+);
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -294,15 +298,17 @@ export default function SelectHeaderUnitData({
     <div className={classes.rootParseTable}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
-          <ApexGrid
-            columns={columns}
-            rows={rows}
-            tableButtons={tableButtons}
-            size={size}
-            autoAdjustTableDim={true}
-            showTableHeader={true}
-            showTablePagination={true}
-          />
+          <Suspense fallback={<div style={{ fontSize: 40 }}>Loading...</div>}>
+            <ApexGrid
+              columns={columns}
+              rows={rows}
+              tableButtons={tableButtons}
+              size={size}
+              autoAdjustTableDim={true}
+              showTableHeader={true}
+              showTablePagination={true}
+            />
+          </Suspense>
         )}
       </SizeMe>
     </div>
