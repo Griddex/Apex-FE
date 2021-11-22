@@ -1,32 +1,29 @@
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogActions from "@mui/material/DialogActions";
 import MuiDialogContent from "@mui/material/DialogContent";
 import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
 import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import withStyles from "@mui/styles/withStyles";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import React, { ReactNode } from "react";
+import startCase from "lodash.startcase";
+import React from "react";
+import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
-import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
+import { SizeMe } from "react-sizeme";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
+import ExcelExportTable, {
+  IExcelExportTable,
+  IExcelSheetData,
+} from "../Export/ExcelExportTable";
 import DialogIcons from "../Icons/DialogIcons";
 import { IconNameType } from "../Icons/DialogIconsTypes";
-import {
-  ReducersType,
-  TAllWorkflowProcesses,
-} from "../Workflows/WorkflowTypes";
+import ApexGrid from "../Table/ReactDataGrid/ApexGrid";
+import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
+import { ITableButtonsProps } from "../Table/TableButtonsTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,11 +34,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   dialogHeader: {
     display: "flex",
-    flexWrap: "wrap",
     width: "100%",
   },
   mainIcon: {
     display: "flex",
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "5%",
@@ -51,12 +48,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "90%",
+    width: "100%",
     height: "100%",
   },
   closeButton: {
     color: theme.palette.grey[500],
-    width: "5%",
     height: "100%",
     padding: 0,
     "&:hover": {
@@ -65,11 +61,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderRadius: 0,
     },
   },
-  listDialogContent: { display: "flex", flexDirection: "column" },
-  listBorder: {
-    height: 200,
-    overflow: "auto",
-    border: "1px solid #F7F7F7",
+  table: {
+    width: "100%",
+    height: "100%",
+    padding: 20,
   },
 }));
 
@@ -115,32 +110,56 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
+const ForecastValidationErrorsDataDialog: React.FC<DialogStuff> = (props) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-const ListDialog: React.FC<DialogStuff> = (props) => {
   const {
     title,
     show,
     maxWidth,
     iconType,
-    contentText,
-    contentList,
     actionsList,
-    dialogContentStyle,
-    workflowProcess,
-    reducer,
+    validationErrorsData,
+    dialogText,
   } = props;
 
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  const validationErrorsDataDefined = validationErrorsData as any[];
+  const columnKeys = Object.keys(validationErrorsDataDefined[0]);
+  const columns = columnKeys.map((k) => {
+    return {
+      key: k,
+      name: startCase(k).toUpperCase(),
+      editable: false,
+      resizable: true,
+      minWidth: k.toLowerCase().trim() === "sn" ? 50 : 150,
+    };
+  });
 
-  const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
-  const reducerDefined = reducer as NonNullable<ReducersType>;
+  const exportColumns = columns
+    .filter(
+      (column) =>
+        !["actions", "select_control_key"].includes(column.key.toLowerCase())
+    )
+    .map((column) => ({
+      value: column.key,
+      label: column.name,
+    })) as IExcelSheetData<IRawRow>["columns"];
+
+  const exportTableProps = {
+    fileName: title,
+    tableData: {
+      Template: {
+        data: validationErrorsDataDefined,
+        columns: exportColumns,
+      },
+    },
+  } as IExcelExportTable<IRawRow>;
+
+  const tableButtons: ITableButtonsProps = {
+    showExtraButtons: true,
+    extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
+  };
 
   return (
     <Dialog
@@ -155,40 +174,30 @@ const ListDialog: React.FC<DialogStuff> = (props) => {
       >
         <div>{title}</div>
       </DialogTitle>
-      <DialogContent dividers style={dialogContentStyle}>
-        <Typography variant="body1" style={{ marginTop: 10, marginBottom: 10 }}>
-          {contentText && contentText}
-        </Typography>
-        <List className={classes.listBorder}>
-          {contentList &&
-            contentList.map((name: string, i: number) => (
-              <ListItem
-                key={i}
-                selected={name === selectedListItem}
-                button
-                onClick={() => {
-                  setSelectedListItem(name);
-                  dispatch(
-                    persistWorksheetAction(
-                      reducerDefined,
-                      name,
-                      [],
-                      workflowProcess as TAllWorkflowProcesses
-                    )
-                  );
-                }}
-              >
-                <ListItemAvatar>
-                  <DescriptionOutlinedIcon color="primary" />
-                </ListItemAvatar>
-                <ListItemText>{name}</ListItemText>
-              </ListItem>
-            ))}
-        </List>
-        <Divider />
+      <DialogContent
+        dividers
+        style={{ display: "flex", flexDirection: "column", height: 650 }}
+      >
+        <div className={classes.table}>
+          <Typography variant="h4">{dialogText}</Typography>
+          <SizeMe monitorHeight refreshRate={32}>
+            {({ size }) => (
+              <ApexGrid
+                columns={columns as Column<IRawRow>[]}
+                rows={validationErrorsDataDefined as IRawRow[]}
+                tableButtons={tableButtons}
+                size={size}
+                autoAdjustTableDim={true}
+                showTableHeader={true}
+                showTablePagination={true}
+              />
+            )}
+          </SizeMe>
+        </div>
       </DialogContent>
-      <DialogActions>{actionsList && actionsList}</DialogActions>
+      <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
-export default ListDialog;
+
+export default ForecastValidationErrorsDataDialog;

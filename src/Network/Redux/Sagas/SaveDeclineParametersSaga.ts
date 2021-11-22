@@ -14,7 +14,10 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import {
@@ -59,16 +62,14 @@ function* saveDeclineParametersSaga(
     (state) => state.inputReducer
   );
 
-  const { selectedDeclineParametersData } = yield select(
-    (state) => state.networkReducer
-  );
+  const { declineParameters } = yield select((state) => state.networkReducer);
 
   const data = {
     projectId: currentProjectId,
     title,
     description,
     type: "User",
-    declineParameters: selectedDeclineParametersData,
+    declineParameters,
     forecastInputDeckId: selectedForecastInputDeckId,
   };
 
@@ -77,6 +78,8 @@ function* saveDeclineParametersSaga(
     authService.post(url, data, config);
 
   try {
+    yield put(showSpinnerAction("Saving parameters..."));
+
     const result = yield call(
       saveDeclineParametersAPI,
       `${getBaseForecastUrl()}/well-decline-parameters/save`

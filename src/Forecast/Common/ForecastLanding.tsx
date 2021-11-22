@@ -205,6 +205,8 @@ const ForecastLanding = () => {
                       isDialog={false}
                     />
                   ),
+                  forecastvisualytics: <ForecastVisualytics />,
+                  forecastqualityassurance: <ForecastQualityAssurance />,
                   forecastdata: (
                     <ForecastData
                       wrkflwCtgry={"storedDataWorkflows"}
@@ -212,8 +214,6 @@ const ForecastLanding = () => {
                       showChart={false}
                     />
                   ),
-                  forecastqualityassurance: <ForecastQualityAssurance />,
-                  forecastvisualytics: <ForecastVisualytics />,
                   approvedforecastresults: (
                     <StoredForecastResults
                       wkCy={"storedDataWorkflows"}

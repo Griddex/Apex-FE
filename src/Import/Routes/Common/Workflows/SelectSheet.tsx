@@ -163,9 +163,31 @@ const SelectSheet = ({
     const selectedWorksheetDataXLSX = (inputWorkbook as xlsx.WorkBook).Sheets[
       sWN
     ];
-    const selectedWorksheetData = xlsx.utils.sheet_to_json<
+
+    let selectedWorksheetData = xlsx.utils.sheet_to_json<
       Record<string, React.Key>
     >(selectedWorksheetDataXLSX);
+
+    const tableDataTemp = selectedWorksheetData.map((row: any, i: number) => {
+      if (i > 0) {
+        const keysData = Object.keys(row);
+        const nRows = keysData.length;
+        let iRow = 0;
+        for (iRow = 0; iRow < nRows; iRow++) {
+          if (row[keysData[iRow]] instanceof Date) {
+            const date = row[keysData[iRow]] as Date;
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            row[keysData[iRow]] = `${day}/${month}/${year}` as string;
+          }
+        }
+      }
+
+      return { ...row } as any;
+    }) as [];
+
+    selectedWorksheetData = [...tableDataTemp];
 
     if (selectedWorksheetData.length === 0) {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });

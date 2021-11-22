@@ -66,6 +66,7 @@ import watchGetVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/G
 import watchTransformVisualyticsChartDataSaga from "../../../Visualytics/Redux/Sagas/TransformVisualyticsDataSaga";
 import watchGetEconomicsPlotChartDataSaga from "../../../Economics/Redux/Sagas/GetEconomicsPlotChartDataSaga";
 import watchTransformEconomicsChartDataSaga from "../../../Economics/Redux/Sagas/TransformEconomicsPlotChartsDataSaga";
+import watchValidateForecastInputDeckSaga from "../../../Import/Redux/Sagas/ValidateForecastInputDeckSaga";
 
 //TODO Will need a registration mechanism for each module
 function* rootSaga() {
@@ -126,6 +127,7 @@ function* rootSaga() {
   yield spawn(watchGetEconomicsPlotChartDataSaga);
   yield spawn(watchTransformVisualyticsChartDataSaga);
   yield spawn(watchTransformEconomicsChartDataSaga);
+  yield spawn(watchValidateForecastInputDeckSaga);
 }
 
 const sagaMiddleware = createSagaMiddleware();
@@ -141,7 +143,7 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(
-      //uiSpinnerMiddleware,
+      //uiSpinnerMiddleware,d
       // authMiddleware,
       economicsMiddleware,
       sagaMiddleware

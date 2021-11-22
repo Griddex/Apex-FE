@@ -4,6 +4,7 @@ import {
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
   ReducersType,
+  TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TApexData } from "../../../Application/Types/ApplicationTypes";
@@ -292,9 +293,13 @@ export const fetchApplicationHeadersFailureAction = () => {
   };
 };
 
-export const validateForecastInputDeckRequestAction = () => {
+export const validateForecastInputDeckRequestAction = (
+  workflowCategory: TAllWorkflowCategories,
+  workflowProcess: TAllWorkflowProcesses
+) => {
   return {
     type: VALIDATE_FORECASTINPUTDECK_REQUEST,
+    payload: { workflowCategory, workflowProcess },
     meta: { showSpinner: true, message: "Validating forecast inputdeck..." },
   };
 };

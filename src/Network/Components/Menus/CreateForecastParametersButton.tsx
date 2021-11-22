@@ -1,9 +1,8 @@
-import { Button, Tooltip, useTheme } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import { Button, Tooltip, useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { extrudeForecastParametersDPs } from "../DialogParameters/EditForecastParametersDialogParameters";
 import { IForecastParametersStoredRow } from "../Dialogs/StoredNetworksDialogTypes";
 
@@ -40,7 +39,8 @@ const CreateForecastParametersButton = ({
                 "Create Forecasting Parameters",
                 currentRow,
                 forecastParametersIndex,
-                "createForecastingParametersWorkflow" 
+                "createForecastingParametersWorkflow",
+                "create"
               )
             )
           )

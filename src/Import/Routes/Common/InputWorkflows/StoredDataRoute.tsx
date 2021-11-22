@@ -22,6 +22,7 @@ import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
+import MoreActionsPopover from "../../../../Application/Components/Popovers/MoreActionsPopover";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -47,7 +48,6 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
 import generateDoughnutAnalyticsData from "../../../../Application/Utils/GenerateDoughnutAnalyticsData";
-import ForecastParametersMoreActionsPopover from "../../../../Forecast/Components/Popovers/ForecastParametersMoreActionsPopover";
 import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
@@ -185,7 +185,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const id = row.id as string;
             const deleteUrl = `${mainUrl}/${id}`;
 
-            const editedRow = rows[sn - 1];
+            const editedRow = rows[currentSN - 1];
             const editorData = [
               {
                 name: dataKey,
@@ -313,7 +313,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const ApexGridMoreActionsContext =
               isCloning == true ? (
                 <ApexGridMoreActionsContextMenu
-                  component={ForecastParametersMoreActionsPopover}
+                  component={MoreActionsPopover}
                   data={importMoreActionsData}
                 >
                   <MenuOpenOutlinedIcon />
@@ -438,9 +438,8 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       ),
     };
 
-    const chartData = generateDoughnutAnalyticsData(
-      storedDataDefined,
-      "approval"
+    const chartData = React.useRef(
+      generateDoughnutAnalyticsData(storedDataDefined, "approval")
     );
 
     React.useEffect(() => {
@@ -460,7 +459,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
         {showChart && (
           <div className={classes.chart}>
             <DoughnutChartAnalytics
-              data={chartData as IChartProps["data"]}
+              data={chartData.current as IChartProps["data"]}
               willUseThemeColor={false}
             />
           </div>

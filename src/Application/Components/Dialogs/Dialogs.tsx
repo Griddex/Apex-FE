@@ -47,6 +47,7 @@ import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidg
 import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
+import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -107,6 +108,8 @@ const applicationDialogs: IApplicationDialogs = {
 
   openProjectConfirmationDialog: OpenProjectConfirmationDialog,
   saveVisualyticsDeckDialog: SaveVisualyticsDeckDialog,
+
+  forecastValidationErrorsDataDialog: ForecastValidationErrorsDataDialog,
 };
 
 const dialogsSelector = createDeepEqualSelector(

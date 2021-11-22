@@ -62,6 +62,21 @@ export const realtimeOptions = [
   },
 ];
 
+export const declineTypeOptions = [
+  {
+    value: "exponential",
+    label: "Exponential",
+  },
+  {
+    value: "hyperbolic",
+    label: "Hyperbolic",
+  },
+  {
+    value: "harmonic",
+    label: "Harmonic",
+  },
+];
+
 export const nodeTypes = {
   drainagePointSummaryNode: DrainagePointSummaryNode,
   drainagePointNode: DrainagePointNode,

@@ -136,6 +136,9 @@ const UploadFile = ({
             const fileData = new Uint8Array(reader.result as ArrayBuffer);
             const inputWorkbook = xlsx.read(fileData, {
               type: "array",
+              cellDates: true,
+              cellNF: false,
+              cellText: false,
             }) as xlsx.WorkBook;
 
             setInputWorkbook && setInputWorkbook(inputWorkbook);
