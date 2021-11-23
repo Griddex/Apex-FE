@@ -125,7 +125,7 @@ const SensitivitiesHeatMapVisualytics = () => {
           </div>
           <SensitivitiesHeatMapChart
             selectedZ={selectedZ}
-            setSelectedZ={setSelectedZ}
+            setSelectedZ={React.useCallback(setSelectedZ, [])}
           />
         </div>
 

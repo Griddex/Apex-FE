@@ -182,7 +182,7 @@ export interface DialogStuff<TRow = TDataRow> {
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
-  dialogText?: string;
+  dialogText?: React.ReactNode;
   iconType?: IconNameType;
   contentText?: string;
   contentList?: Record<string, any>;

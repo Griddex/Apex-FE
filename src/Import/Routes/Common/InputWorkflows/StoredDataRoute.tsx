@@ -443,10 +443,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
     );
 
     React.useEffect(() => {
-      dispatch(hideSpinnerAction());
-    }, [dispatch]);
-
-    React.useEffect(() => {
       setRows(storedDataDefined);
     }, [
       storedDataDefined.length,

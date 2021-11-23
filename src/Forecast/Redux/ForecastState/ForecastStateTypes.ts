@@ -82,6 +82,7 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
 
   timeData: any[];
   forecastResults: any[];
+  forecastDuration: number;
   forecastTree: RenderTree["children"];
   xValueCategories: string[];
   lineOrScatter: "lineChart" | "scatterChart";

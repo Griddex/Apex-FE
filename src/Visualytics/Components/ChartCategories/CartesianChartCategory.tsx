@@ -8,17 +8,15 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 import {
   itemTypesEconomics,
   itemTypesForecast,
   itemTypesVisualytics,
 } from "../../Utils/DragAndDropItemTypes";
+import { TChartTypes } from "../Charts/ChartTypes";
 import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { TChartTypes } from "../Charts/ChartTypes";
-import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -235,29 +233,6 @@ const CartesianChartCategory = ({
                 })}
               </>
             ) : (
-              // <AutoSizer>
-              //   {({ height, width }: TSize) => (
-              //     <List
-              //       height={height}
-              //       width={width}
-              //       itemCount={Object.keys(hasDroppedObj).length}
-              //       itemSize={30}
-              //       itemData={droppedIds}
-              //     >
-              //       {({ index, style, data }) => (
-              //         <ChartCategoryVariable
-              //           style={style}
-              //           key={index}
-              //           dragItem={dragItemObj[data[index]]}
-              //           setHasDroppedObj={setHasDroppedObj}
-              //           setDragItemObj={setDragItemObj}
-              //           categoryTitle={categoryTitle as string}
-              //           removeChartCategoryAction={removeAction}
-              //         />
-              //       )}
-              //     </List>
-              //   )}
-              // </AutoSizer>
               <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
             )}
           </ApexFlexContainer>

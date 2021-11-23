@@ -1,9 +1,9 @@
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 import startCase from "lodash.startcase";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 
@@ -65,7 +65,8 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: startCase(xName),
+        legend: <div>{startCase(xName)}</div>,
+        // legend: <Typography variant="h4">{startCase(xName)}</Typography>,
         legendPosition: "middle",
         legendOffset: -36,
       }}
@@ -75,7 +76,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: startCase(yName),
+        legend: <div>{startCase(yName)}</div>,
         legendPosition: "middle",
         legendOffset: -40,
       }}
@@ -88,6 +89,20 @@ const EconomicsSensitivitiesHeatMap = () => {
       hoverTarget="cell"
       cellHoverOthersOpacity={0.25}
       cellShape={HeatMapCustomCell}
+      label={(datum, key) =>
+        // `${Number(datum[key]).toLocaleString("en-US", {
+        //   minimumFractionDigits: 2,
+        // })} ₽`
+
+        Math.round(Number(datum[key]))
+      }
+      tooltipFormat={(value) =>
+        // `${Number(value).toLocaleString("en-US", {
+        //   minimumFractionDigits: 2,
+        // })} ₽`
+
+        Math.round(Number(value))
+      }
     />
   );
 };

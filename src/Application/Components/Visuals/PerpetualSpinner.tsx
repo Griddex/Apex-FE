@@ -2,10 +2,10 @@ import { css } from "@emotion/react";
 import Backdrop from "@mui/material/Backdrop";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import HashLoader from "react-spinners/HashLoader";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 

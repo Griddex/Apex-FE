@@ -42,28 +42,6 @@ export default function StoredForecastDecks({
 
   const storedData = useSelector(storedDataSelector);
 
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
-
   const currentProjectId = useSelector(currentProjectIdSelector);
 
   const tableTitle = "Forecast InputDeck Table";
@@ -117,7 +95,6 @@ export default function StoredForecastDecks({
     snStoredData,
     dataKey,
     dataTitle,
-    chartData,
     showChart,
     containerStyle,
     handleCheckboxChange,

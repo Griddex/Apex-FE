@@ -1,8 +1,7 @@
-import { useTheme } from "@mui/material";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
@@ -12,10 +11,7 @@ import {
   IStoredDeck,
 } from "../../../Application/Types/ApplicationTypes";
 import { fetchStoredInputDeckRequestAction } from "../../Redux/Actions/StoredInputDeckActions";
-
-const StoredDataRoute = React.lazy(
-  () => import("../Common/InputWorkflows/StoredDataRoute")
-);
+import StoredDataRoute from "../Common/InputWorkflows/StoredDataRoute";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -29,30 +25,6 @@ export default function StoredFacilitiesDecks({
   containerStyle,
   showChart,
 }: IStoredDeck) {
-  const theme = useTheme();
-
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
-
   const currentProjectId = useSelector(currentProjectIdSelector);
 
   const tableTitle = "Facilities InputDeck Table";
@@ -127,7 +99,6 @@ export default function StoredFacilitiesDecks({
     snStoredData,
     dataKey,
     dataTitle,
-    chartData,
     showChart,
     containerStyle,
     handleCheckboxChange,

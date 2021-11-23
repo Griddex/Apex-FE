@@ -28,10 +28,7 @@ import {
 } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-
-const EconomicsSensitivitiesHeatMap = React.lazy(
-  () => import("./EconomicsSensitivitiesHeatMap")
-);
+import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 

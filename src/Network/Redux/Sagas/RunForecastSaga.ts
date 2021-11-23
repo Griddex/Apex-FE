@@ -107,7 +107,11 @@ function* runForecastSaga(
           },
         });
       }
-      yield put(showDialogAction(successDialogParameters()));
+
+      const { forecastDuration } = yield select(
+        (state) => state.forecastReducer
+      );
+      yield put(showDialogAction(successDialogParameters(forecastDuration)));
     }
 
     yield put(

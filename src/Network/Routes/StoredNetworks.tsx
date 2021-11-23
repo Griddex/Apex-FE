@@ -28,28 +28,6 @@ export default function StoredNetworks({
 }: IStoredNetworks) {
   const theme = useTheme();
 
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
-
   const currentProjectId = useSelector(currentProjectIdSelector);
 
   const mainUrl = `${getBaseForecastUrl()}/network`;
@@ -114,7 +92,6 @@ export default function StoredNetworks({
     snStoredData,
     dataKey,
     dataTitle,
-    chartData,
     wkPs: wp,
     containerStyle,
     collectionName,
