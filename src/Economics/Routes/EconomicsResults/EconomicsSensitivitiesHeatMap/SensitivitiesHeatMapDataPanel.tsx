@@ -1,7 +1,7 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
@@ -195,7 +195,7 @@ const SensitivitiesHeatMapDataPanel = ({
   );
 
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<IExtendedSelectOption, false>
+    option: OnChangeValue<IExtendedSelectOption, false>
   ) => {
     const optionDefined = option as IExtendedSelectOption;
     setEconomicsResultTitleOption(optionDefined);
@@ -249,7 +249,7 @@ const SensitivitiesHeatMapDataPanel = ({
           <ApexSelectRS
             valueOption={devOption as NonNullable<ISelectOption>}
             data={devOptions as NonNullable<ISelectOption[]>}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const optionDefined = option as NonNullable<ISelectOption>;
 
               setDevOption(optionDefined);

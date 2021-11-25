@@ -1,9 +1,9 @@
 import { Button, Input, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
@@ -93,7 +93,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           <ApexSelectRS
             valueOption={operatorOption}
             data={opOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               setOperatorOption(option as ISelectOption);
             }}
             menuPortalTarget={mapRef.current as HTMLDivElement}

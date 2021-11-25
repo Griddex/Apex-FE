@@ -8,7 +8,7 @@ import {
 } from "d3-format";
 import React, { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { components, OptionProps, ValueType } from "react-select";
+import { components, OptionProps, OnChangeValue } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
@@ -190,7 +190,9 @@ const ChartValueFormatters = ({
               ) as IExtendedSelectOption
             }
             data={valueOptions as IExtendedSelectOption[]}
-            handleSelect={(option: ValueType<IExtendedSelectOption, false>) => {
+            handleSelect={(
+              option: OnChangeValue<IExtendedSelectOption, false>
+            ) => {
               const optionDefined = option as IExtendedSelectOption;
               handleChange(optionDefined);
             }}

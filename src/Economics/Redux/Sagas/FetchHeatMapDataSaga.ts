@@ -61,14 +61,11 @@ function* fetchHeatMapDataSaga(
   const {
     analysisName,
     analysisTitle,
+    noOfSensitivities,
     selectedDevScenario,
     variableZlength,
     variableZKey,
   } = payload;
-  console.log(
-    "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 68 ~ payload",
-    payload
-  );
 
   const {
     selectedEconomicsResultsId,
@@ -76,10 +73,7 @@ function* fetchHeatMapDataSaga(
     heatMapVariableYOptions,
     heatMapVariableZOptions,
     isEconomicsResultsSaved,
-    heatMapTreeByScenario,
   } = yield select((state) => state.economicsReducer);
-
-  const noOfSensitivities = heatMapTreeByScenario["children"].length;
 
   const firstXKey = Object.keys(heatMapVariableXOptions)[0];
   const firstYKey = Object.keys(heatMapVariableYOptions)[0];
@@ -100,10 +94,6 @@ function* fetchHeatMapDataSaga(
       },
     ],
   };
-  console.log(
-    "Logged output --> ~ file: FetchHeatMapDataSaga.ts ~ line 99 ~ developmentScenariosMap",
-    developmentScenariosMap
-  );
 
   const config = { withCredentials: false };
   const fetchHeatMapDataAPI = (url: string) =>
@@ -139,15 +129,15 @@ function* fetchHeatMapDataSaga(
         )
       );
 
-      // const sensitivitiesHeatMap1or2D =
-      //   sensitivitiesHeatMapData[devScenario][variableZKey];
+      const sensitivitiesHeatMap1or2D =
+        sensitivitiesHeatMapData[devScenario][variableZKey];
 
-      // yield put(
-      //   updateEconomicsParameterAction(
-      //     "sensitivitiesHeatMap1or2D",
-      //     sensitivitiesHeatMap1or2D
-      //   )
-      // );
+      yield put(
+        updateEconomicsParameterAction(
+          "sensitivitiesHeatMap1or2D",
+          sensitivitiesHeatMap1or2D
+        )
+      );
     }
   } catch (errors) {
     const failureAction = fetchHeatMapDataFailureAction();

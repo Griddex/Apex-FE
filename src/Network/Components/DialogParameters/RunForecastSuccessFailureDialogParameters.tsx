@@ -3,6 +3,7 @@ import DialogViewSaveForecastCancelButtons from "../../../Application/Components
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import convertSecondsToHHMMSS from "../../../Application/Utils/ConvertSecondsToHHMMSS";
+import React from "react";
 
 export const successDialogParameters = ({ forecastDuration }: any) => {
   const successComp = (

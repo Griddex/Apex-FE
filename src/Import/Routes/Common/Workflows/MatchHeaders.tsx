@@ -6,11 +6,11 @@ import findIndex from "lodash.findindex";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { Styles, ValueType } from "react-select";
+import Select, { OnChangeValue, StylesConfig } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import { v4 as uuidv4 } from "uuid";
 import { dateFormatData } from "../../../../Application/Components/DateFormatPicker/DateFormatData";
 import ExcelExportTable, {
@@ -24,6 +24,7 @@ import {
   TSelectOptions,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -51,7 +52,6 @@ import {
   TSingleMatchObject,
   TUserMatchObject,
 } from "./MatchHeadersTypes";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -329,7 +329,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
   const generateColumns = (keyedAppHeaderOptions: TKeyedSelectOptions) => {
     const handleHeaderTypeChange = (
-      option: ValueType<ISelectOption, false>,
+      option: OnChangeValue<ISelectOption, false>,
       row: IRawRow
     ) => {
       const { sn } = row;
@@ -348,7 +348,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     };
 
     const handleApplicationHeaderChange = (
-      option: ValueType<ISelectOption, false>,
+      option: OnChangeValue<ISelectOption, false>,
       row: IRawRow,
       headerOptions: ISelectOption[],
       scoreOptions: ISelectOption[]
@@ -482,7 +482,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     };
 
     const handleDateFormatChange = (
-      option: ValueType<ISelectOption, false>,
+      option: OnChangeValue<ISelectOption, false>,
       row: IRawRow
     ) => {
       const { sn } = row;
@@ -526,7 +526,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
               value={valueOption}
               options={typeOptions}
               styles={RSStyles}
-              onChange={(value: ValueType<ISelectOption, IsMulti>) => {
+              onChange={(value: OnChangeValue<ISelectOption, IsMulti>) => {
                 handleHeaderTypeChange(value, row);
               }}
               menuPortalTarget={document.body}
@@ -549,14 +549,15 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           const valueOption = generateSelectOptions([appHeader])[0];
           const dateOption = dateFormatOptions.current[0];
 
-          const RSStyles: Styles<ISelectOption, false> = getRSStyles(theme);
+          const RSStyles: StylesConfig<ISelectOption, false> =
+            getRSStyles(theme);
 
           if (type === "Date")
             return (
               <ApexSelectRS
                 valueOption={dateOption}
                 data={dateFormatOptions.current}
-                handleSelect={(value: ValueType<ISelectOption, false>) =>
+                handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                   handleDateFormatChange(value, row)
                 }
                 menuPortalTarget={document.body}
@@ -569,7 +570,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 value={valueOption}
                 options={headerOptions}
                 styles={RSStyles}
-                onChange={(value: ValueType<ISelectOption, false>) =>
+                onChange={(value: OnChangeValue<ISelectOption, false>) =>
                   handleApplicationHeaderChange(
                     value,
                     row,

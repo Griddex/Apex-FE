@@ -5,7 +5,7 @@ import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 import React from "react";
 import { Rnd } from "react-rnd";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import {
@@ -29,7 +29,7 @@ export interface IChartDataPanel<T = ISelectOption> {
   selectedOption: T;
   titleOptions: T[];
   selectedTitle: string;
-  handleSelectChange: (row: ValueType<T, false>) => void;
+  handleSelectChange: (row: OnChangeValue<T, false>) => void;
   hasSecondaryComponent: boolean;
   secondarySelectComponent?: React.FC;
   treeViewComponent: React.FC<any>;

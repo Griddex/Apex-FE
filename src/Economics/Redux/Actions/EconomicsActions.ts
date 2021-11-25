@@ -562,6 +562,7 @@ export const transformEconomicsChartDataFailureAction = () => {
 export const getHeatMapDataRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles,
+  noOfSensitivities: number,
   selectedDevScenario?: string,
   variableZlength?: number,
   variableZKey?: string
@@ -571,6 +572,7 @@ export const getHeatMapDataRequestAction = (
     payload: {
       analysisName,
       analysisTitle,
+      noOfSensitivities,
       variableZlength,
       selectedDevScenario,
       variableZKey,

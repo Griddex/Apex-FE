@@ -11,19 +11,19 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const sensitivitiesHeatMap1or2DSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.sensitivitiesHeatMap1or2D,
-  (reducer) => reducer
+  (data) => data
 );
 const heatMapVariableXOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapVariableXOptions,
-  (reducer) => reducer
+  (data) => data
 );
 const heatMapVariableYOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapVariableYOptions,
-  (reducer) => reducer
+  (data) => data
 );
 const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
-  (reducer) => reducer
+  (data) => data
 );
 
 export interface IEconomicsSensitivitiesHeatMap {

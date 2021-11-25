@@ -9,7 +9,7 @@ import startCase from "lodash.startcase";
 import React from "react";
 import { Column, FormatterProps } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
@@ -137,7 +137,7 @@ const EditOrCreateProductionPrioritization = () => {
         <ApexSelectRS
           valueOption={valueOption as ISelectOption}
           data={optimizationOptions}
-          handleSelect={(option: ValueType<ISelectOption, false>) => {
+          handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
             updateRow(row, option);
           }}
           menuPortalTarget={dialogRef.current as HTMLDivElement}

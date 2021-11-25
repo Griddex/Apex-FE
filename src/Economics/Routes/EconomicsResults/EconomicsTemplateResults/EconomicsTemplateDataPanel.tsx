@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import {
@@ -72,7 +72,7 @@ const EconomicsTemplateDataPanel = () => {
     );
 
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<IExtendedSelectOption, false>
+    option: OnChangeValue<IExtendedSelectOption, false>
   ) => {
     const optionDefined = option as IExtendedSelectOption;
     setEconomicsResultTitleOption(optionDefined);

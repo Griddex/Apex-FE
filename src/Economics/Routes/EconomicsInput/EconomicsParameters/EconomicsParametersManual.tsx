@@ -5,7 +5,7 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ExcelExportTable, {
@@ -135,7 +135,7 @@ const EconomicsParametersManual = ({
 
   const handleParameterTypeChange = (
     row: IRawRow,
-    option: ValueType<ISelectOption, false>
+    option: OnChangeValue<ISelectOption, false>
   ) => {
     const selectedValue = option && option.value;
     const selectedType = selectedValue as string;
@@ -153,7 +153,7 @@ const EconomicsParametersManual = ({
 
   const handleParameterUnitChange = (
     row: IRawRow,
-    value: ValueType<ISelectOption, false>
+    value: OnChangeValue<ISelectOption, false>
   ) => {
     const selectedValue = value && value.label;
     const selectedAppUnit = selectedValue as string;
@@ -194,7 +194,7 @@ const EconomicsParametersManual = ({
             <ApexSelectRS
               valueOption={valueOption}
               data={typeOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) =>
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
                 handleParameterTypeChange(row, option)
               }
               menuPortalTarget={document.body}
@@ -268,7 +268,7 @@ const EconomicsParametersManual = ({
             <ApexSelectRS
               valueOption={valueOption}
               data={unitOptions}
-              handleSelect={(value: ValueType<ISelectOption, false>) =>
+              handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                 handleParameterUnitChange(row, value)
               }
               menuPortalTarget={document.body}

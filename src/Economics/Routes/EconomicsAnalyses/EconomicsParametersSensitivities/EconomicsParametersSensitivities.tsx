@@ -2,7 +2,7 @@ import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
@@ -107,7 +107,7 @@ const EconomicsParametersSensitivities = ({
           <ApexSelectRS
             valueOption={targetOption}
             data={analysisNameOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const optionDefined = option as ISelectOption;
               setTargetOption(optionDefined);
 

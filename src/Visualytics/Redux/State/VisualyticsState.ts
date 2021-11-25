@@ -1,9 +1,5 @@
-import {
-  IStoredDataProps,
-  IStoredDataRow,
-} from "../../../Application/Types/ApplicationTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
-import { chartObjNameType, IVisualyticsState } from "./VisualyticsStateTypes";
+import { IVisualyticsState } from "./VisualyticsStateTypes";
 
 export const chartObjectsNameTitleMap = {
   none: "",

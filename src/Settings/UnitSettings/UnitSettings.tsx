@@ -6,7 +6,7 @@ import findIndex from "lodash.findindex";
 import React, { ChangeEvent } from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
@@ -504,7 +504,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
           <ApexSelectRS
             valueOption={unitGroupOption}
             data={unitGroupOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               dispatch(
                 updateUnitsSettingsParameterAction("unitGroup", option?.label)
               );
@@ -541,7 +541,9 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                 <ApexSelectRS
                   valueOption={dayOption}
                   data={dayDateFormatOptions}
-                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                  handleSelect={(
+                    option: OnChangeValue<ISelectOption, false>
+                  ) => {
                     dispatch(
                       updateUnitsSettingsParameterAction(
                         "dayFormat",
@@ -557,7 +559,9 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                 <ApexSelectRS
                   valueOption={monthOption}
                   data={monthDateFormatOptions}
-                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                  handleSelect={(
+                    option: OnChangeValue<ISelectOption, false>
+                  ) => {
                     dispatch(
                       updateUnitsSettingsParameterAction(
                         "monthFormat",
@@ -573,7 +577,9 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                 <ApexSelectRS
                   valueOption={yearOption}
                   data={yearDateFormatOptions}
-                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                  handleSelect={(
+                    option: OnChangeValue<ISelectOption, false>
+                  ) => {
                     dispatch(
                       updateUnitsSettingsParameterAction(
                         "yearFormat",
@@ -616,7 +622,9 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                 <ApexSelectRS
                   valueOption={numberFormatOption}
                   data={numberFormatOptions}
-                  handleSelect={(option: ValueType<ISelectOption, false>) => {
+                  handleSelect={(
+                    option: OnChangeValue<ISelectOption, false>
+                  ) => {
                     dispatch(
                       updateUnitsSettingsParameterAction(
                         "numberFormatString",

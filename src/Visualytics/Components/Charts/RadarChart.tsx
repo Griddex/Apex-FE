@@ -12,6 +12,7 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
+import { ClosedCurveFactoryId } from "@nivo/core";
 
 const RadarChartChart = ({ workflowCategory, reducer }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
@@ -30,6 +31,9 @@ const RadarChartChart = ({ workflowCategory, reducer }: IChartProps) => {
   const chartData = useSelector(chartDataSelector);
 
   const commonChartPropsDefined = commonChartProps as IChart;
+
+  const curveRad = commonChartPropsDefined["curve"];
+  commonChartPropsDefined["curve"] = curveRad as ClosedCurveFactoryId;
 
   return <ResponsiveRadar data={chartData} {...commonChartPropsDefined} />;
 };

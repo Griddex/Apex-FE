@@ -1,7 +1,7 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
@@ -145,7 +145,7 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
     );
 
   const handleSelectVisualyticsResultsChange = (
-    option: ValueType<IExtendedSelectOption, false>
+    option: OnChangeValue<IExtendedSelectOption, false>
   ) => {
     const optionDefined = option as IExtendedSelectOption;
     setVisualyticsRunOption(optionDefined);

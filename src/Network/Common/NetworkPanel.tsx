@@ -3,7 +3,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import CallMadeOutlinedIcon from "@mui/icons-material/CallMadeOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
@@ -17,13 +17,13 @@ import { updateForecastResultsParameterAction } from "../../Forecast/Redux/Actio
 import { networkIcons } from "../Data/NetworkData";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-import { Divider } from "@material-ui/core";
+import { Divider } from "@mui/material";
 
 const NodePanel = React.lazy(() => import("../Components/Nodes/NodePanel"));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   networkPanel: {
     display: "flex",
     flexDirection: "column",
@@ -116,7 +116,7 @@ const NetworkPanel = () => {
                 valueOption={forecastInputDeckOption}
                 data={forecastInputDeckOptions}
                 handleSelect={(
-                  option: ValueType<IExtendedSelectOption, false>
+                  option: OnChangeValue<IExtendedSelectOption, false>
                 ) => {
                   const optionDefined = option as IExtendedSelectOption;
                   setForecastInputDeckOption(optionDefined);

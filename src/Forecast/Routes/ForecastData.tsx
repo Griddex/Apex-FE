@@ -3,17 +3,18 @@ import makeStyles from "@mui/styles/makeStyles";
 import groupBy from "lodash.groupby";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import Select, {
   components,
-  OptionsType,
+  GroupBase,
+  OnChangeValue,
+  OptionsOrGroups,
   Props as SelectProps,
-  ValueType,
 } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -24,6 +25,7 @@ import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../Application/Components/Selects/SelectItemsType";
+import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
@@ -34,7 +36,6 @@ import {
   updateForecastResultsParameterAction,
 } from "../Redux/Actions/ForecastActions";
 import { IForecastRoutes } from "./ForecastRoutesTypes";
-import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const rowGrouper = groupBy;
 const useStyles = makeStyles((theme) => ({
@@ -291,21 +292,21 @@ export default function ForecastData({
   });
 
   const SortableSelect = SortableContainer<SelectProps<ISelectOption, true>>(
-    // @ts-expect-error typescript quirkiness
+    // ts-expect-error typescript quirkiness
     Select
   );
   // const options: OptionsType<ISelectOption> = [];
-  const options: OptionsType<ISelectOption> = [
+  const options: OptionsOrGroups<any, GroupBase<any>> = [
     // { value: "Scenario", label: "Scenario" },
     // { value: "Feld", label: "Field" },
     // { value: "FlowStation", label: "Flowstation" },
     // { value: "Hydrocarbon Type", label: "Hydrocarbon Type" },
   ];
   const [selectedOptions, setSelectedOptions] = React.useState<
-    ValueType<ISelectOption, true>
+    OnChangeValue<ISelectOption, true>
   >([]);
   // const [selectedOptions, setSelectedOptions] = React.useState<
-  //   ValueType<ISelectOption, true>
+  //   OnChangeValue<ISelectOption, true>
   // >([options[0]]);
 
   const [expandedGroupIds, setExpandedGroupIds] = React.useState(
@@ -428,7 +429,7 @@ export default function ForecastData({
               valueOption={forecastRunOption}
               data={forecastRunTitleOptions}
               handleSelect={(
-                option: ValueType<IExtendedSelectOption, false>
+                option: OnChangeValue<IExtendedSelectOption, false>
               ) => {
                 setForecastRunOption(option as IExtendedSelectOption);
 

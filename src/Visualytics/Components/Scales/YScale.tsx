@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material";
 import React from "react";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -72,7 +72,7 @@ const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
       <ApexSelectRS
         valueOption={yScaleOption as ISelectOption}
         data={scaleOptions}
-        handleSelect={(option: ValueType<ISelectOption, false>) => {
+        handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
           const value = option?.value;
 
           yScaleContextFxn(value, "type");

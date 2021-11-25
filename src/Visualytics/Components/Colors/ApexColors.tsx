@@ -10,7 +10,8 @@ import {
   components,
   OptionProps,
   SingleValueProps,
-  ValueType,
+  OnChangeValue,
+  GroupBase,
 } from "react-select";
 import { IExtendedSelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexColorsItem from "./ApexColorsItem";
@@ -29,7 +30,14 @@ const sequentialColors = colorInterpolatorIds.map((id) => ({
   colors: range(0, 1, 0.05).map((t) => colorInterpolators[id](t)),
 }));
 
-const SingleValue = (props: SingleValueProps<IExtendedSelectOption>) => {
+const SingleValue = (
+  props: any
+  // props: SingleValueProps<
+  //   IExtendedSelectOption,
+  //   boolean,
+  //   GroupBase<IExtendedSelectOption>
+  // >
+) => {
   return (
     <components.SingleValue {...props}>
       <ApexColorsItem
@@ -43,7 +51,10 @@ const SingleValue = (props: SingleValueProps<IExtendedSelectOption>) => {
 const Option = (props: OptionProps<IExtendedSelectOption, false>) => {
   return (
     <components.Option {...props}>
-      <ApexColorsItem id={props.label as string} colors={props.data.colors} />
+      <ApexColorsItem
+        id={props.label as string}
+        colors={props.data.colors as string[]}
+      />
     </components.Option>
   );
 };
@@ -68,7 +79,7 @@ const ColorsControl = ({
     <ApexSelectRS
       valueOption={selectedOption as IExtendedSelectOption}
       data={options}
-      handleSelect={(option: ValueType<IExtendedSelectOption, false>) => {
+      handleSelect={(option: OnChangeValue<IExtendedSelectOption, false>) => {
         updateParameterAction &&
           dispatch(
             updateParameterAction(`${basePath}.colors`, {

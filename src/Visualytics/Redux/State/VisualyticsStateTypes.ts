@@ -12,12 +12,13 @@ import {
 import { Datum } from "@nivo/legends";
 import { PointTooltip } from "@nivo/line";
 import { PointData } from "@nivo/radar";
-import { TooltipLabel } from "@nivo/stream";
 import {
-  IStoredDataProps,
-  IStoredDataRow,
-} from "../../../Application/Types/ApplicationTypes";
+  IIdNameTitlePathOption,
+  ISelectOption,
+} from "../../../Application/Components/Selects/SelectItemsType";
+import { IStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import { IInputState } from "../../../Import/Redux/State/InputStateTypes";
+import { IDragItem } from "../../Components/ChartCategories/ChartCategoryTypes";
 import {
   AxisProps,
   CrosshairType,
@@ -27,14 +28,9 @@ import {
 import { RenderTree } from "../../Components/TreeView/ApexTreeViewTypes";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import {
-  IIdNameTitlePathOption,
-  ISelectOption,
-} from "../../../Application/Components/Selects/SelectItemsType";
-import {
   chartObjectsNameTitleMap,
   initialColorGradient,
 } from "./VisualyticsState";
-import { IDragItem } from "../../Components/ChartCategories/ChartCategoryTypes";
 
 export type chartObjNameType = keyof typeof chartObjectsNameTitleMap;
 export interface IChartObject {
@@ -146,8 +142,6 @@ export interface ITooltipLabel<
   T = Datum,
   RawDatum = Record<string, string | number>
 > {
-  stackedArea: TooltipLabel<T> | undefined;
-  // | string
   scatter: PointTooltip;
   bar: PropertyAccessor<BarComputedDatum<RawDatum>, string>;
 }
@@ -270,7 +264,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   // theme: pretty big object, implement later?
 
   //Series
-  curve: TCurve;
+  curve: any;
   blendMode: TAreaBlendMode;
   borderColor: any;
   // borderColor: InheritedColorConfig<
@@ -282,9 +276,11 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
 
   //Dots
   enableDots: boolean;
-  dotBorderColor: InheritedColorConfig<PointData | DotDatum>;
+  dotBorderColor: any;
+  // dotBorderColor: InheritedColorConfig<PointData | DotDatum>;
   dotBorderWidth: number;
-  dotColor: InheritedColorConfig<PointData | DotDatum>;
+  dotColor: any;
+  // dotColor: InheritedColorConfig<PointData | DotDatum>;
   dotSize: number;
   //markers: "", can't find in linechart
 
@@ -331,14 +327,14 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   enableStackTooltip: boolean;
 
   //Axis
-  axisTop: AxisProps | undefined;
-  axisRight: AxisProps | undefined;
-  axisBottom: AxisProps | undefined;
-  axisLeft: AxisProps | undefined;
-  // axisTop: AxisProps | null | undefined;
-  // axisRight: AxisProps | null | undefined;
-  // axisBottom: AxisProps | null | undefined;
-  // axisLeft: AxisProps | null | undefined;
+  // axisTop: AxisProps | undefined;
+  // axisRight: AxisProps | undefined;
+  // axisBottom: AxisProps | undefined;
+  // axisLeft: AxisProps | undefined;
+  axisTop: AxisProps | null | undefined;
+  axisRight: AxisProps | null | undefined;
+  axisBottom: AxisProps | null | undefined;
+  axisLeft: AxisProps | null | undefined;
   enableApexAxes: {
     axisLeft: boolean;
     axisBottom: boolean;

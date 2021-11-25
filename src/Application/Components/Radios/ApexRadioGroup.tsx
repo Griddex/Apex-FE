@@ -60,20 +60,22 @@ function StyledRadio(props: RadioProps) {
   );
 }
 
-const ApexRadioGroup = ({ apexRadioGroupData }: IApexRadioGroup) => {
-  const [selectedValue, setSelectedValue] = React.useState("");
-  console.log(
-    "🚀 ~ file: ApexRadioGroup.tsx ~ line 65 ~ ApexRadioGroup ~ selectedValue",
-    selectedValue
-  );
+const ApexRadioGroup = ({
+  setSelectedVariable,
+  apexRadioGroupData,
+}: IApexRadioGroup) => {
+  const firstVal = apexRadioGroupData[0].value;
+  const [selectedValue, setSelectedValue] = React.useState(firstVal);
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sVal = (event.target as HTMLInputElement).value;
     setSelectedValue(sVal);
+    setSelectedVariable && setSelectedVariable(sVal);
 
     const handleCheck = apexRadioGroupData.find(
       (obj) => obj.value === sVal
     )?.handleCheck;
+
     handleCheck && handleCheck();
   };
 
@@ -102,9 +104,4 @@ const ApexRadioGroup = ({ apexRadioGroupData }: IApexRadioGroup) => {
   );
 };
 
-export default React.memo(ApexRadioGroup, (prev, next) => {
-  const prevStr = prev.apexRadioGroupData.map((obj) => obj.value).join();
-  const nextStr = next.apexRadioGroupData.map((obj) => obj.value).join();
-
-  return prevStr === nextStr;
-});
+export default React.memo(ApexRadioGroup);
