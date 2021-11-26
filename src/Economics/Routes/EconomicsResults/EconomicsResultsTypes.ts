@@ -1,3 +1,4 @@
+import { IExtendedSelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 export interface IEconomicsResultsLanding {
@@ -12,5 +13,7 @@ export type IdType = {
 
 export interface IEconomicsResultsVisualytics {
   selectedZ: string;
-  setSelectedZ: TUseState<string>;
+  setSelectedZ?: TUseState<string>;
+  variableZDataOptions?: IExtendedSelectOption<string, string, string>[];
+  ZValuesTitle?: string;
 }

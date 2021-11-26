@@ -10,7 +10,7 @@ import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import * as xlsx from "xlsx";
@@ -154,7 +154,7 @@ const SelectSheet = ({
     selectedWorksheetName
   );
 
-  const handleSelectChange = (option: ValueType<ISelectOption, false>) => {
+  const handleSelectChange = (option: OnChangeValue<ISelectOption, false>) => {
     const selectedWorksheetName = option && option.label;
     const sWN = selectedWorksheetName as string;
 
@@ -216,6 +216,7 @@ const SelectSheet = ({
         handleSelect={handleSelectChange}
         isSelectOptionType={true}
         menuPortalTarget={document.body}
+        containerHeight={40}
       />
     );
   };

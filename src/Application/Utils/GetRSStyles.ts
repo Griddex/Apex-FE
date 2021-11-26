@@ -1,5 +1,5 @@
 import { Theme } from "@mui/material/styles";
-import { Styles } from "react-select";
+import { StylesConfig } from "react-select";
 import { ISelectOption } from "../Components/Selects/SelectItemsType";
 
 const getRSStyles = <T extends ISelectOption>(
@@ -8,7 +8,7 @@ const getRSStyles = <T extends ISelectOption>(
   containerHeight?: React.Key,
   isDisabled?: boolean
 ) => {
-  const apexSelectStyles: Styles<T, boolean> = {
+  const apexSelectStyles: StylesConfig<T, boolean> = {
     container: (styles) => ({
       ...styles,
       height: containerHeight ? containerHeight : "100%",

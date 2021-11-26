@@ -76,20 +76,20 @@ const EconomicsResultsLanding = () => {
   );
 
   const economicsResultsLandingData: ILandingData[] = [
-    {
-      name: "View Template Results",
-      description: `View prepared tables and charts for your economics results in a responsive and perfomant canvas`,
-      icon: (
-        <Image
-          className={classes.image}
-          src={Spreadsheet}
-          alt="Spreadsheet Logo"
-        />
-      ),
-      route: `${url}/templateResults`,
-      workflowProcess: "economicsTemplateResultsData",
-      workflowCategory: "storedDataWorkflows",
-    },
+    // {
+    //   name: "View Template Results",
+    //   description: `View prepared tables and charts for your economics results in a responsive and perfomant canvas`,
+    //   icon: (
+    //     <Image
+    //       className={classes.image}
+    //       src={Spreadsheet}
+    //       alt="Spreadsheet Logo"
+    //     />
+    //   ),
+    //   route: `${url}/templateResults`,
+    //   workflowProcess: "economicsTemplateResultsData",
+    //   workflowCategory: "storedDataWorkflows",
+    // },
     {
       name: "Plot Charts",
       description: `Plot economics results in highly interactive charts`,

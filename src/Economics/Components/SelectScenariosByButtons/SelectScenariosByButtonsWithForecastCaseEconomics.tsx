@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -83,7 +83,7 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
             <ApexSelectRS
               valueOption={devOption}
               data={developmentScenarioOptions}
-              handleSelect={(row: ValueType<ISelectOption, false>) => {
+              handleSelect={(row: OnChangeValue<ISelectOption, false>) => {
                 const value = row?.value as string;
                 const label = row?.label as string;
 
@@ -109,6 +109,7 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -129,7 +130,7 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
           <ApexSelectRS
             valueOption={forecastCaseOption}
             data={forecastCaseOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const path = `${wc}.${ap}.forecastScenarioAnalysis`;
               const value = option?.value as string;
               dispatch(updateEconomicsParameterAction(path, value));
@@ -138,6 +139,7 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
             }}
             menuPortalTarget={document.body}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

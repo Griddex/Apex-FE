@@ -1,11 +1,10 @@
 import React from "react";
-import Select from "react-select";
-import type { OptionTypeBase, OptionsType } from "react-select";
+import Select, { GroupBase, OptionsOrGroups } from "react-select";
 
 interface SelectEditorProps {
   value: string;
   onChange: (value: string) => void;
-  options: OptionsType<OptionTypeBase>;
+  options: OptionsOrGroups<any, GroupBase<any>>;
   rowHeight: number;
   menuPortalTarget?: Element;
   className?: string;

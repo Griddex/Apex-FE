@@ -3,7 +3,7 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import { Node } from "react-flow-renderer";
 import { useDispatch } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -100,7 +100,7 @@ const LinkInputDeckAndNodes = ({
             <ApexSelectRS
               valueOption={valueOption}
               data={options as ISelectOption[]}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 const optionDefined = option as ISelectOption;
 
                 setIdxNodesObj((prev) => {
@@ -144,6 +144,7 @@ const LinkInputDeckAndNodes = ({
               }}
               menuPortalTarget={linkRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

@@ -4,7 +4,7 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
@@ -99,7 +99,7 @@ const EconomicsDecksSelectionTable = () => {
 
   const generateColumns = () => {
     const handleEconomicsDeckTitleChange = (
-      value: ValueType<ISelectOption, false>,
+      value: OnChangeValue<ISelectOption, false>,
       row: IRawRow
     ) => {
       const rowSn = row.sn as number;
@@ -186,11 +186,12 @@ const EconomicsDecksSelectionTable = () => {
             <ApexSelectRS
               valueOption={valueOption}
               data={options}
-              handleSelect={(value: ValueType<ISelectOption, false>) =>
+              handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                 handleEconomicsDeckTitleChange(value, row)
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

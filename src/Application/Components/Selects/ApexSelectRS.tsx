@@ -22,6 +22,7 @@ const ApexSelectRS = <T extends ISelectOption>({
   ...rest
 }: IApexSelectRS<T>) => {
   const theme = useTheme();
+
   const RSStyles = getRSStyles<T>(
     theme,
     containerWidth as React.Key,

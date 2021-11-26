@@ -304,6 +304,7 @@ const EconomicsPlotChartsVisualytics = () => {
       {showContextDrawer && (
         <VisualyticsContext
           reducer={reducer}
+          currentThresholdTitle={"plotChartsHeatMapThresholdData"}
           chartType={chartType as TChartTypes}
           basePath={basePath}
           updateParameterAction={React.useCallback(

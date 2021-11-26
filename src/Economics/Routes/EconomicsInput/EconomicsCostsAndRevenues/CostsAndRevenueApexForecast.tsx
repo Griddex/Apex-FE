@@ -11,7 +11,7 @@ import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ExcelExportTable, {
@@ -279,7 +279,7 @@ export default function CostsAndRevenueApexForecast({
   }
 
   const handleApplicationUnitChange = (
-    option: ValueType<ISelectOption, false>,
+    option: OnChangeValue<ISelectOption, false>,
     headerName: string
   ) => {
     setAppHeaderChosenAppUnitObj((prev) => {
@@ -373,11 +373,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={option}
                   data={unitOptionsByVariableName["baseOilRate"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "baseOilRate")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -407,11 +408,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={option}
                   data={unitOptionsByVariableName["condensateRate"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "condensateRate")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -437,11 +439,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={option}
                   data={unitOptionsByVariableName["associatedGasRate"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "associatedGasRate")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -467,11 +470,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["nonAssociatedGasRate"]
                   }
                   data={unitOptionsByVariableName["nonAssociatedGasRate"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "nonAssociatedGasRate")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -495,11 +499,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={appHeaderChosenAppUnitObj[devVal]["seismicCost"]}
                   data={unitOptionsByVariableName["seismicCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "seismicCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -525,11 +530,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["explAppraisalCost"]
                   }
                   data={unitOptionsByVariableName["explAppraisalCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "explAppraisalCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -555,11 +561,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["facilitiesCapex"]
                   }
                   data={unitOptionsByVariableName["facilitiesCapex"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "facilitiesCapex")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -585,11 +592,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["tangibleDrillingCost"]
                   }
                   data={unitOptionsByVariableName["tangibleDrillingCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "tangibleDrillingCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -615,11 +623,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["intangibleDrillingCost"]
                   }
                   data={unitOptionsByVariableName["intangibleDrillingCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "intangibleDrillingCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -645,11 +654,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["abandonmentCost"]
                   }
                   data={unitOptionsByVariableName["abandonmentCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "abandonmentCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -673,11 +683,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={appHeaderChosenAppUnitObj[devVal]["directCost"]}
                   data={unitOptionsByVariableName["directCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "directCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -701,11 +712,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={appHeaderChosenAppUnitObj[devVal]["projectCost"]}
                   data={unitOptionsByVariableName["projectCost"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "projectCost")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -729,11 +741,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={appHeaderChosenAppUnitObj[devVal]["cHA"]}
                   data={unitOptionsByVariableName["cHA"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "cHA")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -757,11 +770,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={appHeaderChosenAppUnitObj[devVal]["tariffs"]}
                   data={unitOptionsByVariableName["tariffs"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "tariffs")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -786,11 +800,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["gasProcTraiffs"]
                   }
                   data={unitOptionsByVariableName["gasProcTraiffs"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "gasProcTraiffs")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -813,11 +828,12 @@ export default function CostsAndRevenueApexForecast({
                 <ApexSelectRS
                   valueOption={appHeaderChosenAppUnitObj[devVal]["terminalFee"]}
                   data={unitOptionsByVariableName["terminalFee"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "terminalFee")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -844,11 +860,12 @@ export default function CostsAndRevenueApexForecast({
                     appHeaderChosenAppUnitObj[devVal]["taxDepreciation"]
                   }
                   data={unitOptionsByVariableName["taxDepreciation"]}
-                  handleSelect={(value: ValueType<ISelectOption, false>) =>
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                     handleApplicationUnitChange(value, "taxDepreciation")
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -968,7 +985,7 @@ export default function CostsAndRevenueApexForecast({
               <ApexSelectRS
                 valueOption={devOption}
                 data={developmentScenarioOptions}
-                handleSelect={(row: ValueType<ISelectOption, false>) => {
+                handleSelect={(row: OnChangeValue<ISelectOption, false>) => {
                   const path = `${basePath}.developmentScenarios`;
                   const value = row?.value as string;
                   const label = row?.label as string;
@@ -993,6 +1010,7 @@ export default function CostsAndRevenueApexForecast({
                 }}
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -1014,7 +1032,7 @@ export default function CostsAndRevenueApexForecast({
             <ApexSelectRS
               valueOption={forecastCaseOption}
               data={forecastCaseOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 const path = `${basePath}.forecastCase`;
                 const value = option?.value as string;
 
@@ -1024,6 +1042,7 @@ export default function CostsAndRevenueApexForecast({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />

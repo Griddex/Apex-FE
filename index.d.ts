@@ -4,3 +4,4 @@ declare module "randomcolor";
 declare module "object-scan";
 declare module "react-export-excel";
 declare module "use-react-screenshot";
+declare module "react-stopwatch";

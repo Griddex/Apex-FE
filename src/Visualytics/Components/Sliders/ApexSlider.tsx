@@ -9,11 +9,11 @@ import { TUseState } from "../../../Application/Types/ApplicationTypes";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
-    alignItems: "center",
+    justifyContent: "space-between",
     width: "100%",
   },
   input: {
-    width: 80,
+    width: 60,
     fontSize: 14,
     marginLeft: 5,
     border: `1px solid ${grey[500]}`,
@@ -83,7 +83,7 @@ const ApexSlider = ({
         aria-labelledby="input-slider"
         valueLabelDisplay="auto"
         marks
-        style={{ width: "100%" }}
+        style={{ width: `calc(100% - 75px)` }}
         min={min}
         max={max}
         step={step}

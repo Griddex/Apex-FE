@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
@@ -23,6 +23,7 @@ import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCatego
 import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import { TUseState } from "../../../../Application/Types/ApplicationTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 const wc = "storedDataWorkflows";
@@ -44,14 +45,7 @@ const selectedEconomicsPlotChartOptionSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.selectedEconomicsPlotChartOption,
   (data) => data
 );
-const economicsPlotChartsTreeSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.economicsPlotChartsTree,
-  (data) => data
-);
-const plotChartsVariableZOptionsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.plotChartsVariableZOptions,
-  (data) => data
-);
+
 const showPlotChartsCategoryMembersObjSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.showPlotChartsCategoryMembersObj,
   (data) => data
@@ -66,7 +60,10 @@ const plotChartsCategoryHasDroppedSelector = createDeepEqualSelector(
 );
 
 const EconomicsPlotChartsDataPanel = ({
+  selectedZ,
   setSelectedZ,
+  variableZDataOptions,
+  ZValuesTitle,
 }: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
 
@@ -82,10 +79,7 @@ const EconomicsPlotChartsDataPanel = ({
   const selectedEconomicsPlotChartOption = useSelector(
     selectedEconomicsPlotChartOptionSelector
   );
-  const economicsPlotChartsTree = useSelector(economicsPlotChartsTreeSelector);
-  const plotChartsVariableZOptions = useSelector(
-    plotChartsVariableZOptionsSelector
-  );
+
   const showPlotChartsCategoryMembersObj = useSelector(
     showPlotChartsCategoryMembersObjSelector
   );
@@ -135,7 +129,7 @@ const EconomicsPlotChartsDataPanel = ({
     );
 
   const handleSelectEconomicsResultsChange = (
-    option: ValueType<IExtendedSelectOption, false>
+    option: OnChangeValue<IExtendedSelectOption, false>
   ) => {
     const optionDefined = option as IExtendedSelectOption;
     setEconomicsResultOption(optionDefined);
@@ -223,11 +217,13 @@ const EconomicsPlotChartsDataPanel = ({
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={React.useMemo(
-            () => plotChartsVariableZOptions,
-            [JSON.stringify(plotChartsVariableZOptions)]
+          selectedZ={selectedZ}
+          setSelectedZ={React.useCallback(
+            setSelectedZ as TUseState<string>,
+            []
           )}
-          setSelectedZ={React.useCallback(setSelectedZ, [])}
+          variableZDataOptions={variableZDataOptions}
+          ZValuesTitle={ZValuesTitle}
         />
       }
       resultsTitle={selectedEconomicsResultsTitle}

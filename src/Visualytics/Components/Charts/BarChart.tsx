@@ -12,7 +12,7 @@ import {
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
-import { GridValues, IChartProps } from "../ChartTypes";
+import { AxisProps, GridValues, IChartProps } from "../ChartTypes";
 import omit from "lodash.omit";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -45,6 +45,7 @@ const SimpleBarChart = ({
     labelTextColor,
     legends,
     valueFormatString,
+    axisTop,
   } = commonChartPropsDefined;
 
   const gridXValuesBar = gridXValues as GridValues<string | number> | undefined;
@@ -52,6 +53,9 @@ const SimpleBarChart = ({
 
   const gridYValuesBar = gridYValues as GridValues<string | number> | undefined;
   commonChartPropsDefined["gridYValues"] = gridYValuesBar;
+
+  // const axisTopBar = axisTop as AxisProps<any> | undefined;
+  // commonChartPropsDefined["axisTop"] = axisTopBar;
 
   const labelTextColorBar = labelTextColor as InheritedColorConfig<
     ComputedBarDatum<any>
@@ -65,41 +69,26 @@ const SimpleBarChart = ({
   //Barchart renders before payload hits store
   // commonChartPropsDefined["indexBy"] = isYear ? "Year" : "Month";
   commonChartPropsDefined["indexBy"] = indexBy as string;
-  console.log("🚀 ~ file: BarChart.tsx ~ line 81 ~ indexBy", indexBy);
 
   let keys = [] as any[];
   if (chartData.length > 0) {
     const firstSeriesObj = chartData[0];
-    console.log(
-      "🚀 ~ file: BarChart.tsx ~ line 85 ~ firstSeriesObj",
-      firstSeriesObj
-    );
     const allKeysWithColor = Object.keys(firstSeriesObj).filter((k) =>
       k.toLowerCase().endsWith("color")
-    );
-    console.log(
-      "🚀 ~ file: BarChart.tsx ~ line 89 ~ allKeysWithColor",
-      allKeysWithColor
     );
 
     const keysObj = omit(firstSeriesObj, [
       indexBy as string,
       ...allKeysWithColor,
     ]);
-    console.log("🚀 ~ file: BarChart.tsx ~ line 95 ~ keysObj", keysObj);
 
     keys = Object.keys(keysObj);
-    console.log("🚀 ~ file: BarChart.tsx ~ line 105 ~ keys", keys);
   }
   commonChartPropsDefined["keys"] = keys;
 
   const valueFormatBar = (v: DatumValue) =>
     format(valueFormatString)(v as number);
   commonChartPropsDefined["valueFormat"] = valueFormatBar;
-  console.log(
-    "🚀 ~ file: BarChart.tsx ~ line 90 ~ commonChartPropsDefined",
-    commonChartPropsDefined
-  );
 
   return <ResponsiveBar data={chartData} {...commonChartPropsDefined} />;
 };

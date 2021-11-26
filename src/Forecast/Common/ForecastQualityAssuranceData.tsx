@@ -16,6 +16,7 @@ import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActi
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
+import generateDoughnutAnalyticsData from "../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAggregationLevelButtonsMenu";
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
@@ -65,27 +66,6 @@ export default function ForecastQualityAssuranceData({
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
   const componentRef = React.useRef();
 
   const wc = "storedDataWorkflows";
@@ -150,9 +130,7 @@ export default function ForecastQualityAssuranceData({
     componentRef,
   };
 
-  React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  const chartData = React.useRef(generateDoughnutAnalyticsData(rows, "field"));
 
   const [sRow, setSRow] = React.useState(-1);
 
@@ -160,7 +138,10 @@ export default function ForecastQualityAssuranceData({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics
+            data={chartData.current}
+            willUseThemeColor={false}
+          />
         </div>
       )}
       <div className={classes.table}>

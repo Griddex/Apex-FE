@@ -3,7 +3,7 @@ import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import { Button, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { TUseState } from "../../Types/ApplicationTypes";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import ApexSelectRS from "../Selects/ApexSelectRS";
@@ -65,11 +65,12 @@ const FillPopoverComponent = ({
           <ApexSelectRS
             valueOption={columnTitleOption as ISelectOption}
             data={columnTitleOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               setColumnTitleOption(option as ISelectOption);
             }}
             menuPortalTarget={fillPopRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />
@@ -117,11 +118,12 @@ const FillPopoverComponent = ({
             <ApexSelectRS
               valueOption={downToOption as ISelectOption}
               data={downToOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 setDownToOption(option as ISelectOption);
               }}
               menuPortalTarget={fillPopRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -134,11 +136,12 @@ const FillPopoverComponent = ({
             <ApexSelectRS
               valueOption={upToOption as ISelectOption}
               data={upToOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 setUpToOption(option as ISelectOption);
               }}
               menuPortalTarget={fillPopRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />

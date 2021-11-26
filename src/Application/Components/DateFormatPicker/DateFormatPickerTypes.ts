@@ -1,4 +1,4 @@
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import {
   TDayFormatValues,
   TMonthFormatValues,
@@ -25,7 +25,7 @@ export interface IDateFormatPicker {
   setMonth: TUseState<TMonthOption>;
   year: TYearOption;
   setYear: TUseState<TYearOption>;
-  handleDateFormatChange: (option: ValueType<ISelectOption, false>) => void;
+  handleDateFormatChange: (option: OnChangeValue<ISelectOption, false>) => void;
 }
 
 export const dayDateFormats = ["d", "do", "dd", "ddd"];

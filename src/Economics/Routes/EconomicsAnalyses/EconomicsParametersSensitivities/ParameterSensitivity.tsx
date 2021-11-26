@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useDispatch } from "react-redux";
-import Select, { ValueType } from "react-select";
+import Select, { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
@@ -56,7 +56,7 @@ const ParameterSensitivity = ({
   const RSStyles = getRSStyles(theme);
 
   const handleSelectTargetParameterChange = (
-    selectedOption: ValueType<ISelectOption, false>,
+    selectedOption: OnChangeValue<ISelectOption, false>,
     parId: TParametersId
   ) => {
     const selectedTargetParameterOption = selectedOption as ISelectOption;
@@ -191,7 +191,7 @@ const ParameterSensitivity = ({
             value={valueOption}
             options={targetParameterOptions}
             styles={RSStyles}
-            onChange={(value: ValueType<ISelectOption, false>) => {
+            onChange={(value: OnChangeValue<ISelectOption, false>) => {
               handleSelectTargetParameterChange(value, parId);
             }}
             menuPortalTarget={sensitivityRef.current as HTMLDivElement}

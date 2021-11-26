@@ -7,7 +7,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import AnalyticsComp from "../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsTitle from "../../Application/Components/Basic/AnalyticsTitle";
@@ -361,7 +361,7 @@ const EditOrCreateForecastingParameters = ({
                 ) as ISelectOption
               }
               data={timeFrequencyOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 const optionDefined = option as ISelectOption;
 
                 setFormEditorRow((prev) => ({
@@ -388,7 +388,7 @@ const EditOrCreateForecastingParameters = ({
                 ) as ISelectOption
               }
               data={defermentOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 const optionDefined = option as ISelectOption;
 
                 setFormEditorRow((prev) => ({
@@ -398,6 +398,7 @@ const EditOrCreateForecastingParameters = ({
               }}
               menuPortalTarget={dialogRef.current as HTMLElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
           containerStyle={{ width: "45%", height: 50 }}
@@ -417,7 +418,7 @@ const EditOrCreateForecastingParameters = ({
               ) as ISelectOption
             }
             data={realtimeOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const optionDefined = option as ISelectOption;
 
               setFormEditorRow((prev) => ({
@@ -428,6 +429,7 @@ const EditOrCreateForecastingParameters = ({
             menuPortalTarget={dialogRef.current as HTMLElement}
             isSelectOptionType={true}
             isDisabled={true}
+            containerHeight={40}
           />
         }
         containerStyle={{ width: "100%", height: 50 }}

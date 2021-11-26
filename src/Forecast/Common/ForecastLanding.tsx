@@ -28,18 +28,18 @@ import {
 } from "../Redux/Actions/ForecastActions";
 import { IdType } from "./ForecastLandingTypes";
 
-const ForecastData = React.lazy(() => import("../Routes/ForecastData"));
+const RunForecastWorkflowDialog = React.lazy(
+  () => import("../../Network/Components/Dialogs/RunForecastWorkflowDialog")
+);
 const ForecastQualityAssurance = React.lazy(
   () => import("../Routes/ForecastQualityAssurance")
 );
 const ForecastVisualytics = React.lazy(
   () => import("../Routes/ForecastVisualytics")
 );
+const ForecastData = React.lazy(() => import("../Routes/ForecastData"));
 const StoredForecastResults = React.lazy(
   () => import("../Routes/StoredForecastResults")
-);
-const RunForecastWorkflowDialog = React.lazy(
-  () => import("../../Network/Components/Dialogs/RunForecastWorkflowDialog")
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -124,20 +124,20 @@ const ForecastLanding = () => {
       workflowProcess: "forecastResultsQualityAssurance",
       workflowCategory: "storedDataWorkflows",
     },
-    {
-      name: "Forecast Report",
-      description: `View forecast results data in responsive and performant tables`,
-      icon: (
-        <Image
-          className={classes.image}
-          src={Spreadsheet}
-          alt="Spreadsheet Logo"
-        />
-      ),
-      route: `${url}/forecastdata`,
-      workflowProcess: "forecastResultsData",
-      workflowCategory: "storedDataWorkflows",
-    },
+    // {
+    //   name: "Forecast Report",
+    //   description: `View forecast results data in responsive and performant tables`,
+    //   icon: (
+    //     <Image
+    //       className={classes.image}
+    //       src={Spreadsheet}
+    //       alt="Spreadsheet Logo"
+    //     />
+    //   ),
+    //   route: `${url}/forecastdata`,
+    //   workflowProcess: "forecastResultsData",
+    //   workflowCategory: "storedDataWorkflows",
+    // },
     {
       name: `Stored Forecast Results`,
       description: `Select a pre-exisiting and approved forecast results data stored in the Apex\u2122 database`,

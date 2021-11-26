@@ -17,24 +17,18 @@ declare module "@mui/styles/defaultTheme" {
   interface DefaultTheme extends Theme {}
 }
 
-async function prepare() {
-  return Promise.resolve();
-}
-
-prepare().then(() => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <Router history={history}>
-              <CssBaseline />
-              <App />
-            </Router>
-          </LocalizationProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </Provider>,
-    document.getElementById("app")
-  );
-});
+ReactDOM.render(
+  <Provider store={store}>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Router history={history}>
+            <CssBaseline />
+            <App />
+          </Router>
+        </LocalizationProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
+  </Provider>,
+  document.getElementById("app")
+);

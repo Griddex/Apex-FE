@@ -4,13 +4,16 @@ import { omit } from "lodash";
 import capitalize from "lodash.capitalize";
 import React, { Suspense } from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   ISelectOption,
   TSelectOptions,
@@ -28,8 +31,6 @@ import addSerialNumberToTable from "../../../../Application/Utils/AddSerialNumbe
 import cleanTableData from "../../../../Application/Utils/CleanTableData";
 import generateColumnNameInfo from "../../../../Application/Utils/GenerateColumnNameInfo";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
-import getRSStyles from "../../../../Application/Utils/GetRSStyles";
-import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import getTableHeaders from "../../../../Application/Utils/GetTableHeaders";
 import getTableUnits from "../../../../Application/Utils/GetTableUnits";
 import {
@@ -38,8 +39,6 @@ import {
   persistFileUnitsAndUniqueUnitsAction,
   persistTableRoleNamesAction,
 } from "../../../Redux/Actions/InputActions";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const ApexGrid = React.lazy(
   () =>
@@ -192,9 +191,8 @@ export default function SelectHeaderUnitData({
           const selectedSN = row.sn as number;
           const value = row.role as string;
           const valueOption = generateSelectOptions([value])[0];
-          const RSStyles = getRSStyles(theme);
 
-          const handleSelect = (value: ValueType<ISelectOption, false>) => {
+          const handleSelect = (value: OnChangeValue<ISelectOption, false>) => {
             const currentValue = value && value.label;
 
             onRowChange({
@@ -219,13 +217,12 @@ export default function SelectHeaderUnitData({
           };
 
           return (
-            <Select
-              value={valueOption}
-              options={roleOptions}
-              styles={RSStyles}
-              onChange={handleSelect}
+            <ApexSelectRS
+              valueOption={valueOption}
+              data={roleOptions}
+              handleSelect={handleSelect}
+              isSelectOptionType={true}
               menuPortalTarget={document.body}
-              theme={(thm) => getRSTheme(thm, theme)}
             />
           );
         },

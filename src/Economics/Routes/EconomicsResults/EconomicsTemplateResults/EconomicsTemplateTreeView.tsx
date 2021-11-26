@@ -51,7 +51,7 @@ const EconomicsTemplateTreeView = ({ height }: ITreeViewProps) => {
         []
       )}
       dragDropTypes={itemTypes.ECONOMICS_TEMPLATECHARTS}
-      height={height}
+      height={height as number}
     />
   );
 };

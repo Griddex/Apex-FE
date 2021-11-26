@@ -26,4 +26,5 @@ const uiSpinnerReducer = (state = uiSpinnerState, action: IAction) => {
       return state;
   }
 };
+
 export default uiSpinnerReducer;

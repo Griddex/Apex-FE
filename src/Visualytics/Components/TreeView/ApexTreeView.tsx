@@ -1,4 +1,5 @@
 import SvgIcon from "@mui/material/SvgIcon";
+import { useTheme } from "@mui/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import styled from "@mui/system/styled";
 import get from "lodash.get";
@@ -7,6 +8,7 @@ import React from "react";
 import { useDrag } from "react-dnd";
 import { FixedSizeTree as Tree } from "react-vtree";
 import ApexCheckbox2 from "../../../Application/Components/Checkboxes/ApexCheckbox2";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 import {
   IApexTreeView,
   RenderTree,
@@ -50,8 +52,10 @@ const ApexTreeView = ({
   setSelectedPathsUnfiltered,
   dragDropTypes,
   height,
+  droppedIds,
 }: IApexTreeView) => {
   console.log("ApexTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+  const theme = useTheme();
   const classes = useStyles();
 
   const initExpanded = rootTree?.children?.map(
@@ -215,6 +219,10 @@ const ApexTreeView = ({
     let currentTree: RenderTree;
     let titleProps: any;
 
+    const disableStyle = droppedIds?.includes(id)
+      ? getDisabledStyle(theme)
+      : {};
+
     if (isLeaf) {
       if (path) {
         const sensitivitiesJoined = path?.split("@#$%")[3];
@@ -279,6 +287,7 @@ const ApexTreeView = ({
           display: "flex",
           alignItems: "center",
           marginLeft: nestingLevel * 15 + (isLeaf ? 15 : 0),
+          ...disableStyle,
         }}
       >
         {!isLeaf && (
@@ -316,7 +325,7 @@ const ApexTreeView = ({
       className={classes.rootTreeView}
       treeWalker={treeWalker}
       itemSize={30}
-      height={height}
+      height={height ? height : 800}
       width={400}
     >
       {ApexNode}

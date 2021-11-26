@@ -8,17 +8,15 @@ import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 import {
   itemTypesEconomics,
   itemTypesForecast,
   itemTypesVisualytics,
 } from "../../Utils/DragAndDropItemTypes";
+import { TChartTypes } from "../Charts/ChartTypes";
 import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { TChartTypes } from "../Charts/ChartTypes";
-import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -87,35 +85,31 @@ const CartesianChartCategory = ({
       drop(item) {
         const { id } = item as IDragItem;
 
-        const droppedIds = Object.keys(dragItemObj);
+        setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
+        setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
 
-        if (!droppedIds.includes(id)) {
-          setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
-          setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
+        dispatch(updateAction(categoryOptionTitle as string, item));
 
-          dispatch(updateAction(categoryOptionTitle as string, item));
+        dispatch(
+          updateDragItemsAction &&
+            updateDragItemsAction(
+              reducer as ReducersType,
+              categoryTitle as string,
+              categoryDragItemsTitle as string,
+              item as IDragItem
+            )
+        );
 
-          dispatch(
-            updateDragItemsAction &&
-              updateDragItemsAction(
-                reducer as ReducersType,
-                categoryTitle as string,
-                categoryDragItemsTitle as string,
-                item as IDragItem
-              )
-          );
-
-          dispatch(
-            updateHasDroppedAction &&
-              updateHasDroppedAction(
-                reducer as ReducersType,
-                categoryTitle as string,
-                categoryHasDroppedTitle as string,
-                id,
-                true
-              )
-          );
-        }
+        dispatch(
+          updateHasDroppedAction &&
+            updateHasDroppedAction(
+              reducer as ReducersType,
+              categoryTitle as string,
+              categoryHasDroppedTitle as string,
+              id,
+              true
+            )
+        );
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -146,8 +140,6 @@ const CartesianChartCategory = ({
     ...disableStyle,
     width: "100%",
   } as CSSProperties;
-
-  const droppedIds = Object.keys(hasDroppedObj);
 
   React.useEffect(() => {
     setMembersSwitch(
@@ -235,29 +227,6 @@ const CartesianChartCategory = ({
                 })}
               </>
             ) : (
-              // <AutoSizer>
-              //   {({ height, width }: TSize) => (
-              //     <List
-              //       height={height}
-              //       width={width}
-              //       itemCount={Object.keys(hasDroppedObj).length}
-              //       itemSize={30}
-              //       itemData={droppedIds}
-              //     >
-              //       {({ index, style, data }) => (
-              //         <ChartCategoryVariable
-              //           style={style}
-              //           key={index}
-              //           dragItem={dragItemObj[data[index]]}
-              //           setHasDroppedObj={setHasDroppedObj}
-              //           setDragItemObj={setDragItemObj}
-              //           categoryTitle={categoryTitle as string}
-              //           removeChartCategoryAction={removeAction}
-              //         />
-              //       )}
-              //     </List>
-              //   )}
-              // </AutoSizer>
               <ApexFlexContainer>{"Drop here"}</ApexFlexContainer>
             )}
           </ApexFlexContainer>

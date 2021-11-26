@@ -88,14 +88,8 @@ const ChartCategoryVariable = ({
       <IconButton
         style={{ marginRight: 0 }}
         onClick={() => {
-          setHasDroppedObj((prev) => {
-            const next = omit(prev, [id]);
-            return next;
-          });
-          setDragItemObj((prev) => {
-            const next = omit(prev, [id]);
-            return next;
-          });
+          setHasDroppedObj((prev) => omit(prev, [id]));
+          setDragItemObj((prev) => omit(prev, [id]));
 
           dispatch(
             removeChartCategoryAction(

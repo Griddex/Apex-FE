@@ -1,18 +1,16 @@
 import set from "lodash.set";
 import { IAction } from "../Actions/ActionTypes";
 import {
-  ADD_TAB,
   FETCH_MATCHOBJECT_FAILURE,
   FETCH_MATCHOBJECT_SUCCESS,
+  PERSIST_TITLES,
+  RESET_APPLICATION,
   SAVE_USERMATCH_ALL,
-  SET_CURRENTMAINTABVALUE,
   SET_MAINDRAWERMENU,
   SET_SUBNAVBARDATA,
   SET_SUBNAVBARMENU,
   SET_WORKFLOWMENU,
   UPDATE_APPLICATION,
-  PERSIST_TITLES,
-  RESET_APPLICATION,
 } from "../Actions/ApplicationActions";
 import applicationState from "../State/ApplicationState";
 
@@ -59,22 +57,6 @@ const applicationReducer = (state = applicationState, action: IAction) => {
       return {
         ...state,
         subNavbarData: action.payload.subNavbarData,
-      };
-
-    case ADD_TAB:
-      return {
-        ...state,
-        newMainTabs: [...state.newMainTabs, action.payload.newTab],
-        newMainTabPanels: [
-          ...state.newMainTabPanels,
-          action.payload.newTabPanel,
-        ],
-      };
-
-    case SET_CURRENTMAINTABVALUE:
-      return {
-        ...state,
-        ...action.payload,
       };
 
     case FETCH_MATCHOBJECT_SUCCESS:

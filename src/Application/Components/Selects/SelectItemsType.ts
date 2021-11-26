@@ -1,5 +1,11 @@
 import { CSSProperties } from "react";
-import { SelectComponentsConfig, Styles, ValueType } from "react-select";
+import {
+  SelectComponentsConfig,
+  OnChangeValue,
+  StylesConfig,
+  GroupBase,
+} from "react-select";
+import { SelectComponents } from "react-select/dist/declarations/src/components";
 
 export interface ISelectOption<T = string | undefined, U = string> {
   value: T;
@@ -57,8 +63,8 @@ export interface IApexSelect {
 export interface IApexSelectRS<T extends ISelectOption> {
   valueOption: T;
   data: string[] | T[];
-  handleSelect: (value: ValueType<T, false>) => void;
-  RSStyles?: Styles<T, false>;
+  handleSelect: (value: OnChangeValue<T, false>) => void;
+  RSStyles?: StylesConfig<T, false>;
   menuPortalTarget: HTMLElement;
   isSelectOptionType: boolean;
   className?: string;
@@ -67,5 +73,6 @@ export interface IApexSelectRS<T extends ISelectOption> {
   isDisabled?: boolean;
   isClearable?: boolean;
   isSearchable?: boolean;
-  components?: SelectComponentsConfig<T, false>;
+  components?: SelectComponentsConfig<T, false, GroupBase<T>>;
+  // components?: Partial<SelectComponents<T, false, GroupBase<T>>>;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
@@ -133,7 +133,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
             <ApexSelectRS
               valueOption={devOption}
               data={developmentScenarioOptions}
-              handleSelect={(row: ValueType<ISelectOption, false>) => {
+              handleSelect={(row: OnChangeValue<ISelectOption, false>) => {
                 const path = `inputDataWorkflows.${workflowProcess}.developmentScenarios`;
                 const value = row?.value as string;
                 const label = row?.label as string;
@@ -168,6 +168,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -189,7 +190,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
           <ApexSelectRS
             valueOption={forecastCaseOption}
             data={forecastCaseOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const path = `inputDataWorkflows.${workflowProcess}.forecastCase`;
               const value = option?.value as string;
               dispatch(updateEconomicsParameterAction(path, value));
@@ -198,6 +199,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
             }}
             menuPortalTarget={document.body}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

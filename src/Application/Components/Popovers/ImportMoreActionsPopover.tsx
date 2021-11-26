@@ -1,3 +1,6 @@
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
 import { MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
@@ -5,13 +8,9 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import { ClassNameMap } from "@mui/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
-import NestedMenuItem from "material-ui-nested-menu-item";
 import React from "react";
-import { TUseState } from "../../Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
+import NestedMenuItem from "../NestedMenuItems/NestedMenuItem";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import noEventPropagation from "./../../Events/NoEventPropagation";
 

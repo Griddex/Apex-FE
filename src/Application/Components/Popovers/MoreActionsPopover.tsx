@@ -8,11 +8,11 @@ import makeStyles from "@mui/styles/makeStyles";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
-import NestedMenuItem from "material-ui-nested-menu-item";
 import React from "react";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import noEventPropagation from "../../Events/NoEventPropagation";
+import NestedMenuItem from "../NestedMenuItems/NestedMenuItem";
 
 const useStyles = makeStyles((theme) => ({
   container: {

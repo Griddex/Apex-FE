@@ -13,7 +13,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { RootState } from "../../Redux/Reducers/AllReducers";
@@ -224,13 +224,14 @@ const ApexEditor = ({
               <ApexSelectRS
                 valueOption={currentOption as ISelectOption}
                 data={Options as ISelectOption[]}
-                handleSelect={(option: ValueType<ISelectOption, false>) => {
+                handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                   setFormEditorRow((prev: any) => {
                     return { ...prev, [name]: (option as ISelectOption).label };
                   });
                 }}
                 menuPortalTarget={editorRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />

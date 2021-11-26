@@ -6,7 +6,7 @@ import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import ExcelExportTable, {
@@ -179,7 +179,7 @@ export default function EditOrCreateDeclineParameters({
             <ApexSelectRS
               valueOption={declineTypeOption as ISelectOption}
               data={declineTypeOptions as ISelectOption[]}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 setRows((prev: any) => {
                   const newRows = [...prev];
                   const currentRow = newRows.find(
@@ -194,6 +194,7 @@ export default function EditOrCreateDeclineParameters({
               }}
               menuPortalTarget={tableRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

@@ -18,7 +18,10 @@ const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (reducer) => reducer
 );
 
-const SensitivitiesHeatMapTreeView = ({ height }: ITreeViewProps) => {
+const SensitivitiesHeatMapTreeView = ({
+  height,
+  droppedIds,
+}: ITreeViewProps) => {
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
 
   const rootTree = heatMapTreeByScenario as RenderTree;
@@ -52,7 +55,8 @@ const SensitivitiesHeatMapTreeView = ({ height }: ITreeViewProps) => {
         []
       )}
       dragDropTypes={itemTypes.ECONOMICS_HEATMAP}
-      height={height}
+      height={height as number}
+      droppedIds={droppedIds}
     />
   );
 };
