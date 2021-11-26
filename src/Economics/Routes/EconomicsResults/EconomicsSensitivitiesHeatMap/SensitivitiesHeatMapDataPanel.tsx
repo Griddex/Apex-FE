@@ -44,10 +44,7 @@ const sensitivitiesHeatMapTreeSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.sensitivitiesHeatMapTree,
   (data) => data
 );
-const heatMapVariableZOptionsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.heatMapVariableZOptions,
-  (data) => data
-);
+
 const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
   (data) => data
@@ -56,11 +53,6 @@ const showHeatMapCategoryZMembersSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.showCategoryZMembers,
   (data) => data
 );
-// const showHeatMapCategoryZMembersSelector = createDeepEqualSelector(
-//   (state: RootState) =>
-//     state.economicsReducer.showHeatMapCategoryMembersObj["Z Category"],
-//   (data) => data
-// );
 const heatMapCategoryDragItemsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapCategoryDragItems,
   (data) => data
@@ -78,7 +70,10 @@ const economicsResultsStoredSelector = createDeepEqualSelector(
 );
 
 const SensitivitiesHeatMapDataPanel = ({
+  selectedZ,
   setSelectedZ,
+  variableZDataOptions,
+  ZValuesTitle,
 }: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
 
@@ -89,13 +84,16 @@ const SensitivitiesHeatMapDataPanel = ({
   const selectedEconomicsResultsTitle = useSelector(
     selectedEconomicsResultsTitleSelector
   );
+  console.log(
+    "🚀 ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 87 ~ selectedEconomicsResultsTitle",
+    selectedEconomicsResultsTitle
+  );
   const selectedEconomicsResultsDescription = useSelector(
     selectedEconomicsResultsDescriptionSelector
   );
   const sensitivitiesHeatMapTree = useSelector(
     sensitivitiesHeatMapTreeSelector
   );
-  const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
 
   const showHeatMapCategoryMembersObj = useSelector(
@@ -104,10 +102,6 @@ const SensitivitiesHeatMapDataPanel = ({
   const showHeatMapCategoryZMembers = useSelector(
     showHeatMapCategoryZMembersSelector
   );
-  console.log(
-    "🚀 ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 103 ~ showHeatMapCategoryZMembers",
-    showHeatMapCategoryZMembers
-  );
 
   const heatMapCategoryDragItems = useSelector(
     heatMapCategoryDragItemsSelector
@@ -115,6 +109,19 @@ const SensitivitiesHeatMapDataPanel = ({
   const heatMapCategoryHasDropped = useSelector(
     heatMapCategoryHasDroppedSelector
   );
+
+  const droppedIds = React.useMemo(() => {
+    const allIds = [];
+    const categories = Object.keys(heatMapCategoryDragItems);
+    for (const category of categories) {
+      const categoryObj = heatMapCategoryDragItems[category];
+      const ids = Object.keys(categoryObj);
+
+      allIds.push(...ids);
+    }
+
+    return allIds;
+  }, [heatMapCategoryDragItems]);
 
   const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
     RenderTree["children"]
@@ -235,12 +242,6 @@ const SensitivitiesHeatMapDataPanel = ({
     dispatch(resetHeatMapWorkflowsAction());
   };
 
-  React.useEffect(() => {
-    if (selectedEconomicsResultsTitle !== "") {
-      setDevOption({ value: "select", label: "Select..." });
-    }
-  }, [selectedEconomicsResultsTitle]);
-
   const DevelopmentScenarios = () => {
     return (
       <AnalyticsComp
@@ -268,10 +269,25 @@ const SensitivitiesHeatMapDataPanel = ({
             isSelectOptionType={true}
             menuPortalTarget={document.body}
             containerWidth={"100%"}
+            containerHeight={40}
           />
         }
         direction="Vertical"
         containerStyle={{ width: "100%", marginBottom: 20 }}
+      />
+    );
+  };
+
+  const ResultsSelect = () => {
+    return (
+      <ApexSelectRS<IExtendedSelectOption>
+        valueOption={economicsResultTitleOption}
+        data={economicsResultsTitleOptions}
+        handleSelect={handleSelectEconomicsResultsChange}
+        isSelectOptionType={true}
+        menuPortalTarget={document.body}
+        containerWidth={300}
+        containerHeight={40}
       />
     );
   };
@@ -281,12 +297,12 @@ const SensitivitiesHeatMapDataPanel = ({
     disableCollection = [true, true, true];
   } else if (
     heatMapTreeByScenario &&
-    heatMapTreeByScenario["children"].length === 1
+    heatMapTreeByScenario?.children?.length === 1
   ) {
     disableCollection = [false, true, true];
   } else if (
     heatMapTreeByScenario &&
-    heatMapTreeByScenario["children"].length === 2
+    heatMapTreeByScenario?.children?.length === 2
   ) {
     disableCollection = [false, false, true];
   } else {
@@ -294,13 +310,6 @@ const SensitivitiesHeatMapDataPanel = ({
   }
 
   const showMembersObjValues = [showHeatMapCategoryZMembers];
-  // const showMembersObjValues = Object.values(
-  //   showHeatMapCategoryMembersObj as Record<string, boolean>
-  // );
-  console.log(
-    "🚀 ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 309 ~ showMembersObjValues",
-    showMembersObjValues
-  );
 
   const categoryPanelWidth = 250;
 
@@ -319,10 +328,6 @@ const SensitivitiesHeatMapDataPanel = ({
       showYCategoryMembersSwitch={false}
       showZCategoryMembersSwitch={true}
       showCategoryMembersObj={showHeatMapCategoryMembersObj}
-      // showCategoryMembersObj={React.useMemo(
-      //   () => showHeatMapCategoryMembersObj,
-      //   [JSON.stringify(showHeatMapCategoryMembersObj)]
-      // )}
       showCategoryZMembers={showHeatMapCategoryZMembers}
       path="showHeatMapCategoryMembersObj"
       updateParameterAction={React.useCallback(
@@ -350,11 +355,10 @@ const SensitivitiesHeatMapDataPanel = ({
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={React.useMemo(
-            () => heatMapVariableZOptions,
-            [JSON.stringify(heatMapVariableZOptions)]
-          )}
-          setSelectedZ={React.useCallback(setSelectedZ, [])}
+          selectedZ={selectedZ}
+          setSelectedZ={setSelectedZ}
+          variableZDataOptions={variableZDataOptions}
+          ZValuesTitle={ZValuesTitle}
         />
       }
       resultsTitle={selectedEconomicsResultsTitle}
@@ -366,17 +370,18 @@ const SensitivitiesHeatMapDataPanel = ({
       selectLabel={"Economics Results"}
       selectedOption={React.useMemo(
         () => economicsResultTitleOption,
-        [JSON.stringify(economicsResultTitleOption)]
+        [economicsResultTitleOption.value]
       )}
       titleOptions={React.useMemo(
         () => economicsResultsTitleOptions,
-        [JSON.stringify(economicsResultsTitleOptions)]
+        [JSON.stringify(economicsResultsTitleOptions.map((o) => o.value))]
       )}
       handleSelectChange={React.useCallback(
         handleSelectEconomicsResultsChange,
         []
       )}
       selectedTitle={selectedEconomicsResultsTitle}
+      resultsSelect={ResultsSelect}
       hasSecondaryComponent={true}
       secondarySelectComponent={DevelopmentScenarios}
       treeViewComponent={
@@ -387,7 +392,7 @@ const SensitivitiesHeatMapDataPanel = ({
                 text="Select result.."
               />
             )
-          : SensitivitiesHeatMapTreeView
+          : () => <SensitivitiesHeatMapTreeView droppedIds={droppedIds} />
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}

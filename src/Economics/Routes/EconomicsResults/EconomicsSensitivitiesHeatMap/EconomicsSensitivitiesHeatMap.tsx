@@ -38,7 +38,7 @@ const EconomicsSensitivitiesHeatMap = () => {
   const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
 
-  const noOfSensitivities = heatMapTreeByScenario["children"].length;
+  const noOfSensitivities = heatMapTreeByScenario?.children?.length;
 
   const keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
     ?.filter((key) => key.includes("Color"))
@@ -48,7 +48,7 @@ const EconomicsSensitivitiesHeatMap = () => {
   let yName = "";
   if (noOfSensitivities >= 2) {
     yId = Object.keys(heatMapVariableYOptions)[0];
-    yName = heatMapVariableYOptions[yId].name;
+    yName = heatMapVariableYOptions[yId]?.name;
   }
 
   const xId = Object.keys(heatMapVariableXOptions)[0];
@@ -65,7 +65,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: -90,
-        legend: <div>{startCase(xName)}</div>,
+        legend: startCase(xName),
         // legend: <Typography variant="h4">{startCase(xName)}</Typography>,
         legendPosition: "middle",
         legendOffset: -36,
@@ -76,7 +76,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: <div>{startCase(yName)}</div>,
+        legend: startCase(yName),
         legendPosition: "middle",
         legendOffset: -40,
       }}
@@ -88,21 +88,14 @@ const EconomicsSensitivitiesHeatMap = () => {
       motionDamping={9}
       hoverTarget="cell"
       cellHoverOthersOpacity={0.25}
-      cellShape={HeatMapCustomCell}
-      label={(datum, key) =>
-        // `${Number(datum[key]).toLocaleString("en-US", {
-        //   minimumFractionDigits: 2,
-        // })} ₽`
-
-        Math.round(Number(datum[key]))
-      }
-      tooltipFormat={(value) =>
-        // `${Number(value).toLocaleString("en-US", {
-        //   minimumFractionDigits: 2,
-        // })} ₽`
-
-        Math.round(Number(value))
-      }
+      cellShape={(props) => (
+        <HeatMapCustomCell
+          {...props}
+          currentThresholdTitle={"sensitivitiesHeatMapThresholdData"}
+        />
+      )}
+      label={(datum, key) => Number(datum[key]).toFixed(2)}
+      tooltipFormat={(value) => Number(value).toFixed(2)}
     />
   );
 };

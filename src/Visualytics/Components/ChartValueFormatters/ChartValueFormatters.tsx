@@ -197,10 +197,10 @@ const ChartValueFormatters = ({
               handleChange(optionDefined);
             }}
             menuPortalTarget={plotRef?.current as HTMLDivElement}
-            // menuPortalTarget={chartValRef?.current as HTMLDivElement}
             isSelectOptionType={true}
             isClearable={false}
             components={{ Option }}
+            containerHeight={40}
           />
         }
       />

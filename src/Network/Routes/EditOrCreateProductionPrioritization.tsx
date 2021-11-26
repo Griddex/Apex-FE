@@ -142,6 +142,7 @@ const EditOrCreateProductionPrioritization = () => {
           }}
           menuPortalTarget={dialogRef.current as HTMLDivElement}
           isSelectOptionType={true}
+          containerHeight={40}
         />
       );
     };

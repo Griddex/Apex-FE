@@ -248,6 +248,7 @@ const EconomicsParametersTable = ({
               }
               menuPortalTarget={rootRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
           containerStyle={{ width: 400 }}

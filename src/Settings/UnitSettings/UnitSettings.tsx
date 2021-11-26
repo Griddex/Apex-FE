@@ -555,6 +555,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
                   containerWidth={90}
+                  containerHeight={40}
                 />
                 <ApexSelectRS
                   valueOption={monthOption}
@@ -573,6 +574,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
                   containerWidth={120}
+                  containerHeight={40}
                 />
                 <ApexSelectRS
                   valueOption={yearOption}
@@ -591,6 +593,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
                   containerWidth={90}
+                  containerHeight={40}
                 />
 
                 <DateFormatter
@@ -636,6 +639,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
                   menuPortalTarget={dialogRef.current as HTMLDivElement}
                   isSelectOptionType={true}
                   containerWidth={150}
+                  containerHeight={40}
                 />
                 <Input
                   name="numberFormatString"

@@ -1,57 +1,35 @@
 import React from "react";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexRadioGroup from "../../../Application/Components/Radios/ApexRadioGroup";
-import {
-  IExtendedSelectOption,
-  IIdNameTitlePathOption,
-} from "../../../Application/Components/Selects/SelectItemsType";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
-
-export interface ICategoryPanelComponent {
-  variableOptions: Record<string, IIdNameTitlePathOption>;
-  setSelectedZ: TUseState<string>;
-}
+import { IExtendedSelectOption } from "../../../Application/Components/Selects/SelectItemsType";
+import { IEconomicsResultsVisualytics } from "../../../Economics/Routes/EconomicsResults/EconomicsResultsTypes";
 
 const CategoryPanelComponent = ({
-  variableOptions,
+  selectedZ,
   setSelectedZ,
-}: ICategoryPanelComponent) => {
-  const zKey = Object.keys(variableOptions)[0];
-  const zObj = variableOptions[zKey];
-
-  let title = "";
-  let zStrValues = "";
-  let variableData = [] as IExtendedSelectOption[];
-  if (Object.keys(variableOptions).length > 0) {
-    const parts = zObj?.title?.split("_");
-    title = parts[0];
-    zStrValues = parts[1];
-
-    variableData = zStrValues?.split("-")?.map((v: string) => {
-      return {
-        value: v,
-        label: v,
-        handleCheck: () => setSelectedZ(v),
-      };
-    });
-  }
-
+  variableZDataOptions,
+  ZValuesTitle,
+}: IEconomicsResultsVisualytics) => {
   return (
     <AnalyticsComp
-      title={title}
+      title={ZValuesTitle as string}
       direction="Vertical"
       containerStyle={{ marginTop: 20, alignItems: "flex-start" }}
       content={
         <ApexRadioGroup
+          selectedVariable={selectedZ}
           setSelectedVariable={setSelectedZ}
-          apexRadioGroupData={React.useMemo(
-            () => variableData as IExtendedSelectOption[],
-            []
-          )}
+          apexRadioGroupData={
+            variableZDataOptions as IExtendedSelectOption<
+              string,
+              string,
+              string
+            >[]
+          }
         />
       }
     />
   );
 };
 
-export default CategoryPanelComponent;
+export default React.memo(CategoryPanelComponent);

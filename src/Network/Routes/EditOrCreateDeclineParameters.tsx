@@ -194,6 +194,7 @@ export default function EditOrCreateDeclineParameters({
               }}
               menuPortalTarget={tableRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

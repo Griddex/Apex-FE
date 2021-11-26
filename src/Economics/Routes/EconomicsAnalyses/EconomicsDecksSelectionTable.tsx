@@ -191,6 +191,7 @@ const EconomicsDecksSelectionTable = () => {
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

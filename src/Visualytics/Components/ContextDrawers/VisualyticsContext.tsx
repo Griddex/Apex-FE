@@ -8,6 +8,7 @@ import { ApexNewWindow } from "../../../Application/Components/NewWindows/ApexNe
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import { THeatMapThreshold } from "../../../Economics/Components/ApexHeatMapThreshold/ApexHeatMapThreshold";
 import { TChartTypes } from "../Charts/ChartTypes";
 import { ChartFormatAggregatorContextProvider } from "../Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../FormatAggregators/ChartFormatAggregator";
@@ -15,6 +16,7 @@ import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
 
 export interface IVisualyticsContext {
   reducer: ReducersType;
+  currentThresholdTitle?: THeatMapThreshold;
   basePath: string;
   updateParameterAction: (path: string, value: any) => IAction;
   chartType: TChartTypes;
@@ -24,6 +26,7 @@ export interface IVisualyticsContext {
 
 const VisualyticsContext = ({
   reducer,
+  currentThresholdTitle,
   chartType,
   basePath,
   updateParameterAction,
@@ -68,6 +71,7 @@ const VisualyticsContext = ({
                   }}
                 >
                   <ChartFormatAggregator
+                    currentThresholdTitle={currentThresholdTitle}
                     basePath={basePath}
                     updateParameterAction={updateParameterAction}
                     chartType={chartType as TChartTypes}

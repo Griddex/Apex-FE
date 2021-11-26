@@ -70,6 +70,7 @@ const FillPopoverComponent = ({
             }}
             menuPortalTarget={fillPopRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />
@@ -122,6 +123,7 @@ const FillPopoverComponent = ({
               }}
               menuPortalTarget={fillPopRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -139,6 +141,7 @@ const FillPopoverComponent = ({
               }}
               menuPortalTarget={fillPopRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />

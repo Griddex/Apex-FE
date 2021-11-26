@@ -212,6 +212,7 @@ const ApexArcLabels = ({
                 handleSelect={handleArcLabelSelect("arcLabel")}
                 menuPortalTarget={arcLabelRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -312,6 +313,7 @@ const ApexArcLabels = ({
                       )}
                       menuPortalTarget={arcLabelRef.current as HTMLDivElement}
                       isSelectOptionType={true}
+                      containerHeight={40}
                     />
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <ApexSelectRS
@@ -323,6 +325,7 @@ const ApexArcLabels = ({
                         menuPortalTarget={arcLabelRef.current as HTMLDivElement}
                         isSelectOptionType={true}
                         containerWidth={40}
+                        containerHeight={40}
                       />
                       <ApexSlider
                         name="mordifiers"
@@ -354,6 +357,7 @@ const ApexArcLabels = ({
                     )}
                     menuPortalTarget={arcLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 

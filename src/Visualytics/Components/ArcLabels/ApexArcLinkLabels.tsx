@@ -239,6 +239,7 @@ const ApexArcLinkLabels = ({
                 handleSelect={handleArcLinkLabelSelect("arcLinkLabel")}
                 menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -445,6 +446,7 @@ const ApexArcLinkLabels = ({
                         arcLinkLabelRef.current as HTMLDivElement
                       }
                       isSelectOptionType={true}
+                      containerHeight={40}
                     />
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <ApexSelectRS
@@ -458,6 +460,7 @@ const ApexArcLinkLabels = ({
                         }
                         isSelectOptionType={true}
                         containerWidth={40}
+                        containerHeight={40}
                       />
                       <ApexSlider
                         name="modifiers"
@@ -489,6 +492,7 @@ const ApexArcLinkLabels = ({
                     )}
                     menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 
@@ -573,6 +577,7 @@ const ApexArcLinkLabels = ({
                     )}
                     menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {arcLinkLabelColorPerspective === "theme" && (
@@ -587,6 +592,7 @@ const ApexArcLinkLabels = ({
                     )}
                     menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 

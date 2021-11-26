@@ -227,6 +227,7 @@ const ApexChartInteractivity = ({
             handleSelect={handleInteractivitySelect("enableSlices")}
             menuPortalTarget={interactivityRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />
@@ -261,6 +262,7 @@ const ApexChartInteractivity = ({
               handleSelect={handleInteractivitySelect("crosshairType")}
               menuPortalTarget={interactivityRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -327,6 +329,7 @@ const ApexChartInteractivity = ({
                   )}
                   menuPortalTarget={interactivityRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               )}
               {motionPerspective === "custom" && (
@@ -351,6 +354,7 @@ const ApexChartInteractivity = ({
             handleSelect={handleInteractivitySelect("hoverTarget")}
             menuPortalTarget={interactivityRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

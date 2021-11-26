@@ -378,6 +378,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -412,6 +413,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -442,6 +444,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -472,6 +475,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -500,6 +504,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -530,6 +535,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -560,6 +566,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -590,6 +597,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -620,6 +628,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -650,6 +659,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -678,6 +688,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -706,6 +717,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -734,6 +746,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -762,6 +775,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -791,6 +805,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -818,6 +833,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -849,6 +865,7 @@ export default function CostsAndRevenueApexForecast({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -993,6 +1010,7 @@ export default function CostsAndRevenueApexForecast({
                 }}
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -1024,6 +1042,7 @@ export default function CostsAndRevenueApexForecast({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />

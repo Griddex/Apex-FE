@@ -168,6 +168,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -198,6 +199,7 @@ const SelectScenariosByButtonsWithForecastCase = ({
             }}
             menuPortalTarget={document.body}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

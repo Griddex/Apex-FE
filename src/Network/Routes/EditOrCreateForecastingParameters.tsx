@@ -398,6 +398,7 @@ const EditOrCreateForecastingParameters = ({
               }}
               menuPortalTarget={dialogRef.current as HTMLElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
           containerStyle={{ width: "45%", height: 50 }}
@@ -428,6 +429,7 @@ const EditOrCreateForecastingParameters = ({
             menuPortalTarget={dialogRef.current as HTMLElement}
             isSelectOptionType={true}
             isDisabled={true}
+            containerHeight={40}
           />
         }
         containerStyle={{ width: "100%", height: 50 }}

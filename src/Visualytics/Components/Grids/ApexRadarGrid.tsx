@@ -88,6 +88,7 @@ const ApexRadarGrid = ({
             handleSelect={handleRadarGridSelect("gridShape")}
             menuPortalTarget={radarGridRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

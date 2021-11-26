@@ -565,7 +565,8 @@ export const getHeatMapDataRequestAction = (
   noOfSensitivities: number,
   selectedDevScenario?: string,
   variableZlength?: number,
-  variableZKey?: string
+  variableZKey?: string,
+  selectedZ?: string
 ) => {
   return {
     type: FETCH_HEATMAPDATA_REQUEST,
@@ -576,6 +577,7 @@ export const getHeatMapDataRequestAction = (
       variableZlength,
       selectedDevScenario,
       variableZKey,
+      selectedZ,
     },
     meta: { showSpinner: true, message: `Fetching map data...` },
   };

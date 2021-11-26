@@ -210,6 +210,7 @@ const ApexLabels = ({
                 handleSelect={handleLabelSelect("label")}
                 menuPortalTarget={LabelRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -310,6 +311,7 @@ const ApexLabels = ({
                       )}
                       menuPortalTarget={LabelRef.current as HTMLDivElement}
                       isSelectOptionType={true}
+                      containerHeight={40}
                     />
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <ApexSelectRS
@@ -320,6 +322,7 @@ const ApexLabels = ({
                         )}
                         menuPortalTarget={LabelRef.current as HTMLDivElement}
                         isSelectOptionType={true}
+                        containerHeight={40}
                         containerWidth={40}
                       />
                       <ApexSlider
@@ -352,6 +355,7 @@ const ApexLabels = ({
                     )}
                     menuPortalTarget={LabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 

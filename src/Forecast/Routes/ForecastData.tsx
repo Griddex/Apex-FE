@@ -446,6 +446,7 @@ export default function ForecastData({
               isSelectOptionType={true}
               menuPortalTarget={document.body}
               containerWidth={300}
+              containerHeight={40}
             />
           }
         />

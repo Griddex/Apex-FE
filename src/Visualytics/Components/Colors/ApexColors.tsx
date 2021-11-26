@@ -93,6 +93,7 @@ const ColorsControl = ({
       isSearchable={true}
       components={{ SingleValue, Option }}
       isSelectOptionType={true}
+      containerHeight={40}
     />
   );
 };

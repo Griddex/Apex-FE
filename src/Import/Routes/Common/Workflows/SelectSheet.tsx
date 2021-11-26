@@ -216,6 +216,7 @@ const SelectSheet = ({
         handleSelect={handleSelectChange}
         isSelectOptionType={true}
         menuPortalTarget={document.body}
+        containerHeight={40}
       />
     );
   };

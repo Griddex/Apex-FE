@@ -85,35 +85,31 @@ const CartesianChartCategory = ({
       drop(item) {
         const { id } = item as IDragItem;
 
-        const droppedIds = Object.keys(dragItemObj);
+        setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
+        setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
 
-        if (!droppedIds.includes(id)) {
-          setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
-          setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
+        dispatch(updateAction(categoryOptionTitle as string, item));
 
-          dispatch(updateAction(categoryOptionTitle as string, item));
+        dispatch(
+          updateDragItemsAction &&
+            updateDragItemsAction(
+              reducer as ReducersType,
+              categoryTitle as string,
+              categoryDragItemsTitle as string,
+              item as IDragItem
+            )
+        );
 
-          dispatch(
-            updateDragItemsAction &&
-              updateDragItemsAction(
-                reducer as ReducersType,
-                categoryTitle as string,
-                categoryDragItemsTitle as string,
-                item as IDragItem
-              )
-          );
-
-          dispatch(
-            updateHasDroppedAction &&
-              updateHasDroppedAction(
-                reducer as ReducersType,
-                categoryTitle as string,
-                categoryHasDroppedTitle as string,
-                id,
-                true
-              )
-          );
-        }
+        dispatch(
+          updateHasDroppedAction &&
+            updateHasDroppedAction(
+              reducer as ReducersType,
+              categoryTitle as string,
+              categoryHasDroppedTitle as string,
+              id,
+              true
+            )
+        );
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -144,8 +140,6 @@ const CartesianChartCategory = ({
     ...disableStyle,
     width: "100%",
   } as CSSProperties;
-
-  const droppedIds = Object.keys(hasDroppedObj);
 
   React.useEffect(() => {
     setMembersSwitch(

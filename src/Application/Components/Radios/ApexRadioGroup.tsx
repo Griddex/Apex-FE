@@ -61,15 +61,12 @@ function StyledRadio(props: RadioProps) {
 }
 
 const ApexRadioGroup = ({
+  selectedVariable,
   setSelectedVariable,
   apexRadioGroupData,
 }: IApexRadioGroup) => {
-  const firstVal = apexRadioGroupData[0].value;
-  const [selectedValue, setSelectedValue] = React.useState(firstVal);
-
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sVal = (event.target as HTMLInputElement).value;
-    setSelectedValue(sVal);
     setSelectedVariable && setSelectedVariable(sVal);
 
     const handleCheck = apexRadioGroupData.find(
@@ -84,7 +81,9 @@ const ApexRadioGroup = ({
       <RadioGroup
         aria-label="Z values"
         name="customized-radios"
-        value={selectedValue}
+        value={
+          selectedVariable ? selectedVariable : apexRadioGroupData[0]?.value
+        }
         onChange={handleRadioChange}
       >
         {apexRadioGroupData.map((obj, i) => {

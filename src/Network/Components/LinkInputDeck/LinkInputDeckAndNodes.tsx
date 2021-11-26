@@ -144,6 +144,7 @@ const LinkInputDeckAndNodes = ({
               }}
               menuPortalTarget={linkRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

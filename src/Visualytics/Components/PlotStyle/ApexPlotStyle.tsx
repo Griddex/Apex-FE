@@ -124,6 +124,7 @@ const ApexPlotStyle = ({
               )}
               menuPortalTarget={plotRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -221,6 +222,7 @@ const ApexPlotStyle = ({
               )}
               menuPortalTarget={plotRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -244,6 +246,7 @@ const ApexPlotStyle = ({
                 )}
                 menuPortalTarget={plotRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
               <AnalyticsComp
                 title="Round"

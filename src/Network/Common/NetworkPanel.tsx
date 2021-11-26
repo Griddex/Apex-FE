@@ -140,6 +140,7 @@ const NetworkPanel = () => {
                 }}
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
               <CallMadeOutlinedIcon />
             </div>

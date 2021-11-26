@@ -21,6 +21,7 @@ import {
 import {
   getHeatMapDataRequestAction,
   updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import {
   TEconomicsAnalysesNames,
@@ -102,25 +103,36 @@ const SensitivitiesHeatMapChart = ({
 
   const isHeatMapVariableXOptionOnly = isX && !isY && !isZ;
   const isHeatMapVariableXYOptionOnly = isX && isY && !isZ;
+  const isHeatMapVariableXYZOptionOnly = isX && isY && isZ;
+
+  const noOfSensitivities = heatMapTreeByScenario?.children?.length;
+
+  let disableds = true;
+  if (noOfSensitivities === 1 && isHeatMapVariableXOptionOnly) {
+    disableds = false;
+  } else if (noOfSensitivities === 2 && isHeatMapVariableXYOptionOnly) {
+    disableds = false;
+  } else if (noOfSensitivities === 3 && isHeatMapVariableXYZOptionOnly) {
+    disableds = false;
+  }
 
   let heatMapTreeZRow = {} as RenderTree;
   let heatMapVarZData = [] as ISelectOption[];
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
-  const noOfSensitivities = heatMapTreeByScenario["children"].length;
-  selectedDevScenario = heatMapTreeByScenario.name as string;
+  selectedDevScenario = heatMapTreeByScenario?.name as string;
   const devScenario =
     developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
 
-  if (heatMapTreeByScenario && heatMapTreeByScenario.id !== "" && isZ) {
+  if (heatMapTreeByScenario && heatMapTreeByScenario?.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
-    heatMapTreeZRow = heatMapTreeByScenario["children"].filter(
+    heatMapTreeZRow = heatMapTreeByScenario?.children?.filter(
       (row: any) => row.title === heatMapVariableZOptions[firstKey].title
     )[0] as NonNullable<RenderTree>;
 
-    const sensitivitiesZString = heatMapTreeZRow.title?.split("_")[1];
+    const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
     heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
       value: v,
       label: v,
@@ -129,6 +141,21 @@ const SensitivitiesHeatMapChart = ({
     variableZlength = heatMapVarZData.length;
     selectedDevScenario = heatMapTreeByScenario.name as string;
   }
+
+  const AnalysisResult = () => {
+    return (
+      <ApexSelectRS
+        valueOption={analysisOption}
+        data={resultsAnalyisOptions}
+        handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+          setAnalysisOption(option as ISelectOption)
+        }
+        menuPortalTarget={document.body}
+        isSelectOptionType={true}
+        containerHeight={40}
+      />
+    );
+  };
 
   React.useEffect(() => {
     if (selectedEconomicsResultsId === "") {
@@ -146,15 +173,7 @@ const SensitivitiesHeatMapChart = ({
       <WithUnit
         innerComponent={
           <ApexFlexContainer width={300} height={50}>
-            <ApexSelectRS
-              valueOption={analysisOption}
-              data={resultsAnalyisOptions}
-              handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
-                setAnalysisOption(option as ISelectOption)
-              }
-              menuPortalTarget={document.body}
-              isSelectOptionType={true}
-            />
+            <AnalysisResult />
           </ApexFlexContainer>
         }
         unitValue={analysisOption?.value as string}
@@ -188,18 +207,37 @@ const SensitivitiesHeatMapChart = ({
             <RotateLeftIcon key={1} />,
             <AirplayOutlinedIcon key={2} />,
           ]}
-          disableds={[false, heatMapVariableXOptions === null]}
+          disableds={[false, disableds]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[
-            () => {},
+            () => {
+              dispatch(
+                updateEconomicsParametersAction({
+                  sensitivitiesHeatMapData: {},
+                  sensitivitiesHeatMap1or2D: [],
+                  heatMapVariableXOptions: {},
+                  heatMapVariableYOptions: {},
+                  heatMapVariableZOptions: {},
+                  categoryDragItems: {
+                    "X Category": {},
+                    "Y Category": {},
+                    "Z Category": {},
+                    "R Category": {},
+                  },
+                  categoryHasDropped: {
+                    "X Category": {},
+                    "Y Category": {},
+                    "Z Category": {},
+                    "R Category": {},
+                  },
+                })
+              );
+            },
             () => {
               const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
 
-              if (
-                isHeatMapVariableXOptionOnly ||
-                isHeatMapVariableXYOptionOnly
-              ) {
+              if (noOfSensitivities === 1 || noOfSensitivities === 2) {
                 if (Object.entries(sensitivitiesHeatMapData).length === 0) {
                   dispatch(
                     getHeatMapDataRequestAction(
@@ -212,7 +250,7 @@ const SensitivitiesHeatMapChart = ({
                     )
                   );
                 }
-              } else {
+              } else if (noOfSensitivities === 3) {
                 if (Object.entries(sensitivitiesHeatMapData).length > 0) {
                   const sensitivitiesHeatMap1or2D =
                     sensitivitiesHeatMapData[devScenario][variableZKey];

@@ -562,6 +562,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 }
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             );
           else

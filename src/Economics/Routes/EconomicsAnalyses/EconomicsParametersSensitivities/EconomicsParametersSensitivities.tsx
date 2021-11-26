@@ -120,6 +120,7 @@ const EconomicsParametersSensitivities = ({
             }}
             menuPortalTarget={document.body}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

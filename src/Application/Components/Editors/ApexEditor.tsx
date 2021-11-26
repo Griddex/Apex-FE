@@ -231,6 +231,7 @@ const ApexEditor = ({
                 }}
                 menuPortalTarget={editorRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />

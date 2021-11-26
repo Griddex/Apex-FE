@@ -109,6 +109,7 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -138,6 +139,7 @@ const SelectScenariosByButtonsWithForecastCaseEconomics = ({
             }}
             menuPortalTarget={document.body}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

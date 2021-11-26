@@ -370,6 +370,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -404,6 +405,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -434,6 +436,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -464,6 +467,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -492,6 +496,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -522,6 +527,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -552,6 +558,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -582,6 +589,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -612,6 +620,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -642,6 +651,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -670,6 +680,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -698,6 +709,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -726,6 +738,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -754,6 +767,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -783,6 +797,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -810,6 +825,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -841,6 +857,7 @@ export default function CostsAndRevenueManual({
                   }
                   menuPortalTarget={document.body}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               </div>
             );
@@ -985,6 +1002,7 @@ export default function CostsAndRevenueManual({
                 }}
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -1016,6 +1034,7 @@ export default function CostsAndRevenueManual({
               }}
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />

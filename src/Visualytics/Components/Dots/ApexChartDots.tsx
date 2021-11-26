@@ -202,6 +202,7 @@ const ApexChartDots = ({
                     )}
                     menuPortalTarget={dotRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {dotColorPerspective === "theme" && (
@@ -216,6 +217,7 @@ const ApexChartDots = ({
                     )}
                     menuPortalTarget={dotRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {dotColorPerspective === "custom" && (
@@ -321,6 +323,7 @@ const ApexChartDots = ({
                     )}
                     menuPortalTarget={dotRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {borderColorPerspective === "theme" && (
@@ -335,6 +338,7 @@ const ApexChartDots = ({
                     )}
                     menuPortalTarget={dotRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 
@@ -398,6 +402,7 @@ const ApexChartDots = ({
                 handleSelect={handleDotsSelect("dotLabel")}
                 menuPortalTarget={dotRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />

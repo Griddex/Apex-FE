@@ -248,7 +248,7 @@ const ForecastTreeView = ({ height }: ITreeViewProps) => {
         []
       )}
       dragDropTypes={itemTypes.FORECAST_PLOTCHARTS}
-      height={height}
+      height={height as number}
     />
   );
 };

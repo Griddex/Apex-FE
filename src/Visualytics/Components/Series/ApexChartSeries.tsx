@@ -295,6 +295,7 @@ const ApexChartSeries = ({
               handleSelect={handleSeriesSelect("offsetType", false)}
               menuPortalTarget={generalRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -312,6 +313,7 @@ const ApexChartSeries = ({
               handleSelect={handleSeriesSelect("order", false)}
               menuPortalTarget={generalRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -329,6 +331,7 @@ const ApexChartSeries = ({
               handleSelect={handleSeriesSelect("curve", false)}
               menuPortalTarget={generalRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -346,6 +349,7 @@ const ApexChartSeries = ({
               handleSelect={handleSeriesSelect("curve", false)}
               menuPortalTarget={generalRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -367,6 +371,7 @@ const ApexChartSeries = ({
             )}
             menuPortalTarget={generalRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />
@@ -471,6 +476,7 @@ const ApexChartSeries = ({
                   )}
                   menuPortalTarget={generalRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               )}
               {borderColorPerspective === "theme" && (
@@ -485,6 +491,7 @@ const ApexChartSeries = ({
                   )}
                   menuPortalTarget={generalRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               )}
               {borderColorPerspective === "custom" && (
@@ -640,6 +647,7 @@ const ApexChartSeries = ({
               handleSelect={handleSeriesSelect("areaBlendMode")}
               menuPortalTarget={generalRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -957,6 +965,7 @@ const ApexChartSeries = ({
               handleSelect={handleSeriesSelect("blendMode", false)}
               menuPortalTarget={generalRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
         />
@@ -1132,6 +1141,7 @@ const ApexChartSeries = ({
                     )}
                     menuPortalTarget={generalRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <ApexSelectRS
@@ -1142,7 +1152,8 @@ const ApexChartSeries = ({
                       )}
                       menuPortalTarget={generalRef.current as HTMLDivElement}
                       isSelectOptionType={true}
-                      containerWidth={40}
+                      containerHeight={40}
+                      containerWidth={100}
                     />
                     <ApexSlider
                       name="mordifiers"
@@ -1174,6 +1185,7 @@ const ApexChartSeries = ({
                   )}
                   menuPortalTarget={generalRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               )}
 

@@ -82,6 +82,7 @@ const YScale = React.forwardRef<HTMLDivElement, IYScale>((props, ref) => {
           (ref as React.MutableRefObject<HTMLDivElement>).current
         }
         isSelectOptionType={true}
+        containerHeight={40}
       />
 
       <AnalyticsComp

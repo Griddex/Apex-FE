@@ -221,7 +221,7 @@ const EconomicsState: IEconomicsState = {
   sensitivitiesHeatMapTree: { id: "", name: "" },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],
-  heatMapStylingData: {
+  sensitivitiesHeatMapThresholdData: {
     heatMapThresholdValue: 0,
     heatMapThresholdColor: "white",
     heatMapBackgroundColor: "#F8F9FA",
@@ -230,6 +230,8 @@ const EconomicsState: IEconomicsState = {
   heatMapVariableXOptions: {},
   heatMapVariableYOptions: {},
   heatMapVariableZOptions: {},
+
+  selectedZ: "",
 
   showHeatMapCategoryMembersObj: {
     "X Category": false,
@@ -294,6 +296,12 @@ const EconomicsState: IEconomicsState = {
     "Y Secondary Category": {},
     "Z Category": {},
     "R Category": {},
+  },
+  plotChartsHeatMapThresholdData: {
+    heatMapThresholdValue: 0,
+    heatMapThresholdColor: "white",
+    heatMapBackgroundColor: "#F8F9FA",
+    relationalOperatorOption: { value: ">", label: ">" },
   },
 
   //Template Results

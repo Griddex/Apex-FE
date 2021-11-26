@@ -177,6 +177,7 @@ const ApexChartPointers = ({
                     )}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {pointColorPerspective === "theme" && (
@@ -191,6 +192,7 @@ const ApexChartPointers = ({
                     )}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {pointColorPerspective === "custom" && (
@@ -321,6 +323,7 @@ const ApexChartPointers = ({
                     )}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {borderColorPerspective === "theme" && (
@@ -335,6 +338,7 @@ const ApexChartPointers = ({
                     )}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 
@@ -406,6 +410,7 @@ const ApexChartPointers = ({
                     handleSelect={handlePointsSelect("pointLabel")}
                     menuPortalTarget={pointRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 }
               />

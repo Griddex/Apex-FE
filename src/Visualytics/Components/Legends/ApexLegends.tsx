@@ -393,6 +393,7 @@ const ApexLegends = ({
                 )}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -455,6 +456,7 @@ const ApexLegends = ({
                 )}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />

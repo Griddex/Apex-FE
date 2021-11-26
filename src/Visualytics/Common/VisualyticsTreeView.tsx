@@ -62,7 +62,7 @@ const VisualyticsTreeView = ({ height }: ITreeViewProps) => {
         []
       )}
       dragDropTypes={itemTypesVisualytics.VISUALYTICS_PLOTCHARTS}
-      height={height}
+      height={height as number}
     />
   );
 };

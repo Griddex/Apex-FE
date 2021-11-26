@@ -199,6 +199,7 @@ const EconomicsParametersManual = ({
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },
@@ -273,6 +274,7 @@ const EconomicsParametersManual = ({
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           );
         },

@@ -79,7 +79,12 @@ const visualyticsDeckStoredSelector = createDeepEqualSelector(
   (stored) => stored
 );
 
-const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
+const VisualyticsChartDataPanel = ({
+  selectedZ,
+  setSelectedZ,
+  variableZDataOptions,
+  ZValuesTitle,
+}: IChartVisualytics) => {
   const dispatch = useDispatch();
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
@@ -231,11 +236,10 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={React.useMemo(
-            () => visualyticsVariableZOptions,
-            [JSON.stringify(visualyticsVariableZOptions)]
-          )}
+          selectedZ={selectedZ}
           setSelectedZ={React.useCallback(setSelectedZ, [])}
+          variableZDataOptions={variableZDataOptions}
+          ZValuesTitle={ZValuesTitle}
         />
       }
       resultsTitle={selectedVisualyticsTitle}

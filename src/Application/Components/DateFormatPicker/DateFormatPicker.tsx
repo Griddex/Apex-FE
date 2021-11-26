@@ -49,6 +49,7 @@ const DateFormatPicker = ({
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}
+              containerHeight={40}
             />
 
             <ApexSelectRS
@@ -60,6 +61,7 @@ const DateFormatPicker = ({
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}
+              containerHeight={40}
             />
             <ApexSelectRS
               valueOption={year}
@@ -70,6 +72,7 @@ const DateFormatPicker = ({
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}
+              containerHeight={40}
             />
           </div>
         }

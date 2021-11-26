@@ -226,6 +226,7 @@ const ApexChartAxis = ({
                   )}
                   menuPortalTarget={axisRef.current as HTMLDivElement}
                   isSelectOptionType={true}
+                  containerHeight={40}
                 />
               }
             />
