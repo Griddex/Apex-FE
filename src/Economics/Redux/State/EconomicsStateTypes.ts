@@ -259,7 +259,7 @@ export interface IEconomicsState
   sensitivitiesHeatMapTree: RenderTree;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];
-  heatMapStylingData: {
+  sensitivitiesHeatMapThresholdData: {
     heatMapThresholdValue: null | number;
     heatMapThresholdColor: string;
     heatMapBackgroundColor: string;
@@ -269,6 +269,8 @@ export interface IEconomicsState
   heatMapVariableXOptions: Record<string, IIdNameTitlePathOption>;
   heatMapVariableYOptions: Record<string, IIdNameTitlePathOption>;
   heatMapVariableZOptions: Record<string, IIdNameTitlePathOption>;
+
+  selectedZ: string;
 
   showHeatMapCategoryMembersObj: Record<string, boolean>;
   heatMapCategoryDragItems: Record<string, Record<string, IDragItem>>;
@@ -292,6 +294,12 @@ export interface IEconomicsState
   showPlotChartsCategoryMembersObj: Record<string, boolean>;
   plotChartsCategoryDragItems: Record<string, Record<string, IDragItem>>;
   plotChartsCategoryHasDropped: Record<string, Record<string, true>>;
+  plotChartsHeatMapThresholdData: {
+    heatMapThresholdValue: null | number;
+    heatMapThresholdColor: string;
+    heatMapBackgroundColor: string;
+    relationalOperatorOption: ISelectOption;
+  };
 
   economicsTemplatesTree: RenderTree;
 

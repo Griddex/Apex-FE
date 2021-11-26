@@ -75,7 +75,7 @@ const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
         []
       )}
       dragDropTypes={itemTypes.ECONOMICS_PLOTCHARTS}
-      height={height}
+      height={height as number}
     />
   );
 };

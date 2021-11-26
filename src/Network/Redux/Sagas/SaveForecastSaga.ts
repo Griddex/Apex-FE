@@ -87,7 +87,6 @@ function* saveForecastSaga(
       ...successAction,
       payload: {
         ...payload,
-        status,
         selectedForecastingResultsId,
       },
     });

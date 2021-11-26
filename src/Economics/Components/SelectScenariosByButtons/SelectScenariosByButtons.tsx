@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -116,7 +116,7 @@ const SelectScenariosByButtons = ({
           <ApexSelectRS
             valueOption={devOption}
             data={developmentScenarioOptions}
-            handleSelect={(row: ValueType<ISelectOption, false>) => {
+            handleSelect={(row: OnChangeValue<ISelectOption, false>) => {
               const path = `inputDataWorkflows.${workflowProcess}.developmentScenarios`;
               const value = row?.value as string;
               const label = row?.label as string;
@@ -148,6 +148,7 @@ const SelectScenariosByButtons = ({
             }}
             menuPortalTarget={dialogRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
         }
       />

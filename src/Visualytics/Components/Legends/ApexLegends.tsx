@@ -1,10 +1,10 @@
 import { useTheme } from "@mui/material";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { LegendProps } from "@nivo/legends";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import ApexLegendAnchor from "../../../Application/Components/Anchors/ApexLegendAnchor";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
@@ -71,7 +71,7 @@ const ApexLegends = ({
 
   const handleLegendSelect =
     (name: keyof IChart, isObj?: boolean, obj?: any, objKey?: string) =>
-    (option: ValueType<ISelectOption, false>) => {
+    (option: OnChangeValue<ISelectOption, false>) => {
       const optionValue = (option as ISelectOption).value as string;
 
       let value: any;
@@ -393,6 +393,7 @@ const ApexLegends = ({
                 )}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -455,6 +456,7 @@ const ApexLegends = ({
                 )}
                 menuPortalTarget={legendRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />

@@ -15,6 +15,7 @@ import { updateEconomicsParameterAction } from "../../../Redux/Actions/Economics
 import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
+import generateVariableDataOptions from "../../../../Visualytics/Utils/GenerateVariableDataOptions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,21 +60,32 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,
   (drawer) => drawer
 );
+const heatMapVariableZOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.heatMapVariableZOptions,
+  (data) => data
+);
 
 const SensitivitiesHeatMapVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
+  const basePath = `${wc}.commonChartProps`;
 
   const classes = useStyles();
   const dispatch = useDispatch();
   const componentRef = React.useRef();
 
-  const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
   const showContextDrawer = useSelector(showContextDrawerSelector);
+  const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
 
-  const basePath = `${wc}.commonChartProps`;
+  const { variableZDataOptions, ZValuesTitle } = React.useMemo(
+    () => generateVariableDataOptions(heatMapVariableZOptions),
+    [heatMapVariableZOptions]
+  );
+
+  const firstZValue = variableZDataOptions[0]?.value as string;
+  const [selectedZ, setSelectedZ] = React.useState(firstZValue);
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -96,17 +108,21 @@ const SensitivitiesHeatMapVisualytics = () => {
     componentRef,
   };
 
+  const selectedZValue = selectedZ ? selectedZ : firstZValue;
+
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <div className={classes.chartPanel}>
           <SensitivitiesHeatMapDataPanel
-            selectedZ={selectedZ}
+            selectedZ={selectedZValue}
             setSelectedZ={React.useCallback(setSelectedZ, [])}
+            variableZDataOptions={variableZDataOptions}
+            ZValuesTitle={ZValuesTitle}
           />
         </div>
 
@@ -123,15 +139,13 @@ const SensitivitiesHeatMapVisualytics = () => {
             <EconomicsChartTitlePlaque />
             <ChartButtons {...chartButtons} />
           </div>
-          <SensitivitiesHeatMapChart
-            selectedZ={selectedZ}
-            setSelectedZ={setSelectedZ}
-          />
+          <SensitivitiesHeatMapChart selectedZ={selectedZValue} />
         </div>
 
         {showContextDrawer && (
           <VisualyticsContext
             reducer={reducer}
+            currentThresholdTitle={"sensitivitiesHeatMapThresholdData"}
             chartType="heatMapChart"
             basePath={basePath}
             updateParameterAction={React.useCallback(

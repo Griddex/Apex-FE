@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { THeatMapThreshold } from "../ApexHeatMapThreshold/ApexHeatMapThreshold";
 
 interface IHeatMapCustomCell {
   data: any;
@@ -18,32 +19,35 @@ interface IHeatMapCustomCell {
   borderWidth: number;
   borderColor: string;
   textColor: string;
+  currentThresholdTitle: THeatMapThreshold;
 }
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const heatMapThresholdValueSelector = createDeepEqualSelector(
-  (state: RootState) =>
-    state.economicsReducer.heatMapStylingData.heatMapThresholdValue,
-  (data) => data
-);
-const heatMapThresholdColorSelector = createDeepEqualSelector(
-  (state: RootState) =>
-    state.economicsReducer.heatMapStylingData.heatMapThresholdColor,
-  (data) => data
-);
-const heatMapBackgroundColorSelector = createDeepEqualSelector(
-  (state: RootState) =>
-    state.economicsReducer.heatMapStylingData.heatMapBackgroundColor,
-  (data) => data
-);
-const relationalOperatorOptionSelector = createDeepEqualSelector(
-  (state: RootState) =>
-    state.economicsReducer.heatMapStylingData.relationalOperatorOption,
-  (data) => data
-);
-
 const HeatMapCustomCell = (props: IHeatMapCustomCell) => {
+  const { currentThresholdTitle } = props;
+
+  const heatMapThresholdValueSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[currentThresholdTitle].heatMapThresholdValue,
+    (data) => data
+  );
+  const heatMapThresholdColorSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[currentThresholdTitle].heatMapThresholdColor,
+    (data) => data
+  );
+  const heatMapBackgroundColorSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[currentThresholdTitle].heatMapBackgroundColor,
+    (data) => data
+  );
+  const relationalOperatorOptionSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer[currentThresholdTitle].relationalOperatorOption,
+    (data) => data
+  );
+
   const theme = useTheme();
 
   const {

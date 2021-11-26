@@ -22,7 +22,7 @@ import ReactDataGrid, {
 } from "react-data-griddex";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { parsePasteData } from "../../../../Economics/Utils/ParsePasteData";
 import { Position, TPastePosition } from "../../../Types/ApplicationTypes";
 import ApexSelectRS from "../../Selects/ApexSelectRS";
@@ -536,7 +536,7 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
               } as NonNullable<ISelectOption>
             }
             data={uniquePageOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const optionDefined = option as NonNullable<ISelectOption>;
               handlePageSelectChange(optionDefined?.value as string);
             }}

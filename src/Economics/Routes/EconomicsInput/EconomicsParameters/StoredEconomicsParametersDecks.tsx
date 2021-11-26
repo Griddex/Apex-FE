@@ -42,6 +42,7 @@ import {
   IStoredDataRow,
 } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
+import generateDoughnutAnalyticsData from "../../../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { fetchStoredForecastingParametersRequestAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
@@ -189,27 +190,6 @@ export default function StoredEconomicsParametersDecks({
 }: IStoredDataProps) {
   const theme = useTheme();
 
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -495,6 +475,10 @@ export default function StoredEconomicsParametersDecks({
     componentRef,
   };
 
+  const chartData = React.useRef(
+    generateDoughnutAnalyticsData(economicsParametersDeckStored, "approval")
+  );
+
   React.useEffect(() => {
     const updatedStoredData = formatEconomicsParameters(
       economicsParametersDeckStored as IApplicationStoredDataRow[]
@@ -506,7 +490,10 @@ export default function StoredEconomicsParametersDecks({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics
+            data={chartData.current}
+            willUseThemeColor={false}
+          />
         </div>
       )}
       <div className={classes.table}>

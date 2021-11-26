@@ -16,11 +16,7 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const StoredDataRoute = React.lazy(
-  () =>
-    import("../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
-);
+import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -45,28 +41,6 @@ export default function StoredCostsAndRevenuesDecks({
   showChart,
 }: IStoredDeck) {
   const theme = useTheme();
-
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
 
   const currentProjectId = useSelector(currentProjectIdSelector);
 
@@ -137,7 +111,6 @@ export default function StoredCostsAndRevenuesDecks({
     dataKey,
     dataTitle,
     wkPs: wp,
-    chartData,
     showChart,
     containerStyle,
     handleCheckboxChange,

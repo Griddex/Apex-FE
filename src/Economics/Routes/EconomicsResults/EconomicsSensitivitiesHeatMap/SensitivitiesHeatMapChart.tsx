@@ -4,7 +4,7 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
@@ -21,6 +21,7 @@ import {
 import {
   getHeatMapDataRequestAction,
   updateEconomicsParameterAction,
+  updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import {
   TEconomicsAnalysesNames,
@@ -28,10 +29,7 @@ import {
 } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
 import { RenderTree } from "./../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
-
-const EconomicsSensitivitiesHeatMap = React.lazy(
-  () => import("./EconomicsSensitivitiesHeatMap")
-);
+import EconomicsSensitivitiesHeatMap from "./EconomicsSensitivitiesHeatMap";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -105,24 +103,36 @@ const SensitivitiesHeatMapChart = ({
 
   const isHeatMapVariableXOptionOnly = isX && !isY && !isZ;
   const isHeatMapVariableXYOptionOnly = isX && isY && !isZ;
+  const isHeatMapVariableXYZOptionOnly = isX && isY && isZ;
+
+  const noOfSensitivities = heatMapTreeByScenario?.children?.length;
+
+  let disableds = true;
+  if (noOfSensitivities === 1 && isHeatMapVariableXOptionOnly) {
+    disableds = false;
+  } else if (noOfSensitivities === 2 && isHeatMapVariableXYOptionOnly) {
+    disableds = false;
+  } else if (noOfSensitivities === 3 && isHeatMapVariableXYZOptionOnly) {
+    disableds = false;
+  }
 
   let heatMapTreeZRow = {} as RenderTree;
   let heatMapVarZData = [] as ISelectOption[];
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
-  selectedDevScenario = heatMapTreeByScenario.name as string;
+  selectedDevScenario = heatMapTreeByScenario?.name as string;
   const devScenario =
     developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
 
-  if (heatMapTreeByScenario && heatMapTreeByScenario.id !== "" && isZ) {
+  if (heatMapTreeByScenario && heatMapTreeByScenario?.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
-    heatMapTreeZRow = heatMapTreeByScenario["children"].filter(
+    heatMapTreeZRow = heatMapTreeByScenario?.children?.filter(
       (row: any) => row.title === heatMapVariableZOptions[firstKey].title
     )[0] as NonNullable<RenderTree>;
 
-    const sensitivitiesZString = heatMapTreeZRow.title?.split("_")[1];
+    const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
     heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
       value: v,
       label: v,
@@ -131,6 +141,21 @@ const SensitivitiesHeatMapChart = ({
     variableZlength = heatMapVarZData.length;
     selectedDevScenario = heatMapTreeByScenario.name as string;
   }
+
+  const AnalysisResult = () => {
+    return (
+      <ApexSelectRS
+        valueOption={analysisOption}
+        data={resultsAnalyisOptions}
+        handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+          setAnalysisOption(option as ISelectOption)
+        }
+        menuPortalTarget={document.body}
+        isSelectOptionType={true}
+        containerHeight={40}
+      />
+    );
+  };
 
   React.useEffect(() => {
     if (selectedEconomicsResultsId === "") {
@@ -148,15 +173,7 @@ const SensitivitiesHeatMapChart = ({
       <WithUnit
         innerComponent={
           <ApexFlexContainer width={300} height={50}>
-            <ApexSelectRS
-              valueOption={analysisOption}
-              data={resultsAnalyisOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) =>
-                setAnalysisOption(option as ISelectOption)
-              }
-              menuPortalTarget={document.body}
-              isSelectOptionType={true}
-            />
+            <AnalysisResult />
           </ApexFlexContainer>
         }
         unitValue={analysisOption?.value as string}
@@ -190,29 +207,51 @@ const SensitivitiesHeatMapChart = ({
             <RotateLeftIcon key={1} />,
             <AirplayOutlinedIcon key={2} />,
           ]}
-          disableds={[false, heatMapVariableXOptions === null]}
+          disableds={[false, disableds]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[
-            () => {},
             () => {
-              if (
-                isHeatMapVariableXOptionOnly ||
-                isHeatMapVariableXYOptionOnly
-              ) {
+              dispatch(
+                updateEconomicsParametersAction({
+                  sensitivitiesHeatMapData: {},
+                  sensitivitiesHeatMap1or2D: [],
+                  heatMapVariableXOptions: {},
+                  heatMapVariableYOptions: {},
+                  heatMapVariableZOptions: {},
+                  categoryDragItems: {
+                    "X Category": {},
+                    "Y Category": {},
+                    "Z Category": {},
+                    "R Category": {},
+                  },
+                  categoryHasDropped: {
+                    "X Category": {},
+                    "Y Category": {},
+                    "Z Category": {},
+                    "R Category": {},
+                  },
+                })
+              );
+            },
+            () => {
+              const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
+
+              if (noOfSensitivities === 1 || noOfSensitivities === 2) {
                 if (Object.entries(sensitivitiesHeatMapData).length === 0) {
                   dispatch(
                     getHeatMapDataRequestAction(
                       analyisName as TEconomicsAnalysesNames,
                       analysisTitle as TEconomicsAnalysesTitles,
-                      selectedDevScenario
+                      noOfSensitivities,
+                      selectedDevScenario,
+                      variableZlength,
+                      variableZKey
                     )
                   );
                 }
-              } else {
+              } else if (noOfSensitivities === 3) {
                 if (Object.entries(sensitivitiesHeatMapData).length > 0) {
-                  const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
-
                   const sensitivitiesHeatMap1or2D =
                     sensitivitiesHeatMapData[devScenario][variableZKey];
 
@@ -223,12 +262,11 @@ const SensitivitiesHeatMapChart = ({
                     )
                   );
                 } else {
-                  const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
-
                   dispatch(
                     getHeatMapDataRequestAction(
                       analyisName as TEconomicsAnalysesNames,
                       analysisTitle as TEconomicsAnalysesTitles,
+                      noOfSensitivities,
                       selectedDevScenario,
                       variableZlength,
                       variableZKey

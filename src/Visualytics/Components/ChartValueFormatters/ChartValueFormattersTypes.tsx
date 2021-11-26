@@ -1,19 +1,9 @@
-import { OptionProps } from "react-select";
-import { CommonProps, PropsWithStyles } from "react-select/src/types";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { IExtendedSelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
-import { FormatSpecifierObject } from "d3-format";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { DatumValue, ValueFormat } from "@nivo/core";
-
-type IsMulti = true | false;
-type prospswithstyleUnion = keyof PropsWithStyles;
-type commonPropsUnion = keyof CommonProps<IExtendedSelectOption, IsMulti>;
-
-export type TCustomOptions = Omit<
-  OptionProps<IExtendedSelectOption, IsMulti>,
-  prospswithstyleUnion | commonPropsUnion
->;
+import { FormatSpecifierObject } from "d3-format";
+import { CommonProps, GroupBase, OptionProps } from "react-select";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import { IExtendedSelectOption } from "./../../../Application/Components/Selects/SelectItemsType";
 
 interface IFormatValue {
   format: ValueFormat<DatumValue>;

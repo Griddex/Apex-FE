@@ -17,6 +17,7 @@ import {
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { axisNameTitlesObj } from "../Data/VisualyticsData";
 import { TChartTypes } from "./Charts/ChartTypes";
+import { SpringValues } from "@react-spring/web";
 
 export interface IChartProps {
   chartType?: TChartTypes;
@@ -189,17 +190,6 @@ export declare type AxisLegendPosition = "start" | "middle" | "end";
 export declare type ValueFormatter<Value extends AxisValue> = (
   value: Value
 ) => Value | string;
-export declare type SpringValues<T extends Lookup = any> = [T] extends [Any]
-  ? Lookup<SpringValue<unknown> | undefined>
-  : {
-      [P in keyof T]: SpringWrap<T[P]>;
-    };
-declare type SpringWrap<T> = [
-  Exclude<T, FluidValue>,
-  Extract<T, readonly any[]>
-] extends [object | void, never]
-  ? never
-  : SpringValue<Exclude<T, FluidValue | void>> | Extract<T, void>;
 
 export interface AxisTickProps<Value extends AxisValue> {
   tickIndex: number;
@@ -216,7 +206,7 @@ export interface AxisTickProps<Value extends AxisValue> {
   opacity?: number;
   rotate?: number;
   animatedProps: SpringValues<{
-    opacity: number;
+    opacity: any;
     textTransform: string;
     transform: string;
   }>;

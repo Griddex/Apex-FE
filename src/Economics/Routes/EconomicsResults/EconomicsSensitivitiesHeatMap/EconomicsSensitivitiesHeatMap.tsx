@@ -1,9 +1,9 @@
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 import startCase from "lodash.startcase";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import HeatMapCustomCell from "../../../Components/HeatMapCustomComponents/HeatMapCustomCell";
 
@@ -11,19 +11,19 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const sensitivitiesHeatMap1or2DSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.sensitivitiesHeatMap1or2D,
-  (reducer) => reducer
+  (data) => data
 );
 const heatMapVariableXOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapVariableXOptions,
-  (reducer) => reducer
+  (data) => data
 );
 const heatMapVariableYOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapVariableYOptions,
-  (reducer) => reducer
+  (data) => data
 );
 const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
-  (reducer) => reducer
+  (data) => data
 );
 
 export interface IEconomicsSensitivitiesHeatMap {
@@ -38,7 +38,7 @@ const EconomicsSensitivitiesHeatMap = () => {
   const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
 
-  const noOfSensitivities = heatMapTreeByScenario["children"].length;
+  const noOfSensitivities = heatMapTreeByScenario?.children?.length;
 
   const keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
     ?.filter((key) => key.includes("Color"))
@@ -48,7 +48,7 @@ const EconomicsSensitivitiesHeatMap = () => {
   let yName = "";
   if (noOfSensitivities >= 2) {
     yId = Object.keys(heatMapVariableYOptions)[0];
-    yName = heatMapVariableYOptions[yId].name;
+    yName = heatMapVariableYOptions[yId]?.name;
   }
 
   const xId = Object.keys(heatMapVariableXOptions)[0];
@@ -66,6 +66,7 @@ const EconomicsSensitivitiesHeatMap = () => {
         tickPadding: 5,
         tickRotation: -90,
         legend: startCase(xName),
+        // legend: <Typography variant="h4">{startCase(xName)}</Typography>,
         legendPosition: "middle",
         legendOffset: -36,
       }}
@@ -87,7 +88,14 @@ const EconomicsSensitivitiesHeatMap = () => {
       motionDamping={9}
       hoverTarget="cell"
       cellHoverOthersOpacity={0.25}
-      cellShape={HeatMapCustomCell}
+      cellShape={(props) => (
+        <HeatMapCustomCell
+          {...props}
+          currentThresholdTitle={"sensitivitiesHeatMapThresholdData"}
+        />
+      )}
+      label={(datum, key) => Number(datum[key]).toFixed(2)}
+      tooltipFormat={(value) => Number(value).toFixed(2)}
     />
   );
 };

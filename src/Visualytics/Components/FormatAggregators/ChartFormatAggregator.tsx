@@ -1,13 +1,17 @@
 import { useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import ApexHeatMapThreshold, {
+  THeatMapThreshold,
+} from "../../../Economics/Components/ApexHeatMapThreshold/ApexHeatMapThreshold";
 import { axisNameTitlesObj, TAxisType } from "../../Data/VisualyticsData";
 import {
   bar_htm,
   dht,
+  htm,
   lin,
   rad,
   stk_lin_bar_sct_htm,
@@ -37,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChartFormatAggregator = ({
+  currentThresholdTitle,
   basePath,
   updateParameterAction,
   chartType,
@@ -129,6 +134,13 @@ const ChartFormatAggregator = ({
       case "gridAxes":
         return <ApexChartGridAxes {...apexGridAxesProps} />;
 
+      case "heatMapThreshold":
+        return (
+          <ApexHeatMapThreshold
+            currentThresholdTitle={currentThresholdTitle as THeatMapThreshold}
+          />
+        );
+
       case "radarGrid":
         return <ApexRadarGrid {...apexGridAxesProps} />;
 
@@ -187,6 +199,11 @@ const ChartFormatAggregator = ({
         {stk_lin_bar_sct_htm.includes(chartTypeDefined) && (
           <ToggleButton className={classes.toggle} value="gridAxes">
             {"Grids & Axes"}
+          </ToggleButton>
+        )}
+        {htm.includes(chartTypeDefined) && (
+          <ToggleButton className={classes.toggle} value="heatMapThreshold">
+            {"Threshold"}
           </ToggleButton>
         )}
         {rad.includes(chartTypeDefined) && (

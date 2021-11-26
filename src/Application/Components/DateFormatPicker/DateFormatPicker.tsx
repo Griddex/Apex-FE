@@ -1,6 +1,5 @@
 import React from "react";
-import { ValueType } from "react-select";
-import generateSelectOptions from "../../Utils/GenerateSelectOptions";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../Basic/AnalyticsComp";
 import ApexSelectRS from "../Selects/ApexSelectRS";
 import ApexFlexContainer from "../Styles/ApexFlexContainer";
@@ -24,10 +23,6 @@ const DateFormatPicker = ({
   setYear,
   handleDateFormatChange,
 }: IDateFormatPicker) => {
-  // const selectedDayOption = generateSelectOptions([day])[0]
-  // const selectedMonthOption = generateSelectOptions([month])[0]
-  // const selectedYearOption = generateSelectOptions([year])[0]
-
   return (
     <ApexFlexContainer
       justifyContent="space-between"
@@ -48,33 +43,36 @@ const DateFormatPicker = ({
             <ApexSelectRS
               valueOption={day}
               data={dayOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 option && setDay(option as TDayOption);
                 handleDateFormatChange(option);
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}
+              containerHeight={40}
             />
 
             <ApexSelectRS
               valueOption={month}
               data={monthOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 option && setMonth(option as TMonthOption);
                 handleDateFormatChange(option);
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}
+              containerHeight={40}
             />
             <ApexSelectRS
               valueOption={year}
               data={yearOptions}
-              handleSelect={(option: ValueType<ISelectOption, false>) => {
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 option && setYear(option as TYearOption);
                 handleDateFormatChange(option);
               }}
               isSelectOptionType={true}
               menuPortalTarget={document.body}
+              containerHeight={40}
             />
           </div>
         }

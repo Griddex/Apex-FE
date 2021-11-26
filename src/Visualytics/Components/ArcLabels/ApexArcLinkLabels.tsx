@@ -1,10 +1,10 @@
 import { useTheme } from "@mui/material";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { InheritedColorConfigFromContext } from "@nivo/colors";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
@@ -99,7 +99,7 @@ const ApexArcLinkLabels = ({
 
   const handleArcLinkLabelSelect =
     (name: keyof IChart, isObj?: boolean, obj?: any, objKey?: string) =>
-    (option: ValueType<ISelectOption, false>) => {
+    (option: OnChangeValue<ISelectOption, false>) => {
       const optionValue = (option as ISelectOption).value as string;
 
       let value: any;
@@ -119,7 +119,7 @@ const ApexArcLinkLabels = ({
     };
 
   const handleInheritColorModifiers =
-    (name: keyof IChart) => (option: ValueType<ISelectOption, false>) => {
+    (name: keyof IChart) => (option: OnChangeValue<ISelectOption, false>) => {
       const optionValue = (option as ISelectOption).value as string;
 
       setChartProps((prev: any) => {
@@ -239,6 +239,7 @@ const ApexArcLinkLabels = ({
                 handleSelect={handleArcLinkLabelSelect("arcLinkLabel")}
                 menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                 isSelectOptionType={true}
+                containerHeight={40}
               />
             }
           />
@@ -445,6 +446,7 @@ const ApexArcLinkLabels = ({
                         arcLinkLabelRef.current as HTMLDivElement
                       }
                       isSelectOptionType={true}
+                      containerHeight={40}
                     />
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <ApexSelectRS
@@ -458,6 +460,7 @@ const ApexArcLinkLabels = ({
                         }
                         isSelectOptionType={true}
                         containerWidth={40}
+                        containerHeight={40}
                       />
                       <ApexSlider
                         name="modifiers"
@@ -489,6 +492,7 @@ const ApexArcLinkLabels = ({
                     )}
                     menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 
@@ -573,6 +577,7 @@ const ApexArcLinkLabels = ({
                     )}
                     menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
                 {arcLinkLabelColorPerspective === "theme" && (
@@ -587,6 +592,7 @@ const ApexArcLinkLabels = ({
                     )}
                     menuPortalTarget={arcLinkLabelRef.current as HTMLDivElement}
                     isSelectOptionType={true}
+                    containerHeight={40}
                   />
                 )}
 

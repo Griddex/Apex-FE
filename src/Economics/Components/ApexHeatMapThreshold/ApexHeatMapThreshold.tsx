@@ -1,29 +1,33 @@
-import { Button, Input, Typography, useTheme } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
+import { Button, Input, Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
 import ApexPickerExtruder from "../../../Visualytics/Components/ColorPickers/ApexPickerExtruder";
 import ApexSketchPicker from "../../../Visualytics/Components/ColorPickers/ApexSketchPicker";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   compSpacing: {
     "& > *": { marginLeft: 5 },
   },
 }));
 
-export interface IMapStyleFormatters {
-  workflowProcess: TAllWorkflowProcesses;
+export type THeatMapThreshold =
+  | "sensitivitiesHeatMapThresholdData"
+  | "plotChartsHeatMapThresholdData";
+export interface IApexHeatMapThreshold {
+  currentThresholdTitle: THeatMapThreshold;
 }
 
-const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
+const ApexHeatMapThreshold = ({
+  currentThresholdTitle,
+}: IApexHeatMapThreshold) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
@@ -60,18 +64,18 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
   const [thresholdValue, setThresholdValue] = React.useState(0);
   const [showThresholdPicker, setShowThresholdPicker] = React.useState(false);
   const [showBackgroundPicker, setShowBackgroundPicker] = React.useState(false);
-  const [updateMap, setUpdateMap] = React.useState(false);
+  const [willUpdateMap, setWillUpdateMap] = React.useState(false);
 
   React.useEffect(() => {
     dispatch(
-      updateEconomicsParameterAction(`heatMapStylingData`, {
+      updateEconomicsParameterAction(currentThresholdTitle, {
         heatMapThresholdValue: thresholdValue,
         heatMapThresholdColor: solidThresholdColor,
         heatMapBackgroundColor: solidBackgroundColor,
         relationalOperatorOption: operatorOption,
       })
     );
-  }, [updateMap]);
+  }, [willUpdateMap]);
 
   return (
     <ApexFlexContainer flexDirection="column" alignItems="space-evenly">
@@ -93,11 +97,12 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           <ApexSelectRS
             valueOption={operatorOption}
             data={opOptions}
-            handleSelect={(option: ValueType<ISelectOption, false>) => {
+            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               setOperatorOption(option as ISelectOption);
             }}
             menuPortalTarget={mapRef.current as HTMLDivElement}
             isSelectOptionType={true}
+            containerHeight={40}
           />
           <Input
             name="thresholdValue"
@@ -123,7 +128,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           />
 
           <Button
-            onClick={() => setUpdateMap(!updateMap)}
+            onClick={() => setWillUpdateMap(!willUpdateMap)}
             type="submit"
             variant="outlined"
             color="primary"
@@ -167,7 +172,7 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
           />
 
           <Button
-            onClick={() => setUpdateMap(!updateMap)}
+            onClick={() => setWillUpdateMap(!willUpdateMap)}
             type="submit"
             variant="outlined"
             color="primary"
@@ -192,4 +197,4 @@ const MapStyleFormatters = ({ workflowProcess }: IMapStyleFormatters) => {
   );
 };
 
-export default MapStyleFormatters;
+export default ApexHeatMapThreshold;

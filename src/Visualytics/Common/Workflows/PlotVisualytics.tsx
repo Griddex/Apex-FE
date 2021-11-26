@@ -23,16 +23,9 @@ import {
 } from "../../Redux/Actions/VisualyticsActions";
 import NoSelectionPlaceholder from "../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { SizeMe } from "react-sizeme";
-
-const VisualyticsContext = React.lazy(
-  () => import("../../Components/ContextDrawers/VisualyticsContext")
-);
-const VisualyticsChartDataPanel = React.lazy(
-  () => import("../VisualyticsChartDataPanel")
-);
-const VisualyticsSelectChart = React.lazy(
-  () => import("../VisualyticsSelectChart")
-);
+import VisualyticsContext from "../../Components/ContextDrawers/VisualyticsContext";
+import VisualyticsChartDataPanel from "../VisualyticsChartDataPanel";
+import VisualyticsSelectChart from "../VisualyticsSelectChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -162,7 +155,7 @@ const PlotVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={visualyticsPlotCharts}
-          initialChartIndex={0}
+          initialChartIndex={1}
           putChartOptionAction={
             visualyticsResults.length > 0
               ? (chartOption: ISelectOption) => {
@@ -213,7 +206,6 @@ const PlotVisualytics = () => {
   const moveDivRef = React.useRef<HTMLDivElement>(null);
 
   const [mousePosition, setMousePosition] = React.useState<ControlPosition>({
-    // x: panelRef.current?.offsetWidth as number,
     x: 300,
     y: 0,
   });
@@ -222,10 +214,6 @@ const PlotVisualytics = () => {
 
   const handler = React.useCallback(() => {
     function onMouseMove(e: MouseEvent) {
-      console.log(
-        "Logged output --> ~ file: PlotVisualytics.tsx ~ line 120 ~ onMouseMove ~ e",
-        e
-      );
       setMousePosition((currentSize) => {
         return {
           x: currentSize.x + e.movementX,
@@ -251,11 +239,7 @@ const PlotVisualytics = () => {
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
-        <div
-          className={classes.chartPanel}
-          // style={{ width: mousePosition.x, left: mousePosition.x }}
-          ref={panelRef}
-        >
+        <div className={classes.chartPanel} ref={panelRef}>
           <VisualyticsChartDataPanel
             selectedZ={selectedZ}
             setSelectedZ={setSelectedZ}

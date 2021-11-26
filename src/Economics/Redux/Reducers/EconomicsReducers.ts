@@ -351,6 +351,10 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         id,
         chartType,
       } = action.payload;
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ action.payload",
+        action.payload
+      );
 
       const categoryMembers = (state as any)[categoryMembersObjTitle][
         categoryTitle
@@ -381,6 +385,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
       return {
         ...state,
+        sensitivitiesHeatMapData: {},
+        sensitivitiesHeatMap1or2D: [],
         [categoryMembersObjTitle]: {
           ...(state as any)[categoryMembersObjTitle],
           [categoryTitle]: newCategoryMembers,
@@ -518,7 +524,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const {
         sensitivitiesHeatMapData,
         sensitivitiesHeatMap1or2D,
-        heatMapStylingData,
+        sensitivitiesHeatMapThresholdData,
         economicsChartsWorkflows,
         heatMapVariableXOptions,
         heatMapVariableYOptions,
@@ -532,7 +538,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         ...state,
         sensitivitiesHeatMapData,
         sensitivitiesHeatMap1or2D,
-        heatMapStylingData,
+        sensitivitiesHeatMapThresholdData,
         economicsChartsWorkflows,
         heatMapVariableXOptions,
         heatMapVariableYOptions,

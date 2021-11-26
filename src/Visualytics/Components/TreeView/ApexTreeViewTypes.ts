@@ -18,6 +18,7 @@ export interface IApexTreeView {
   setSelectedPathsUnfiltered: TUseState<string[]>;
   dragDropTypes: string;
   height: number;
+  droppedIds?: string[];
 }
 
 export type TTreeStackObj = {

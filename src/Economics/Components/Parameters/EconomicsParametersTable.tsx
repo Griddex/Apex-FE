@@ -11,7 +11,7 @@ import omit from "lodash.omit";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import { useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
@@ -205,7 +205,7 @@ const EconomicsParametersTable = ({
   const valueOption = dataOptions[0];
 
   const handleBasedOnVariableChange = (
-    value: ValueType<ISelectOption, false>,
+    value: OnChangeValue<ISelectOption, false>,
     headerName: string
   ) => {
     const selectedValue = value && value.label;
@@ -243,11 +243,12 @@ const EconomicsParametersTable = ({
             <ApexSelectRS
               valueOption={valueOption}
               data={dataOptions}
-              handleSelect={(value: ValueType<ISelectOption, false>) =>
+              handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                 handleBasedOnVariableChange(value, "oilRate")
               }
               menuPortalTarget={rootRef.current as HTMLDivElement}
               isSelectOptionType={true}
+              containerHeight={40}
             />
           }
           containerStyle={{ width: 400 }}

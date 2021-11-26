@@ -562,18 +562,22 @@ export const transformEconomicsChartDataFailureAction = () => {
 export const getHeatMapDataRequestAction = (
   analysisName: TEconomicsAnalysesNames,
   analysisTitle: TEconomicsAnalysesTitles,
+  noOfSensitivities: number,
   selectedDevScenario?: string,
   variableZlength?: number,
-  variableZKey?: string
+  variableZKey?: string,
+  selectedZ?: string
 ) => {
   return {
     type: FETCH_HEATMAPDATA_REQUEST,
     payload: {
       analysisName,
       analysisTitle,
+      noOfSensitivities,
       variableZlength,
       selectedDevScenario,
       variableZKey,
+      selectedZ,
     },
     meta: { showSpinner: true, message: `Fetching map data...` },
   };

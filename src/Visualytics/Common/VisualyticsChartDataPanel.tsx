@@ -1,7 +1,7 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ValueType } from "react-select";
+import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
@@ -79,7 +79,12 @@ const visualyticsDeckStoredSelector = createDeepEqualSelector(
   (stored) => stored
 );
 
-const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
+const VisualyticsChartDataPanel = ({
+  selectedZ,
+  setSelectedZ,
+  variableZDataOptions,
+  ZValuesTitle,
+}: IChartVisualytics) => {
   const dispatch = useDispatch();
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
@@ -145,7 +150,7 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
     );
 
   const handleSelectVisualyticsResultsChange = (
-    option: ValueType<IExtendedSelectOption, false>
+    option: OnChangeValue<IExtendedSelectOption, false>
   ) => {
     const optionDefined = option as IExtendedSelectOption;
     setVisualyticsRunOption(optionDefined);
@@ -231,11 +236,10 @@ const VisualyticsChartDataPanel = ({ setSelectedZ }: IChartVisualytics) => {
       categoryPanelWidth={categoryPanelWidth}
       categoryPanelComponent={
         <CategoryPanelComponent
-          variableOptions={React.useMemo(
-            () => visualyticsVariableZOptions,
-            [JSON.stringify(visualyticsVariableZOptions)]
-          )}
+          selectedZ={selectedZ}
           setSelectedZ={React.useCallback(setSelectedZ, [])}
+          variableZDataOptions={variableZDataOptions}
+          ZValuesTitle={ZValuesTitle}
         />
       }
       resultsTitle={selectedVisualyticsTitle}

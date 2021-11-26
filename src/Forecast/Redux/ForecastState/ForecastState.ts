@@ -68,6 +68,7 @@ const forcastResultState: IForecastResultState = {
   selectedTableData: [],
   timeData: [],
   forecastResults: [],
+  forecastDuration: 0,
   forecastTree: [],
   xValueCategories: [],
   lineOrScatter: "lineChart",

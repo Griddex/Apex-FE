@@ -10,7 +10,7 @@ import React from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import Select, { OptionsType, ValueType } from "react-select";
+import Select, { MultiValue, OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { v4 as uuidv4 } from "uuid";
@@ -388,7 +388,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     rows: any
   ) => {
     const handleUnitTypeChange = (
-      option: ValueType<ISelectOption, false>,
+      option: OnChangeValue<ISelectOption, false>,
       row: IRawRow
     ) => {
       const { sn, unitId, fileHeader, fileUnit, applicationUnit } = row;
@@ -446,7 +446,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     };
 
     const handleApplicationUnitChange = <T extends boolean>(
-      option: NonNullable<ValueType<IExtendedSelectOption, T>>,
+      option: NonNullable<OnChangeValue<IExtendedSelectOption, T>>,
       row: IRawRow,
       type: TUnit,
       unitOptions: IExtendedSelectOption[],
@@ -457,10 +457,10 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
       if (type === "Multiple") {
         const selectedAppUnitsOptions = option
-          ? (option as OptionsType<IExtendedSelectOption>)
+          ? (option as MultiValue<IExtendedSelectOption>)
           : [];
 
-        const selectedAppUnits = selectedAppUnitsOptions.map((u) => u.label);
+        const selectedAppUnits = selectedAppUnitsOptions?.map((u) => u.label);
 
         //Unit group
         const selectedUnitGroupArr = selectedAppUnits.map(
@@ -778,7 +778,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 value={valueOption}
                 options={typeOptions}
                 styles={RSStyles}
-                onChange={(value: ValueType<ISelectOption, IsMulti>) => {
+                onChange={(value: OnChangeValue<ISelectOption, IsMulti>) => {
                   handleUnitTypeChange(value, row);
                 }}
                 menuPortalTarget={document.body}
@@ -860,11 +860,11 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 options={unitOptions}
                 styles={RSStyles}
                 onChange={(
-                  option: ValueType<IExtendedSelectOption, IsMultiType>
+                  option: OnChangeValue<IExtendedSelectOption, IsMultiType>
                 ) =>
                   handleApplicationUnitChange<IsMultiType>(
                     option as NonNullable<
-                      ValueType<IExtendedSelectOption, IsMultiType>
+                      OnChangeValue<IExtendedSelectOption, IsMultiType>
                     >,
                     row,
                     type,

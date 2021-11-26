@@ -61,6 +61,7 @@ import {
 } from "../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import generateDoughnutAnalyticsData from "../../../Application/Utils/GenerateDoughnutAnalyticsData";
 
 //<IStoredEconomicsResultsRow, ITableButtonsProps>
 
@@ -163,28 +164,6 @@ export default function StoredEcoResults({
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-
-  //TODO: Calculate classification data from collection
-  const chartData = [
-    {
-      id: "A",
-      label: "A",
-      value: 2400,
-      color: theme.palette.primary.main,
-    },
-    {
-      id: "B",
-      label: "B",
-      value: 4567,
-      color: theme.palette.success.main,
-    },
-    {
-      id: "C",
-      label: "C",
-      value: 1398,
-      color: theme.palette.secondary.main,
-    },
-  ];
 
   const currentProjectId = useSelector(currentProjectIdSelector);
 
@@ -517,9 +496,9 @@ export default function StoredEcoResults({
     ),
   };
 
-  React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  const chartData = React.useRef(
+    generateDoughnutAnalyticsData(storedEconomicsResults, "approval")
+  );
 
   React.useEffect(() => {
     setStoredEconomicsResults(storedEconomicsResults);
@@ -531,7 +510,10 @@ export default function StoredEcoResults({
     <div className={classes.rootStoredData}>
       {showChart && (
         <div className={classes.chart}>
-          <DoughnutChartAnalytics data={chartData} willUseThemeColor={false} />
+          <DoughnutChartAnalytics
+            data={chartData.current}
+            willUseThemeColor={false}
+          />
         </div>
       )}
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
