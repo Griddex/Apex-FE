@@ -1,3 +1,4 @@
+import React from "react";
 import { Column, PasteEvent } from "react-data-griddex";
 import { TUseState } from "../../../Types/ApplicationTypes";
 import { ITableButtonsProps } from "../TableButtonsTypes";
@@ -18,7 +19,19 @@ export interface IPosition {
   idx: number;
   rowIdx: number;
 }
+
+export interface ISize {
+  readonly width: number | null;
+  readonly height: number | null;
+}
+
 export interface IApexGrid<R = IRawRow, O = ITableButtonsProps> {
+  apexGridProps: IApexGridProps<R, O>;
+  ref?: React.RefAttributes<HTMLDivElement>;
+  // ref?: React.MutableRefObject<HTMLDivElement>;
+}
+
+export interface IApexGridProps<R, O> {
   columns: readonly Column<any, unknown>[];
   rows: R[];
   tableButtons?: ITableButtonsProps;
@@ -33,10 +46,7 @@ export interface IApexGrid<R = IRawRow, O = ITableButtonsProps> {
   onRowsChange?: React.Dispatch<any>;
   onPaste?: (event: PasteEvent<R>) => R;
   mappingErrors?: React.Key[];
-  size?: {
-    readonly width: number | null;
-    readonly height: number | null;
-  };
+  size?: ISize;
   groupBy?: readonly string[];
   rowGrouper?: (rows: readonly R[], columnKey: string) => Record<string, any[]>;
   expandedGroupIds?: ReadonlySet<unknown>;

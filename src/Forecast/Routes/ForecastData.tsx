@@ -26,7 +26,10 @@ import {
   ISelectOption,
 } from "../../Application/Components/Selects/SelectItemsType";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -407,6 +410,26 @@ export default function ForecastData({
     dispatch(hideSpinnerAction());
   }, [dispatch]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons as ITableButtonsProps,
+    newTableRowHeight: 35,
+    selectedRows: selectedRows,
+    setSelectedRows: setSelectedRows,
+    selectedRow: sRow,
+    onSelectedRowChange: setSRow,
+    onRowsChange: setRows,
+    size: size,
+    groupBy: groupBy as readonly string[],
+    rowGrouper: rowGrouper,
+    expandedGroupIds: expandedGroupIds,
+    onExpandedGroupIdsChange: setExpandedGroupIds,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootStoredData} style={containerStyle}>
       <div
@@ -480,27 +503,7 @@ export default function ForecastData({
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.workflowBody}>
           <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid
-                columns={columns}
-                rows={rows}
-                tableButtons={tableButtons as ITableButtonsProps}
-                newTableRowHeight={35}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                selectedRow={sRow}
-                onSelectedRowChange={setSRow}
-                onRowsChange={setRows}
-                size={size}
-                groupBy={groupBy as readonly string[]}
-                rowGrouper={rowGrouper}
-                expandedGroupIds={expandedGroupIds}
-                onExpandedGroupIdsChange={setExpandedGroupIds}
-                autoAdjustTableDim={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
+            {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
           </SizeMe>
         </div>
       </ClickAwayListener>

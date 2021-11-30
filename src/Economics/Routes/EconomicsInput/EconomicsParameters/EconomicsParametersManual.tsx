@@ -17,6 +17,7 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import {
   IRawRow,
+  ISize,
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -317,23 +318,23 @@ const EconomicsParametersManual = ({
     extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
   };
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    onRowsChange: setRows,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootStoredData}>
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.rootEconomicsParametersManual}>
           <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid
-                columns={columns}
-                rows={rows}
-                onRowsChange={setRows}
-                tableButtons={tableButtons}
-                size={size}
-                autoAdjustTableDim={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
+            {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
           </SizeMe>
         </div>
       </ClickAwayListener>

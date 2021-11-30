@@ -11,7 +11,10 @@ import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
@@ -203,20 +206,20 @@ const EconomicsDecksSelectionTable = () => {
 
   const columns = generateColumns();
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    newTableRowHeight: 35,
+    onRowsChange: setRows,
+    size: size,
+    autoAdjustTableDim: false,
+    staticTableHeight: 112,
+  });
+
   return (
     <div style={{ width: "95%", height: 120 }}>
       <SizeMe monitorHeight refreshRate={32}>
-        {({ size }) => (
-          <ApexGrid
-            columns={columns}
-            rows={rows}
-            newTableRowHeight={35}
-            onRowsChange={setRows}
-            size={size}
-            autoAdjustTableDim={false}
-            staticTableHeight={112}
-          />
-        )}
+        {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
       </SizeMe>
     </div>
   );

@@ -26,11 +26,13 @@ import ForecastResults from "../../../Images/ForecastResults.svg";
 import Manual from "../../../Images/Manual.svg";
 import {
   loadEconomicsWorkflowAction,
-  persistEconomicsDeckRequestAction,
+  persistEconomicsDecksRequestAction,
   saveCostsRevenuesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IdType } from "./EconomicsCostsAndRevenuesTypes";
+import SelectScenariosByButtonsWithForecastCase from "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase";
+import DialogCancelButton from "../../../../Application/Components/DialogButtons/DialogCancelButton";
 
 const CostsRevenueApexForecastWorkflow = React.lazy(
   () => import("../../../Workflows/CostsRevenueApexForecastWorkflow")
@@ -41,17 +43,10 @@ const CostsAndRevenueManual = React.lazy(
 const StoredCostsAndRevenuesDecks = React.lazy(
   () => import("./StoredCostsAndRevenuesDecks")
 );
-const SelectScenariosByButtonsWithForecastCase = React.lazy(
-  () =>
-    import(
-      "../../../Components/SelectScenariosByButtons/SelectScenariosByButtonsWithForecastCase"
-    )
-);
 const DatabaseWorkflow = React.lazy(
   () =>
     import("../../../../Import/Routes/Common/InputWorkflows/DatabaseWorkflow")
 );
-
 const ExcelWorkflow = React.lazy(
   () => import("../../../../Import/Routes/Common/InputWorkflows/ExcelWorkflow")
 );
@@ -184,99 +179,125 @@ const EconomicsCostsRevenuesLanding = () => {
     },
   ];
 
-  const costsRevenueWorkflowSaveAction = (wp: TAllWorkflowProcesses) => {
-    const saveCostsRevenuesInputdeckConfirmation = (
-      titleDesc: Record<string, string>
-    ) => {
-      const confirmationDialogParameters: DialogStuff = {
-        name: "Save_CostsRevenue_Dialog_Confirmation",
-        title: "Save Costs & Revenues Confirmation",
-        type: "textDialog",
+  const costsRevenueWorkflowSaveAction = React.useCallback(
+    (wp: TAllWorkflowProcesses) => {
+      const saveCostsRevenuesInputdeckConfirmation = (
+        titleDesc: Record<string, string>
+      ) => {
+        const confirmationDialogParameters: DialogStuff = {
+          name: "Save_CostsRevenue_Dialog_Confirmation",
+          title: "Save Costs & Revenues Confirmation",
+          type: "textDialog",
+          show: true,
+          exclusive: false,
+          maxWidth: "xs",
+          dialogText: `Do you want to save the economics costs schedule?`,
+          iconType: "confirmation",
+          actionsList: () =>
+            DialogOneCancelButtons(
+              [true, true],
+              [true, true],
+              [
+                unloadDialogsAction,
+                () =>
+                  saveCostsRevenuesRequestAction(
+                    wp,
+                    reducer,
+                    titleDesc as Record<string, string>
+                  ),
+              ],
+              "Save",
+              "saveOutlined",
+              false,
+              "All"
+            ),
+          dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+        };
+
+        dispatch(showDialogAction(confirmationDialogParameters));
+      };
+
+      const dialogParameters: DialogStuff = {
+        name: "Save_CostsRevenue_Dialog",
+        title: "Save Costs & Revenues",
+        type: "saveCostsRevenuesInputDeckDialog",
         show: true,
         exclusive: false,
-        maxWidth: "xs",
-        dialogText: `Do you want to save the economics costs schedule?`,
-        iconType: "confirmation",
-        actionsList: () =>
+        maxWidth: "sm",
+        iconType: "save",
+        actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
           DialogOneCancelButtons(
             [true, true],
-            [true, true],
+            [true, false],
             [
               unloadDialogsAction,
               () =>
-                saveCostsRevenuesRequestAction(
-                  wp,
-                  reducer,
+                saveCostsRevenuesInputdeckConfirmation(
                   titleDesc as Record<string, string>
                 ),
             ],
             "Save",
             "saveOutlined",
-            false,
-            "All"
+            flag,
+            "None"
           ),
-        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
       };
 
-      dispatch(showDialogAction(confirmationDialogParameters));
-    };
+      dispatch(showDialogAction(dialogParameters));
+    },
+    []
+  );
 
-    const dialogParameters: DialogStuff = {
-      name: "Save_CostsRevenue_Dialog",
-      title: "Save Costs & Revenues",
-      type: "saveCostsRevenuesInputDeckDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "sm",
-      iconType: "save",
-      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, false],
-          [
-            unloadDialogsAction,
-            () =>
-              saveCostsRevenuesInputdeckConfirmation(
-                titleDesc as Record<string, string>
-              ),
-          ],
-          "Save",
-          "saveOutlined",
-          flag,
-          "None"
-        ),
-    };
+  const costsRevenueExcelDbWorkflowFinalAction = React.useCallback(
+    (wp: TAllWorkflowProcesses) => {
+      const dialogParameters: DialogStuff = {
+        name: "Select_DevelopmentScenarios_Dialog",
+        title: "Select Development Scenarios",
+        type: "selectDevelopmentScenariosDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "sm",
+        iconType: "select",
+        workflowProcess: wp,
+        workflowCategory: wc,
+        actionsList: (flag: boolean) =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, false],
+            [unloadDialogsAction, () => costsRevenueWorkflowSaveAction(wp)],
+            "Save",
+            "saveOutlined",
+            flag,
+            "None"
+          ),
+      };
 
-    dispatch(showDialogAction(dialogParameters));
-  };
+      dispatch(showDialogAction(dialogParameters));
+    },
+    []
+  );
 
-  const costsRevenueWorkflowFinalAction = (wp: TAllWorkflowProcesses) => {
-    const dialogParameters: DialogStuff = {
-      name: "Select_DevelopmentScenarios_Dialog",
-      title: "Select Development Scenarios",
-      type: "selectDevelopmentScenariosDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "sm",
-      iconType: "select",
-      workflowProcess: wp,
-      workflowCategory: wc,
-      actionsList: (flag: boolean) =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, false],
-          [unloadDialogsAction, () => costsRevenueWorkflowSaveAction(wp)],
-          "Finalize",
-          "finalize",
-          flag,
-          "None"
-        ),
-    };
+  const costsRevenueManualApexWorkflowFinalAction = React.useCallback(
+    (wp: TAllWorkflowProcesses) => {
+      const dialogParameters: DialogStuff = {
+        name: "Manage_CostsRevenues_Dialog",
+        title: "Manage Costs & Revenues",
+        type: "finalizeCostsRevenueApexWorkDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "sm",
+        iconType: "select",
+        workflowProcess: wp,
+        workflowCategory: wc,
+        actionsList: (flag: boolean) => DialogCancelButton(unloadDialogsAction),
+      };
 
-    dispatch(showDialogAction(dialogParameters));
-  };
+      dispatch(showDialogAction(dialogParameters));
+    },
+    []
+  );
 
-  const storedDataFinalAction = () => {
+  const storedDataFinalAction = React.useCallback(() => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
       title: `Manage CostsRevenues Deck`,
@@ -287,7 +308,7 @@ const EconomicsCostsRevenuesLanding = () => {
       iconType: "information",
     };
     dispatch(showDialogAction(dialogParameters));
-  };
+  }, []);
 
   const getBadgeProps = (name: string) => {
     return {
@@ -314,17 +335,13 @@ const EconomicsCostsRevenuesLanding = () => {
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckExcel"}
                     finalAction={() => {
-                      costsRevenueWorkflowFinalAction(
+                      costsRevenueExcelDbWorkflowFinalAction(
                         "economicsCostsRevenuesDeckExcel"
                       );
 
+                      //TODO Check this
                       dispatch(
-                        persistEconomicsDeckRequestAction(
-                          "economicsCostsRevenuesDeckExcel",
-                          "oilDevelopment",
-                          [],
-                          false
-                        )
+                        persistEconomicsDecksRequestAction("oilDevelopment", [])
                       );
 
                       enqueueSnackbar(`${dataLabel} is stored successfully`, {
@@ -342,7 +359,7 @@ const EconomicsCostsRevenuesLanding = () => {
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckDatabase"}
                     finalAction={() =>
-                      costsRevenueWorkflowFinalAction(
+                      costsRevenueExcelDbWorkflowFinalAction(
                         "economicsCostsRevenuesDeckDatabase"
                       )
                     }
@@ -354,7 +371,7 @@ const EconomicsCostsRevenuesLanding = () => {
                     wkCy={"inputDataWorkflows"}
                     wkPs={"economicsCostsRevenuesDeckManual"}
                     finalAction={() =>
-                      costsRevenueWorkflowFinalAction(
+                      costsRevenueWorkflowSaveAction(
                         "economicsCostsRevenuesDeckManual"
                       )
                     }
@@ -366,7 +383,7 @@ const EconomicsCostsRevenuesLanding = () => {
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"economicsCostsRevenuesDeckApexForecast"}
                     finalAction={() =>
-                      costsRevenueWorkflowFinalAction(
+                      costsRevenueWorkflowSaveAction(
                         "economicsCostsRevenuesDeckApexForecast"
                       )
                     }

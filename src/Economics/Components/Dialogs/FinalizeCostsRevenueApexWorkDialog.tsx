@@ -6,12 +6,11 @@ import DialogContent from "../../../Application/Components/DialogContents/Dialog
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogTitle from "../../../Application/Components/DialogTitles/DialogTitle";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import ProductionStreamPrioritization from "../../Routes/ProductionStreamPrioritization";
+import CostsRevenueApexWorkFinalization from "../../Routes/EconomicsAnalyses/CostsRevenueApexWorkFinalization";
 
-const ProductionStreamPrioritizationDialog: React.FC<DialogStuff> = (props) => {
+const FinalizeCostsRevenueApexWorkDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
-  const { title, show, maxWidth, iconType, actionsList, selectedRowIndex } =
-    props;
+  const { title, show, maxWidth, iconType, actionsList } = props;
 
   return (
     <Dialog
@@ -30,11 +29,11 @@ const ProductionStreamPrioritizationDialog: React.FC<DialogStuff> = (props) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <ProductionStreamPrioritization />
+        <CostsRevenueApexWorkFinalization workflowProcess="economicsCostsRevenuesDeckApexForecast" />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default ProductionStreamPrioritizationDialog;
+export default FinalizeCostsRevenueApexWorkDialog;

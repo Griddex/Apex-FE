@@ -7,7 +7,10 @@ import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import getRSStyles from "../../../../Application/Utils/GetRSStyles";
 import getRSTheme from "../../../../Application/Utils/GetRSTheme";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
@@ -180,6 +183,18 @@ const ParameterSensitivity = ({
     dispatch(updateEconomicsParameterAction(path, sensitivitiesTable));
   }, [rows]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    newTableRowHeight: 35,
+    onRowsChange: setRows,
+    size: size,
+    autoAdjustTableDim: false,
+    showTableHeader: false,
+    showTablePagination: false,
+    staticTableHeight: 77,
+  });
+
   return (
     <ApexFlexContainer key={parIndex} flexDirection="column">
       <AnalyticsComp
@@ -204,19 +219,7 @@ const ParameterSensitivity = ({
       <div style={{ width: 562, height: 80, marginTop: 2 }}>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => {
-            return (
-              <ApexGrid
-                columns={columns}
-                rows={rows}
-                newTableRowHeight={35}
-                onRowsChange={setRows}
-                size={size}
-                autoAdjustTableDim={false}
-                showTableHeader={false}
-                showTablePagination={false}
-                staticTableHeight={77}
-              />
-            );
+            return <ApexGrid apexGridProps={getApexGridProps(size)} />;
           }}
         </SizeMe>
       </div>

@@ -25,6 +25,7 @@ import ExcelExportTable, {
 import MoreActionsPopover from "../../../../Application/Components/Popovers/MoreActionsPopover";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
@@ -450,6 +451,22 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       storedDataDescriptionsString,
     ]);
 
+    const getApexGridProps = (size: ISize) => ({
+      columns: columns,
+      rows: rows,
+      tableButtons: tableButtons as ITableButtonsProps,
+      newTableRowHeight: 35,
+      selectedRows: selectedRows,
+      setSelectedRows: setSelectedRows,
+      selectedRow: sRow,
+      onSelectedRowChange: setSRow,
+      onRowsChange: setRows,
+      size: size,
+      autoAdjustTableDim: true,
+      showTableHeader: true,
+      showTablePagination: true,
+    });
+
     return (
       <div className={classes.rootStoredData} style={containerStyle}>
         {showChart && (
@@ -473,21 +490,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
           >
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => (
-                <ApexGrid
-                  columns={columns}
-                  rows={rows}
-                  tableButtons={tableButtons as ITableButtonsProps}
-                  newTableRowHeight={35}
-                  selectedRows={selectedRows}
-                  setSelectedRows={setSelectedRows}
-                  selectedRow={sRow}
-                  onSelectedRowChange={setSRow}
-                  onRowsChange={setRows}
-                  size={size}
-                  autoAdjustTableDim={true}
-                  showTableHeader={true}
-                  showTablePagination={true}
-                />
+                <ApexGrid apexGridProps={getApexGridProps(size)} />
               )}
             </SizeMe>
           </div>

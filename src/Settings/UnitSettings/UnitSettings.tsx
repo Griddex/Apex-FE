@@ -44,6 +44,7 @@ import {
 } from "../Redux/State/UnitSettingsStateTypes";
 import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 //<IUnitsRow, ITableButtonsProps>
 
@@ -488,6 +489,16 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
     extraButtons: () => <ExcelExportTable<IUnitsRow> {...exportTableProps} />,
   };
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div ref={dialogRef} className={classes.rootUnitSettingsGrid}>
       <div
@@ -667,17 +678,7 @@ export default function UnitSettings({ isDialog }: IUnitSettings) {
       </div>
 
       <SizeMe monitorHeight refreshRate={32}>
-        {({ size }) => (
-          <ApexGrid
-            columns={columns}
-            rows={rows}
-            tableButtons={tableButtons}
-            size={size}
-            autoAdjustTableDim={true}
-            showTableHeader={true}
-            showTablePagination={true}
-          />
-        )}
+        {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
       </SizeMe>
 
       {!isDialog && (

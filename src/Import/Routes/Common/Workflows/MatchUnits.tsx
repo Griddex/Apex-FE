@@ -29,7 +29,10 @@ import {
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../../Application/Components/Switches/ApexMuiSwitch";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { typeOptions } from "../../../../Application/Data/ApplicationData";
@@ -1074,6 +1077,17 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     dispatch(saveUserMatchAction(userMatchObject));
   }, [JSON.stringify(userMatchObject)]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    onRowsChange: setRows,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootMatchUnits}>
       <div className={classes.chart}>
@@ -1085,18 +1099,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       </div>
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid
-              columns={columns}
-              rows={rows}
-              onRowsChange={setRows}
-              tableButtons={tableButtons}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
-            />
-          )}
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
         </SizeMe>
       </div>
     </div>

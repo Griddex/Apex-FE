@@ -95,11 +95,6 @@ const forcastResultState: IForecastResultState = {
   },
 
   forecastResultsAggregated: [],
-  forecastEconomicsAggregated: {
-    costRevenuesOil: [],
-    costRevenuesNAG: [],
-    costRevenuesOil_NAG: [],
-  },
 
   selectedForecastData: [],
   loadForecastResultsWorkflow: false,
