@@ -23,9 +23,6 @@ import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlServic
 import { failureDialogParameters } from "../../Components/DialogParameters/EconomicsAnalysisSuccessFailureDialogParameters";
 import {
   developmentScenariosMap,
-  heatMap1D,
-  heatMap2D,
-  heatMap3D,
   TDevScenariosMapKeys,
 } from "../../Data/EconomicsData";
 import {

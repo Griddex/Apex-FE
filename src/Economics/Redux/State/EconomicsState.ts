@@ -214,6 +214,7 @@ const EconomicsState: IEconomicsState = {
   selectedAnalysis: {},
   selectedAnalysesNames: [],
 
+  allDevRows: { oilDevelopment: [], nagDevelopment: [], oilNAGDevelopment: [] },
   selectedTableData: [],
 
   //HeatMap
@@ -308,6 +309,12 @@ const EconomicsState: IEconomicsState = {
   economicsTemplatesTree: { id: "", name: "" },
 
   resultsAnalyisOptions: [],
+
+  forecastEconomicsAggregated: {
+    costRevenuesOil: [],
+    costRevenuesNAG: [],
+    costRevenuesOil_NAG: [],
+  },
 
   inputDataWorkflows: inputDataState,
   storedDataWorkflows: storedDataState,

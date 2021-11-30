@@ -11,6 +11,7 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../Application/Components/Export/ExcelExportTable";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
@@ -134,6 +135,21 @@ export default function ForecastQualityAssuranceData({
 
   const [sRow, setSRow] = React.useState(-1);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    newTableRowHeight: 35,
+    selectedRows: selectedRows,
+    setSelectedRows: setSelectedRows,
+    selectedRow: sRow,
+    onSelectedRowChange: setSRow,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootStoredData}>
       {showChart && (
@@ -146,22 +162,7 @@ export default function ForecastQualityAssuranceData({
       )}
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid
-              columns={columns}
-              rows={rows}
-              tableButtons={tableButtons}
-              newTableRowHeight={35}
-              selectedRows={selectedRows}
-              setSelectedRows={setSelectedRows}
-              selectedRow={sRow}
-              onSelectedRowChange={setSRow}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
-            />
-          )}
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
         </SizeMe>
       </div>
     </div>

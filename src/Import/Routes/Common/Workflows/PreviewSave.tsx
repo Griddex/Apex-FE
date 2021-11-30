@@ -11,7 +11,10 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import { IAllWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
@@ -354,20 +357,20 @@ export default function PreviewSave({
     dispatch(hideSpinnerAction());
   }, []);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: tableData,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootPreviewSave}>
       <SizeMe monitorHeight refreshRate={32}>
-        {({ size }) => (
-          <ApexGrid
-            columns={columns}
-            rows={tableData}
-            tableButtons={tableButtons}
-            size={size}
-            autoAdjustTableDim={true}
-            showTableHeader={true}
-            showTablePagination={true}
-          />
-        )}
+        {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
       </SizeMe>
     </div>
   );

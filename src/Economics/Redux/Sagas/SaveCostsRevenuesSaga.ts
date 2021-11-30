@@ -68,8 +68,8 @@ function* saveCostsRevenuesSaga(
     titleDesc: { title, description },
   } = payload;
 
-  const wp = workflowProcess;
   const wc = "inputDataWorkflows";
+  const wp = workflowProcess;
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
   const { savedMatchObjectAll: matchObject } = yield select(

@@ -22,7 +22,10 @@ import ApexRadioGroup from "../../Application/Components/Radios/ApexRadioGroup";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
-import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
@@ -160,21 +163,21 @@ const ProductionStreamPrioritization = () => {
       extraButtons: () => <ExcelExportTable<IRawRow> {...exportTableProps} />,
     };
 
+    const getApexGridProps = (size: ISize) => ({
+      columns: columns as Column<IRawRow>[],
+      rows: rows as IRawRow[],
+      onRowsChange: setRows,
+      tableButtons: tableButtons,
+      size: size,
+      autoAdjustTableDim: true,
+      showTableHeader: true,
+      showTablePagination: true,
+    });
+
     return (
       <ApexFlexContainer ref={dialogRef}>
         <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid
-              columns={columns as Column<IRawRow>[]}
-              rows={rows as IRawRow[]}
-              onRowsChange={setRows}
-              tableButtons={tableButtons}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
-            />
-          )}
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
         </SizeMe>
       </ApexFlexContainer>
     );

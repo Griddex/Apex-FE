@@ -16,6 +16,7 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
@@ -317,22 +318,26 @@ export default function EditOrCreateDeclineParameters({
     dispatch(updateNetworkParameterAction("declineParameters", rows));
   }, [rows]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    onRowsChange: setRows,
+    tableButtons: tableButtons,
+    newTableRowHeight: 35,
+    selectedRow: sRow,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
           <div className={classes.rootStoredData} ref={tableRef}>
             <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
-              columns={columns}
-              rows={rows}
-              onRowsChange={setRows}
-              tableButtons={tableButtons}
-              newTableRowHeight={35}
-              selectedRow={sRow}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
+              apexGridProps={getApexGridProps(size)}
             />
           </div>
         )}

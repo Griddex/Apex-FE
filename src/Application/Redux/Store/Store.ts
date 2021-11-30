@@ -3,7 +3,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import { spawn } from "redux-saga/effects";
 import watchRegisterSaga from "../../../Administration/Redux/Sagas/RegisterSaga";
-import economicsMiddleware from "../../../Economics/Redux/Middleware/EconomicsMiddleware";
 import watchFetchEconomicsTreeviewKeysSaga from "../../../Economics/Redux/Sagas/FetchEconomicsTreeviewKeysSaga";
 import watchFetchHeatMapDataSaga from "../../../Economics/Redux/Sagas/FetchHeatMapDataSaga";
 import watchFetchStoredEconomicsDataSaga from "../../../Economics/Redux/Sagas/FetchStoredEconomicsDataSaga";
@@ -129,7 +128,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(economicsMiddleware, sagaMiddleware))
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
 sagaMiddleware.run(rootSaga);

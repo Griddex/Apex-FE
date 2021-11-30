@@ -14,6 +14,7 @@ import {
   TSensitivitiesTable,
 } from "../EconomicsAnalysesTypes";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 export interface IEconomicsSensitivitiesTable {
   sensitivitiesTable: TSensitivitiesTable;
@@ -69,6 +70,16 @@ const EconomicsSensitivitiesTable = ({
     setRows(sensitivitiesTable);
   }, [sensitivitiesTableTitle]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    newTableRowHeight: 35,
+    onRowsChange: setRows,
+    size: size,
+    autoAdjustTableDim: false,
+    staticTableHeight: 150,
+  });
+
   return (
     <ApexFlexContainer
       flexDirection="column"
@@ -86,17 +97,7 @@ const EconomicsSensitivitiesTable = ({
       />
       <div style={{ width: "100%", height: 150 }}>
         <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid
-              columns={columns}
-              rows={rows}
-              newTableRowHeight={35}
-              onRowsChange={setRows}
-              size={size}
-              autoAdjustTableDim={false}
-              staticTableHeight={150}
-            />
-          )}
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
         </SizeMe>
       </div>
     </ApexFlexContainer>

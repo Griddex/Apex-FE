@@ -22,6 +22,7 @@ import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
 import generateSelectData from "./../../Application/Utils/GenerateSelectData";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -363,21 +364,25 @@ export default function DeclineCurveParameters({
 
   const [sRow, setSRow] = React.useState(-1);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    newTableRowHeight: 35,
+    selectedRow: sRow,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
           <div className={classes.rootStoredData}>
             <ApexGrid<IDeclineCurveParametersDetail, ITableButtonsProps>
-              columns={columns}
-              rows={rows}
-              tableButtons={tableButtons}
-              newTableRowHeight={35}
-              selectedRow={sRow}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
+              apexGridProps={getApexGridProps(size)}
             />
           </div>
         )}

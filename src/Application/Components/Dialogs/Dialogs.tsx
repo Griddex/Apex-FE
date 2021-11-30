@@ -48,6 +48,7 @@ import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDe
 import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
+import FinalizeCostsRevenueApexWorkDialog from "../../../Economics/Components/Dialogs/FinalizeCostsRevenueApexWorkDialog";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -110,6 +111,7 @@ const applicationDialogs: IApplicationDialogs = {
   saveVisualyticsDeckDialog: SaveVisualyticsDeckDialog,
 
   forecastValidationErrorsDataDialog: ForecastValidationErrorsDataDialog,
+  finalizeCostsRevenueApexWorkDialog: FinalizeCostsRevenueApexWorkDialog,
 };
 
 const dialogsSelector = createDeepEqualSelector(

@@ -1,15 +1,15 @@
+import SearchIcon from "@mui/icons-material/Search";
 import {
   alpha,
   Box,
-  FormControl,
   IconButton,
   InputAdornment,
   OutlinedInput,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import grey from "@mui/material/colors/grey";
 import Grid from "@mui/material/Grid";
-import SearchIcon from "@mui/icons-material/Search";
 import Pagination from "@mui/material/Pagination";
+import makeStyles from "@mui/styles/makeStyles";
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 import uniqBy from "lodash.uniqby";
@@ -30,8 +30,6 @@ import { ISelectOption } from "../../Selects/SelectItemsType";
 import TableButtons from "../TableButtons";
 import { IApexGrid, IRawRow, ITableMetaData } from "./ApexGridTypes";
 import { DraggableHeaderRenderer } from "./DraggableHeaderRenderer";
-import { ITableButtonsProps } from "../TableButtonsTypes";
-import grey from "@mui/material/colors/grey";
 
 const useStyles = makeStyles((theme) => ({
   tableHeadBanner: {
@@ -77,8 +75,8 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHeightStyle: {
     height: (props: any) => {
-      if (props.autoAdjustTableDim) return `calc(100% - 70px)`;
-      else return props.staticTableHeight; //Chosen for best fit
+      if (props.apexGridProps.autoAdjustTableDim) return `calc(100% - 70px)`;
+      else return props.apexGridProps.staticTableHeight; //Chosen for best fit
     },
   },
   search: {
@@ -94,31 +92,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
-  props: IApexGrid<R, O>
-) {
+const ApexGrid = <R, O>(
+  props: IApexGrid<R, O>,
+  ref?: React.Ref<HTMLDivElement>
+) => {
   const classes = useStyles(props);
 
   const {
-    columns,
-    rows: rawRows,
-    tableButtons,
-    newTableRowHeight,
-    selectedRows,
-    setSelectedRows,
-    selectedRow,
-    onSelectedRowChange,
-    onRowsChange,
-    onPaste,
-    mappingErrors,
-    size,
-    groupBy,
-    rowGrouper,
-    expandedGroupIds,
-    onExpandedGroupIdsChange,
-    showTableHeader,
-    showTablePagination,
-    initialRowsLength,
+    apexGridProps: {
+      columns,
+      rows: rawRows,
+      tableButtons,
+      newTableRowHeight,
+      selectedRows,
+      setSelectedRows,
+      selectedRow,
+      onSelectedRowChange,
+      onRowsChange,
+      onPaste,
+      mappingErrors,
+      size,
+      groupBy,
+      rowGrouper,
+      expandedGroupIds,
+      onExpandedGroupIdsChange,
+      showTableHeader,
+      showTablePagination,
+      initialRowsLength,
+    },
   } = props;
 
   const rawTableRows = React.useRef<R[]>(rawRows);
@@ -127,7 +128,10 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
   const totaltableHeight = size?.height as number;
   const tableHeight = totaltableHeight - 70;
 
-  const tableRef = React.useRef<HTMLDivElement>(null);
+  const tableRef = ref as React.RefObject<HTMLDivElement>;
+  // const tableRef = ref
+  //   ? (ref as React.RefObject<HTMLDivElement>)
+  //   : React.useRef<HTMLDivElement>(null);
   const gridRef = React.useRef<DataGridHandle>(null);
 
   const tableHeaderHeight = 40;
@@ -170,6 +174,7 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
 
         const extraRowsLength =
           newRows.length - ((initialRowsLength as number) - startRowIdx + 1);
+
         const extraRows = [];
 
         if (extraRowsLength > 0) {
@@ -200,23 +205,28 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
   const handlePaste = (e: ClipboardEvent, pastePosition: TPastePosition) => {
     e.preventDefault();
     const { topLeft } = pastePosition;
+    const topLeftColIdx = topLeft.colIdx as number;
+    const topLeftRowIdx = topLeft.rowIdx as number;
 
     const newRows = [] as any[];
     let pasteData;
+
     if (e && e.clipboardData) {
       pasteData = parsePasteData(e.clipboardData.getData("text/plain"));
 
       pasteData.forEach((row) => {
         const rowData = {} as Record<string, any>;
+
         columns
-          .slice(topLeft.colIdx, (topLeft.colIdx as number) + row.length)
+          .slice(topLeftColIdx, topLeftColIdx + row.length)
           .forEach((col, j) => {
             rowData[col.key] = row[j];
           });
+
         newRows.push(rowData);
       });
 
-      updateRows(topLeft.rowIdx as number, topLeft.colIdx as number, newRows);
+      updateRows(topLeftRowIdx, topLeftColIdx, newRows);
     }
   };
 
@@ -341,11 +351,11 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
       payload: { tableFilter: filterValue },
     });
 
-    if (filterValue === "") setFilteredTableRows(tableRows);
+    if (filterValue === "") setFilteredTableRows(tableRows as R[]);
 
     if (filterValue.length > 1) {
       const promise = new Promise<R[]>((resolve, reject) => {
-        const filteredTableRows = filter(tableRows, (row) => {
+        const filteredTableRows = filter(tableRows as R[], (row) => {
           const valuesString = Object.values(row).join();
           return valuesString.includes(filterValue);
         });
@@ -355,13 +365,9 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
       });
 
       promise
-        .then((filteredTableRows: R[]) => {
-          // localDispatch({
-          //   type: "FILTERROWS",
-          //   payload: { filteredTableRows },
-          // });
-          setFilteredTableRows(filteredTableRows);
-        })
+        .then((filteredTableRows: R[]) =>
+          setFilteredTableRows(filteredTableRows as R[])
+        )
         .catch(() =>
           localDispatch({
             type: "FILTERROWS",
@@ -419,7 +425,7 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
     return (row as any)["sn"];
   }
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     const pagination = Math.round(
       noOfTableRows / (tableHeight / tableRowHeight)
     );
@@ -430,22 +436,22 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
   }, [tableHeight, rawRows, columns]);
 
   React.useEffect(() => {
-    if (tableRef.current) {
-      (tableRef.current as HTMLDivElement).addEventListener(
+    if (tableRef?.current) {
+      (tableRef?.current as HTMLDivElement).addEventListener(
         "paste",
         (e: ClipboardEvent) => handlePaste(e, pastePosition)
       );
     }
 
     return () => {
-      if (tableRef.current) {
-        (tableRef.current as HTMLDivElement).removeEventListener(
+      if (tableRef?.current) {
+        (tableRef?.current as HTMLDivElement).removeEventListener(
           "paste",
           (e: ClipboardEvent) => handlePaste(e, pastePosition)
         );
       }
     };
-  }, [JSON.stringify(selectedCell)]);
+  }, [selectedCell, tableRef?.current]);
 
   const { pageSelect, tableFilter } = tableMetaData;
 
@@ -555,4 +561,10 @@ export default function ApexGrid<R = IRawRow, O = ITableButtonsProps>(
       )}
     </div>
   );
-}
+};
+
+const ApexGridDefault = React.forwardRef(ApexGrid) as <R, O>(
+  props: IApexGrid<R, O> & { ref?: React.Ref<HTMLDivElement> }
+) => JSX.Element;
+
+export default ApexGridDefault;
