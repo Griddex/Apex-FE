@@ -59,9 +59,9 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
 
   const formProps = {
     title: formTitle,
-    setTitle: setFormTitle,
+    setTitle: React.useCallback(setFormTitle, []),
     description: formDescription,
-    setDescription: setFormDescription,
+    setDescription: React.useCallback(setFormDescription, []),
     storedTitles,
   };
 
@@ -135,6 +135,12 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
     finalAction: saveForecastInputdeckConfirmation,
     workflowProps,
     workflowProcess: wp,

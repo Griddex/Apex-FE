@@ -191,42 +191,6 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const saveSensitivitiesConfirmation = (titleDesc: Record<string, string>) => {
-    const dialogParameters: DialogStuff = {
-      name: "Economics_Sensitivities_Save_Confirmation",
-      title: "Economics Sensitivities Save Confirmation",
-      type: "textDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "xs",
-      dialogText: "Do you want to save the current economics sensitivities?",
-      iconType: "confirmation",
-      actionsList: () =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, true],
-          [
-            unloadDialogsAction,
-            () =>
-              saveEconomicsSensitivitiesRequestAction(
-                wp,
-                reducer,
-                analysisName as NonNullable<TEconomicsAnalysesNames>,
-                titleDesc as Record<string, string>
-              ),
-          ],
-          "Save",
-          "saveOutlined",
-          false,
-          "All"
-        ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      reducer,
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
-
   const loadSensitivities = () => {
     const dialogParameters: DialogStuff = {
       name: "Stored_Economics_Sensitivities_Dialog",
@@ -269,6 +233,72 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const saveSensitivitiesConfirmation = (titleDesc: Record<string, string>) => {
+    const dialogParameters: DialogStuff = {
+      name: "Economics_Sensitivities_Save_Confirmation",
+      title: "Economics Sensitivities Save Confirmation",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current economics sensitivities?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsSensitivitiesRequestAction(
+                wp,
+                reducer,
+                analysisName as NonNullable<TEconomicsAnalysesNames>,
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          false,
+          "All"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      reducer,
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const saveEconomicsResultsAction = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Save_Economics_Results_Dialog",
+      title: "Save Economics Results",
+      type: "saveEconomicsResultsDialog",
+      show: true,
+      exclusive: true,
+      maxWidth: "sm",
+      iconType: "save",
+      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, false],
+          [
+            unloadDialogsAction,
+            () =>
+              saveEconomicsResultsConfirmation(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          flag,
+          "None"
+        ),
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   const runEconomicsAnalysisConfirmation = (
     analysisName: TEconomicsAnalysesNames,
     analysisTitle: TEconomicsAnalysesTitles
@@ -304,36 +334,6 @@ const EconomicsAnalysis = ({
     };
 
     dispatch(showDialogAction(confirmationDialogParameters));
-  };
-
-  const saveEconomicsResultsAction = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Save_Economics_Results_Dialog",
-      title: "Save Economics Results",
-      type: "saveEconomicsResultsDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "sm",
-      iconType: "save",
-      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, false],
-          [
-            unloadDialogsAction,
-            () =>
-              saveEconomicsResultsConfirmation(
-                titleDesc as Record<string, string>
-              ),
-          ],
-          "Save",
-          "saveOutlined",
-          flag,
-          "None"
-        ),
-    };
-
-    dispatch(showDialogAction(dialogParameters));
   };
 
   const saveEconomicsResultsConfirmation = (

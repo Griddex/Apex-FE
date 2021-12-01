@@ -29,6 +29,16 @@ const steps = ["Select Facilities InputDeck", "Select Forecast InputDeck"];
 const workflowCategory = "networkDataWorkflows";
 const workflowProcess = "networkGeneration";
 
+const selectedFacilitiesInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedFacilitiesInputDeckId,
+  (data) => data
+);
+
+const selectedForecastInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedForecastInputDeckId,
+  (data) => data
+);
+
 const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType } = props;
@@ -39,6 +49,14 @@ const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
     (state: RootState) =>
       state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
     (activeStep) => activeStep
+  );
+
+  const selectedFacilitiesInputDeckId = useSelector(
+    selectedFacilitiesInputDeckIdSelector
+  );
+
+  const selectedForecastInputDeckId = useSelector(
+    selectedForecastInputDeckIdSelector
   );
 
   const activeStep = useSelector(activeStepSelector);
@@ -83,12 +101,23 @@ const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
+  const nextDisableds = {
+    0: selectedFacilitiesInputDeckId,
+    1: selectedForecastInputDeckId,
+  } as Record<number, string>;
+
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: nextDisableds[activeStep] ? false : true,
+    },
     finalAction,
     workflowProps,
     workflowProcess,

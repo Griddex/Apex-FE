@@ -13,6 +13,10 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
+import {
+  generalFailureDialogParameters,
+  generalSuccessDialogParameters,
+} from "../../../Application/Components/DialogParameters/GeneralSuccessFailureDialogParameters";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -21,11 +25,10 @@ import {
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
-import { failureDialogParameters } from "../../../Forecast/Components/DialogParameters/StoredForecastResultsSuccessFailureDialogParameters";
 import {
-  RUN_ECONOMICSFORECASTAGGREGATION_REQUEST,
-  runEconomicsForecastAggregationSuccessAction,
   runEconomicsForecastAggregationFailureAction,
+  runEconomicsForecastAggregationSuccessAction,
+  RUN_ECONOMICSFORECASTAGGREGATION_REQUEST,
 } from "../Actions/EconomicsActions";
 
 export default function* watchRunEconomicsForecastAggregationSaga(): Generator<
@@ -85,6 +88,17 @@ function* runEconomicsForecastAggregationSaga(
         forecastEconomicsAggregated,
       },
     });
+
+    yield put(
+      showDialogAction(
+        generalSuccessDialogParameters(
+          "Forecast_Aggregation_Success",
+          "Forecast Aggregation Results Successful",
+          true,
+          "Aggregated Forecast results was successfully loaded"
+        )
+      )
+    );
   } catch (errors) {
     const failureAction = runEconomicsForecastAggregationFailureAction();
 
@@ -93,7 +107,17 @@ function* runEconomicsForecastAggregationSaga(
       payload: { ...payload, errors },
     });
 
-    yield put(showDialogAction(failureDialogParameters("")));
+    yield put(
+      showDialogAction(
+        generalFailureDialogParameters(
+          "Forecast_Aggregation_Failure",
+          "Forecast Aggregation Results Failure",
+          true,
+          "Something went wrong and aggregated Forecast results could not be loaded",
+          ""
+        )
+      )
+    );
   } finally {
     yield put(hideSpinnerAction());
   }

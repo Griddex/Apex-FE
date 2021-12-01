@@ -10,10 +10,8 @@ import VerticalWorkflowStepper from "../../../Application/Components/Workflows/V
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 
-const ContextDrawer = React.lazy(
-  () => import("../../../Application/Components/Drawers/ContextDrawer")
-);
 const EconomicsAnalyses = React.lazy(
   () => import("../EconomicsAnalyses/EconomicsAnalyses")
 );
@@ -119,6 +117,11 @@ const applicationSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer,
   (reducer) => reducer
 );
+const selectedEconomicsParametersInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.selectedEconomicsParametersInputDeckId,
+  (data) => data
+);
 
 const EconomicsAnalysesWorkflow = () => {
   const classes = useStyles();
@@ -134,6 +137,9 @@ const EconomicsAnalysesWorkflow = () => {
   const activeStepSelector = createDeepEqualSelector(
     (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
     (reducer) => reducer
+  );
+  const selectedEconomicsParametersInputDeckId = useSelector(
+    selectedEconomicsParametersInputDeckIdSelector
   );
 
   const activeStep = useSelector(activeStepSelector);
@@ -171,7 +177,7 @@ const EconomicsAnalysesWorkflow = () => {
     isStepSkipped,
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
     dispatch(showContextDrawerAction());
   }, [dispatch]);
@@ -207,6 +213,12 @@ const EconomicsAnalysesWorkflow = () => {
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: selectedEconomicsParametersInputDeckId ? false : true,
+    },
     finalAction: () => console.log("final"),
     workflowProps,
     workflowProcess: wp,

@@ -33,10 +33,7 @@ import { confirmationDialogParameters } from "../../../../Import/Components/Dial
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-
-const EconomicsParametersValue = React.lazy(
-  () => import("../../../Components/Parameters/EconomicsParametersValue")
-);
+import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -68,14 +65,10 @@ const variableUnitsSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer["variableUnits"],
   (units) => units
 );
+
 const unitOptionsByVariableNameSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer["unitOptionsByVariableName"],
   (data) => data
-);
-
-const unitSettingsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer,
-  (reducer) => reducer
 );
 
 const EconomicsParametersManual = ({
@@ -98,11 +91,23 @@ const EconomicsParametersManual = ({
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
   );
+  console.log(
+    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 94 ~ economicsParametersAppHeaders",
+    economicsParametersAppHeaders
+  );
 
   const variableUnits = useSelector(variableUnitsSelector);
+  console.log(
+    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 95 ~ variableUnits",
+    variableUnits
+  );
 
   const unitOptionsByVariableName = useSelector(
     unitOptionsByVariableNameSelector
+  );
+  console.log(
+    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 104 ~ unitOptionsByVariableName",
+    unitOptionsByVariableName
   );
 
   const createInitialRows = (
@@ -127,10 +132,14 @@ const EconomicsParametersManual = ({
     return initialRows;
   };
 
-  const initialRows = createInitialRows(economicsParametersAppHeaders.length);
+  const initialRows = React.useMemo(
+    () => createInitialRows(economicsParametersAppHeaders.length),
+    []
+  );
+
   const [rows, setRows] = React.useState(initialRows);
   console.log(
-    "Logged output --> ~ file: EconomicsParametersManual.tsx ~ line 95 ~ rows",
+    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 141 ~ rows",
     rows
   );
 
@@ -144,12 +153,13 @@ const EconomicsParametersManual = ({
     const selectedRowSN = row.sn as number;
     const selectedRow = rows[selectedRowSN - 1];
 
-    rows[selectedRowSN - 1] = {
+    const newRows = [...rows];
+    newRows[selectedRowSN - 1] = {
       ...selectedRow,
       type: selectedType,
     };
 
-    setRows(rows);
+    setRows(newRows);
   };
 
   const handleParameterUnitChange = (
@@ -170,8 +180,12 @@ const EconomicsParametersManual = ({
     setRows(rows);
   };
 
-  const columns = React.useMemo(() => {
-    return [
+  const typeString = rows.map((row) => row.type).join();
+  const unitString = rows.map((row) => row.type).join();
+  const typeUnitString = `${typeString}${unitString}`;
+
+  const columns = React.useMemo(
+    () => [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
       {
         key: "parameter",
@@ -182,10 +196,10 @@ const EconomicsParametersManual = ({
       },
       {
         key: "type",
-        name: "TYPE",
+        name: "TYPE*",
         editable: false,
         resizable: true,
-        formatter: ({ row }) => {
+        formatter: ({ row }: any) => {
           const type = row.type as string;
           const valueOption = typeOptions.filter(
             (opt) => opt.value === type
@@ -200,7 +214,6 @@ const EconomicsParametersManual = ({
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
-              containerHeight={40}
             />
           );
         },
@@ -208,11 +221,11 @@ const EconomicsParametersManual = ({
       },
       {
         key: "value",
-        name: "VALUE",
+        name: "VALUE*",
         editable: true,
         editor: TextEditor,
         resizable: true,
-        formatter: ({ row }) => {
+        formatter: ({ row }: any) => {
           const value = row.value as string;
           const type = row.type as string;
 
@@ -238,31 +251,44 @@ const EconomicsParametersManual = ({
       },
       {
         key: "unit",
-        name: "UNIT",
+        name: "UNIT*",
         editable: false,
         resizable: true,
-        formatter: ({ row }) => {
+        formatter: ({ row }: any) => {
           const unit = row.unit as string;
-          const parameter = row.parameter as string;
           console.log(
-            "Logged output --> ~ file: EconomicsParametersManual.tsx ~ line 226 ~ generateColumns ~ parameter",
-            parameter
+            "🚀 ~ file: EconomicsParametersManual.tsx ~ line 254 ~ columns ~ unit",
+            unit
           );
+          const parameter = row.parameter as string;
 
-          let name: string;
-          const nameTitleObj = variableUnits.find(
+          let nameTitleObj = {} as any;
+          let unitOptions = [] as ISelectOption[];
+          nameTitleObj = economicsParametersAppHeaders.find(
             (o: any) => o.variableTitle === parameter
           );
+          console.log(
+            "🚀 ~ file: EconomicsParametersManual.tsx ~ line 265 ~ columns ~ nameTitleObj",
+            nameTitleObj
+          );
+          if (nameTitleObj) {
+            const { variableName } = nameTitleObj;
+            //TODO
+            //variable found in headers but not in unitOptions collection
+            //Gift to remedy
+            //just a hack here
+            unitOptions = unitOptionsByVariableName[variableName]
+              ? unitOptionsByVariableName[variableName]
+              : [{ value: "unitless", label: "unitless" }];
+          } else {
+            unitOptions = [{ value: "unitless", label: "unitless" }];
+          }
+          console.log(
+            "🚀 ~ file: EconomicsParametersManual.tsx ~ line 266 ~ columns ~ unitOptions",
+            unitOptions
+          );
 
-          if (nameTitleObj) name = nameTitleObj.variableName;
-          else name = "unitless";
-
-          const options = unitOptionsByVariableName[name];
-          const unitOptions = options
-            ? options
-            : [{ value: "unitless", label: "unitless" }];
-
-          const valueOption = typeOptions.filter(
+          const valueOption = unitOptions.filter(
             (opt) => opt.value === unit
           )[0];
 
@@ -275,7 +301,6 @@ const EconomicsParametersManual = ({
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
-              containerHeight={40}
             />
           );
         },
@@ -283,15 +308,14 @@ const EconomicsParametersManual = ({
       },
       {
         key: "remark",
-        name: "REMARK",
+        name: "REMARK*",
         editable: true,
         editor: TextEditor,
         resizable: true,
       },
-    ] as Column<IRawRow>[];
-  }, []);
-
-  const [sRow, setSRow] = React.useState(-1);
+    ],
+    [typeUnitString]
+  );
 
   const exportColumns = columns
     .filter(
@@ -331,13 +355,11 @@ const EconomicsParametersManual = ({
 
   return (
     <div className={classes.rootStoredData}>
-      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-        <div className={classes.rootEconomicsParametersManual}>
-          <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
-          </SizeMe>
-        </div>
-      </ClickAwayListener>
+      <div className={classes.rootEconomicsParametersManual}>
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
+        </SizeMe>
+      </div>
       <div
         style={{
           display: "flex",

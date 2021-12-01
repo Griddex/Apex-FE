@@ -69,8 +69,8 @@ const activeStepSelector = createDeepEqualSelector(
   (step) => step
 );
 
-const forecastEconomicsAggregatedSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.forecastEconomicsAggregated,
+const selectedForecastingResultsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastingResultsId,
   (data) => data
 );
 
@@ -85,8 +85,8 @@ const CostsRevenueApexForecastWorkflow = ({
 
   const showContextDrawer = useSelector(showContextDrawerSelector);
   const activeStep = useSelector(activeStepSelector);
-  const forecastEconomicsAggregated = useSelector(
-    forecastEconomicsAggregatedSelector
+  const selectedForecastingResultsId = useSelector(
+    selectedForecastingResultsIdSelector
   );
   const { moduleName, subModuleName, workflowName } =
     useSelector(applicationSelector);
@@ -130,15 +130,6 @@ const CostsRevenueApexForecastWorkflow = ({
     isStepSkipped,
   };
 
-  const keys = Object.keys(
-    forecastEconomicsAggregated as Record<string, any[]>
-  );
-  const allCostRevenues = keys.reduce((acc: string[], key: string) => {
-    const costRevenues = forecastEconomicsAggregated[key];
-
-    return [...acc, ...costRevenues];
-  }, []);
-
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
@@ -146,10 +137,10 @@ const CostsRevenueApexForecastWorkflow = ({
     showSkip: true,
     showNext: true,
     isNavButtonDisabled: {
-      reset: true,
-      skip: true,
-      back: true,
-      next: allCostRevenues.length > 0 ? true : false,
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: selectedForecastingResultsId ? false : true,
     },
     finalAction,
     workflowProps,
