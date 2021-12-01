@@ -182,6 +182,12 @@ const EditOrCreateProductionPrioritizationWorkflowDialog: React.FC<
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
     finalAction: createProductionPrioritizationConfirmation,
     workflowProps,
     workflowProcess,

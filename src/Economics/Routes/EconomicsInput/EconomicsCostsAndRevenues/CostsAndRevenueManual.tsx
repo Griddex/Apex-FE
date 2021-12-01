@@ -2,6 +2,8 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
+import omit from "lodash.omit";
+import uniq from "lodash.uniq";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { OnChangeValue } from "react-select";
@@ -72,10 +74,6 @@ export default function CostsAndRevenueManual({
 }: IInputWorkflows) {
   const forecastEconomicsAggregatedDefined =
     forecastEconomicsAggregated as Record<string, any[]>;
-  console.log(
-    "🚀 ~ file: CostsAndRevenueManual.tsx ~ line 73 ~ forecastEconomicsAggregatedDefined",
-    forecastEconomicsAggregatedDefined
-  );
   const initialRowsLength = 10;
   const basePath = basePathStr ? basePathStr : `${wkCy}${wkPs}`;
 
@@ -141,10 +139,6 @@ export default function CostsAndRevenueManual({
 
   const [oilDevelopmentRows, setOilDevelopmentRows] = React.useState(
     initialOilDevelopmentRows
-  );
-  console.log(
-    "🚀 ~ file: CostsAndRevenueManual.tsx ~ line 144 ~ oilDevelopmentRows",
-    oilDevelopmentRows
   );
 
   const [nagDevelopmentRows, setNAGDevelopmentRows] = React.useState(
@@ -236,30 +230,31 @@ export default function CostsAndRevenueManual({
     }
   };
 
-  const keys = Object.keys(
-    forecastEconomicsAggregatedDefined ? forecastEconomicsAggregatedDefined : {}
-  );
-  const allCostRevenues = keys.reduce((acc: string[], key: string) => {
-    const costRevenues = forecastEconomicsAggregatedDefined[key];
-
-    return [...acc, ...costRevenues];
-  }, []);
-
-  //TODO Remove "sn" it's giving false results
-  const oilRevs = oilDevelopmentRows.reduce(
-    (acc, row) => [...acc, ...(Object.values(row) as string[])],
-    [] as string[]
-  );
-  const nagRevs = nagDevelopmentRows.reduce(
-    (acc, row) => [...acc, ...(Object.values(row) as string[])],
-    [] as string[]
-  );
-  const oilNAGRevs = oilNAGDevelopmentRows.reduce(
-    (acc, row) => [...acc, ...(Object.values(row) as string[])],
-    [] as string[]
+  const oilRevsIsFilledOnFirstRow = React.useMemo(
+    () =>
+      Object.values(oilDevelopmentRows[1]).filter((v) => v !== "").length ===
+      16,
+    [oilDevelopmentRows]
   );
 
-  const allRevs = [...oilRevs, ...nagRevs, ...oilNAGRevs];
+  const nagRevsIsFilledOnFirstRow = React.useMemo(
+    () =>
+      Object.values(nagDevelopmentRows[1]).filter((v) => v !== "").length ===
+      17,
+    [nagDevelopmentRows]
+  );
+
+  const oilNAGRevsIsFilledOnFirstRow = React.useMemo(
+    () =>
+      Object.values(oilNAGDevelopmentRows[1]).filter((v) => v !== "").length ===
+      19,
+    [oilNAGDevelopmentRows]
+  );
+
+  const allRevsIsFilledOnFirstRow =
+    oilRevsIsFilledOnFirstRow ||
+    nagRevsIsFilledOnFirstRow ||
+    oilNAGRevsIsFilledOnFirstRow;
 
   React.useEffect(() => {
     dispatch(
@@ -328,7 +323,7 @@ export default function CostsAndRevenueManual({
               <RotateLeftIcon key={1} />,
               <SaveOutlinedIcon key={2} />,
             ]}
-            disableds={[false, allRevs.length > 0 ? false : true]}
+            disableds={[false, !allRevsIsFilledOnFirstRow]}
             shouldExecute={[true, true]}
             shouldDispatch={[false, false]}
             finalActions={[

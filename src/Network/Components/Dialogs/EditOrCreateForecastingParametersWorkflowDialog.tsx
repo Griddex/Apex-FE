@@ -36,6 +36,11 @@ const forecastingParametersTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
+const selectedForecastingParametersIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedForecastingParametersId,
+  (data) => data
+);
+
 const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   DialogStuff<IForecastParametersStoredRow>
 > = (props) => {
@@ -57,6 +62,9 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
+  const selectedForecastingParametersId = useSelector(
+    selectedForecastingParametersIdSelector
+  );
   const storedTitles = useSelector(forecastingParametersTitlesSelector);
 
   const [formTitle, setFormTitle] = React.useState("");
@@ -171,6 +179,12 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: selectedForecastingParametersId ? false : true,
+    },
     finalAction: createForecastingParametersConfirmation,
     workflowProps,
     workflowProcess,

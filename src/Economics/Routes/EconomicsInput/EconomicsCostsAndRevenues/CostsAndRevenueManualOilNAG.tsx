@@ -626,6 +626,7 @@ export default function CostsAndRevenueManualOilNAG({
           else return <div>{row.gasProcTraiffs}</div>;
         },
         resizable: true,
+        width: 170,
       },
       {
         key: "terminalFee",

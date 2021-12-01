@@ -182,6 +182,12 @@ const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
     finalAction: createDeclineParametersConfirmation,
     workflowProps,
     workflowProcess,

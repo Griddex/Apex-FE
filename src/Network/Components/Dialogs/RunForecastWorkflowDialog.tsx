@@ -36,6 +36,15 @@ const activeStepSelector = createDeepEqualSelector(
   (activeStep) => activeStep
 );
 
+const selectedNetworkIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedNetworkId,
+  (data) => data
+);
+const selectedForecastingParametersIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.networkReducer.selectedForecastingParametersId,
+  (data) => data
+);
+
 const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, isDialog } = props;
@@ -43,6 +52,10 @@ const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
   const skipped = new Set<number>();
 
   const activeStep = useSelector(activeStepSelector);
+  const selectedNetworkId = useSelector(selectedNetworkIdSelector);
+  const selectedForecastingParametersId = useSelector(
+    selectedForecastingParametersIdSelector
+  );
 
   const isStepOptional = React.useCallback(
     (activeStep: number) => activeStep === 50,
@@ -87,12 +100,23 @@ const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
     dispatch(showDialogAction(confirmationDialogParameters));
   };
 
+  const nextDisableds = {
+    0: selectedNetworkId,
+    1: selectedForecastingParametersId,
+  } as Record<number, string>;
+
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: nextDisableds[activeStep] ? false : true,
+    },
     finalAction,
     workflowProps,
     workflowProcess,

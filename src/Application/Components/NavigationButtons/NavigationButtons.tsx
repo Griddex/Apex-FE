@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
 import makeStyles from "@mui/styles/makeStyles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -22,6 +22,7 @@ import {
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
 import { INavigationButtonsProp } from "./NavigationButtonTypes";
+import { getDisabledStyle } from "../../Styles/disabledStyles";
 
 const useStyles = makeStyles((theme) => ({
   button: (props: INavigationButtonsProp) => ({
@@ -56,6 +57,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     showSkip,
     showNext,
     nextOrFinalDisabled,
+    isNavButtonDisabled,
     finalAction,
     finalNavIcon,
     workflowProps,
@@ -65,6 +67,8 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
 
   const classes = useStyles(props);
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const wp = workflowProcess as TAllWorkflowProcesses;
   const wc = workflowCategory as TAllWorkflowCategories;
 
@@ -94,6 +98,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
 
             dispatch(showDialogAction(dialogParameters));
           }}
+          style={isNavButtonDisabled?.reset ? getDisabledStyle(theme) : {}}
         >
           <div className={classes.buttonContent}>
             <div>
@@ -113,6 +118,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             workflowBackAction &&
             dispatch(workflowBackAction(activeStep, wp, wc))
           }
+          style={isNavButtonDisabled?.back ? getDisabledStyle(theme) : {}}
         >
           <div className={classes.buttonContent}>
             <div>
@@ -131,6 +137,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
             workflowSkipAction &&
             dispatch(workflowSkipAction(isStepOptional, activeStep, wp, wc))
           }
+          style={isNavButtonDisabled?.skip ? getDisabledStyle(theme) : {}}
         >
           <div className={classes.buttonContent}>
             <div>
@@ -162,6 +169,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
                   )
                 );
           }}
+          style={isNavButtonDisabled?.next ? getDisabledStyle(theme) : {}}
         >
           {activeStep === steps.length - 1 ? (
             <div className={classes.buttonContent}>
