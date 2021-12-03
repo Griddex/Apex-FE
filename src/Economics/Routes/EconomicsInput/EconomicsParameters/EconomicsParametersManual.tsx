@@ -91,23 +91,11 @@ const EconomicsParametersManual = ({
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
   );
-  console.log(
-    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 94 ~ economicsParametersAppHeaders",
-    economicsParametersAppHeaders
-  );
 
   const variableUnits = useSelector(variableUnitsSelector);
-  console.log(
-    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 95 ~ variableUnits",
-    variableUnits
-  );
 
   const unitOptionsByVariableName = useSelector(
     unitOptionsByVariableNameSelector
-  );
-  console.log(
-    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 104 ~ unitOptionsByVariableName",
-    unitOptionsByVariableName
   );
 
   const createInitialRows = (
@@ -138,10 +126,6 @@ const EconomicsParametersManual = ({
   );
 
   const [rows, setRows] = React.useState(initialRows);
-  console.log(
-    "🚀 ~ file: EconomicsParametersManual.tsx ~ line 141 ~ rows",
-    rows
-  );
 
   const handleParameterTypeChange = (
     row: IRawRow,
@@ -172,17 +156,17 @@ const EconomicsParametersManual = ({
     const selectedRowSN = row.sn as number;
     const selectedRow = rows[selectedRowSN - 1];
 
-    rows[selectedRowSN - 1] = {
+    const newRows = [...rows];
+    newRows[selectedRowSN - 1] = {
       ...selectedRow,
       unit: selectedAppUnit,
     };
 
-    setRows(rows);
+    setRows(newRows);
   };
 
   const typeString = rows.map((row) => row.type).join();
-  const unitString = rows.map((row) => row.type).join();
-  const typeUnitString = `${typeString}${unitString}`;
+  const unitString = rows.map((row) => row.unit).join();
 
   const columns = React.useMemo(
     () => [
@@ -256,10 +240,7 @@ const EconomicsParametersManual = ({
         resizable: true,
         formatter: ({ row }: any) => {
           const unit = row.unit as string;
-          console.log(
-            "🚀 ~ file: EconomicsParametersManual.tsx ~ line 254 ~ columns ~ unit",
-            unit
-          );
+
           const parameter = row.parameter as string;
 
           let nameTitleObj = {} as any;
@@ -267,10 +248,7 @@ const EconomicsParametersManual = ({
           nameTitleObj = economicsParametersAppHeaders.find(
             (o: any) => o.variableTitle === parameter
           );
-          console.log(
-            "🚀 ~ file: EconomicsParametersManual.tsx ~ line 265 ~ columns ~ nameTitleObj",
-            nameTitleObj
-          );
+
           if (nameTitleObj) {
             const { variableName } = nameTitleObj;
             //TODO
@@ -283,10 +261,6 @@ const EconomicsParametersManual = ({
           } else {
             unitOptions = [{ value: "unitless", label: "unitless" }];
           }
-          console.log(
-            "🚀 ~ file: EconomicsParametersManual.tsx ~ line 266 ~ columns ~ unitOptions",
-            unitOptions
-          );
 
           const valueOption = unitOptions.filter(
             (opt) => opt.value === unit
@@ -314,7 +288,7 @@ const EconomicsParametersManual = ({
         resizable: true,
       },
     ],
-    [typeUnitString]
+    [typeString, unitString]
   );
 
   const exportColumns = columns
