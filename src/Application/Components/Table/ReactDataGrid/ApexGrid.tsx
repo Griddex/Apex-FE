@@ -128,10 +128,9 @@ const ApexGrid = <R, O>(
   const totaltableHeight = size?.height as number;
   const tableHeight = totaltableHeight - 70;
 
-  const tableRef = ref as React.RefObject<HTMLDivElement>;
-  // const tableRef = ref
-  //   ? (ref as React.RefObject<HTMLDivElement>)
-  //   : React.useRef<HTMLDivElement>(null);
+  const tableRef = ref
+    ? (ref as React.RefObject<HTMLDivElement>)
+    : React.useRef<HTMLDivElement>(null);
   const gridRef = React.useRef<DataGridHandle>(null);
 
   const tableHeaderHeight = 40;
@@ -145,22 +144,15 @@ const ApexGrid = <R, O>(
   >(["", "NONE"]);
 
   const [tablePagination, setTablePagination] = React.useState(0);
-  const [selectedCell, setSelectedCell] = React.useState<Position>();
-  const [pastePosition, setPastePosition] = React.useState<TPastePosition>({
+
+  const pastePosition = React.useRef<TPastePosition>({
     topLeft: {},
     botRight: {},
   });
 
   const handleCellSelection = (position: Position) => {
-    setSelectedCell(position);
-    setPastePosition((prev) => ({
-      ...prev,
-      topLeft: {
-        ...prev.topLeft,
-        rowIdx: position.rowIdx,
-        colIdx: position.idx,
-      },
-    }));
+    const { rowIdx, idx } = position;
+    pastePosition.current.topLeft = { rowIdx, colIdx: idx };
   };
 
   const updateRows = (
@@ -202,33 +194,34 @@ const ApexGrid = <R, O>(
       });
   };
 
-  const handlePaste = (e: ClipboardEvent, pastePosition: TPastePosition) => {
-    e.preventDefault();
-    const { topLeft } = pastePosition;
-    const topLeftColIdx = topLeft.colIdx as number;
-    const topLeftRowIdx = topLeft.rowIdx as number;
+  const handlePaste = React.useCallback(
+    (e: ClipboardEvent) => {
+      e.preventDefault();
+      const { topLeft } = pastePosition.current;
+      const topLeftColIdx = topLeft.colIdx as number;
+      const topLeftRowIdx = topLeft.rowIdx as number;
 
-    const newRows = [] as any[];
-    let pasteData;
+      const newRows = [] as any[];
+      let pasteData;
 
-    if (e && e.clipboardData) {
-      pasteData = parsePasteData(e.clipboardData.getData("text/plain"));
+      if (e && e.clipboardData) {
+        pasteData = parsePasteData(e.clipboardData.getData("text/plain"));
 
-      pasteData.forEach((row) => {
-        const rowData = {} as Record<string, any>;
+        pasteData.forEach((row) => {
+          const rowData = {} as Record<string, any>;
 
-        columns
-          .slice(topLeftColIdx, topLeftColIdx + row.length)
-          .forEach((col, j) => {
-            rowData[col.key] = row[j];
-          });
+          columns
+            .slice(topLeftColIdx, topLeftColIdx + row.length)
+            .forEach((col, j) => (rowData[col.key] = row[j]));
 
-        newRows.push(rowData);
-      });
+          newRows.push(rowData);
+        });
 
-      updateRows(topLeftRowIdx, topLeftColIdx, newRows);
-    }
-  };
+        updateRows(topLeftRowIdx, topLeftColIdx, newRows);
+      }
+    },
+    [pastePosition.current.topLeft.colIdx, pastePosition.current.topLeft.rowIdx]
+  );
 
   const pageOptions = ["All", 25, 50, 100, 500].map((v) => ({
     value: v,
@@ -435,23 +428,26 @@ const ApexGrid = <R, O>(
     setIncomingColumns(columns);
   }, [tableHeight, rawRows, columns]);
 
+  const countRef = React.useRef(0);
+
   React.useEffect(() => {
     if (tableRef?.current) {
       (tableRef?.current as HTMLDivElement).addEventListener(
         "paste",
-        (e: ClipboardEvent) => handlePaste(e, pastePosition)
+        handlePaste
       );
     }
+    countRef.current = countRef.current + 1;
 
     return () => {
       if (tableRef?.current) {
         (tableRef?.current as HTMLDivElement).removeEventListener(
           "paste",
-          (e: ClipboardEvent) => handlePaste(e, pastePosition)
+          handlePaste
         );
       }
     };
-  }, [selectedCell, tableRef?.current]);
+  }, [pastePosition.current.topLeft.colIdx]);
 
   const { pageSelect, tableFilter } = tableMetaData;
 
