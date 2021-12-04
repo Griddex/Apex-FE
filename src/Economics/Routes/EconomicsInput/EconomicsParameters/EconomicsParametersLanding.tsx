@@ -278,10 +278,10 @@ const EconomicsParametersLanding = () => {
                   <EconomicsParametersManual
                     reducer={reducer}
                     wrkflwCtgry={"inputDataWorkflows"}
-                    wrkflwPrcss={"economicsParametersDeckExcel"}
+                    wrkflwPrcss={"economicsParametersDeckManual"}
                     finalAction={() =>
                       economicsParametersWorkflowFinalAction(
-                        "economicsParametersDeckExcel"
+                        "economicsParametersDeckManual"
                       )
                     }
                   />

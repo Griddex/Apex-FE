@@ -1,4 +1,5 @@
 import pick from "lodash.pick";
+import zipObject from "lodash.zipobject";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -63,27 +64,49 @@ function* saveEconomicsParametersSaga(
   const { payload } = action;
   const {
     workflowProcess,
-    reducer,
     titleDesc: { title, description },
   } = payload;
 
-  const wp = workflowProcess;
   const wc = "inputDataWorkflows";
+  const wp = workflowProcess;
+  console.log(
+    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 71 ~ workflowProcess",
+    workflowProcess
+  );
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
-  const { tableData: inputDeck, appHeaderNameUnitsMap } = yield select(
-    (state) => state[reducer][wc][wp]
+  const { tableData, appHeaderNameUnitsMap } = yield select(
+    (state) => state.economicsReducer[wc][wp]
   );
+  console.log(
+    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 77 ~ tableData",
+    tableData
+  );
+
+  let inputDeck = [];
+  if (wp === "economicsParametersDeckManual") {
+    const names = tableData.map((row: any) => row["parameterName"]);
+    const units = tableData.map((row: any) => row["unit"]);
+    const values = tableData.map((row: any) => row["value"]);
+
+    const firstRow = { ...zipObject(names, units), sn: 1 };
+    const secondRow = { ...zipObject(names, values), sn: 2 };
+
+    inputDeck = [firstRow, secondRow];
+  } else {
+    inputDeck = tableData;
+  }
 
   const { savedMatchObjectAll: matchObject } = yield select(
     (state) => state.applicationReducer
   );
 
-  const economicsParameters = [...inputDeck];
-
-  economicsParameters.shift();
-  const economicsParametersObj = economicsParameters[0];
+  const economicsParametersObj = inputDeck[1];
+  console.log(
+    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 106 ~ inputDeck",
+    inputDeck
+  );
 
   const commercialTechnical = pick(economicsParametersObj, [
     "yearDiscounting",
