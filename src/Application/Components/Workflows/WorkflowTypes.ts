@@ -25,11 +25,13 @@ export interface IProjectWorkflows {
   finalIcon?: JSX.Element;
   finalText?: string;
 }
+
 export interface IAdminWorkflows {
   reducer: ReducersType;
   wkPs: "userRegistration" | "manageProfile";
   wkCy: "inputDataWorkflows";
 }
+
 export interface IInputWorkflows {
   reducer: ReducersType;
   wkPs:
@@ -54,6 +56,8 @@ export interface IInputWorkflows {
     | "settings";
   wkCy: "inputDataWorkflows";
   finalAction?: () => void;
+  basePathStr?: string;
+  forecastEconomicsAggregated?: Record<string, any[]>;
 }
 export interface INetworkWorkflows {
   wkPs:

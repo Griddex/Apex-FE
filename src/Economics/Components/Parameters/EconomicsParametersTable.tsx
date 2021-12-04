@@ -1,18 +1,15 @@
-import {
-  ClickAwayListener,
-  IconButton,
-  Tooltip,
-  useTheme,
-} from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import omit from "lodash.omit";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import AnalyticsText from "../../../Application/Components/Basic/AnalyticsText";
 import ExcelExportTable, {
@@ -22,8 +19,10 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
+  ISize,
   TRawTable,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
@@ -31,9 +30,6 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TVariableNameTitleData } from "../../../Application/Types/ApplicationTypes";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
 import { IEconomicsParametersTable } from "./IParametersType";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const useStyles = makeStyles(() => ({
   economicsParametersTable: {
@@ -63,30 +59,37 @@ const EconomicsParametersTable = ({
 
   const { costsRevenuesAppHeaders, economicsParametersAppHeaders } =
     useSelector(economicsPartialPropsSelector);
+  console.log(
+    "🚀 ~ file: EconomicsParametersTable.tsx ~ line 61 ~ costsRevenuesAppHeaders",
+    costsRevenuesAppHeaders
+  );
 
   const additionalColumnsObjKeys = Object.keys(additionalColumnsObj);
 
-  const createInitialRows = (numberOfRows = 3): TRawTable => {
-    const fakeRows = [];
-    for (let i = 0; i < numberOfRows; i++) {
-      const fakeRow = {
-        sn: i + 1,
-        from: "",
-        to: "",
-        ...additionalColumnsObjKeys.reduce(
-          (acc, k) => ({ ...acc, [k]: "" }),
-          {}
-        ),
-      };
+  const createInitialRows = React.useMemo(
+    () =>
+      (numberOfRows = 3): TRawTable => {
+        const fakeRows = [];
+        for (let i = 0; i < numberOfRows; i++) {
+          const fakeRow = {
+            sn: i + 1,
+            from: "",
+            to: "",
+            ...additionalColumnsObjKeys.reduce(
+              (acc, k) => ({ ...acc, [k]: "" }),
+              {}
+            ),
+          };
 
-      fakeRows.push(fakeRow);
-    }
-    return fakeRows;
-  };
+          fakeRows.push(fakeRow);
+        }
+        return fakeRows;
+      },
+    []
+  );
 
   const initialRows = createInitialRows(3);
   const [rows, setRows] = React.useState(initialRows);
-  const [sRow, setSRow] = React.useState(-1);
 
   const additionalColumns = additionalColumnsObjKeys.map((k) => ({
     key: k,
@@ -200,7 +203,7 @@ const EconomicsParametersTable = ({
   };
 
   const dataOptions = swapVariableNameTitleForISelectOption(
-    economicsParametersAppHeaders as TVariableNameTitleData
+    costsRevenuesAppHeaders["oilNAGDevelopment"] as TVariableNameTitleData
   );
   const valueOption = dataOptions[0];
 
@@ -216,6 +219,30 @@ const EconomicsParametersTable = ({
     //   [headerName]: selectedAppUnit,
     // }));
   };
+
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    onRowsChange: setRows,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
+  const BaseVariable = () => (
+    <ApexSelectRS
+      valueOption={valueOption}
+      data={dataOptions}
+      handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
+        handleBasedOnVariableChange(value, "oilRate")
+      }
+      menuPortalTarget={rootRef.current as HTMLDivElement}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
 
   return (
     <ApexFlexContainer
@@ -234,44 +261,24 @@ const EconomicsParametersTable = ({
           text={row.parameter as string}
           direction="Vertical"
           containerStyle={{ alignItems: "flex-start" }}
-          textStyle={{ color: theme.palette.primary.main, fontWeight: "bold" }}
+          textStyle={{
+            color: theme.palette.primary.main,
+            fontWeight: "bold",
+            paddingLeft: 0,
+          }}
         />
         <AnalyticsComp
-          title="Select Base Variable"
+          title="Base Variable"
           direction="Vertical"
-          content={
-            <ApexSelectRS
-              valueOption={valueOption}
-              data={dataOptions}
-              handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
-                handleBasedOnVariableChange(value, "oilRate")
-              }
-              menuPortalTarget={rootRef.current as HTMLDivElement}
-              isSelectOptionType={true}
-              containerHeight={40}
-            />
-          }
+          content={<BaseVariable />}
           containerStyle={{ width: 400 }}
         />
       </ApexFlexContainer>
-      <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
-        <div className={classes.economicsParametersTable}>
-          <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid
-                columns={columns}
-                rows={rows}
-                onRowsChange={setRows}
-                tableButtons={tableButtons}
-                size={size}
-                autoAdjustTableDim={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
-          </SizeMe>
-        </div>
-      </ClickAwayListener>
+      <div className={classes.economicsParametersTable}>
+        <SizeMe monitorHeight refreshRate={32}>
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
+        </SizeMe>
+      </div>
     </ApexFlexContainer>
   );
 };

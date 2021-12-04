@@ -1,14 +1,6 @@
-import CloseIcon from "@mui/icons-material/Close";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogContent from "@mui/material/DialogContent";
-import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import IconButton from "@mui/material/IconButton";
-import { Theme } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
-import withStyles from "@mui/styles/withStyles";
 import React, { useCallback } from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,97 +12,17 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogOneCancelButtons from "../DialogButtons/DialogOneCancelButtons";
+import DialogContent from "../DialogContents/DialogContent";
+import DialogTitle from "../DialogTitles/DialogTitle";
 import DialogContextDrawer from "../Drawers/DialogContextDrawer";
-import DialogIcons from "../Icons/DialogIcons";
-import { IconNameType } from "../Icons/DialogIconsTypes";
 import NavigationButtons from "../NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../Workflows/WorkflowBanner";
 import { DialogStuff } from "./DialogTypes";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-    height: 48,
-  },
-  dialogHeader: {
-    display: "flex",
-    width: "100%",
-  },
-  mainIcon: {
-    display: "flex",
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "5%",
-    height: "100%",
-  },
-  dialogTitle: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  closeButton: {
-    color: theme.palette.grey[500],
-    height: "100%",
-    padding: 0,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-      color: "white",
-      borderRadius: 0,
-    },
-  },
-}));
-
-const DialogTitle: React.FC<DialogStuff> = (props) => {
-  const dispatch = useDispatch();
-  const classes = useStyles(props);
-  const { iconType, children, onClose, ...other } = props;
-
-  return (
-    <MuiDialogTitle className={classes.root} {...other}>
-      <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>
-          <DialogIcons iconType={iconType as IconNameType} />
-        </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
-        {onClose ? (
-          <IconButton
-            className={classes.closeButton}
-            aria-label="close"
-            onClick={() => {
-              dispatch(hideSpinnerAction());
-              onClose();
-            }}
-            size="large"
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </div>
-    </MuiDialogTitle>
-  );
-};
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    padding: theme.spacing(1.5),
-    width: "100%",
-  },
-}))(MuiDialogContent);
 
 const steps = ["Choose Unit Settings", "New Project Title & Description"];
 const workflowCategory = "projectDataWorkflows";
@@ -195,6 +107,12 @@ const NewProjectWorkflowDialog: React.FC<DialogStuff> = (props) => {
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
     nextOrFinalDisabled: disable,
     finalAction: () => finalAction(titleDesc),
     finalNavIcon: () => <SaveOutlinedIcon />,

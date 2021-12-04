@@ -61,6 +61,7 @@ import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/O
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 import { IAction } from "../../Redux/Actions/ActionTypes";
 import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
+import FinalizeCostsRevenueApexWorkDialog from "../../../Economics/Components/Dialogs/FinalizeCostsRevenueApexWorkDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -112,6 +113,7 @@ export interface IApplicationDialogs {
   saveVisualyticsDeckDialog: typeof SaveVisualyticsDeckDialog;
 
   forecastValidationErrorsDataDialog: typeof ForecastValidationErrorsDataDialog;
+  finalizeCostsRevenueApexWorkDialog: typeof FinalizeCostsRevenueApexWorkDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -178,7 +180,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "openProjectConfirmationDialog"
     | "createPrioritizationParametersWorkflowDialog"
     | "saveVisualyticsDeckDialog"
-    | "forecastValidationErrorsDataDialog";
+    | "forecastValidationErrorsDataDialog"
+    | "finalizeCostsRevenueApexWorkDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;

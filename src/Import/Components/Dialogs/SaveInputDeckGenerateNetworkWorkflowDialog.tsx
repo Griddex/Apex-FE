@@ -1,22 +1,14 @@
-import CloseIcon from "@mui/icons-material/Close";
+import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogActions from "@mui/material/DialogActions";
-import MuiDialogContent from "@mui/material/DialogContent";
-import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import IconButton from "@mui/material/IconButton";
-import { Theme } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
-import withStyles from "@mui/styles/withStyles";
 import React, { useCallback } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import DialogSaveAndGenerateNetworkCancelButtons from "../../../Application/Components/DialogButtons/DialogSaveAndGenerateNetworkCancelButtons";
+import DialogContent from "../../../Application/Components/DialogContents/DialogContent";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import DialogTitle from "../../../Application/Components/DialogTitles/DialogTitle";
 import DialogContextDrawer from "../../../Application/Components/Drawers/DialogContextDrawer";
-import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
-import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
@@ -30,99 +22,10 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { saveAndAutoGenerateNetworkRequestAction } from "../../../Network/Redux/Actions/NetworkActions";
-import SaveInputDeckGenerateNetworkWorkflow from "../../Routes/Common/InputWorkflows/SaveInputDeckGenerateNetworkWorkflow";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-    height: 48,
-  },
-  dialogHeader: {
-    display: "flex",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  mainIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "5%",
-    height: "100%",
-  },
-  dialogTitle: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "90%",
-    height: "100%",
-  },
-  closeButton: {
-    color: theme.palette.grey[500],
-    width: "5%",
-    height: "100%",
-    padding: 0,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-      color: "white",
-      borderRadius: 0,
-    },
-  },
-}));
-
-const DialogTitle: React.FC<DialogStuff> = (props) => {
-  const dispatch = useDispatch();
-  const classes = useStyles(props);
-  const { iconType, children, onClose, ...other } = props;
-
-  return (
-    <MuiDialogTitle className={classes.root} {...other}>
-      <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>
-          <DialogIcons iconType={iconType as IconNameType} />
-        </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
-        {onClose ? (
-          <IconButton
-            className={classes.closeButton}
-            aria-label="close"
-            onClick={() => {
-              dispatch(hideSpinnerAction());
-              onClose();
-            }}
-            size="large"
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </div>
-    </MuiDialogTitle>
-  );
-};
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    padding: theme.spacing(1.5),
-    width: "100%",
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
+import SaveInputDeckGenerateNetworkWorkflow from "../../Routes/Common/InputWorkflows/SaveInputDeckGenerateNetworkWorkflow";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -156,9 +59,9 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
 
   const formProps = {
     title: formTitle,
-    setTitle: setFormTitle,
+    setTitle: React.useCallback(setFormTitle, []),
     description: formDescription,
-    setDescription: setFormDescription,
+    setDescription: React.useCallback(setFormDescription, []),
     storedTitles,
   };
 
@@ -232,6 +135,12 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
     finalAction: saveForecastInputdeckConfirmation,
     workflowProps,
     workflowProcess: wp,

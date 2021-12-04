@@ -94,7 +94,7 @@ export const TRANSFORM_ECONOMICSPLOT_CHARTDATA_FAILURE =
 export const RUN_ECONOMICSANALYSIS_REQUEST = "RUN_ECONOMICSANALYSIS_REQUEST";
 export const RUN_ECONOMICSANALYSIS_SUCCESS = "RUN_ECONOMICSANALYSIS_SUCCESS";
 export const RUN_ECONOMICSANALYSIS_FAILURE = "RUN_ECONOMICSANALYSIS_FAILURE";
-export const PERSIST_ECONOMICSDECK = "PERSIST_ECONOMICSDECK";
+export const PERSIST_ECONOMICSDECKS = "PERSIST_ECONOMICSDECKS";
 export const FETCH_HEATMAPDATA_REQUEST = "FETCH_HEATMAPDATA_REQUEST";
 export const FETCH_HEATMAPDATA_SUCCESS = "FETCH_HEATMAPDATA_SUCCESS";
 export const FETCH_HEATMAPDATA_FAILURE = "FETCH_HEATMAPDATA_FAILURE";
@@ -489,16 +489,13 @@ export const runEconomicsAnalysisFailureAction = () => {
   };
 };
 
-export const persistEconomicsDeckRequestAction = (
-  workflowProcess: IInputWorkflows["wkPs"],
-  devValue: TDevScenarioNames,
-  rows: IRawRow[],
-  isRowsInPayload: boolean
+export const persistEconomicsDecksRequestAction = (
+  devVal: TDevScenarioNames,
+  devRows: IRawRow[]
 ) => {
   return {
-    type: PERSIST_ECONOMICSDECK,
-    payload: { workflowProcess, devValue, rows },
-    meta: { isRowsInPayload },
+    type: PERSIST_ECONOMICSDECKS,
+    payload: { devVal, devRows },
   };
 };
 

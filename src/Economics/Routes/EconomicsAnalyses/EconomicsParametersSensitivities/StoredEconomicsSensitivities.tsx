@@ -46,6 +46,7 @@ import {
 } from "../../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 //<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
 
@@ -421,27 +422,27 @@ export default function StoredEconomicsSensitivities() {
     setStoredEconomicsSensitivities(economicsSensitivitiesStored);
   }, [JSON.stringify(economicsSensitivitiesStored)]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    newTableRowHeight: 35,
+    selectedRows: selectedRows,
+    setSelectedRows: setSelectedRows,
+    selectedRow: sRow,
+    onSelectedRowChange: setSRow,
+    onRowsChange: setRows,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootStoredData}>
       <div className={classes.table}>
         <SizeMe monitorHeight refreshRate={32}>
-          {({ size }) => (
-            <ApexGrid
-              columns={columns}
-              rows={rows}
-              tableButtons={tableButtons}
-              newTableRowHeight={35}
-              selectedRows={selectedRows}
-              setSelectedRows={setSelectedRows}
-              selectedRow={sRow}
-              onSelectedRowChange={setSRow}
-              onRowsChange={setRows}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
-            />
-          )}
+          {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
         </SizeMe>
       </div>
     </div>

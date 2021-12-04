@@ -17,10 +17,8 @@ import { workflowInitAction } from "../../Application/Redux/Actions/WorkflowActi
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { forecastCaseOptions } from "../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../Redux/Actions/EconomicsActions";
+import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 
-const ContextDrawer = React.lazy(
-  () => import("../../Application/Components/Drawers/ContextDrawer")
-);
 const StoredForecastResults = React.lazy(
   () => import("../../Forecast/Routes/StoredForecastResults")
 );
@@ -31,39 +29,13 @@ const CostsAndRevenueApexForecast = React.lazy(
     )
 );
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
     height: "100%",
     padding: 0,
-  },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-  workflowHeaderRow: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: "5%",
-    margin: 0,
-    "& > *": { height: "60%" },
-  },
-  workflowBanner: {
-    display: "flex",
-    justifyContent: "center",
-    width: 54,
-    margin: 0,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-    "& > *": { fontWeight: "bold" },
-  },
-  workflowBannerHeader: {
-    display: "flex",
-    width: "100%",
-    marginLeft: 6,
-    "& > *": { fontWeight: "bold" },
   },
   workflowBody: {
     display: "flex",
@@ -73,35 +45,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  workflowDatabasePanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignSelf: "flex-start",
-    height: "95%",
-    width: "20%",
-    border: "1px solid #A8A8A8",
-    boxShadow: theme.shadows[2],
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
   workflowContent: { height: "100%", width: "100%" },
-  navigationbuttons: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    "& > *": {
-      border: `2px solid`,
-      boxShadow: theme.shadows[2],
-    },
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
 }));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -114,18 +58,26 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,
   (drawer) => drawer
 );
+
 const applicationSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer,
   (reducer) => reducer
 );
 
+const activeStepSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
+  (step) => step
+);
+
+const selectedForecastingResultsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.forecastReducer.selectedForecastingResultsId,
+  (data) => data
+);
+
 const CostsRevenueApexForecastWorkflow = ({
   reducer,
-  wrkflwCtgry,
-  wrkflwPrcss,
   finalAction,
-  idTitleArr,
-  persistSelectedIdTitleAction,
 }: IAllWorkflows) => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -133,15 +85,10 @@ const CostsRevenueApexForecastWorkflow = ({
   const skipped = new Set<number>();
 
   const showContextDrawer = useSelector(showContextDrawerSelector);
-
-  const activeStepSelector = createDeepEqualSelector(
-    (state: RootState) =>
-      state.workflowReducer[workflowCategory][workflowProcess]["activeStep"],
-    (reducer) => reducer
-  );
-
   const activeStep = useSelector(activeStepSelector);
-
+  const selectedForecastingResultsId = useSelector(
+    selectedForecastingResultsIdSelector
+  );
   const { moduleName, subModuleName, workflowName } =
     useSelector(applicationSelector);
 
@@ -190,6 +137,12 @@ const CostsRevenueApexForecastWorkflow = ({
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: selectedForecastingResultsId ? false : true,
+    },
     finalAction,
     workflowProps,
     workflowProcess,
@@ -206,7 +159,7 @@ const CostsRevenueApexForecastWorkflow = ({
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   function renderImportStep(activeStep: number) {
     switch (activeStep) {

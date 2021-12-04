@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     borderRightWidth: 0,
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    paddingLeft: 5,
+    paddingLeft: 0,
     // lineHeight: "100%",
     textTransform: "capitalize",
     // color: theme.palette.primary.dark,

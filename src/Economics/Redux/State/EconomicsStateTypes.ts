@@ -253,6 +253,7 @@ export interface IEconomicsState
 
   showSensitivitiesTable: boolean;
 
+  allDevRows: Record<TDevScenarioNames, IRawRow[]>;
   selectedTableData: any[];
 
   heatMapTreeByScenario: RenderTree;
@@ -304,6 +305,8 @@ export interface IEconomicsState
   economicsTemplatesTree: RenderTree;
 
   resultsAnalyisOptions: ISelectOption[];
+
+  forecastEconomicsAggregated: Record<string, any[]>;
 
   inputDataWorkflows: Record<string, IEconomicsImport>;
   storedDataWorkflows: Record<string, IApplicationStoredDataRow[]>;

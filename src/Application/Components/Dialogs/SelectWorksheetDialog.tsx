@@ -1,9 +1,9 @@
-import CloseIcon from "@mui/icons-material/Close";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import {
   Button,
+  DialogActions,
   Divider,
   List,
   ListItem,
@@ -11,14 +11,9 @@ import {
   ListItemText,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogActions from "@mui/material/DialogActions";
-import MuiDialogContent from "@mui/material/DialogContent";
-import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import IconButton from "@mui/material/IconButton";
 import { Theme, useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
-import withStyles from "@mui/styles/withStyles";
 import { useSnackbar } from "notistack";
 import React from "react";
 import isEqual from "react-fast-compare";
@@ -30,48 +25,14 @@ import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
 import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
-import DialogIcons from "../Icons/DialogIcons";
-import { IconNameType } from "../Icons/DialogIconsTypes";
+import DialogContent from "../DialogContents/DialogContent";
+import DialogTitle from "../DialogTitles/DialogTitle";
 import { IInputWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-    height: 48,
-  },
-  dialogHeader: {
-    display: "flex",
-    width: "100%",
-  },
-  mainIcon: {
-    display: "flex",
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 5,
-    height: "100%",
-  },
-  dialogTitle: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  closeButton: {
-    color: theme.palette.grey[500],
-    height: "100%",
-    padding: 0,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-      color: "white",
-      borderRadius: 0,
-    },
-  },
   listDialogContent: {
     display: "flex",
     flexDirection: "column",
@@ -83,55 +44,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
 }));
-
-const DialogTitle: React.FC<DialogStuff> = (props) => {
-  const dispatch = useDispatch();
-  const classes = useStyles();
-  const { iconType, children, onClose, ...other } = props;
-
-  return (
-    <MuiDialogTitle className={classes.root} {...other}>
-      <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>
-          <DialogIcons iconType={iconType as IconNameType} />
-        </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
-        {onClose ? (
-          <IconButton
-            className={classes.closeButton}
-            aria-label="close"
-            onClick={() => {
-              dispatch(hideSpinnerAction());
-              onClose();
-            }}
-            size="large"
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </div>
-    </MuiDialogTitle>
-  );
-};
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    padding: theme.spacing(1.5),
-    width: "100%",
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
 
 const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);

@@ -107,7 +107,6 @@ export interface IForecastResultState extends ISaveForecastResultsProps {
   };
 
   forecastResultsAggregated: any[];
-  forecastEconomicsAggregated: Record<string, any[]>;
 
   selectedForecastData: any[];
   loadForecastResultsWorkflow: boolean;

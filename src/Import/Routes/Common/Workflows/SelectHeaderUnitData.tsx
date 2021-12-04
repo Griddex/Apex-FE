@@ -21,6 +21,7 @@ import {
 import { ApexGridRolesState } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridState";
 import {
   IRawRow,
+  ISize,
   TRawTable,
 } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
@@ -291,20 +292,22 @@ export default function SelectHeaderUnitData({
     dispatch(hideSpinnerAction());
   }, [rows]);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootParseTable}>
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
           <Suspense fallback={<div style={{ fontSize: 40 }}>Loading...</div>}>
-            <ApexGrid
-              columns={columns}
-              rows={rows}
-              tableButtons={tableButtons}
-              size={size}
-              autoAdjustTableDim={true}
-              showTableHeader={true}
-              showTablePagination={true}
-            />
+            <ApexGrid apexGridProps={getApexGridProps(size)} />
           </Suspense>
         )}
       </SizeMe>

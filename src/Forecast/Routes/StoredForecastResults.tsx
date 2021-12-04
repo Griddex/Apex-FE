@@ -62,6 +62,7 @@ import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateT
 import { IApexEditor } from "./../../Application/Components/Editors/ApexEditor";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import generateDoughnutAnalyticsData from "../../Application/Utils/GenerateDoughnutAnalyticsData";
+import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
 //<IStoredForecastResultsRow, ITableButtonsProps>
 
@@ -535,6 +536,22 @@ export default function StoredForecastResults({
 
   const [sRow, setSRow] = React.useState(-1);
 
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    newTableRowHeight: 35,
+    selectedRows: selectedRows,
+    setSelectedRows: setSelectedRows,
+    selectedRow: sRow,
+    onSelectedRowChange: setSRow,
+    onRowsChange: setRows,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   return (
     <div className={classes.rootStoredData}>
       {showChart && (
@@ -548,23 +565,7 @@ export default function StoredForecastResults({
       <ClickAwayListener onClickAway={() => setSRow && setSRow(-1)}>
         <div className={classes.table}>
           <SizeMe monitorHeight refreshRate={32}>
-            {({ size }) => (
-              <ApexGrid
-                columns={columns}
-                rows={rows}
-                tableButtons={tableButtons}
-                newTableRowHeight={35}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                selectedRow={sRow}
-                onSelectedRowChange={setSRow}
-                onRowsChange={setRows}
-                size={size}
-                autoAdjustTableDim={true}
-                showTableHeader={true}
-                showTablePagination={true}
-              />
-            )}
+            {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
           </SizeMe>
         </div>
       </ClickAwayListener>

@@ -86,6 +86,48 @@ const SelectScenariosByButtons = ({
     updatedCostRevenuesButtons as IAggregateButtonProps[]
   );
 
+  const DevelopmentScenarios = () => {
+    return (
+      <ApexSelectRS
+        valueOption={devOption}
+        data={developmentScenarioOptions}
+        handleSelect={(row: OnChangeValue<ISelectOption, false>) => {
+          const path = `inputDataWorkflows.${workflowProcess}.developmentScenarios`;
+          const value = row?.value as string;
+          const label = row?.label as string;
+          dispatch(updateEconomicsParameterAction(path, value));
+
+          setButtonsData((prev) => {
+            if (buttonsData.map((obj) => obj.title).includes(label))
+              return prev;
+            else {
+              const btnData = {
+                title: label,
+                scenarioName: value,
+                variant: "outlined",
+                color: "primary",
+                handleAction: () => {
+                  dispatch(
+                    subNavbarSetMenuAction(
+                      `Economics Costs & Revenues [${label}]`
+                    )
+                  );
+                  dispatch(workflowResetAction(0, wp, wc));
+                  setDevOption(row as ISelectOption);
+                },
+              } as IAggregateButtonProps;
+
+              return [...prev, btnData];
+            }
+          });
+        }}
+        menuPortalTarget={dialogRef.current as HTMLDivElement}
+        isSelectOptionType={true}
+        containerHeight={40}
+      />
+    );
+  };
+
   React.useEffect(() => {
     dispatch(
       updateEconomicsParameterAction(
@@ -112,45 +154,7 @@ const SelectScenariosByButtons = ({
           backgroundColor: theme.palette.grey[200],
         }}
         contentStyle={{ width: "100%", height: "100%" }}
-        content={
-          <ApexSelectRS
-            valueOption={devOption}
-            data={developmentScenarioOptions}
-            handleSelect={(row: OnChangeValue<ISelectOption, false>) => {
-              const path = `inputDataWorkflows.${workflowProcess}.developmentScenarios`;
-              const value = row?.value as string;
-              const label = row?.label as string;
-              dispatch(updateEconomicsParameterAction(path, value));
-
-              setButtonsData((prev) => {
-                if (buttonsData.map((obj) => obj.title).includes(label))
-                  return prev;
-                else {
-                  const btnData = {
-                    title: label,
-                    scenarioName: value,
-                    variant: "outlined",
-                    color: "primary",
-                    handleAction: () => {
-                      dispatch(
-                        subNavbarSetMenuAction(
-                          `Economics Costs & Revenues [${label}]`
-                        )
-                      );
-                      dispatch(workflowResetAction(0, wp, wc));
-                      setDevOption(row as ISelectOption);
-                    },
-                  } as IAggregateButtonProps;
-
-                  return [...prev, btnData];
-                }
-              });
-            }}
-            menuPortalTarget={dialogRef.current as HTMLDivElement}
-            isSelectOptionType={true}
-            containerHeight={40}
-          />
-        }
+        content={<DevelopmentScenarios />}
       />
       <AggregatedButtons
         buttonsData={buttonsData}

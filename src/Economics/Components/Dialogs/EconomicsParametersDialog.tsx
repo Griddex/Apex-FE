@@ -1,139 +1,41 @@
-import { Button, ClickAwayListener, Divider } from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import {
+  Button,
+  ClickAwayListener,
+  DialogActions,
+  Divider,
+} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogActions from "@mui/material/DialogActions";
-import MuiDialogContent from "@mui/material/DialogContent";
-import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import withStyles from "@mui/styles/withStyles";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import MainTitle from "../../../Application/Components/Basic/MainTitle";
+import DialogContent from "../../../Application/Components/DialogContents/DialogContent";
 import {
   ButtonProps,
   DialogStuff,
   IDialogData,
 } from "../../../Application/Components/Dialogs/DialogTypes";
-import DialogIcons from "../../../Application/Components/Icons/DialogIcons";
-import { IconNameType } from "../../../Application/Components/Icons/DialogIconsTypes";
+import DialogTitle from "../../../Application/Components/DialogTitles/DialogTitle";
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import {
+  IRawRow,
+  ISize,
+} from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-    height: 48,
-  },
-  dialogHeader: {
-    display: "flex",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  mainIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "5%",
-    height: "100%",
-  },
-  dialogTitle: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "90%",
-    height: "100%",
-  },
-  closeButton: {
-    color: theme.palette.grey[500],
-    width: "5%",
-    height: "100%",
-    padding: 0,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
-      color: "white",
-      borderRadius: 0,
-    },
-  },
   economicParameterDialogContent: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
   },
-  listBorder: {
-    height: 200,
-    overflow: "auto",
-    border: "1px solid #F7F7F7",
-  },
-  avatar: {
-    color: theme.palette.primary.main,
-  },
-  secondaryButton: {
-    color: theme.palette.secondary.main,
-    border: `2px solid ${theme.palette.secondary.main}`,
-    fontWeight: "bold",
-    height: 30,
-  },
 }));
-
-const DialogTitle: React.FC<DialogStuff> = (props) => {
-  const dispatch = useDispatch();
-  const classes = useStyles(props);
-  const { iconType, children, onClose, ...other } = props;
-
-  return (
-    <MuiDialogTitle className={classes.root} {...other}>
-      <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>
-          <DialogIcons iconType={iconType as IconNameType} />
-        </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
-        {onClose ? (
-          <IconButton
-            className={classes.closeButton}
-            aria-label="close"
-            onClick={() => {
-              dispatch(hideSpinnerAction());
-              onClose();
-            }}
-            size="large"
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </div>
-    </MuiDialogTitle>
-  );
-};
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    padding: theme.spacing(1.5),
-    width: "100%",
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
 
 const EconomicsParametersDialog: React.FC<DialogStuff> = (
   props: DialogStuff
@@ -144,13 +46,23 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
 
   const { title, show, maxWidth, iconType, dialogData } = props;
   const { columns, rows } = dialogData as IDialogData<IRawRow>;
+  const [sRow, setSRow] = React.useState(-1);
 
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: false,
     extraButtons: () => <div></div>,
   };
 
-  const [sRow, setSRow] = React.useState(-1);
+  const getApexGridProps = (size: ISize) => ({
+    columns: columns,
+    rows: rows,
+    tableButtons: tableButtons,
+    size: size,
+    autoAdjustTableDim: true,
+    showTableHeader: true,
+    showTablePagination: true,
+  });
+
   const economicsParametersDialogContent = (
     columns: Column<IRawRow>[],
     rows: IRawRow[]
@@ -162,15 +74,7 @@ const EconomicsParametersDialog: React.FC<DialogStuff> = (
           <div style={{ width: "100%", height: "500px" }}>
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => (
-                <ApexGrid
-                  columns={columns}
-                  rows={rows}
-                  tableButtons={tableButtons}
-                  size={size}
-                  autoAdjustTableDim={true}
-                  showTableHeader={true}
-                  showTablePagination={true}
-                />
+                <ApexGrid apexGridProps={getApexGridProps(size)} />
               )}
             </SizeMe>
           </div>

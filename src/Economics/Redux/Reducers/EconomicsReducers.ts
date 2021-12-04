@@ -1,5 +1,4 @@
 import omit from "lodash.omit";
-import omitBy from "lodash.omitby";
 import set from "lodash.set";
 import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -34,7 +33,6 @@ import {
   PUT_SELECTCHART,
   RESET_CHART_DATA,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
-import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
   ECONOMICSHEATMAP_UPDATE_HASDROPPED,
@@ -60,6 +58,7 @@ import {
   STORED_ECONOMICSDATA_SUCCESS,
   STORED_ECONOMICSRESULTS_FAILURE,
   STORED_ECONOMICSRESULTS_SUCCESS,
+  PERSIST_ECONOMICSDECKS,
   STORED_ECONOMICSSENSITIVITIES_FAILURE,
   STORED_ECONOMICSSENSITIVITIES_SUCCESS,
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
@@ -72,8 +71,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {
     case UPDATE_ECONOMICSPARAMETER: {
       const { path, value } = action.payload;
-
       const updatedState = set(state, path, value);
+
       return updatedState;
     }
 
@@ -150,6 +149,15 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       } else {
         return state;
       }
+    }
+
+    case PERSIST_ECONOMICSDECKS: {
+      const { devVal, devRows } = action.payload;
+
+      return {
+        ...state,
+        allDevRows: { ...state.allDevRows, [devVal]: devRows },
+      };
     }
 
     case STORED_ECONOMICSRESULTS_SUCCESS: {
@@ -304,7 +312,17 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
     case RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS: {
       const { forecastEconomicsAggregated } = action.payload;
-      return { ...state, forecastEconomicsAggregated };
+
+      return {
+        ...state,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
+          economicsCostsRevenuesDeckApexForecast: {
+            ...state.inputDataWorkflows.economicsCostsRevenuesDeckApexForecast,
+            costsRevenues: forecastEconomicsAggregated,
+          },
+        },
+      };
     }
 
     case GET_ECONOMICSPLOT_CHARTDATA_SUCCESS: {

@@ -1,4 +1,5 @@
 import {
+  DialogActions,
   Divider,
   List,
   ListItem,
@@ -28,6 +29,8 @@ import {
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
+import DialogContent from "../DialogContents/DialogContent";
+import DialogTitle from "../DialogTitles/DialogTitle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -72,55 +75,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid #F7F7F7",
   },
 }));
-
-const DialogTitle: React.FC<DialogStuff> = (props) => {
-  const dispatch = useDispatch();
-  const classes = useStyles(props);
-  const { iconType, children, onClose, ...other } = props;
-
-  return (
-    <MuiDialogTitle className={classes.root} {...other}>
-      <div className={classes.dialogHeader}>
-        <div className={classes.mainIcon}>
-          <DialogIcons iconType={iconType as IconNameType} />
-        </div>
-        <div className={classes.dialogTitle}>
-          <Typography variant="h6">{children}</Typography>
-        </div>
-        {onClose ? (
-          <IconButton
-            className={classes.closeButton}
-            aria-label="close"
-            onClick={() => {
-              dispatch(hideSpinnerAction());
-              onClose();
-            }}
-            size="large"
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </div>
-    </MuiDialogTitle>
-  );
-};
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    padding: theme.spacing(1.5),
-    width: "100%",
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1.5),
-  },
-}))(MuiDialogActions);
 
 const ListDialog: React.FC<DialogStuff> = (props) => {
   const {

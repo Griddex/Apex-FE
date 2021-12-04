@@ -163,6 +163,12 @@ const VisualyticsExcelWorkflow = ({
     showBack: true,
     showSkip: true,
     showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
     finalAction,
     workflowProps,
     workflowProcess: wp,
@@ -178,12 +184,7 @@ const VisualyticsExcelWorkflow = ({
       <WorkflowBanner {...WorkflowBannerProps} />
       <Prompt
         when={activeStep < steps.length}
-        // message="Are you sure you want to leave? You will lose all unsaved data. Proceed?"
         message={(location, action) => {
-          console.log(
-            "Logged output --> ~ file: DatabaseWorkflow.tsx ~ line 174 ~ action",
-            action
-          );
           return location.pathname.startsWith("/apex")
             ? true
             : `Are you sure you want to go to ${location.pathname}?`;

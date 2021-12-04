@@ -23,6 +23,7 @@ import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CancelPresentationOutlinedIcon from "@mui/icons-material/CancelPresentationOutlined";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
+import DoneAllOutlinedIcon from "@mui/icons-material/DoneAllOutlined";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -50,6 +51,7 @@ const DialogOneCancelButtons = (
     play: <PlayArrowIcon />,
     closeWithBorder: <CancelPresentationOutlinedIcon />,
     download: <GetAppOutlinedIcon />,
+    finalize: <DoneAllOutlinedIcon />,
   };
 
   const dispatch = useDispatch();
