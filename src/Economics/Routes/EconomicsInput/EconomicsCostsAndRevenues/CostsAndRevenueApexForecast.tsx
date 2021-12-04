@@ -8,22 +8,20 @@ import { useSelector } from "react-redux";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const forecastEconomicsAggregatedSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.forecastEconomicsAggregated,
-  (data) => data
-);
-
 export default function CostsAndRevenueApexForecast({
   wkCy,
   wkPs,
   finalAction,
 }: IInputWorkflows) {
-  const basePath = `${wkCy}${wkPs}`;
+  const basePath = `${wkCy}.${wkPs}`;
   const reducer = "economicsReducer";
 
-  const forecastEconomicsAggregated = useSelector(
-    forecastEconomicsAggregatedSelector
+  const costsRevenuesSelector = createDeepEqualSelector(
+    (state: RootState) => state.economicsReducer[wkCy][wkPs]["costsRevenues"],
+    (data) => data
   );
+
+  const costsRevenues = useSelector(costsRevenuesSelector);
 
   return (
     <CostsAndRevenueManual
@@ -32,7 +30,7 @@ export default function CostsAndRevenueApexForecast({
       wkPs={wkPs}
       basePathStr={basePath}
       finalAction={finalAction}
-      forecastEconomicsAggregated={forecastEconomicsAggregated}
+      forecastEconomicsAggregated={costsRevenues}
     />
   );
 }

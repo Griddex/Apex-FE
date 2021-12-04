@@ -26,7 +26,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getApexIconButtonStyle } from "../../../../Application/Styles/IconButtonStyles";
-import { persistEconomicsDecksRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import { ICostsRevenues } from "./EconomicsCostsAndRevenuesTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -38,11 +38,13 @@ const unitOptionsByVariableNameSelector = createDeepEqualSelector(
 
 export default function CostsAndRevenueManualNAG({
   wkPs,
+  basePath,
   nagDevelopmentRows,
   setNAGDevelopmentRows,
   nagDevelopmentNames,
 }: ICostsRevenues) {
   const initialRowsLength = 10;
+  const wkCs = "inputDataWorkflows";
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -698,14 +700,23 @@ export default function CostsAndRevenueManualNAG({
     initialRowsLength: initialRowsLength,
   });
 
+  const nagDevelopmentRowsDefined = nagDevelopmentRows as IRawRow[];
+  //TODO maybe Gift has to send me units for apexforecast process?
+  const nagDevelopmentRowsFin =
+    wkPs === "economicsCostsRevenuesDeckManual"
+      ? nagDevelopmentRowsDefined.slice(1)
+      : nagDevelopmentRowsDefined;
+
   React.useEffect(() => {
-    dispatch(
-      persistEconomicsDecksRequestAction(
-        "nagDevelopment",
-        nagDevelopmentRows as IRawRow[]
-      )
-    );
-  }, [nagDevelopmentRows]);
+    if (nagDevelopmentRowsFin?.length > 0) {
+      dispatch(
+        updateEconomicsParameterAction(
+          `${basePath}.costsRevenues.NAG`,
+          nagDevelopmentRowsFin
+        )
+      );
+    }
+  }, [nagDevelopmentRowsFin]);
 
   return (
     <ApexGrid

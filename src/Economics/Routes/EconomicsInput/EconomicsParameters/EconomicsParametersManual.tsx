@@ -61,11 +61,6 @@ const economicsParametersAppHeadersSelector = createDeepEqualSelector(
   (headers) => headers
 );
 
-const variableUnitsSelector = createDeepEqualSelector(
-  (state: RootState) => state.unitSettingsReducer["variableUnits"],
-  (units) => units
-);
-
 const unitOptionsByVariableNameSelector = createDeepEqualSelector(
   (state: RootState) => state.unitSettingsReducer["unitOptionsByVariableName"],
   (data) => data
@@ -91,8 +86,6 @@ const EconomicsParametersManual = ({
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
   );
-
-  const variableUnits = useSelector(variableUnitsSelector);
 
   const unitOptionsByVariableName = useSelector(
     unitOptionsByVariableNameSelector

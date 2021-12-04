@@ -7,9 +7,9 @@ import zipObject from "lodash.zipobject";
 import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import isEqual from "react-fast-compare";
-import { createSelectorCreator, defaultMemoize } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -26,7 +26,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getApexIconButtonStyle } from "../../../../Application/Styles/IconButtonStyles";
-import { persistEconomicsDecksRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import { ICostsRevenues } from "./EconomicsCostsAndRevenuesTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -38,6 +38,7 @@ const unitOptionsByVariableNameSelector = createDeepEqualSelector(
 
 export default function CostsAndRevenueManualOilNAG({
   wkPs,
+  basePath,
   oilNAGDevelopmentRows,
   setOilNAGDevelopmentRows,
   oilNAGDevelopmentNames,
@@ -770,14 +771,23 @@ export default function CostsAndRevenueManualOilNAG({
     initialRowsLength: initialRowsLength,
   });
 
+  const oilNAGDevelopmentRowsDefined = oilNAGDevelopmentRows as IRawRow[];
+  //TODO maybe Gift has to send me units for apexforecast process?
+  const oilNAGDevelopmentRowsFin =
+    wkPs === "economicsCostsRevenuesDeckManual"
+      ? oilNAGDevelopmentRowsDefined.slice(1)
+      : oilNAGDevelopmentRowsDefined;
+
   React.useEffect(() => {
-    dispatch(
-      persistEconomicsDecksRequestAction(
-        "oilNAGDevelopment",
-        oilNAGDevelopmentRows as IRawRow[]
-      )
-    );
-  }, [oilNAGDevelopmentRows]);
+    if (oilNAGDevelopmentRowsFin?.length > 0) {
+      dispatch(
+        updateEconomicsParameterAction(
+          `${basePath}.costsRevenues.OIL + NAG`,
+          oilNAGDevelopmentRowsFin
+        )
+      );
+    }
+  }, [oilNAGDevelopmentRowsFin]);
 
   return (
     <ApexGrid

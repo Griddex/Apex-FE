@@ -2,8 +2,6 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import omit from "lodash.omit";
-import uniq from "lodash.uniq";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { OnChangeValue } from "react-select";
@@ -12,14 +10,14 @@ import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsCom
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
-import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IInputWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
 import {
-  costRevdevelopmentScenarioOptions,
+  backendDevScenarioOptions,
   developmentScenarioOptions,
+  developmentScenariosMap,
   forecastCaseOptions,
   nagDevelopmentNames,
   oilDevelopmentNames,
@@ -27,14 +25,14 @@ import {
 } from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import initializeCostRevenuesData from "../../../Utils/InitializeCostRevenuesData";
-import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
+  TBackendDevScenarioTitles,
+  TDevScenarioNames,
+} from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 import CostsAndRevenueManualNAG from "./CostsAndRevenueManualNAG";
 import CostsAndRevenueManualOil from "./CostsAndRevenueManualOil";
 import CostsAndRevenueManualOilNAG from "./CostsAndRevenueManualOilNAG";
-import {
-  IAggregateButtonProps,
-  TCostRev,
-} from "./EconomicsCostsAndRevenuesTypes";
+import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -75,7 +73,7 @@ export default function CostsAndRevenueManual({
   const forecastEconomicsAggregatedDefined =
     forecastEconomicsAggregated as Record<string, any[]>;
   const initialRowsLength = 10;
-  const basePath = basePathStr ? basePathStr : `${wkCy}${wkPs}`;
+  const basePath = basePathStr ? basePathStr : `${wkCy}.${wkPs}`;
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -91,17 +89,23 @@ export default function CostsAndRevenueManual({
 
   const initButtonsData =
     wkPs === "economicsCostsRevenuesDeckApexForecast"
-      ? Object.keys(forecastEconomicsAggregatedDefined).reduce((acc, key) => {
-          if (Object.keys(forecastEconomicsAggregatedDefined[key]).length > 0) {
-            const devOption =
-              costRevdevelopmentScenarioOptions[key as TCostRev];
+      ? Object.keys(forecastEconomicsAggregatedDefined).reduce((acc, title) => {
+          if (
+            Object.keys(forecastEconomicsAggregatedDefined[title]).length > 0
+          ) {
+            const backendTitle = title as TBackendDevScenarioTitles;
+            const devName = developmentScenariosMap[backendTitle];
+
+            const backendValue = backendDevScenarioOptions[backendTitle].value;
+            const backendLabel = backendDevScenarioOptions[backendTitle].label;
 
             const btnData = {
-              title: devOption.label,
-              scenarioName: devOption.value,
+              title: backendTitle,
+              scenarioName: devName,
               variant: "outlined",
               color: "primary",
-              handleAction: () => setDevOption(devOption as ISelectOption),
+              handleAction: () =>
+                setDevOption({ value: backendValue, label: backendLabel }),
             } as IAggregateButtonProps;
 
             return [...acc, btnData];
@@ -204,6 +208,7 @@ export default function CostsAndRevenueManual({
       return (
         <CostsAndRevenueManualOil
           wkPs={wkPs}
+          basePath={basePath}
           oilDevelopmentRows={oilDevelopmentRows}
           setOilDevelopmentRows={setOilDevelopmentRows}
           oilDevelopmentNames={oilDevelopmentNames}
@@ -213,6 +218,7 @@ export default function CostsAndRevenueManual({
       return (
         <CostsAndRevenueManualNAG
           wkPs={wkPs}
+          basePath={basePath}
           nagDevelopmentRows={nagDevelopmentRows}
           setNAGDevelopmentRows={setNAGDevelopmentRows}
           nagDevelopmentNames={nagDevelopmentNames}
@@ -222,6 +228,7 @@ export default function CostsAndRevenueManual({
       return (
         <CostsAndRevenueManualOilNAG
           wkPs={wkPs}
+          basePath={basePath}
           oilNAGDevelopmentRows={oilNAGDevelopmentRows}
           setOilNAGDevelopmentRows={setOilNAGDevelopmentRows}
           oilNAGDevelopmentNames={oilNAGDevelopmentNames}
@@ -230,24 +237,25 @@ export default function CostsAndRevenueManual({
     }
   };
 
+  const checkedRowSN = wkPs === "economicsCostsRevenuesDeckManual" ? 1 : 0;
   const oilRevsIsFilledOnFirstRow = React.useMemo(
     () =>
-      Object.values(oilDevelopmentRows[1]).filter((v) => v !== "").length ===
-      16,
+      Object.values(oilDevelopmentRows[checkedRowSN]).filter((v) => v !== "")
+        .length === 16,
     [oilDevelopmentRows]
   );
 
   const nagRevsIsFilledOnFirstRow = React.useMemo(
     () =>
-      Object.values(nagDevelopmentRows[1]).filter((v) => v !== "").length ===
-      17,
+      Object.values(nagDevelopmentRows[checkedRowSN]).filter((v) => v !== "")
+        .length === 17,
     [nagDevelopmentRows]
   );
 
   const oilNAGRevsIsFilledOnFirstRow = React.useMemo(
     () =>
-      Object.values(oilNAGDevelopmentRows[1]).filter((v) => v !== "").length ===
-      19,
+      Object.values(oilNAGDevelopmentRows[checkedRowSN]).filter((v) => v !== "")
+        .length === 19,
     [oilNAGDevelopmentRows]
   );
 
@@ -264,6 +272,9 @@ export default function CostsAndRevenueManual({
       )
     );
   }, [devVal]);
+
+  //TODO for some reason, manual workflow is updating all of them
+  //Please trace and fix
 
   return (
     <div className={classes.rootStoredData}>

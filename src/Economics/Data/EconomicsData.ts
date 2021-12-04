@@ -1,29 +1,5 @@
 import zipObject from "lodash.zipobject";
 
-interface CostRevenueProperties {
-  projectId: string;
-  economicsDataId: string;
-  year: number;
-  oilProdRate: number;
-  condensateProdRate: number;
-  gasProdRate: number;
-  totalExploartionCost: number;
-  totalDevelopmentCost: number;
-  productionCost: number;
-  seismicCost: number;
-  explAppraisalCost: number;
-  facilitiesCapex: number;
-  tangibleDrillingCost: number;
-  intangibleDrillingCost: number;
-  directCost: number;
-  projectCost: number;
-  abandonmentCost: number;
-  gasProcessingCost: number;
-  cha: number;
-  tariffs: number;
-  terminalCost: number;
-}
-
 export const costsRevenueHeaders = [
   { variableName: "projectId", variableTitle: "" },
   { variableName: "economicsDataId", variableTitle: "" },
@@ -163,16 +139,37 @@ export const costRevdevelopmentScenarioOptions = {
   costRevenuesOil: {
     value: "oilDevelopment",
     label: "Oil Development",
+    altLabel: "OIL/AG",
   },
   costRevenuesNAG: {
     value: "nagDevelopment",
     label: "NAG Development",
+    altLabel: "NAG",
   },
   costRevenuesOil_NAG: {
     value: "oilNAGDevelopment",
     label: "Oil + NAG Development",
+    altLabel: "OIL + NAG",
   },
 };
+
+export const backendDevScenarioOptions = {
+  "OIL/AG": {
+    value: "oilDevelopment",
+    label: "Oil Development",
+  },
+  NAG: {
+    value: "nagDevelopment",
+    label: "NAG Development",
+  },
+  "OIL + NAG": {
+    value: "oilNAGDevelopment",
+    label: "Oil + NAG Development",
+  },
+};
+
+export type TBackendCostsRevenues =
+  keyof typeof costRevdevelopmentScenarioOptions;
 
 const EconomicsAnalysesNames = [
   "netcashFlow",
