@@ -34,6 +34,7 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -74,6 +75,12 @@ const EconomicsParametersManual = ({
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  // const parametersDeckSelector = createDeepEqualSelector(
+  //   (state: RootState) => state.economicsReducer[wrkflwCtgry][wrkflwPrcss]["tableData"],
+  //   (data) => data
+  // );
+  // const parametersDeck = useSelector(parametersDeckSelector)
+
   const typeOptions = [
     { value: "Single", label: "Single" },
     { value: "Table", label: "Table" },
@@ -102,6 +109,7 @@ const EconomicsParametersManual = ({
       const initialRow = {
         sn: i + 1,
         parameter: variableTitle,
+        parameterName: variableName,
         type: "Single",
         value: "",
         unit: unitOptions ? unitOptions[0].label : "unitless",
@@ -320,6 +328,20 @@ const EconomicsParametersManual = ({
     showTablePagination: true,
   });
 
+  const parameterDeckisFilledOnFirstColumn = React.useMemo(
+    () => rows.map((row) => row["value"] !== "").length === initialRows.length,
+    [rows]
+  );
+
+  React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        `${wrkflwCtgry}.${wrkflwPrcss}.tableData`,
+        rows
+      )
+    );
+  }, [rows]);
+
   return (
     <div className={classes.rootStoredData}>
       <div className={classes.rootEconomicsParametersManual}>
@@ -344,7 +366,7 @@ const EconomicsParametersManual = ({
             <RotateLeftIcon key={1} />,
             <SaveOutlinedIcon key={2} />,
           ]}
-          disableds={[false, false]}
+          disableds={[false, !parameterDeckisFilledOnFirstColumn]}
           shouldExecute={[true, true]}
           shouldDispatch={[false, false]}
           finalActions={[
