@@ -1,5 +1,6 @@
 import zipObject from "lodash.zipobject";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { TBackendDevScenarioTitles } from "../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const generateInitialRows = (noOfRows: number, headerNames: string[]) => {
   const iniRows = [];
@@ -22,13 +23,19 @@ const initializeCostRevenuesData = (
   let initialOilDevelopmentRows = [] as IRawRow[];
   let initialNAGDevelopmentRows = [] as IRawRow[];
   let initialOilNAGDevelopmentRows = [] as IRawRow[];
-  if (
-    forecastEconomicsAggregated &&
-    Object.entries(forecastEconomicsAggregated["costRevenuesOil"]).length > 0
-  ) {
-    initialOilDevelopmentRows = forecastEconomicsAggregated[
-      "costRevenuesOil"
-    ].map((row: any, i: number) => ({ sn: i + 1, ...row }));
+
+  const isForecastEconomicsAggFilled = (devName: TBackendDevScenarioTitles) => {
+    if (forecastEconomicsAggregated === undefined || null) return false;
+    if (Object.entries(forecastEconomicsAggregated).length <= 0) return false;
+    if (forecastEconomicsAggregated[devName].length <= 0) return false;
+
+    return true;
+  };
+
+  if (isForecastEconomicsAggFilled("OIL/AG")) {
+    initialOilDevelopmentRows = forecastEconomicsAggregated["OIL/AG"].map(
+      (row: any, i: number) => ({ sn: i + 1, ...row })
+    );
   } else {
     initialOilDevelopmentRows = generateInitialRows(
       initialRowsLength,
@@ -36,13 +43,10 @@ const initializeCostRevenuesData = (
     ) as IRawRow[];
   }
 
-  if (
-    forecastEconomicsAggregated &&
-    Object.entries(forecastEconomicsAggregated["costRevenuesNAG"]).length > 0
-  ) {
-    initialNAGDevelopmentRows = forecastEconomicsAggregated[
-      "costRevenuesNAG"
-    ].map((row: any, i: number) => ({ sn: i + 1, ...row }));
+  if (isForecastEconomicsAggFilled("NAG")) {
+    initialNAGDevelopmentRows = forecastEconomicsAggregated["NAG"].map(
+      (row: any, i: number) => ({ sn: i + 1, ...row })
+    );
   } else {
     initialNAGDevelopmentRows = generateInitialRows(
       initialRowsLength,
@@ -50,14 +54,10 @@ const initializeCostRevenuesData = (
     ) as IRawRow[];
   }
 
-  if (
-    forecastEconomicsAggregated &&
-    Object.entries(forecastEconomicsAggregated["costRevenuesOil_NAG"]).length >
-      0
-  ) {
-    initialOilNAGDevelopmentRows = forecastEconomicsAggregated[
-      "costRevenuesOil_NAG"
-    ].map((row: any, i: number) => ({ sn: i + 1, ...row }));
+  if (isForecastEconomicsAggFilled("OIL + NAG")) {
+    initialOilNAGDevelopmentRows = forecastEconomicsAggregated["OIL + NAG"].map(
+      (row: any, i: number) => ({ sn: i + 1, ...row })
+    );
   } else {
     initialOilNAGDevelopmentRows = generateInitialRows(
       initialRowsLength,

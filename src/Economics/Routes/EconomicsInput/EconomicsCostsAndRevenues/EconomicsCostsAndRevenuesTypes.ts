@@ -22,6 +22,7 @@ export interface IAggregateButtonProps extends ButtonProps {
 }
 
 export interface ICostsRevenues {
+  basePath: string;
   wkPs?: TAllWorkflowProcesses;
   oilDevelopmentRows?: IRawRow[];
   setOilDevelopmentRows?: TUseState<IRawRow[]>;

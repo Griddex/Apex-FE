@@ -26,7 +26,7 @@ import { ITableButtonsProps } from "../../../../Application/Components/Table/Tab
 import noEventPropagation from "../../../../Application/Events/NoEventPropagation";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getApexIconButtonStyle } from "../../../../Application/Styles/IconButtonStyles";
-import { persistEconomicsDecksRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 import { ICostsRevenues } from "./EconomicsCostsAndRevenuesTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -43,6 +43,7 @@ export default function CostsAndRevenueManualOil({
   oilDevelopmentNames,
 }: ICostsRevenues) {
   const initialRowsLength = 10;
+  const wkCs = "inputDataWorkflows";
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -669,14 +670,23 @@ export default function CostsAndRevenueManualOil({
     initialRowsLength: initialRowsLength,
   });
 
+  const oilDevelopmentRowsDefined = oilDevelopmentRows as IRawRow[];
+  //TODO maybe Gift has to send me units for apexforecast process?
+  const oilDevelopmentRowsFin =
+    wkPs === "economicsCostsRevenuesDeckManual"
+      ? oilDevelopmentRowsDefined.slice(1)
+      : oilDevelopmentRowsDefined;
+
   React.useEffect(() => {
-    dispatch(
-      persistEconomicsDecksRequestAction(
-        "oilDevelopment",
-        oilDevelopmentRows as IRawRow[]
-      )
-    );
-  }, [oilDevelopmentRows]);
+    if (oilDevelopmentRowsFin?.length > 0) {
+      dispatch(
+        updateEconomicsParameterAction(
+          `${wkCs}.${wkPs}.costsRevenues.OIL/AG`,
+          oilDevelopmentRowsFin
+        )
+      );
+    }
+  }, [oilDevelopmentRowsFin]);
 
   return (
     <ApexGrid

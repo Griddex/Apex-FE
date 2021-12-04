@@ -26,6 +26,12 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
+  costRevdevelopmentScenarioOptions,
+  devScenarios,
+  TBackendCostsRevenues,
+} from "../../Data/EconomicsData";
+import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
   runEconomicsForecastAggregationFailureAction,
   runEconomicsForecastAggregationSuccessAction,
   RUN_ECONOMICSFORECASTAGGREGATION_REQUEST,
@@ -79,7 +85,16 @@ function* runEconomicsForecastAggregationSaga(
     const forecastResultsAPI = (url: string) => authService.get(url, config);
     const result = yield call(forecastResultsAPI, url);
 
-    const { data: forecastEconomicsAggregated } = result;
+    const { data } = result;
+
+    const forecastEconomicsAggregated = Object.keys(data).reduce((acc, key) => {
+      const rows = data[key];
+      const newKey =
+        costRevdevelopmentScenarioOptions[key as TBackendCostsRevenues]
+          .altLabel;
+
+      return { ...acc, [newKey]: rows };
+    }, {});
 
     const successAction = runEconomicsForecastAggregationSuccessAction();
     yield put({

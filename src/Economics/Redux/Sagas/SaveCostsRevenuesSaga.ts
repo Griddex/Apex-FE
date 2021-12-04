@@ -64,7 +64,6 @@ function* saveCostsRevenuesSaga(
   const { payload } = action;
   const {
     workflowProcess,
-    reducer,
     titleDesc: { title, description },
   } = payload;
 
@@ -82,17 +81,7 @@ function* saveCostsRevenuesSaga(
     costRevenuesButtons,
     forecastCase,
     appHeaderNameUnitsMap,
-  } = yield select((state) => state[reducer][wc][wp]);
-
-  const shiftedCostRevenues = costRevenuesButtons
-    .map((b: IAggregateButtonProps) => b.scenarioName)
-    .reduce(
-      (acc: Record<TDevScenarioNames, IRawRow[]>, name: TDevScenarioNames) => {
-        costsRevenues[name].shift();
-        return { ...acc, [name]: costsRevenues[name] };
-      },
-      {} as Record<TDevScenarioNames, IRawRow[]>
-    );
+  } = yield select((state) => state.economicsReducer[wc][wp]);
 
   const data = {
     projectId: currentProjectId,
@@ -100,10 +89,8 @@ function* saveCostsRevenuesSaga(
     title,
     description,
     source: forecastResultsId ? "Apex" : "External",
-    costRevenues: shiftedCostRevenues,
-    developmentScenarios: Object.keys(shiftedCostRevenues).map(
-      (k) => devScenarios[k as TDevScenarioNames]
-    ),
+    costRevenues: costsRevenues,
+    developmentScenarios: Object.keys(costsRevenues),
     forecastScenario: forecastCase,
     matchObject,
     variableUnits: appHeaderNameUnitsMap,

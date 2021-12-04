@@ -29,7 +29,7 @@ const CostsAndRevenueApexForecast = React.lazy(
     )
 );
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -58,6 +58,7 @@ const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,
   (drawer) => drawer
 );
+
 const applicationSelector = createDeepEqualSelector(
   (state: RootState) => state.applicationReducer,
   (reducer) => reducer

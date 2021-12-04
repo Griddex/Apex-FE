@@ -71,8 +71,8 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
   switch (action.type) {
     case UPDATE_ECONOMICSPARAMETER: {
       const { path, value } = action.payload;
-
       const updatedState = set(state, path, value);
+
       return updatedState;
     }
 
@@ -312,7 +312,17 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
 
     case RUN_ECONOMICSFORECASTAGGREGATION_SUCCESS: {
       const { forecastEconomicsAggregated } = action.payload;
-      return { ...state, forecastEconomicsAggregated };
+
+      return {
+        ...state,
+        inputDataWorkflows: {
+          ...state.inputDataWorkflows,
+          economicsCostsRevenuesDeckApexForecast: {
+            ...state.inputDataWorkflows.economicsCostsRevenuesDeckApexForecast,
+            costsRevenues: forecastEconomicsAggregated,
+          },
+        },
+      };
     }
 
     case GET_ECONOMICSPLOT_CHARTDATA_SUCCESS: {
