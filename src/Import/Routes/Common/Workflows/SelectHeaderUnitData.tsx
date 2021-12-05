@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { omit } from "lodash";
 import capitalize from "lodash.capitalize";
-import React, { Suspense } from "react";
+import React from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,11 +40,7 @@ import {
   persistFileUnitsAndUniqueUnitsAction,
   persistTableRoleNamesAction,
 } from "../../../Redux/Actions/InputActions";
-
-const ApexGrid = React.lazy(
-  () =>
-    import("../../../../Application/Components/Table/ReactDataGrid/ApexGrid")
-);
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -65,11 +61,11 @@ export default function SelectHeaderUnitData({
   wrkflwCtgry,
   wrkflwPrcss,
 }: IAllWorkflows) {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const theme = useTheme();
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
+
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   const selectedWorksheetDataSelector = createDeepEqualSelector(
     (state: RootState) => state[reducer][wc][wp]["selectedWorksheetData"],
@@ -182,7 +178,6 @@ export default function SelectHeaderUnitData({
   const generateColumns = (roleOptions: TSelectOptions) => {
     const snActionRoleColumns: Column<IRawRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true },
-
       {
         key: "role",
         name: "ROLE",
@@ -200,12 +195,14 @@ export default function SelectHeaderUnitData({
               ...row,
               role: currentValue as string,
             });
+
             if (currentValue === "Headers") {
               const headersObj = omit(row, ["sn", "role"]);
               const fileHeaders = Object.values(headersObj) as string[];
               setFileHeaders(fileHeaders);
               setSelectedHeaderRowIndex(selectedSN - 1);
             }
+
             if (currentValue === "Units") {
               const unitsObj = omit(row, ["sn", "role"]);
               const fileUnits = Object.values(unitsObj) as string[];
@@ -305,11 +302,7 @@ export default function SelectHeaderUnitData({
   return (
     <div className={classes.rootParseTable}>
       <SizeMe monitorHeight refreshRate={32}>
-        {({ size }) => (
-          <Suspense fallback={<div style={{ fontSize: 40 }}>Loading...</div>}>
-            <ApexGrid apexGridProps={getApexGridProps(size)} />
-          </Suspense>
-        )}
+        {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
       </SizeMe>
     </div>
   );

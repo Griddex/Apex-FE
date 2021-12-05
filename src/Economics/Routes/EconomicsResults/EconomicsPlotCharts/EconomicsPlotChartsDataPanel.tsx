@@ -24,6 +24,7 @@ import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCate
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { TUseState } from "../../../../Application/Types/ApplicationTypes";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 const wc = "storedDataWorkflows";
@@ -165,6 +166,20 @@ const EconomicsPlotChartsDataPanel = ({
     dispatch(resetPlotChartsWorkflowsAction());
   };
 
+  const ResultsSelect = () => {
+    return (
+      <ApexSelectRS<IExtendedSelectOption>
+        valueOption={economicsResultOption}
+        data={economicsResultsTitleOptions}
+        handleSelect={handleSelectEconomicsResultsChange}
+        isSelectOptionType={true}
+        menuPortalTarget={document.body}
+        containerWidth={300}
+        containerHeight={40}
+      />
+    );
+  };
+
   const categoryPanelWidth = 250;
   const chartTypeDefined = chartType as TChartTypes;
   const categoriesComponent = (
@@ -247,6 +262,7 @@ const EconomicsPlotChartsDataPanel = ({
       )}
       hasSecondaryComponent={false}
       selectedTitle={selectedEconomicsResultsTitle}
+      resultsSelect={ResultsSelect}
       treeViewComponent={
         economicsResultOption.title === "Select..."
           ? () => (
