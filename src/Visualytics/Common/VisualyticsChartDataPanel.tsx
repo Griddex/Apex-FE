@@ -18,6 +18,7 @@ import {
   updateVisualyticsParametersAction,
 } from "../Redux/Actions/VisualyticsActions";
 import { IChartVisualytics } from "./VisualyticsLandingTypes";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 
 const NoSelectionPlaceholder = React.lazy(
   () =>
@@ -182,6 +183,20 @@ const VisualyticsChartDataPanel = ({
     dispatch(resetVisualyticsChartsWorkflowsAction());
   };
 
+  const ResultsSelect = () => {
+    return (
+      <ApexSelectRS<IExtendedSelectOption>
+        valueOption={visualyticsRunOption}
+        data={visualyticsRunTitleOptions}
+        handleSelect={handleSelectVisualyticsResultsChange}
+        isSelectOptionType={true}
+        menuPortalTarget={document.body}
+        containerWidth={300}
+        containerHeight={40}
+      />
+    );
+  };
+
   const categoryPanelWidth = 250;
   const chartTypeDefined = chartType as TChartTypes;
 
@@ -263,6 +278,7 @@ const VisualyticsChartDataPanel = ({
       )}
       hasSecondaryComponent={false}
       selectedTitle={selectedVisualyticsTitle}
+      resultsSelect={ResultsSelect}
       treeViewComponent={
         visualyticsRunOption.title === "Select..."
           ? () => (
