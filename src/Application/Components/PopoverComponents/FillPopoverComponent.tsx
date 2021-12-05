@@ -66,7 +66,7 @@ const FillPopoverComponent = ({
   );
   const currentValue = currentRow[columnTitleOption?.value as string];
 
-  const ColumnSelect = (
+  const ColumnSelect = () => (
     <ApexSelectRS
       valueOption={columnTitleOption as ISelectOption}
       data={columnTitleOptions}
@@ -79,7 +79,7 @@ const FillPopoverComponent = ({
     />
   );
 
-  const DownToSelect = (
+  const DownToSelect = () => (
     <ApexSelectRS
       valueOption={downToOption as ISelectOption}
       data={downToOptions}
@@ -92,7 +92,7 @@ const FillPopoverComponent = ({
     />
   );
 
-  const UpToSelect = (
+  const UpToSelect = () => (
     <ApexSelectRS
       valueOption={upToOption as ISelectOption}
       data={upToOptions}
@@ -111,7 +111,7 @@ const FillPopoverComponent = ({
         title="Column"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
-        content={ColumnSelect}
+        content={<ColumnSelect />}
       />
       <AnalyticsComp
         title="Current Value"
@@ -153,14 +153,14 @@ const FillPopoverComponent = ({
           title="Down To"
           direction="Vertical"
           containerStyle={{ marginTop: 20 }}
-          content={DownToSelect}
+          content={<DownToSelect />}
         />
       ) : (
         <AnalyticsComp
           title="Up To"
           direction="Vertical"
           containerStyle={{ marginTop: 20 }}
-          content={UpToSelect}
+          content={<UpToSelect />}
         />
       )}
       <div className={classes.footer}>

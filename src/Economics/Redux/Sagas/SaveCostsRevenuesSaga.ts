@@ -12,7 +12,6 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -21,13 +20,11 @@ import {
 } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
+import history from "../../../Application/Services/HistoryService";
 import {
   failureDialogParameters,
   successDialogParameters,
 } from "../../Components/DialogParameters/CostsRevenueSuccessFailureDialogParameters";
-import { devScenarios } from "../../Data/EconomicsData";
-import { TDevScenarioNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
-import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
 import {
   fetchStoredEconomicsDataRequestAction,
   loadEconomicsWorkflowAction,
@@ -36,7 +33,6 @@ import {
   SAVE_COSTSREVENUES_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
-import history from "../../../Application/Services/HistoryService";
 
 export default function* watchSaveCostsRevenuesSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -76,12 +72,9 @@ function* saveCostsRevenuesSaga(
   );
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
 
-  const {
-    costsRevenues,
-    costRevenuesButtons,
-    forecastCase,
-    appHeaderNameUnitsMap,
-  } = yield select((state) => state.economicsReducer[wc][wp]);
+  const { costsRevenues, forecastCase, appHeaderNameUnitsMap } = yield select(
+    (state) => state.economicsReducer[wc][wp]
+  );
 
   const data = {
     projectId: currentProjectId,
