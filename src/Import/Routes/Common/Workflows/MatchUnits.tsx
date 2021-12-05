@@ -680,14 +680,17 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             (n: number) => ({ value: n.toString(), label: n.toString() })
           );
 
-          const props = {
-            columnTitleOptions,
-            upToOptions,
-            downToOptions,
-            currentRow,
-            rows,
-            setRows,
-          };
+          const props = React.useMemo(
+            () => ({
+              columnTitleOptions,
+              upToOptions,
+              downToOptions,
+              currentRow,
+              rows,
+              setRows,
+            }),
+            []
+          );
 
           const data = [
             {

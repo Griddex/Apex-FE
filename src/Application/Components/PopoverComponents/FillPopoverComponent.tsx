@@ -47,23 +47,13 @@ const FillPopoverComponent = ({
   const [columnTitleOption, setColumnTitleOption] = React.useState(
     columnTitleOptions[0]
   );
-  console.log(
-    "🚀 ~ file: FillPopoverComponent.tsx ~ line 50 ~ columnTitleOption",
-    columnTitleOption
-  );
   const [willFillUp, setWillFillUp] = React.useState(false);
   const [upToOption, setUpToOption] = React.useState(upToOptions[0]);
-  console.log(
-    "🚀 ~ file: FillPopoverComponent.tsx ~ line 53 ~ upToOption",
-    upToOption
-  );
+
   const [downToOption, setDownToOption] = React.useState(
     downToOptions[downToOptions.length - 1]
   );
-  console.log(
-    "🚀 ~ file: FillPopoverComponent.tsx ~ line 57 ~ downToOption",
-    downToOption
-  );
+
   const currentValue = currentRow[columnTitleOption?.value as string];
 
   const ColumnSelect = () => (
