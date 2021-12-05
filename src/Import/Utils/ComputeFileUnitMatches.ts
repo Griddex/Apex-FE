@@ -12,14 +12,6 @@ const computeFileUnitMatches = (
   savedMatchObjectAll: TUserMatchObject,
   workflowClass: string
 ) => {
-  console.log(
-    "🚀 ~ file: ComputeFileUnitMatches.ts ~ line 15 ~ chosenAppHeaderNamesWithoutNone",
-    chosenAppHeaderNamesWithoutNone
-  );
-  console.log(
-    "🚀 ~ file: ComputeFileUnitMatches.ts ~ line 15 ~ fileUnitsWithoutNone",
-    fileUnitsWithoutNone
-  );
   const specificSavedMatchObject = savedMatchObjectAll[workflowClass]["units"];
   const specificSavedMatchObjectKeys = Object.keys(specificSavedMatchObject);
 

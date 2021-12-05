@@ -45,10 +45,6 @@ export interface IChartDataPanel<T = ISelectOption> {
 
 const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   selectLabel,
-  selectedOption,
-  titleOptions,
-  handleSelectChange,
-  selectedTitle,
   resultsSelect,
   hasSecondaryComponent,
   secondarySelectComponent,

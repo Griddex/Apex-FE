@@ -341,13 +341,14 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
       const selectedHeader = option && option.label;
       const selectedHeaderType = selectedHeader as THeader;
 
-      const selectedRow = rows[rowSN - 1];
-      rows[rowSN - 1] = {
+      const newRows = [...rows];
+      const selectedRow = newRows[rowSN - 1];
+      newRows[rowSN - 1] = {
         ...selectedRow,
         type: selectedHeaderType,
       };
 
-      setRows(rows);
+      setRows(newRows);
     };
 
     const handleApplicationHeaderChange = (
@@ -374,15 +375,16 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         [fileHeaderDefined]: selectedHeaderOptionIndex,
       }));
 
-      const selectedRow = rows[rowSN - 1];
-      rows[rowSN - 1] = {
+      const newRows = [...rows];
+      const selectedRow = newRows[rowSN - 1];
+      newRows[rowSN - 1] = {
         ...selectedRow,
         applicationHeader: selectedAppHeader,
         match: selectedScore.value as string,
         include: selectedAppHeader === "None" ? false : true,
       };
 
-      setRows(rows);
+      setRows(newRows);
     };
 
     const handleIncludeSwitchChange = (
@@ -475,7 +477,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
 
           const matchObject = { ...prev };
 
-          delete matchObject[workflowClass]["headers"][matchObj.id];
+          delete matchObject[workflowClass]["headers"][matchObj?.id];
 
           return matchObject;
         });
@@ -565,16 +567,14 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 }
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
-                containerHeight={40}
               />
             );
           else
             return (
-              <Select
-                value={valueOption}
-                options={headerOptions}
-                styles={RSStyles}
-                onChange={(value: OnChangeValue<ISelectOption, false>) =>
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={headerOptions}
+                handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
                   handleApplicationHeaderChange(
                     value,
                     row,
@@ -583,13 +583,13 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                   )
                 }
                 menuPortalTarget={document.body}
-                theme={(thm) => getRSTheme(thm, theme)}
+                isSelectOptionType={true}
+                containerHeight={40}
               />
             );
         },
         minWidth: 300,
       },
-
       {
         key: "match",
         name: "MATCH [%]",
@@ -651,12 +651,15 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
     return columns;
   };
 
-  const columns = React.useMemo(
-    () => generateColumns(keyedAppHeaderOptions.current),
-    [JSON.stringify(keyedAppHeaderOptions)]
-  );
+  const typeStr = rows.map((row) => row["type"]);
 
   const chosenAppHeadersWithNone = rows.map((row) => row.applicationHeader);
+
+  const columns = React.useMemo(
+    () => generateColumns(keyedAppHeaderOptions.current),
+    [JSON.stringify(typeStr), JSON.stringify(chosenAppHeadersWithNone)]
+  );
+
   const chosenAppHeadersWithoutNone = (
     chosenAppHeadersWithNone as string[]
   ).filter((h: string) => h.toLowerCase() !== "none");

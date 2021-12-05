@@ -11,7 +11,7 @@ import { ISelectOption } from "../Selects/SelectItemsType";
 import ApexMuiSwitch from "../Switches/ApexMuiSwitch";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   footer: {
     display: "flex",
     flexDirection: "row",
@@ -47,13 +47,63 @@ const FillPopoverComponent = ({
   const [columnTitleOption, setColumnTitleOption] = React.useState(
     columnTitleOptions[0]
   );
+  console.log(
+    "🚀 ~ file: FillPopoverComponent.tsx ~ line 50 ~ columnTitleOption",
+    columnTitleOption
+  );
   const [willFillUp, setWillFillUp] = React.useState(false);
   const [upToOption, setUpToOption] = React.useState(upToOptions[0]);
+  console.log(
+    "🚀 ~ file: FillPopoverComponent.tsx ~ line 53 ~ upToOption",
+    upToOption
+  );
   const [downToOption, setDownToOption] = React.useState(
     downToOptions[downToOptions.length - 1]
   );
-
+  console.log(
+    "🚀 ~ file: FillPopoverComponent.tsx ~ line 57 ~ downToOption",
+    downToOption
+  );
   const currentValue = currentRow[columnTitleOption?.value as string];
+
+  const ColumnSelect = (
+    <ApexSelectRS
+      valueOption={columnTitleOption as ISelectOption}
+      data={columnTitleOptions}
+      handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+        setColumnTitleOption(option as ISelectOption);
+      }}
+      menuPortalTarget={fillPopRef.current as HTMLDivElement}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
+
+  const DownToSelect = (
+    <ApexSelectRS
+      valueOption={downToOption as ISelectOption}
+      data={downToOptions}
+      handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+        setDownToOption(option as ISelectOption);
+      }}
+      menuPortalTarget={fillPopRef.current as HTMLDivElement}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
+
+  const UpToSelect = (
+    <ApexSelectRS
+      valueOption={upToOption as ISelectOption}
+      data={upToOptions}
+      handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+        setUpToOption(option as ISelectOption);
+      }}
+      menuPortalTarget={fillPopRef.current as HTMLDivElement}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
 
   return (
     <div>
@@ -61,18 +111,7 @@ const FillPopoverComponent = ({
         title="Column"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
-        content={
-          <ApexSelectRS
-            valueOption={columnTitleOption as ISelectOption}
-            data={columnTitleOptions}
-            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-              setColumnTitleOption(option as ISelectOption);
-            }}
-            menuPortalTarget={fillPopRef.current as HTMLDivElement}
-            isSelectOptionType={true}
-            containerHeight={40}
-          />
-        }
+        content={ColumnSelect}
       />
       <AnalyticsComp
         title="Current Value"
@@ -114,36 +153,14 @@ const FillPopoverComponent = ({
           title="Down To"
           direction="Vertical"
           containerStyle={{ marginTop: 20 }}
-          content={
-            <ApexSelectRS
-              valueOption={downToOption as ISelectOption}
-              data={downToOptions}
-              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-                setDownToOption(option as ISelectOption);
-              }}
-              menuPortalTarget={fillPopRef.current as HTMLDivElement}
-              isSelectOptionType={true}
-              containerHeight={40}
-            />
-          }
+          content={DownToSelect}
         />
       ) : (
         <AnalyticsComp
           title="Up To"
           direction="Vertical"
           containerStyle={{ marginTop: 20 }}
-          content={
-            <ApexSelectRS
-              valueOption={upToOption as ISelectOption}
-              data={upToOptions}
-              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-                setUpToOption(option as ISelectOption);
-              }}
-              menuPortalTarget={fillPopRef.current as HTMLDivElement}
-              isSelectOptionType={true}
-              containerHeight={40}
-            />
-          }
+          content={UpToSelect}
         />
       )}
       <div className={classes.footer}>

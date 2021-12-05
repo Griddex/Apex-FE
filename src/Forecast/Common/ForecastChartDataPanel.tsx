@@ -15,6 +15,7 @@ import {
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ChartDataPanel from "../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import ForecastTreeView from "./ForecastTreeView";
+import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -135,6 +136,20 @@ const ForecastChartDataPanel = () => {
     dispatch(resetForecastChartsWorkflowsAction());
   };
 
+  const ResultsSelect = () => {
+    return (
+      <ApexSelectRS<IExtendedSelectOption>
+        valueOption={forecastRunOption}
+        data={forecastRunTitleOptions}
+        handleSelect={handleSelectForecastResultsChange}
+        isSelectOptionType={true}
+        menuPortalTarget={document.body}
+        containerWidth={300}
+        containerHeight={40}
+      />
+    );
+  };
+
   return (
     <ChartDataPanel
       selectLabel={"Forecast Results"}
@@ -152,6 +167,7 @@ const ForecastChartDataPanel = () => {
       )}
       hasSecondaryComponent={false}
       selectedTitle={selectedForecastingResultsTitle}
+      resultsSelect={ResultsSelect}
       treeViewComponent={
         forecastRunOption.title === "Select..."
           ? () => (
