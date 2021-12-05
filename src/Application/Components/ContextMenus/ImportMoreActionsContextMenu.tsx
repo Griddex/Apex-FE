@@ -6,7 +6,7 @@ import ImportMoreActionsPopover, {
   TImportMoreActionsData,
 } from "../Popovers/ImportMoreActionsPopover";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   list: {
     padding: 0,
   },
@@ -21,15 +21,18 @@ const ImportMoreActionsContextMenu = ({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
-  const handleClick = (event: React.ChangeEvent<any>) => {
+  const handleClick = React.useCallback((event: React.ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  const importMoreActionsData = data as TImportMoreActionsData;
+  const importMoreActionsData = React.useMemo(
+    () => data as TImportMoreActionsData,
+    []
+  );
 
   return (
     <div

@@ -49,7 +49,7 @@ const ApexSelectRS = <T extends ISelectOption>({
       isSearchable={isSearchable}
       components={components}
       {...rest}
-      closeMenuOnSelect={true}
+      closeMenuOnSelect={false}
     />
   );
 };
