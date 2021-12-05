@@ -711,7 +711,7 @@ export default function CostsAndRevenueManualNAG({
     if (nagDevelopmentRowsFin?.length > 0) {
       dispatch(
         updateEconomicsParameterAction(
-          `${basePath}.costsRevenues.NAG`,
+          `${basePath}.costsRevenues.nagDevelopment`,
           nagDevelopmentRowsFin
         )
       );

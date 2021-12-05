@@ -681,7 +681,7 @@ export default function CostsAndRevenueManualOil({
     if (oilDevelopmentRowsFin?.length > 0) {
       dispatch(
         updateEconomicsParameterAction(
-          `${wkCs}.${wkPs}.costsRevenues.OIL/AG`,
+          `${wkCs}.${wkPs}.costsRevenues.oilDevelopment`,
           oilDevelopmentRowsFin
         )
       );
