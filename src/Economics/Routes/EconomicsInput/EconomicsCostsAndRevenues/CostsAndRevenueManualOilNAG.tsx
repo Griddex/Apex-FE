@@ -782,7 +782,7 @@ export default function CostsAndRevenueManualOilNAG({
     if (oilNAGDevelopmentRowsFin?.length > 0) {
       dispatch(
         updateEconomicsParameterAction(
-          `${basePath}.costsRevenues.OIL + NAG`,
+          `${basePath}.costsRevenues.oilNAGDevelopment`,
           oilNAGDevelopmentRowsFin
         )
       );
