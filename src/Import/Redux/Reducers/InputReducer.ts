@@ -4,6 +4,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_FAILURE,
   GET_TABLEDATABYID_SUCCESS,
+  RESET_INPUTDATA,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
@@ -192,6 +193,18 @@ const inputReducer = (state = InputState, action: IAction) => {
     case GET_TABLEDATABYID_FAILURE: {
       const { errors } = action.payload;
       return { ...state, errors };
+    }
+
+    case RESET_INPUTDATA: {
+      const { reducer } = action.payload;
+      const { inputDataWorkflows } = InputState;
+
+      if (reducer !== "inputReducer") return state;
+
+      return {
+        ...state,
+        inputDataWorkflows,
+      };
     }
 
     case RESET_INPUT: {

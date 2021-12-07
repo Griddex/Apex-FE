@@ -14,6 +14,7 @@ import {
 } from "redux-saga/effects";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
@@ -159,6 +160,7 @@ export function* saveInputDeckSaga(
     });
 
     yield put(workflowResetAction(0, wp, wc));
+    yield put(resetInputDataAction(reducer));
     yield put(fetchStoredInputDeckRequestAction(currentProjectId));
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
     //TODO - reset this in reducer

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-import * as xlsx from "xlsx";
+import { WorkBook, utils } from "xlsx";
 import NavigationButtons from "../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -99,7 +99,7 @@ const VisualyticsExcelWorkflow = ({
   const isStepOptional = useCallback(() => activeStep === 50, [activeStep]);
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
 
-  const [inputWorkbook, setInputWorkbook] = React.useState({} as xlsx.WorkBook);
+  const [inputWorkbook, setInputWorkbook] = React.useState({} as WorkBook);
 
   const WorkflowBannerProps = {
     activeStep,

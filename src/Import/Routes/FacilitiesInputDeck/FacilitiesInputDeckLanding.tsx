@@ -11,6 +11,7 @@ import DialogOneCancelButtons from "../../../Application/Components/DialogButton
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../Application/Components/Visuals/Image";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -281,8 +282,11 @@ const FacilitiesInputDeckLanding = () => {
               >
                 <ModuleCard
                   key={name}
-                  isDispatched={true}
-                  moduleAction={loadWorkflowAction}
+                  isDispatched={false}
+                  moduleAction={() => {
+                    dispatch(resetInputDataAction(reducer));
+                    dispatch(loadWorkflowAction());
+                  }}
                   title={name}
                   description={description}
                   icon={icon}

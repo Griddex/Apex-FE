@@ -7,7 +7,7 @@ import Dropzone, { FileWithPath } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-import * as xlsx from "xlsx";
+import { WorkBook, FullProperties, utils, read } from "xlsx";
 import {
   IOnlyWorkflows,
   TAllWorkflowCategories,
@@ -134,17 +134,17 @@ const UploadFile = ({
           reader.onerror = () => console.log("file reading has failed");
           reader.onload = () => {
             const fileData = new Uint8Array(reader.result as ArrayBuffer);
-            const inputWorkbook = xlsx.read(fileData, {
+            const inputWorkbook = read(fileData, {
               type: "array",
               cellDates: true,
               cellNF: false,
               cellText: false,
-            }) as xlsx.WorkBook;
+            }) as WorkBook;
 
             setInputWorkbook && setInputWorkbook(inputWorkbook);
 
             const { Author: fileAuthor, CreatedDate: fileCreated } =
-              inputWorkbook.Props as xlsx.FullProperties;
+              inputWorkbook.Props as FullProperties;
 
             dispatch(
               importFileInitAction(
@@ -188,7 +188,7 @@ const UploadFile = ({
               const selectedWorksheetDataXLSX =
                 inputWorkbook.Sheets[selectedWorksheetName];
 
-              const selectedWorksheetData = xlsx.utils.sheet_to_json<
+              const selectedWorksheetData = utils.sheet_to_json<
                 Record<string, React.Key>
               >(selectedWorksheetDataXLSX);
 

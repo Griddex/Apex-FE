@@ -19,6 +19,7 @@ import StoredDeck from "../../Images/StoredDeck.svg";
 import { IdType } from "./ForecastInputDeckLandingTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 
 const StoredForecastDecks = React.lazy(() => import("./StoredForecastDecks"));
 const DatabaseWorkflow = React.lazy(
@@ -222,8 +223,11 @@ const ForecastInputDeckLanding = () => {
                 }}
               >
                 <ModuleCard
-                  isDispatched={true}
-                  moduleAction={loadWorkflowAction}
+                  isDispatched={false}
+                  moduleAction={() => {
+                    dispatch(resetInputDataAction(reducer));
+                    dispatch(loadWorkflowAction());
+                  }}
                   title={name}
                   description={description}
                   icon={icon}
