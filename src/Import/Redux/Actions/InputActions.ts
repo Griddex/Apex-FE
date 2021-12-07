@@ -8,6 +8,7 @@ import {
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TApexData } from "../../../Application/Types/ApplicationTypes";
+import { TDevScenarioNames } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { TfinalizationChoice } from "../../Routes/Common/InputLayoutTypes";
 
 export const UPDATE_INPUT = "UPDATE_INPUT";
@@ -206,11 +207,12 @@ export const persistTableRoleNamesAction = (
 export const persistTableDataAction = (
   reducer: ReducersType,
   tableData: Record<string, React.Key>[],
-  workflowProcess: TAllWorkflowProcesses
+  workflowProcess: TAllWorkflowProcesses,
+  currentDevValue?: TDevScenarioNames
 ) => {
   return {
     type: PERSIST_TABLEDATA,
-    payload: { reducer, tableData, workflowProcess },
+    payload: { reducer, tableData, workflowProcess, currentDevValue },
   };
 };
 

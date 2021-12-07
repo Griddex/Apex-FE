@@ -13,6 +13,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
@@ -76,13 +77,23 @@ function* saveCostsRevenuesSaga(
     (state) => state.economicsReducer[wc][wp]
   );
 
+  let costsRevenuesData = costsRevenues;
+  if (wp === "economicsCostsRevenuesDeckExcel") {
+    const keys = Object.keys(costsRevenues);
+
+    costsRevenuesData = keys.reduce((acc, key) => {
+      const rows = costsRevenues[key];
+      return { ...acc, [key]: rows.slice(1) };
+    }, {});
+  }
+
   const data = {
     projectId: currentProjectId,
     forecastId: forecastResultsId,
     title,
     description,
     source: forecastResultsId ? "Apex" : "External",
-    costRevenues: costsRevenues,
+    costRevenues: costsRevenuesData,
     developmentScenarios: Object.keys(costsRevenues),
     forecastScenario: forecastCase,
     matchObject,
@@ -113,6 +124,7 @@ function* saveCostsRevenuesSaga(
       payload: { ...payload, status, success, selectedCostsRevenuesId },
     });
 
+    yield put(resetInputDataAction("economicsReducer"));
     yield put(loadEconomicsWorkflowAction("loadCostsRevenueWorkflow"));
     yield call(forwardTo, "/apex/economics/costsrevenue/approveddeck");
 

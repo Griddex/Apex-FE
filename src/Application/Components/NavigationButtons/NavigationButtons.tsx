@@ -18,11 +18,13 @@ import {
 } from "../../Redux/Actions/WorkflowActions";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
 import {
+  ReducersType,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
 import { INavigationButtonsProp } from "./NavigationButtonTypes";
 import { getDisabledStyle } from "../../Styles/disabledStyles";
+import { resetInputDataAction } from "../../Redux/Actions/ApplicationActions";
 
 const useStyles = makeStyles((theme) => ({
   button: (props: INavigationButtonsProp) => ({
@@ -63,12 +65,14 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
     workflowProps,
     workflowProcess,
     workflowCategory,
+    reducer,
   } = props;
 
   const classes = useStyles(props);
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  const reducerDefined = reducer as ReducersType;
   const wp = workflowProcess as TAllWorkflowProcesses;
   const wc = workflowCategory as TAllWorkflowCategories;
 
@@ -90,8 +94,11 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
               `Do you want to reset this workflow?. 
               You will lose all data up to current step.`,
               true,
-              true,
-              () => workflowResetAction(0, wp, wc),
+              false,
+              () => {
+                dispatch(workflowResetAction(0, wp, wc));
+                dispatch(resetInputDataAction(reducerDefined));
+              },
               "Reset",
               "reset"
             );

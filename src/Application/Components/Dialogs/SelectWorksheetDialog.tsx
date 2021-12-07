@@ -19,7 +19,7 @@ import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import * as xlsx from "xlsx";
+import { WorkBook, utils } from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
@@ -119,14 +119,14 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
     );
   };
 
-  const persistSelectedWorksheet = (workbook: xlsx.WorkBook) => {
-    const selectedWorksheetDataXLSX = (workbook as xlsx.WorkBook).Sheets[
+  const persistSelectedWorksheet = (workbook: WorkBook) => {
+    const selectedWorksheetDataXLSX = (workbook as WorkBook).Sheets[
       selectedWorksheetName
     ];
 
-    let selectedWorksheetData = xlsx.utils.sheet_to_json<
-      Record<string, React.Key>
-    >(selectedWorksheetDataXLSX);
+    let selectedWorksheetData = utils.sheet_to_json<Record<string, React.Key>>(
+      selectedWorksheetDataXLSX
+    );
 
     if (selectedWorksheetData.length === 0) {
       enqueueSnackbar("Empty worksheet!", { persist: false, variant: "error" });
@@ -178,7 +178,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
     dispatch(hideDialogAction());
   };
 
-  const selectWorksheetDialogActions = (inputWorkbook: xlsx.WorkBook) => {
+  const selectWorksheetDialogActions = (inputWorkbook: WorkBook) => {
     const buttonsData: ButtonProps[] = [
       {
         title: "Cancel",

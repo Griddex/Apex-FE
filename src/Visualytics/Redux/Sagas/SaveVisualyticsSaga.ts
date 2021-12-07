@@ -14,6 +14,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
@@ -57,6 +58,7 @@ function* saveVisualyticsSaga(
 
   const { payload } = action;
   const {
+    reducer,
     workflowProcess: wp,
     titleDesc: { title, description },
   } = payload;
@@ -99,6 +101,7 @@ function* saveVisualyticsSaga(
     });
 
     yield put(workflowResetAction(0, wp, wc));
+    yield put(resetInputDataAction(reducer));
     yield put(fetchStoredVisualyticsDataRequestAction(currentProjectId));
     yield put(showDialogAction(successDialogParameters()));
   } catch (errors) {

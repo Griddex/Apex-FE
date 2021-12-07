@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-import * as xlsx from "xlsx";
+import { WorkBook, utils } from "xlsx";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
@@ -160,13 +160,11 @@ const SelectSheet = ({
 
     setWorksheetName(sWN);
 
-    const selectedWorksheetDataXLSX = (inputWorkbook as xlsx.WorkBook).Sheets[
-      sWN
-    ];
+    const selectedWorksheetDataXLSX = (inputWorkbook as WorkBook).Sheets[sWN];
 
-    let selectedWorksheetData = xlsx.utils.sheet_to_json<
-      Record<string, React.Key>
-    >(selectedWorksheetDataXLSX);
+    let selectedWorksheetData = utils.sheet_to_json<Record<string, React.Key>>(
+      selectedWorksheetDataXLSX
+    );
 
     const tableDataTemp = selectedWorksheetData.map((row: any, i: number) => {
       if (i > 0) {

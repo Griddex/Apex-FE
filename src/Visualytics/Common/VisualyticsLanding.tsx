@@ -11,7 +11,10 @@ import DialogOneCancelButtons from "../../Application/Components/DialogButtons/D
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
 import { TAllWorkflowProcesses } from "../../Application/Components/Workflows/WorkflowTypes";
-import { subNavbarSetMenuAction } from "../../Application/Redux/Actions/ApplicationActions";
+import {
+  resetInputDataAction,
+  subNavbarSetMenuAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -282,6 +285,8 @@ const VisualyticsLanding = () => {
                   key={name}
                   isDispatched={false}
                   moduleAction={() => {
+                    dispatch(resetInputDataAction(reducer));
+
                     dispatch(
                       loadVisualyticsWorkflowAction(
                         "loadVisualyticsWorkflow",

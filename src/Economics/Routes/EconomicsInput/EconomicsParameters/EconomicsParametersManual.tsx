@@ -23,6 +23,7 @@ import {
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   IAllWorkflows,
+  ReducersType,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -35,6 +36,7 @@ import isEqual from "react-fast-compare";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
+import { resetInputDataAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -68,10 +70,13 @@ const unitOptionsByVariableNameSelector = createDeepEqualSelector(
 );
 
 const EconomicsParametersManual = ({
+  reducer,
   wrkflwPrcss,
   wrkflwCtgry,
   finalAction,
 }: IAllWorkflows) => {
+  const reducerDefined = reducer as ReducersType;
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -379,7 +384,10 @@ const EconomicsParametersManual = ({
                 You will lose all data up to current step.`,
                 true,
                 false,
-                () => workflowResetAction(0, wp, wc),
+                () => {
+                  dispatch(workflowResetAction(0, wp, wc));
+                  dispatch(resetInputDataAction(reducerDefined));
+                },
                 "Reset",
                 "reset"
               );
