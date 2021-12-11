@@ -111,7 +111,7 @@ function* saveEconomicsParametersSaga(
 
   const commercialTechnical = pick(economicsParametersObj, [
     "yearDiscounting",
-    "percentageDiscount",
+    "discountRate",
     "firstOilYear",
     "oilPrice",
     "gasPrice",
