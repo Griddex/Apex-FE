@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import clsx from "clsx";
 import React from "react";
@@ -73,6 +73,7 @@ const showSubNavbarSelector = createDeepEqualSelector(
 );
 
 const EconomicsLayout = () => {
+  const theme = useTheme();
   const classes = useStyles();
   const { path, url } = useRouteMatch();
   const dispatch = useDispatch();
@@ -105,7 +106,10 @@ const EconomicsLayout = () => {
                 }}
                 startIcon={startIcon}
                 endIcon={endIcon}
-                style={styles}
+                style={{
+                  ...styles,
+                  borderRight: `1px solid ${theme.palette.grey["500"]}`,
+                }}
               >
                 <Typography variant="subtitle2">{name}</Typography>
               </Button>
@@ -113,17 +117,6 @@ const EconomicsLayout = () => {
           }}
         </EconomicsInputButtonsMenu>
       ),
-    },
-    {
-      name: "Economic Analyses",
-      route: `${url}/analyseslanding`,
-      startIcon: <WidgetsOutlinedIcon fontSize="medium" />,
-      hasWrapper: false,
-      component: () => <div></div>,
-      action: () =>
-        dispatch(
-          updateEconomicsParameterAction("loadEconomicsAnalysesWorkflow", false)
-        ),
     },
     {
       name: "Parameter Sensitivities",
@@ -137,6 +130,17 @@ const EconomicsLayout = () => {
             "loadEconomicsSensitivitiesWorkflow",
             false
           )
+        ),
+    },
+    {
+      name: "Economic Analyses",
+      route: `${url}/analyseslanding`,
+      startIcon: <WidgetsOutlinedIcon fontSize="medium" />,
+      hasWrapper: false,
+      component: () => <div></div>,
+      action: () =>
+        dispatch(
+          updateEconomicsParameterAction("loadEconomicsAnalysesWorkflow", false)
         ),
     },
     {

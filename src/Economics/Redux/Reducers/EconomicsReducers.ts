@@ -65,6 +65,7 @@ import {
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   UPDATE_ECONOMICSPARAMETER,
   UPDATE_ECONOMICSPARAMETERS,
+  UPDATE_BY_PARAMETERSTABLE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -613,6 +614,15 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         inputDataWorkflows,
       };
     }
+
+    //     case UPDATE_BY_PARAMETERSTABLE: {
+    //       const {rowIndex, variableName,parametersTable } = action.payload;
+    // const path = `inputDataWorkflows.economicsParametersDeckManual.tableData.${}`
+
+    //       const updatedState = set(state, path, value);
+
+    //       return updatedState;
+    //     }
 
     case RESET_ECONOMICS: {
       return EconomicsState;

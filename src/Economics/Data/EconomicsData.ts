@@ -21,7 +21,7 @@ export const costsRevenueHeaders = [
     variableTitle: "Tangible Drilling Cost",
   },
   {
-    variableName: "intangibleDrillingCost",
+    variableName: "intangibleDrilling",
     variableTitle: "Intangible Drilling Cost",
   },
   { variableName: "taxDepreciation", variableTitle: "Tax Depreciation" },
@@ -394,4 +394,14 @@ export const nagDevelopmentNames = [
   "tariffs",
   "gasProcTraiffs",
   "taxDepreciation",
+];
+
+export const productionTerrainOptions = [
+  { value: "onshore", label: "Onshore" },
+  { value: "shallowWater", label: "Shallow Water" },
+];
+
+export const gasDevelopmentConceptOptions = [
+  { value: "monetize", label: "Monetize" },
+  { value: "flare", label: "Flare" },
 ];

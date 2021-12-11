@@ -12,6 +12,7 @@ import {
 import { Datum } from "@nivo/legends";
 import { PointTooltip } from "@nivo/line";
 import { PointData } from "@nivo/radar";
+import { StreamLayerData } from "@nivo/stream";
 import {
   IIdNameTitlePathOption,
   ISelectOption,
@@ -214,7 +215,7 @@ export interface IChart<RawDatum = Record<string, string | number>, T = Datum> {
   layout: "horizontal" | "vertical";
   innerPadding: number;
   enableLabel: boolean;
-  label: string;
+  label: any;
   labelSkipWidth: number;
   labelSkipHeight: number;
   labelTextColor: any;

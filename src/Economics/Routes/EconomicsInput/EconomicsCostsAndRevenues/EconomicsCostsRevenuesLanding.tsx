@@ -280,27 +280,6 @@ const EconomicsCostsRevenuesLanding = () => {
     []
   );
 
-  //TODO Remove - not really needed here
-  const costsRevenueManualApexWorkflowFinalAction = React.useCallback(
-    (wp: TAllWorkflowProcesses) => {
-      const dialogParameters: DialogStuff = {
-        name: "Manage_CostsRevenues_Dialog",
-        title: "Manage Costs & Revenues",
-        type: "finalizeCostsRevenueApexWorkDialog",
-        show: true,
-        exclusive: false,
-        maxWidth: "sm",
-        iconType: "select",
-        workflowProcess: wp,
-        workflowCategory: wc,
-        actionsList: (flag: boolean) => DialogCancelButton(unloadDialogsAction),
-      };
-
-      dispatch(showDialogAction(dialogParameters));
-    },
-    []
-  );
-
   const storedDataFinalAction = React.useCallback(() => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",

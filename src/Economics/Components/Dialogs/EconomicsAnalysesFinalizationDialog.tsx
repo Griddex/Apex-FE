@@ -6,9 +6,9 @@ import DialogContent from "../../../Application/Components/DialogContents/Dialog
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogTitle from "../../../Application/Components/DialogTitles/DialogTitle";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import CostsRevenueApexWorkFinalization from "../../Routes/EconomicsAnalyses/CostsRevenueApexWorkFinalization";
+import EconomicsAnalysesFinalization from "../../Routes/EconomicsAnalyses/EconomicsAnalysesFinalization";
 
-const FinalizeCostsRevenueApexWorkDialog: React.FC<DialogStuff> = (props) => {
+const EconomicsAnalysesFinalizationDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList } = props;
 
@@ -29,11 +29,11 @@ const FinalizeCostsRevenueApexWorkDialog: React.FC<DialogStuff> = (props) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <CostsRevenueApexWorkFinalization workflowProcess="economicsCostsRevenuesDeckApexForecast" />
+        <EconomicsAnalysesFinalization workflowProcess="economicsCostsRevenuesDeckApexForecast" />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>
   );
 };
 
-export default FinalizeCostsRevenueApexWorkDialog;
+export default EconomicsAnalysesFinalizationDialog;

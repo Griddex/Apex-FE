@@ -17,6 +17,7 @@ import { updateEconomicsParameterAction } from "../../../Redux/Actions/Economics
 import { TParametersId } from "../EconomicsAnalysesTypes";
 import { IParameterSensitivity } from "./EconomicsParametersSensitivitiesTypes";
 import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 
 const initialRows = [
   {
@@ -195,24 +196,28 @@ const ParameterSensitivity = ({
     staticTableHeight: 77,
   });
 
+  const TargetParametersSelect = () => {
+    return (
+      <ApexSelectRS
+        valueOption={valueOption}
+        data={targetParameterOptions}
+        handleSelect={(value: OnChangeValue<ISelectOption, false>) => {
+          handleSelectTargetParameterChange(value, parId);
+        }}
+        menuPortalTarget={sensitivityRef.current as HTMLDivElement}
+        isSelectOptionType={true}
+        containerHeight={40}
+      />
+    );
+  };
+
   return (
     <ApexFlexContainer key={parIndex} flexDirection="column">
       <AnalyticsComp
         title={parId}
         direction="Horizontal"
         contentStyle={{ width: 300 }}
-        content={
-          <Select<ISelectOption, false>
-            value={valueOption}
-            options={targetParameterOptions}
-            styles={RSStyles}
-            onChange={(value: OnChangeValue<ISelectOption, false>) => {
-              handleSelectTargetParameterChange(value, parId);
-            }}
-            menuPortalTarget={sensitivityRef.current as HTMLDivElement}
-            theme={(thm) => getRSTheme(thm, theme)}
-          />
-        }
+        content={<TargetParametersSelect />}
       />
 
       {/*width chosen to fit properly*/}

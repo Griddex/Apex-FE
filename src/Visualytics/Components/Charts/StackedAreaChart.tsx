@@ -48,8 +48,10 @@ const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
   (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =
     renderTick(bottomAxisValues);
   commonChartPropsDefined["keys"] = keys;
-  commonChartPropsDefined["valueFormat"] = (v) =>
-    `${Number(v).toLocaleString("ru-RU", { maximumFractionDigits: 2 })} ₽`;
+  commonChartPropsDefined["valueFormat"] = (v) => Number(v).toFixed(2);
+
+  //string  | ((datum: Omit<StreamLayerData, "color" | "data" | "label">) => string | number)
+  commonChartPropsDefined["label"] = (d: any) => d.id as string;
 
   return <ResponsiveStream data={chartData} {...commonChartPropsDefined} />;
 };

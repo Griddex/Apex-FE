@@ -73,6 +73,7 @@
     "lodash.zipwith": "^4.2.0",
     "mathjs": "^10.0.0",
     "notistack": "^2.0.2",
+    "number-string": "^2.0.1",
     "object-scan": "^17.1.0",
     "randomcolor": "^0.6.2",
     "react": "^17.0.2",
