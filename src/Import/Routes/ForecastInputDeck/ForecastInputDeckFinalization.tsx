@@ -6,7 +6,6 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import MiniCard, {
   IMiniCardProps,
@@ -23,7 +22,6 @@ import {
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { updateNetworkParameterAction } from "../../../Network/Redux/Actions/NetworkActions";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { TfinalizationChoice } from "../Common/InputLayoutTypes";
 import { TAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";
@@ -57,7 +55,6 @@ const ForecastInputDeckFinalization = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
   const reducer = "inputReducer";

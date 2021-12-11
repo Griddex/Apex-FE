@@ -6,7 +6,7 @@ import omit from "lodash.omit";
 import React from "react";
 import { Column, TextEditor } from "react-data-griddex";
 import isEqual from "react-fast-compare";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
@@ -19,16 +19,17 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   ISize,
-  TRawTable,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { TVariableNameTitleData } from "../../../Application/Types/ApplicationTypes";
 import swapVariableNameTitleForISelectOption from "../../../Application/Utils/SwapVariableNameTitleForISelectOption";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IEconomicsParametersTable } from "./IParametersType";
 
 const useStyles = makeStyles(() => ({
@@ -43,82 +44,69 @@ const useStyles = makeStyles(() => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
+const costsRevenuesAppHeadersSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.costsRevenuesAppHeaders,
+  (reducer) => reducer
+);
+
 const EconomicsParametersTable = ({
+  isRoyalty,
+  toggleSwitch,
+  setToggleSwitch,
+  columnsObjKeys,
   row,
-  additionalColumnsObj,
+  rows,
+  setRows,
+  genericCustomAddtnlColumnsObj,
 }: IEconomicsParametersTable) => {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const rootRef = React.useRef<HTMLDivElement>(null);
-  const reducer = "economicsReducer";
 
-  const economicsPartialPropsSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer],
-    (reducer) => reducer
+  const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
+
+  const dataOptions = React.useRef(
+    swapVariableNameTitleForISelectOption(
+      costsRevenuesAppHeaders["oilNAGDevelopment"] as TVariableNameTitleData
+    )
   );
 
-  const { costsRevenuesAppHeaders, economicsParametersAppHeaders } =
-    useSelector(economicsPartialPropsSelector);
-  console.log(
-    "🚀 ~ file: EconomicsParametersTable.tsx ~ line 61 ~ costsRevenuesAppHeaders",
-    costsRevenuesAppHeaders
+  const [basedOnOption, setBasedOnOption] = React.useState<ISelectOption>(
+    dataOptions.current[0]
   );
 
-  const additionalColumnsObjKeys = Object.keys(additionalColumnsObj);
-
-  const createInitialRows = React.useMemo(
-    () =>
-      (numberOfRows = 3): TRawTable => {
-        const fakeRows = [];
-        for (let i = 0; i < numberOfRows; i++) {
-          const fakeRow = {
-            sn: i + 1,
-            from: "",
-            to: "",
-            ...additionalColumnsObjKeys.reduce(
-              (acc, k) => ({ ...acc, [k]: "" }),
-              {}
-            ),
-          };
-
-          fakeRows.push(fakeRow);
-        }
-        return fakeRows;
-      },
-    []
-  );
-
-  const initialRows = createInitialRows(3);
-  const [rows, setRows] = React.useState(initialRows);
-
-  const additionalColumns = additionalColumnsObjKeys.map((k) => ({
+  const additionalColumns = columnsObjKeys.map((k) => ({
     key: k,
-    name: additionalColumnsObj[k],
+    name: genericCustomAddtnlColumnsObj[k],
     editable: true,
     editor: TextEditor,
     resizable: true,
   }));
 
-  const columns: Column<IRawRow>[] = [
-    { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
-    {
-      key: "from",
-      name: "FROM",
-      editable: true,
-      editor: TextEditor,
-      resizable: true,
-      width: 100,
-    },
-    {
-      key: "to",
-      name: "TO",
-      editable: true,
-      editor: TextEditor,
-      resizable: true,
-      width: 100,
-    },
-    ...additionalColumns,
-  ];
+  const columns: Column<IRawRow>[] = React.useMemo(
+    () => [
+      { key: "sn", name: "SN", editable: false, resizable: true, width: 70 },
+      {
+        key: "from",
+        name: "FROM",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        width: 100,
+      },
+      {
+        key: "to",
+        name: "TO",
+        editable: true,
+        editor: TextEditor,
+        resizable: true,
+        width: 100,
+      },
+      ...additionalColumns,
+    ],
+    [toggleSwitch]
+  );
 
   const exportColumns = columns
     .filter(
@@ -143,7 +131,22 @@ const EconomicsParametersTable = ({
   const tableButtons: ITableButtonsProps = {
     showExtraButtons: true,
     extraButtons: () => (
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", height: 28 }}>
+        {isRoyalty && (
+          <ApexMuiSwitch
+            name="genericCustomSwitch"
+            handleChange={(event) => {
+              const { checked } = event.target;
+              setToggleSwitch(checked);
+            }}
+            checked={toggleSwitch}
+            checkedColor={theme.palette.success.main}
+            notCheckedColor={theme.palette.common.white}
+            hasLabels={true}
+            leftLabel="Generic"
+            rightLabel="Custom"
+          />
+        )}
         <Tooltip
           key={"addRowToolTip"}
           title={"Add Row"}
@@ -156,12 +159,16 @@ const EconomicsParametersTable = ({
               backgroundColor: theme.palette.primary.light,
               border: `1px solid ${theme.palette.primary.main}`,
               borderRadius: 2,
+              marginLeft: 4,
             }}
             onClick={() => {
               const lastSn = rows.length;
               const emptyRow = Object.keys(omit(rows[0], "sn")).reduce(
-                (acc, v) => ({ ...acc, [v]: "" }),
-                {}
+                (acc, v) => {
+                  acc[v] = "";
+                  return acc;
+                },
+                {} as Record<string, string>
               );
               const newRows = [...rows, { sn: lastSn + 1, ...emptyRow }];
 
@@ -202,24 +209,6 @@ const EconomicsParametersTable = ({
     ),
   };
 
-  const dataOptions = swapVariableNameTitleForISelectOption(
-    costsRevenuesAppHeaders["oilNAGDevelopment"] as TVariableNameTitleData
-  );
-  const valueOption = dataOptions[0];
-
-  const handleBasedOnVariableChange = (
-    value: OnChangeValue<ISelectOption, false>,
-    headerName: string
-  ) => {
-    const selectedValue = value && value.label;
-    const selectedAppUnit = selectedValue as string;
-
-    // setAppHeaderChosenAppUnitObj((prev) => ({
-    //   ...prev,
-    //   [headerName]: selectedAppUnit,
-    // }));
-  };
-
   const getApexGridProps = (size: ISize) => ({
     columns: columns,
     rows: rows,
@@ -233,16 +222,25 @@ const EconomicsParametersTable = ({
 
   const BaseVariable = () => (
     <ApexSelectRS
-      valueOption={valueOption}
-      data={dataOptions}
-      handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
-        handleBasedOnVariableChange(value, "oilRate")
+      valueOption={basedOnOption}
+      data={dataOptions.current}
+      handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+        setBasedOnOption(option as ISelectOption)
       }
       menuPortalTarget={rootRef.current as HTMLDivElement}
       isSelectOptionType={true}
       containerHeight={40}
     />
   );
+
+  React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        `inputDataWorkflows.economicsParametersDeckManual.basedOnVariables.${row["parameterName"]}`,
+        basedOnOption.value
+      )
+    );
+  }, [basedOnOption.value]);
 
   return (
     <ApexFlexContainer
@@ -253,7 +251,7 @@ const EconomicsParametersTable = ({
       <ApexFlexContainer
         flexDirection="row"
         justifyContent="space-between"
-        alignItems="center"
+        alignItems="flex-start"
         height={60}
       >
         <AnalyticsText

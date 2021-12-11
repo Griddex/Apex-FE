@@ -11,6 +11,7 @@ import DialogOneCancelButtons from "../../../../Application/Components/DialogBut
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { resetInputDataAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -320,12 +321,16 @@ const EconomicsParametersLanding = () => {
               >
                 <ModuleCard
                   key={name}
-                  isDispatched={true}
-                  moduleAction={() =>
-                    loadEconomicsWorkflowAction(
-                      "loadEconomicsParametersWorkflow"
-                    )
-                  }
+                  isDispatched={false}
+                  moduleAction={() => {
+                    dispatch(resetInputDataAction(reducer));
+
+                    dispatch(
+                      loadEconomicsWorkflowAction(
+                        "loadEconomicsParametersWorkflow"
+                      )
+                    );
+                  }}
                   title={name}
                   description={description}
                   icon={icon}

@@ -73,6 +73,7 @@
     "lodash.zipwith": "^4.2.0",
     "mathjs": "^10.0.0",
     "notistack": "^2.0.2",
+    "number-string": "^2.0.1",
     "object-scan": "^17.1.0",
     "randomcolor": "^0.6.2",
     "react": "^17.0.2",
@@ -114,6 +115,7 @@
     "redux-saga": "^1.1.3",
     "reselect": "^4.0.0",
     "resize-observer-polyfill": "^1.5.1",
+    "source-map-explorer": "^2.5.2",
     "string-similarity": "^4.0.4",
     "tslib": "^2.3.1",
     "typescript": "^4.3.5",
@@ -123,6 +125,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -188,6 +191,7 @@
     "babel-eslint": "^10.1.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "cra-bundle-analyzer": "^0.1.0",
     "cypress": "^9.1.0",
     "eslint": "^7.11.0",
     "eslint-loader": "^4.0.2",

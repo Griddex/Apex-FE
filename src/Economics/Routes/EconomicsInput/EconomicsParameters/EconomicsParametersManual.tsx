@@ -1,12 +1,13 @@
-import { ClickAwayListener } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { Column, TextEditor } from "react-data-griddex";
+import { EditorProps, TextEditor } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -15,6 +16,7 @@ import ExcelExportTable, {
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
   ISize,
@@ -23,17 +25,20 @@ import {
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   IAllWorkflows,
+  ReducersType,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { resetInputDataAction } from "../../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
+import {
+  gasDevelopmentConceptOptions,
+  productionTerrainOptions,
+} from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -68,10 +73,13 @@ const unitOptionsByVariableNameSelector = createDeepEqualSelector(
 );
 
 const EconomicsParametersManual = ({
+  reducer,
   wrkflwPrcss,
   wrkflwCtgry,
   finalAction,
 }: IAllWorkflows) => {
+  const reducerDefined = reducer as ReducersType;
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -111,7 +119,12 @@ const EconomicsParametersManual = ({
         parameter: variableTitle,
         parameterName: variableName,
         type: "Single",
-        value: "",
+        value:
+          variableName === "prodTerrain"
+            ? "onshore"
+            : variableName === "gasDevConcept"
+            ? "monetize"
+            : "",
         unit: unitOptions ? unitOptions[0].label : "unitless",
         remark: "",
       };
@@ -166,6 +179,40 @@ const EconomicsParametersManual = ({
     setRows(newRows);
   };
 
+  const handleValueChange = (
+    row: IRawRow,
+    value: OnChangeValue<ISelectOption, false>
+  ) => {
+    const selectedValue = value && value.label;
+    const selectedValueFinal = selectedValue as string;
+
+    const selectedRowSN = row.sn as number;
+    const selectedRow = rows[selectedRowSN - 1];
+
+    const newRows = [...rows];
+    newRows[selectedRowSN - 1] = {
+      ...selectedRow,
+      value: selectedValueFinal,
+    };
+
+    setRows(newRows);
+  };
+
+  const genericAddtnlColumnsObj = React.useMemo(
+    () => ({
+      value: "VALUE",
+    }),
+    []
+  );
+
+  const customAddtnlColumnsObj = React.useMemo(
+    () => ({
+      govtRoyRate: "GOVT. ROYALTY RATE",
+      ovrrToHeadFarmor: "OVRR TO HEAD FARMOR",
+    }),
+    []
+  );
+
   const typeString = rows.map((row) => row.type).join();
   const unitString = rows.map((row) => row.unit).join();
 
@@ -186,9 +233,14 @@ const EconomicsParametersManual = ({
         resizable: true,
         formatter: ({ row }: any) => {
           const type = row.type as string;
+          const parameterName = row.parameterName as string;
+
           const valueOption = typeOptions.filter(
             (opt) => opt.value === type
           )[0];
+
+          if (["prodTerrain", "gasDevConcept"].includes(parameterName))
+            return <></>;
 
           return (
             <ApexSelectRS
@@ -208,26 +260,74 @@ const EconomicsParametersManual = ({
         key: "value",
         name: "VALUE*",
         editable: true,
-        editor: TextEditor,
+        editor: (props: EditorProps<IRawRow>) => {
+          const { row } = props;
+          if (
+            ["prodTerrain", "gasDevConcept"].includes(
+              row.parameterName as string
+            )
+          )
+            return <div></div>;
+          else return <TextEditor {...props} />;
+        },
         resizable: true,
         formatter: ({ row }: any) => {
           const value = row.value as string;
           const type = row.type as string;
+          const parameterName = row.parameterName as string;
+
+          if (parameterName === "prodTerrain") {
+            const valueOption = productionTerrainOptions.filter(
+              (opt) => opt.value === value
+            )[0];
+
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={productionTerrainOptions}
+                handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+                  handleValueChange(row, option)
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          }
+
+          if (parameterName === "gasDevConcept") {
+            const valueOption = gasDevelopmentConceptOptions.filter(
+              (opt) => opt.value === value
+            )[0];
+
+            return (
+              <ApexSelectRS
+                valueOption={valueOption}
+                data={gasDevelopmentConceptOptions}
+                handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+                  handleValueChange(row, option)
+                }
+                menuPortalTarget={document.body}
+                isSelectOptionType={true}
+              />
+            );
+          }
 
           if (type === "Table")
             return (
               <EconomicsParametersValue
                 valueTitle="Table"
-                row={row}
-                additionalColumnsObj={{ value: "VALUE" }}
+                row={React.useMemo(() => row, [])}
+                genericAddtnlColumnsObj={genericAddtnlColumnsObj}
+                customAddtnlColumnsObj={customAddtnlColumnsObj}
               />
             );
           else if (type === "Equation")
             return (
               <EconomicsParametersValue
                 valueTitle="Equation"
-                row={row}
-                additionalColumnsObj={{ value: "VALUE" }}
+                row={React.useMemo(() => row, [])}
+                genericAddtnlColumnsObj={genericAddtnlColumnsObj}
+                customAddtnlColumnsObj={customAddtnlColumnsObj}
               />
             );
           else return <ApexFlexContainer>{value}</ApexFlexContainer>;
@@ -241,7 +341,6 @@ const EconomicsParametersManual = ({
         resizable: true,
         formatter: ({ row }: any) => {
           const unit = row.unit as string;
-
           const parameter = row.parameter as string;
 
           let nameTitleObj = {} as any;
@@ -379,7 +478,10 @@ const EconomicsParametersManual = ({
                 You will lose all data up to current step.`,
                 true,
                 false,
-                () => workflowResetAction(0, wp, wc),
+                () => {
+                  dispatch(workflowResetAction(0, wp, wc));
+                  dispatch(resetInputDataAction(reducerDefined));
+                },
                 "Reset",
                 "reset"
               );

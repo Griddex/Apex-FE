@@ -15,6 +15,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
@@ -185,6 +186,7 @@ function* saveEconomicsParametersSaga(
       payload: { ...payload, status, success, selectedEconomicsParametersId },
     });
 
+    yield put(resetInputDataAction("economicsReducer"));
     yield put(loadEconomicsWorkflowAction("loadCostsRevenueWorkflow"));
     yield call(forwardTo, "/apex/economics/parameters/approveddeck");
 

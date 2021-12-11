@@ -269,108 +269,6 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
-  const saveEconomicsResultsAction = () => {
-    const dialogParameters: DialogStuff = {
-      name: "Save_Economics_Results_Dialog",
-      title: "Save Economics Results",
-      type: "saveEconomicsResultsDialog",
-      show: true,
-      exclusive: true,
-      maxWidth: "sm",
-      iconType: "save",
-      actionsList: (titleDesc?: Record<string, string>, flag?: boolean) =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, false],
-          [
-            unloadDialogsAction,
-            () =>
-              saveEconomicsResultsConfirmation(
-                titleDesc as Record<string, string>
-              ),
-          ],
-          "Save",
-          "saveOutlined",
-          flag,
-          "None"
-        ),
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
-
-  const runEconomicsAnalysisConfirmation = (
-    analysisName: TEconomicsAnalysesNames,
-    analysisTitle: TEconomicsAnalysesTitles
-  ) => {
-    const confirmationDialogParameters: DialogStuff = {
-      name: `Calculate_${analysisTitle}_Confirmation`,
-      title: `Calculate ${analysisTitle} Confirmation`,
-      type: "textDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "xs",
-      dialogText: `Do you want to calculate ${analysisTitle} with the current parameters?`,
-      iconType: "confirmation",
-      actionsList: () =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, true],
-          [
-            unloadDialogsAction,
-            () =>
-              runEconomicsAnalysisRequestAction(
-                wp,
-                analysisName,
-                analysisTitle
-              ),
-          ],
-          "Calculate",
-          "viewDayTwoTone",
-          false,
-          "All"
-        ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-    };
-
-    dispatch(showDialogAction(confirmationDialogParameters));
-  };
-
-  const saveEconomicsResultsConfirmation = (
-    titleDesc: Record<string, string>
-  ) => {
-    const dialogParameters: DialogStuff = {
-      name: "Save_Economics_Results_Dialog",
-      title: "Save Economics Results Dialog",
-      type: "textDialog",
-      show: true,
-      exclusive: false,
-      maxWidth: "xs",
-      dialogText: "Do you want to save the current economics results?",
-      iconType: "confirmation",
-      actionsList: () =>
-        DialogOneCancelButtons(
-          [true, true],
-          [true, true],
-          [
-            unloadDialogsAction,
-            () =>
-              saveEconomicsResultsRequestAction(
-                titleDesc as Record<string, string>
-              ),
-          ],
-          "Save",
-          "saveOutlined",
-          false,
-          "All"
-        ),
-      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
-      reducer,
-    };
-
-    dispatch(showDialogAction(dialogParameters));
-  };
-
   React.useEffect(() => {
     const path = `${wc}.${analysisName}.name`;
 
@@ -454,25 +352,6 @@ const EconomicsAnalysis = ({
           />
         )}
       </div>
-
-      <ApexFlexContainer width={310} height={40} justifyContent="space-between">
-        <Button
-          className={classes.primaryButton}
-          startIcon={<SaveOutlinedIcon />}
-          onClick={saveEconomicsResultsAction}
-        >
-          Save Results
-        </Button>
-        <Button
-          className={classes.primaryButton}
-          startIcon={<ViewDayTwoToneIcon />}
-          onClick={() =>
-            runEconomicsAnalysisConfirmation(analysisName, analysisTitle)
-          }
-        >
-          Calculate
-        </Button>
-      </ApexFlexContainer>
     </ApexFlexContainer>
   );
 };

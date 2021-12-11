@@ -43,6 +43,7 @@ export const initialEconomicsWorkflowState = {
   columnNameTableData: [],
   inputDeckData: [],
   selectedRow: null,
+  basedOnVariables: {},
 
   chosenAppHeadersWithNone: [],
   chosenAppHeadersWithoutNone: [],

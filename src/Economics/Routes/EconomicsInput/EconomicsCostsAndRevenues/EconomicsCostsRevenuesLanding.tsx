@@ -12,7 +12,10 @@ import DialogOneCancelButtons from "../../../../Application/Components/DialogBut
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../../../Application/Components/Visuals/Image";
 import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
-import { subNavbarSetMenuAction } from "../../../../Application/Redux/Actions/ApplicationActions";
+import {
+  resetInputDataAction,
+  subNavbarSetMenuAction,
+} from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -277,27 +280,6 @@ const EconomicsCostsRevenuesLanding = () => {
     []
   );
 
-  //TODO Remove - not really needed here
-  const costsRevenueManualApexWorkflowFinalAction = React.useCallback(
-    (wp: TAllWorkflowProcesses) => {
-      const dialogParameters: DialogStuff = {
-        name: "Manage_CostsRevenues_Dialog",
-        title: "Manage Costs & Revenues",
-        type: "finalizeCostsRevenueApexWorkDialog",
-        show: true,
-        exclusive: false,
-        maxWidth: "sm",
-        iconType: "select",
-        workflowProcess: wp,
-        workflowCategory: wc,
-        actionsList: (flag: boolean) => DialogCancelButton(unloadDialogsAction),
-      };
-
-      dispatch(showDialogAction(dialogParameters));
-    },
-    []
-  );
-
   const storedDataFinalAction = React.useCallback(() => {
     const dialogParameters: DialogStuff = {
       name: "Manage_Deck_Dialog",
@@ -426,6 +408,8 @@ const EconomicsCostsRevenuesLanding = () => {
                 <ModuleCard
                   isDispatched={false}
                   moduleAction={() => {
+                    dispatch(resetInputDataAction(reducer));
+
                     dispatch(
                       loadEconomicsWorkflowAction("loadCostsRevenueWorkflow")
                     );

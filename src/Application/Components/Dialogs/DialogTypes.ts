@@ -1,16 +1,16 @@
-import { CSSProperties } from "react";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
 import CreateEconomicsParametersTableDialog from "../../../Economics/Components/Dialogs/CreateEconomicsParametersTableDialog";
+import EconomicsAnalysesFinalizationDialog from "../../../Economics/Components/Dialogs/EconomicsAnalysesFinalizationDialog";
 import EconomicsParametersDialog from "../../../Economics/Components/Dialogs/EconomicsParametersDialog";
 import EconomicsParametersSensitivitiesDialog from "../../../Economics/Components/Dialogs/EconomicsParametersSensitivitiesDialog";
-import StoredEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog";
 import SaveCostsRevenuesInputDeckDialog from "../../../Economics/Components/Dialogs/SaveCostsRevenuesInputDeckDialog";
 import SaveEconomicsParametersInputDeckDialog from "../../../Economics/Components/Dialogs/SaveEconomicsParametersInputDeckDialog";
 import SaveEconomicsResultsDialog from "../../../Economics/Components/Dialogs/SaveEconomicsResultsDialog";
 import SaveEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/SaveEconomicsSensitivitiesDialog";
 import SelectDevelopmentScenariosDialog from "../../../Economics/Components/Dialogs/SelectDevelopmentScenariosDialog";
-import { IEconomicsParametersTable } from "../../../Economics/Components/Parameters/IParametersType";
+import StoredEconomicsSensitivitiesDialog from "../../../Economics/Components/Dialogs/StoredEconomicsSensitivitiesDialog";
+import { IEconomicsParametersTableData } from "../../../Economics/Components/Parameters/IParametersType";
 import {
   IEconomicsAnalysis,
   TDevScenarioNames,
@@ -20,48 +20,46 @@ import FinalizeForecastInputDeckDialog from "../../../Import/Components/Dialogs/
 import SaveFacilitiesInputDeckDialog from "../../../Import/Components/Dialogs/SaveFacilitiesInputDeckDialog";
 import SaveForecastInputDeckDialog from "../../../Import/Components/Dialogs/SaveForecastInputDeckDialog";
 import SaveInputDeckGenerateNetworkWorkflowDialog from "../../../Import/Components/Dialogs/SaveInputDeckGenerateNetworkWorkflowDialog";
-import StoredForecastingParametersDialog from "../../../Network/Components/Dialogs/StoredForecastingParametersDialog";
-import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetworksDialog";
+import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
+import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
+import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
 import GenerateNetworkWorkflowDialog from "../../../Network/Components/Dialogs/GenerateNetworkWorkflowDialog";
+import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
+import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
+import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
 import RunForecastDialog from "../../../Network/Components/Dialogs/RunForecastDialog";
 import RunForecastWorkflowDialog from "../../../Network/Components/Dialogs/RunForecastWorkflowDialog";
 import SaveForecastDialog from "../../../Network/Components/Dialogs/SaveForecastDialog";
 import SaveNetworkDialog from "../../../Network/Components/Dialogs/SaveNetworkDialog";
+import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
+import StoredForecastingParametersDialog from "../../../Network/Components/Dialogs/StoredForecastingParametersDialog";
+import StoredNetworksDialog from "../../../Network/Components/Dialogs/StoredNetworksDialog";
+import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
+import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
+import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
 import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProjectsDialog";
+import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
+import { IAction } from "../../Redux/Actions/ActionTypes";
 import { IStoredDataRow, TUseState } from "../../Types/ApplicationTypes";
 import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import {
-  IAllWorkflows,
   ReducersType,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
+import DeleteDataDialog from "./DeleteDataDialog";
 import DraggableDialog from "./DraggableDialog";
+import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
 import ListDialog from "./ListDialog";
 import NewProjectWorkflowDialog from "./NewProjectWorkflowDialog";
 import SelectWorksheetDialog from "./SelectWorksheetDialog";
+import SnapshotDialog from "./SnapshotDialog";
 import TableDataDialog from "./TableDataDialog";
 import TableEditorDialog from "./TableEditorDialog";
 import TextDialog from "./TextDialog";
-import EditOrCreateForecastingParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateForecastingParametersWorkflowDialog";
-import EditOrCreateDeclineParametersWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
-import EditOrCreateProductionPrioritizationWorkflowDialog from "../../../Network/Components/Dialogs/EditOrCreateProductionPrioritizationWorkflowDialog";
-import DeclineCurveParametersDialog from "../../../Network/Components/Dialogs/DeclineCurveParametersDialog";
-import ProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/ProductionStreamPrioritizationDialog";
-import StoredProductionStreamPrioritizationDialog from "../../../Network/Components/Dialogs/StoredProductionStreamPrioritizationDialog";
-import StoredDeclineCurveParametersDialog from "../../../Network/Components/Dialogs/StoredDeclineCurveParametersDialog";
-import DeleteDataDialog from "./DeleteDataDialog";
-import SnapshotDialog from "./SnapshotDialog";
-import NetworkWidgetDialog from "../../../Network/Components/Dialogs/NetworkWidgetDialog";
-import LinkInputDeckDialog from "../../../Network/Components/Dialogs/LinkInputDeckDialog";
-import { IForecastParametersStoredRow } from "../../../Network/Components/Dialogs/StoredNetworksDialogTypes";
-import OpenProjectConfirmationDialog from "../../../Project/Components/Dialogs/OpenProjectConfirmationDialog";
-import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
-import { IAction } from "../../Redux/Actions/ActionTypes";
-import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
-import FinalizeCostsRevenueApexWorkDialog from "../../../Economics/Components/Dialogs/FinalizeCostsRevenueApexWorkDialog";
 
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
@@ -113,7 +111,7 @@ export interface IApplicationDialogs {
   saveVisualyticsDeckDialog: typeof SaveVisualyticsDeckDialog;
 
   forecastValidationErrorsDataDialog: typeof ForecastValidationErrorsDataDialog;
-  finalizeCostsRevenueApexWorkDialog: typeof FinalizeCostsRevenueApexWorkDialog;
+  economicsAnalysesFinalizationDialog: typeof EconomicsAnalysesFinalizationDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -181,7 +179,7 @@ export interface DialogStuff<TRow = TDataRow> {
     | "createPrioritizationParametersWorkflowDialog"
     | "saveVisualyticsDeckDialog"
     | "forecastValidationErrorsDataDialog"
-    | "finalizeCostsRevenueApexWorkDialog";
+    | "economicsAnalysesFinalizationDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -201,7 +199,7 @@ export interface DialogStuff<TRow = TDataRow> {
   workflowCategory?: TAllWorkflowCategories;
   reducer?: ReducersType;
   selectedTableData?: any[];
-  economicsTableData?: IEconomicsParametersTable;
+  economicsTableData?: IEconomicsParametersTableData;
   economicsAnalyses?: TEconomicsAnalyses;
   selectedAnalysis?: IEconomicsAnalysis;
   currentRow?: TRow;

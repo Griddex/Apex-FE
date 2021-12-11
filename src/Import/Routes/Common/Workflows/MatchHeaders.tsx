@@ -554,9 +554,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
           const valueOption = generateSelectOptions([appHeader])[0];
           const dateOption = dateFormatOptions.current[0];
 
-          const RSStyles: StylesConfig<ISelectOption, false> =
-            getRSStyles(theme);
-
           if (type === "Date")
             return (
               <ApexSelectRS
@@ -584,7 +581,6 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
                 }
                 menuPortalTarget={document.body}
                 isSelectOptionType={true}
-                containerHeight={40}
               />
             );
         },

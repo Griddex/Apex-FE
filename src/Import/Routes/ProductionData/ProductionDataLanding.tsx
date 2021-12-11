@@ -14,6 +14,7 @@ import MSExcel from "../../Images/MSExcel.svg";
 import { IdType, IProductionLandingData } from "./ProductionDataLandingTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
 
 const DatabaseWorkflow = React.lazy(
   () => import("../Common/InputWorkflows/DatabaseWorkflow")
@@ -183,8 +184,11 @@ const ProductionDataLanding = () => {
             return (
               <ModuleCard
                 key={name}
-                isDispatched={true}
-                moduleAction={loadWorkflowAction}
+                isDispatched={false}
+                moduleAction={() => {
+                  dispatch(resetInputDataAction(reducer));
+                  dispatch(loadWorkflowAction());
+                }}
                 title={name}
                 description={description}
                 icon={icon}

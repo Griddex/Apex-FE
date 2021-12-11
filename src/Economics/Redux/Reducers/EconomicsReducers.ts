@@ -6,6 +6,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_FAILURE,
   GET_TABLEDATABYID_SUCCESS,
+  RESET_INPUTDATA,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import removeSeriesFromChart from "../../../Application/Utils/RemoveSeriesFromChart";
@@ -64,6 +65,7 @@ import {
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   UPDATE_ECONOMICSPARAMETER,
   UPDATE_ECONOMICSPARAMETERS,
+  UPDATE_BY_PARAMETERSTABLE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -130,7 +132,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case PERSIST_FILEUNITSANDUNIQUEUNITS:
     case PERSIST_FILEUNITSMATCH:
     case PERSIST_TABLEROLENAMES:
-    case PERSIST_TABLEDATA:
     case PERSIST_COLUMNNAMETABLEDATA: {
       const { reducer, workflowProcess } = action.payload;
       const workflowProcessDefined = workflowProcess as TAllWorkflowProcesses;
@@ -143,6 +144,32 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
             [workflowProcessDefined]: {
               ...state.inputDataWorkflows[workflowProcessDefined],
               ...action.payload,
+            },
+          },
+        };
+      } else {
+        return state;
+      }
+    }
+
+    case PERSIST_TABLEDATA: {
+      const { reducer, tableData, workflowProcess, currentDevValue } =
+        action.payload;
+      const workflowProcessDefined = workflowProcess as TAllWorkflowProcesses;
+
+      if (reducer === "economicsReducer") {
+        return {
+          ...state,
+          inputDataWorkflows: {
+            ...state.inputDataWorkflows,
+            [workflowProcessDefined]: {
+              ...state.inputDataWorkflows[workflowProcessDefined],
+              costsRevenues: {
+                ...state.inputDataWorkflows[workflowProcessDefined][
+                  "costsRevenues"
+                ],
+                [currentDevValue]: tableData,
+              },
             },
           },
         };
@@ -575,6 +602,27 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         economicsChartsWorkflows,
       };
     }
+
+    case RESET_INPUTDATA: {
+      const { reducer } = action.payload;
+      const { inputDataWorkflows } = EconomicsState;
+
+      if (reducer !== "economicsReducer") return state;
+
+      return {
+        ...state,
+        inputDataWorkflows,
+      };
+    }
+
+    //     case UPDATE_BY_PARAMETERSTABLE: {
+    //       const {rowIndex, variableName,parametersTable } = action.payload;
+    // const path = `inputDataWorkflows.economicsParametersDeckManual.tableData.${}`
+
+    //       const updatedState = set(state, path, value);
+
+    //       return updatedState;
+    //     }
 
     case RESET_ECONOMICS: {
       return EconomicsState;
