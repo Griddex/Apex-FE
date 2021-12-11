@@ -67,6 +67,7 @@ export interface IEconomicsImport {
   columnNameTableData: Record<string, React.Key>[];
   inputDeckData: Record<string, React.Key>[];
   selectedRow: Record<string, React.Key>;
+  basedOnVariables: Record<string, string>;
 
   chosenAppHeadersWithNone: string[];
   chosenAppHeadersWithoutNone: string[];

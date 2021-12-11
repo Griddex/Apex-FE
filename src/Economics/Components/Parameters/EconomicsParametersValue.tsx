@@ -5,28 +5,38 @@ import { useDispatch } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import noEventPropagation from "../../../Application/Events/NoEventPropagation";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { IEconomicsParametersValue } from "./IParametersType";
 
 const EconomicsParametersValue = ({
   row,
   valueTitle,
   nameOfTableOrEquation,
-  additionalColumnsObj,
+  genericAddtnlColumnsObj,
+  customAddtnlColumnsObj,
 }: IEconomicsParametersValue) => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const additionalColumnsObjDefined = additionalColumnsObj as NonNullable<
-    IEconomicsParametersValue["additionalColumnsObj"]
+  const genericAddtnlColumnsObjDefined = genericAddtnlColumnsObj as Record<
+    string,
+    string
   >;
+  const customAddtnlColumnsObjDefined = customAddtnlColumnsObj as Record<
+    string,
+    string
+  >;
+
   const economicsTableDataDefined = {
     row,
-    additionalColumnsObj: additionalColumnsObjDefined,
+    genericAddtnlColumnsObj: genericAddtnlColumnsObjDefined,
+    customAddtnlColumnsObj: customAddtnlColumnsObjDefined,
   };
 
   const letterIcon = valueTitle === "Table" ? "T" : "E";
@@ -37,6 +47,7 @@ const EconomicsParametersValue = ({
     backgroundColor: theme.palette.primary.light,
     border: `1px solid ${theme.palette.primary.main}`,
   };
+
   const noValuePresentStyle = {
     color: theme.palette.secondary.main,
     backgroundColor: theme.palette.secondary.light,
@@ -60,13 +71,22 @@ const EconomicsParametersValue = ({
       maxWidth: "md",
       iconType: "information",
       economicsTableData: economicsTableDataDefined,
-      actionsList: () =>
+      actionsList: (rows?: IRawRow[]) =>
         DialogOneCancelButtons(
           [true, true],
           [true, false],
-          [unloadDialogsAction, () => console.log("hello")],
-          "Save",
-          "saveOutlined",
+          [
+            unloadDialogsAction,
+            () =>
+              dispatch(
+                updateEconomicsParameterAction(
+                  `inputDataWorkflows.economicsParametersDeckManual.tableData`,
+                  rows
+                )
+              ),
+          ],
+          "Load",
+          "loadOutlined",
           false,
           "None"
         ),

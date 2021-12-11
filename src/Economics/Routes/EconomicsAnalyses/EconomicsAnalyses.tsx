@@ -212,7 +212,7 @@ export default function EconomicsAnalyses() {
     const pickedSelectedAnalysis = pick(selectedAnalysis, ["name", "title"]);
 
     dispatch(updateEconomicsParameterAction(path, pickedSelectedAnalysis));
-  }, [selectedAnalysis]);
+  }, [selectedAnalysis.name]);
 
   return (
     <div className={classes.root}>

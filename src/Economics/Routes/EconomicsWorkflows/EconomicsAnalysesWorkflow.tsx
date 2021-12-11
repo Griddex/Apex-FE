@@ -11,6 +11,9 @@ import { showContextDrawerAction } from "../../../Application/Redux/Actions/Layo
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
+import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
 
 const EconomicsAnalyses = React.lazy(
   () => import("../EconomicsAnalyses/EconomicsAnalyses")
@@ -36,32 +39,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     padding: 0,
   },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-  workflowHeaderRow: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: "5%",
-    margin: 0,
-    "& > *": { height: "60%" },
-  },
-  workflowBanner: {
-    display: "flex",
-    justifyContent: "center",
-    width: 54,
-    margin: 0,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: theme.spacing(0, 0.5, 0.5, 0),
-    "& > *": { fontWeight: "bold" },
-  },
-  workflowBannerHeader: {
-    display: "flex",
-    width: "100%",
-    marginLeft: 6,
-    "& > *": { fontWeight: "bold" },
-  },
   workflowBody: {
     display: "flex",
     flexDirection: "row",
@@ -70,35 +47,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center", //around, between
   },
-  workflowDatabasePanel: {
-    display: "flex",
-    flexDirection: "column",
-    alignSelf: "flex-start",
-    height: "95%",
-    width: "20%",
-    border: "1px solid #A8A8A8",
-    boxShadow: theme.shadows[2],
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
   workflowContent: { height: "100%", width: "100%" },
-  navigationbuttons: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    "& > *": {
-      border: `2px solid`,
-      boxShadow: theme.shadows[2],
-    },
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
 }));
 
 const steps = [
@@ -219,7 +168,19 @@ const EconomicsAnalysesWorkflow = () => {
       back: activeStep === 0 ? true : false,
       next: selectedEconomicsParametersInputDeckId ? false : true,
     },
-    finalAction: () => console.log("final"),
+    finalAction: () => {
+      const dialogParameters: DialogStuff = {
+        name: "Finalize_EconomicsAnalysis_Dialog",
+        title: `Finalize EconomicsAnalysis Dialog`,
+        type: "economicsAnalysesFinalizationDialog",
+        show: true,
+        exclusive: true,
+        maxWidth: "sm",
+        iconType: "information",
+        actionsList: () => DialogCancelButton(),
+      };
+      dispatch(showDialogAction(dialogParameters));
+    },
     workflowProps,
     workflowProcess: wp,
     workflowCategory: wc,

@@ -151,6 +151,8 @@ export const RESET_PLOTCHARTS_CHARTWORKFLOWS =
 export const RESET_HEATMAP_CHARTWORKFLOWS = "RESET_HEATMAP_CHARTWORKFLOWS";
 export const RESET_TEMPLATE_CHARTWORKFLOWS = "RESET_TEMPLATE_CHARTWORKFLOWS";
 
+export const UPDATE_BY_PARAMETERSTABLE = "UPDATE_BY_PARAMETERSTABLE";
+
 export const updateEconomicsParameterAction = (path: string, value: any) => {
   return {
     type: UPDATE_ECONOMICSPARAMETER,
@@ -861,6 +863,19 @@ export const resetTemplateChartsWorkflowsAction = () => {
     type: RESET_TEMPLATE_CHARTWORKFLOWS,
   };
 };
+
+export const updateByParametersTableAction = (variableName:string,
+  parametersTable:IRawRow[]) => {
+  return {
+    type: UPDATE_BY_PARAMETERSTABLE,
+    payload:{
+      variableName,parametersTable
+    }
+  };
+};
+
+
+
 
 export const resetEconomicsAction = () => {
   return {

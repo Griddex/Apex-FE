@@ -331,7 +331,7 @@ export default function PreviewSave({
 
   React.useEffect(() => {
     dispatch(
-      persistTableDataAction(reducer, tableData, wp, currentDevOption.value)
+      persistTableDataAction(reducer, tableData, wp, currentDevOption?.value)
     );
 
     const appHeaderNameUnitsMap = matchUnitsRows.reduce(
