@@ -59,7 +59,7 @@ import {
   STORED_ECONOMICSDATA_SUCCESS,
   STORED_ECONOMICSRESULTS_FAILURE,
   STORED_ECONOMICSRESULTS_SUCCESS,
-  PERSIST_ECONOMICSDECKS,
+  PERSIST_COSTSREVENUESDECKS,
   STORED_ECONOMICSSENSITIVITIES_FAILURE,
   STORED_ECONOMICSSENSITIVITIES_SUCCESS,
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
@@ -158,27 +158,40 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const workflowProcessDefined = workflowProcess as TAllWorkflowProcesses;
 
       if (reducer === "economicsReducer") {
-        return {
-          ...state,
-          inputDataWorkflows: {
-            ...state.inputDataWorkflows,
-            [workflowProcessDefined]: {
-              ...state.inputDataWorkflows[workflowProcessDefined],
-              costsRevenues: {
-                ...state.inputDataWorkflows[workflowProcessDefined][
-                  "costsRevenues"
-                ],
-                [currentDevValue]: tableData,
+        if (workflowProcessDefined.startsWith("economicsCostsRevenues"))
+          return {
+            ...state,
+            inputDataWorkflows: {
+              ...state.inputDataWorkflows,
+              [workflowProcessDefined]: {
+                ...state.inputDataWorkflows[workflowProcessDefined],
+                costsRevenues: {
+                  ...state.inputDataWorkflows[workflowProcessDefined][
+                    "costsRevenues"
+                  ],
+                  [currentDevValue]: tableData,
+                },
               },
             },
-          },
-        };
+          };
+        else if (workflowProcessDefined.startsWith("economicsParameters")) {
+          return {
+            ...state,
+            inputDataWorkflows: {
+              ...state.inputDataWorkflows,
+              [workflowProcessDefined]: {
+                ...state.inputDataWorkflows[workflowProcessDefined],
+                tableData,
+              },
+            },
+          };
+        } else return state;
       } else {
         return state;
       }
     }
 
-    case PERSIST_ECONOMICSDECKS: {
+    case PERSIST_COSTSREVENUESDECKS: {
       const { devVal, devRows } = action.payload;
 
       return {

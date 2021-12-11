@@ -94,7 +94,7 @@ export const TRANSFORM_ECONOMICSPLOT_CHARTDATA_FAILURE =
 export const RUN_ECONOMICSANALYSIS_REQUEST = "RUN_ECONOMICSANALYSIS_REQUEST";
 export const RUN_ECONOMICSANALYSIS_SUCCESS = "RUN_ECONOMICSANALYSIS_SUCCESS";
 export const RUN_ECONOMICSANALYSIS_FAILURE = "RUN_ECONOMICSANALYSIS_FAILURE";
-export const PERSIST_ECONOMICSDECKS = "PERSIST_ECONOMICSDECKS";
+export const PERSIST_COSTSREVENUESDECKS = "PERSIST_COSTSREVENUESDECKS";
 export const FETCH_HEATMAPDATA_REQUEST = "FETCH_HEATMAPDATA_REQUEST";
 export const FETCH_HEATMAPDATA_SUCCESS = "FETCH_HEATMAPDATA_SUCCESS";
 export const FETCH_HEATMAPDATA_FAILURE = "FETCH_HEATMAPDATA_FAILURE";
@@ -491,12 +491,12 @@ export const runEconomicsAnalysisFailureAction = () => {
   };
 };
 
-export const persistEconomicsDecksRequestAction = (
+export const persistCostsRevenueDeckstAction = (
   devVal: TDevScenarioNames,
   devRows: IRawRow[]
 ) => {
   return {
-    type: PERSIST_ECONOMICSDECKS,
+    type: PERSIST_COSTSREVENUESDECKS,
     payload: { devVal, devRows },
   };
 };
@@ -864,18 +864,18 @@ export const resetTemplateChartsWorkflowsAction = () => {
   };
 };
 
-export const updateByParametersTableAction = (variableName:string,
-  parametersTable:IRawRow[]) => {
+export const updateByParametersTableAction = (
+  variableName: string,
+  parametersTable: IRawRow[]
+) => {
   return {
     type: UPDATE_BY_PARAMETERSTABLE,
-    payload:{
-      variableName,parametersTable
-    }
+    payload: {
+      variableName,
+      parametersTable,
+    },
   };
 };
-
-
-
 
 export const resetEconomicsAction = () => {
   return {
