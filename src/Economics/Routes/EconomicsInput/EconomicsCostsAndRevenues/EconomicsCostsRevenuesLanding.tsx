@@ -29,7 +29,7 @@ import ForecastResults from "../../../Images/ForecastResults.svg";
 import Manual from "../../../Images/Manual.svg";
 import {
   loadEconomicsWorkflowAction,
-  persistEconomicsDecksRequestAction,
+  persistCostsRevenueDeckstAction,
   saveCostsRevenuesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
@@ -324,7 +324,7 @@ const EconomicsCostsRevenuesLanding = () => {
 
                       //TODO Check this
                       dispatch(
-                        persistEconomicsDecksRequestAction("oilDevelopment", [])
+                        persistCostsRevenueDeckstAction("oilDevelopment", [])
                       );
 
                       enqueueSnackbar(`${dataLabel} is stored successfully`, {
