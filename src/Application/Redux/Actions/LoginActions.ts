@@ -42,7 +42,7 @@ export const fetchUserDetailsRequestAction = () => {
   return {
     type: FETCH_USERDETAILS_REQUEST,
     payload: {},
-    meta: { showSpinner: true, message: "Fetching user details..." },
+    meta: { showSpinner: true, message: "Loading user details..." },
   };
 };
 

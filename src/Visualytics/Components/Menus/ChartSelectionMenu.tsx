@@ -1,9 +1,9 @@
-import { Button, MenuItem, Typography, useTheme } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Menu from "@mui/material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
+import { Button, MenuItem, Typography, useTheme } from "@mui/material";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Menu from "@mui/material/Menu";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { ChangeEvent } from "react";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";

@@ -405,3 +405,35 @@ export const gasDevelopmentConceptOptions = [
   { value: "monetize", label: "Monetize" },
   { value: "flare", label: "Flare" },
 ];
+
+export const initialHeatMapData = {
+  heatMapTreeByScenario: { id: "", name: "" },
+  sensitivitiesHeatMapTree: { id: "", name: "" },
+  sensitivitiesHeatMapData: {},
+  sensitivitiesHeatMap1or2D: [],
+  heatMapVariableXOptions: {},
+  heatMapVariableYOptions: {},
+  heatMapVariableZOptions: {},
+  showCategoryZMembers: false,
+  showHeatMapCategoryMembersObj: {
+    "X Category": false,
+    "Y Category": false,
+    "Y Secondary Category": false,
+    "Z Category": false,
+    "R Category": false,
+  },
+  heatMapCategoryDragItems: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+  heatMapCategoryHasDropped: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+};

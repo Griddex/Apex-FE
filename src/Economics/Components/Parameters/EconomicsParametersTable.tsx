@@ -46,7 +46,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const costsRevenuesAppHeadersSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.costsRevenuesAppHeaders,
-  (reducer) => reducer
+  (data) => data
 );
 
 const EconomicsParametersTable = ({
@@ -59,12 +59,23 @@ const EconomicsParametersTable = ({
   setRows,
   genericCustomAddtnlColumnsObj,
 }: IEconomicsParametersTable) => {
+  const currentVariable = row.parameterName as string;
+
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
   const rootRef = React.useRef<HTMLDivElement>(null);
 
+  const basedOnVariablesSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer["inputDataWorkflows"][
+        "economicsParametersDeckManual"
+      ]["basedOnVariables"],
+    (data) => data
+  );
+
   const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
+  const basedOnVariables = useSelector(basedOnVariablesSelector);
 
   const dataOptions = React.useRef(
     swapVariableNameTitleForISelectOption(
@@ -73,7 +84,13 @@ const EconomicsParametersTable = ({
   );
 
   const [basedOnOption, setBasedOnOption] = React.useState<ISelectOption>(
-    dataOptions.current[0]
+    Object.entries(basedOnVariables).length > 0 &&
+      basedOnVariables[currentVariable] &&
+      basedOnVariables[currentVariable] !== ""
+      ? dataOptions.current.filter(
+          (opt) => opt.value === basedOnVariables[currentVariable]
+        )[0]
+      : dataOptions.current[0]
   );
 
   const additionalColumns = columnsObjKeys.map((k) => ({

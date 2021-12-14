@@ -97,7 +97,7 @@ function* fetchHeatMapDataSaga(
     authService.post(url, data, config);
 
   try {
-    yield put(showSpinnerAction(`Fetching data...`));
+    yield put(showSpinnerAction(`Loading data...`));
 
     const result = yield call(
       fetchHeatMapDataAPI,

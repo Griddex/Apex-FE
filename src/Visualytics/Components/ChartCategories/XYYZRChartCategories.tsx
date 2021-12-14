@@ -38,7 +38,7 @@ const XYYZRChartCategories = ({
   showZCategoryMembersSwitch,
   showRCategoryMembersSwitch,
   showCategoryMembersObj,
-  path,
+  devScenariosTitle,
   updateParameterAction,
   updateDragItemsAction,
   updateHasDroppedAction,
@@ -94,7 +94,7 @@ const XYYZRChartCategories = ({
             disable={disableX}
             showCategoryMembersSwitch={showXCategoryMembersSwitch}
             showCategoryMembersObj={showCategoryMembersObj}
-            path={path}
+            devScenariosTitle={devScenariosTitle}
             updateParameterAction={updateParameterAction}
             updateDragItemsAction={updateDragItemsAction}
             updateHasDroppedAction={updateHasDroppedAction}
@@ -119,7 +119,7 @@ const XYYZRChartCategories = ({
             disable={disableY}
             showCategoryMembersSwitch={showYCategoryMembersSwitch}
             showCategoryMembersObj={showCategoryMembersObj}
-            path={path}
+            devScenariosTitle={devScenariosTitle}
             updateParameterAction={updateParameterAction}
             updateDragItemsAction={updateDragItemsAction}
             updateHasDroppedAction={updateHasDroppedAction}
@@ -144,7 +144,7 @@ const XYYZRChartCategories = ({
             disable={disableSecondaryY}
             showCategoryMembersSwitch={showYSecondaryCategoryMembersSwitch}
             showCategoryMembersObj={showCategoryMembersObj}
-            path={path}
+            devScenariosTitle={devScenariosTitle}
             updateParameterAction={updateParameterAction}
             updateDragItemsAction={updateDragItemsAction}
             updateHasDroppedAction={updateHasDroppedAction}
@@ -169,7 +169,7 @@ const XYYZRChartCategories = ({
             disable={disableZ}
             showCategoryMembersSwitch={showZCategoryMembersSwitch}
             showCategoryMembersObj={showCategoryMembersObj}
-            path={path}
+            devScenariosTitle={devScenariosTitle}
             updateParameterAction={updateParameterAction}
             updateDragItemsAction={updateDragItemsAction}
             updateHasDroppedAction={updateHasDroppedAction}
@@ -194,7 +194,7 @@ const XYYZRChartCategories = ({
             disable={disableR}
             showCategoryMembersSwitch={showRCategoryMembersSwitch}
             showCategoryMembersObj={showCategoryMembersObj}
-            path={path}
+            devScenariosTitle={devScenariosTitle}
             updateParameterAction={updateParameterAction}
             updateDragItemsAction={updateDragItemsAction}
             updateHasDroppedAction={updateHasDroppedAction}

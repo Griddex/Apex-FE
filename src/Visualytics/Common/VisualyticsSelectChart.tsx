@@ -50,7 +50,7 @@ const VisualyticsSelectChart = ({ width, height }: TSize) => {
       <ApexFlexContainer
         justifyContent="space-evenly"
         height={50}
-        moreStyles={{ marginBottom: 4, width: 270 }}
+        moreStyles={{ marginBottom: 4, width: 270, alignSelf: "center" }}
       >
         <BaseButtons
           buttonTexts={["Reset", "Display"]}

@@ -2,13 +2,13 @@ import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import CheckBoxOutlineBlankOutlinedIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ImageAspectRatioOutlinedIcon from "@mui/icons-material/ImageAspectRatioOutlined";
-import { ListItemIcon, MenuItem, Typography } from "@mui/material";
+import { ListItemIcon, MenuItem, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
@@ -16,6 +16,7 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import {
   fetchStoredEconomicsDataRequestAction,
@@ -78,6 +79,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
+  const theme = useTheme();
 
   const storedProjects = useSelector(storedProjectsSelector);
 
@@ -86,8 +88,8 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
   const currentProjectId = useSelector(currentProjectIdSelector);
 
   const ApexMenuItem = ({
-    projectId,
     projectTitle,
+    style,
     handleClick,
     icon,
     sn,
@@ -103,6 +105,7 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
           display: "flex",
           alignItems: "center",
           ...recentProjectsStyles,
+          ...style,
         }}
       >
         {icon && (
@@ -342,6 +345,11 @@ const ProjectPopover = React.forwardRef<HTMLDivElement>((props, ref) => {
                 <ApexMenuItem
                   key={i}
                   projectTitle={titleDefined}
+                  style={
+                    currentProjectId === id
+                      ? getDisabledStyle(theme)
+                      : ({} as React.CSSProperties)
+                  }
                   handleClick={() => {
                     if (currentProjectId === "") {
                       loadProjectMetadata(

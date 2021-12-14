@@ -371,7 +371,7 @@ export const fetchStoredForecastingParametersRequestAction = (
   return {
     type: STORED_FORECASTPARAMETERS_REQUEST,
     payload: { projectId: projectIdDefined },
-    meta: { showSpinner, message: "Fetching forecast parameters..." },
+    meta: { showSpinner, message: "Loading forecast parameters..." },
   };
 };
 
@@ -522,7 +522,7 @@ export const getDeclineParametersByIdRequestAction = (
       currentSN,
       currentRow,
     },
-    meta: { showSpinner: true, message: "Fetching decline parameters..." },
+    meta: { showSpinner: true, message: "Loading decline parameters..." },
   };
 };
 
@@ -561,7 +561,7 @@ export const getProductionPrioritizationByIdRequestAction = (
       reducer,
       isCreateOrEdit,
     },
-    meta: { showSpinner: true, message: "Fetching prioritization data..." },
+    meta: { showSpinner: true, message: "Loading prioritization data..." },
   };
 };
 
@@ -591,7 +591,7 @@ export const fetchStoredDeclineCurveParametersRequestAction = (
   return {
     type: STORED_DECLINEPARAMETERS_REQUEST,
     payload: { projectId },
-    meta: { showSpinner, message: "fetching decline parameters data..." },
+    meta: { showSpinner, message: "Loading decline parameters data..." },
   };
 };
 
@@ -623,7 +623,7 @@ export const fetchStoredProductionPrioritizationRequestAction = (
     payload: { projectId },
     meta: {
       showSpinner,
-      message: "fetching production prioritization data...",
+      message: "Loading production prioritization data...",
     },
   };
 };

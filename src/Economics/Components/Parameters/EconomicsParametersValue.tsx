@@ -1,5 +1,7 @@
 import LaunchOutlinedIcon from "@mui/icons-material/LaunchOutlined";
 import { ListItemIcon, Typography, useTheme } from "@mui/material";
+import omit from "lodash.omit";
+import uniq from "lodash.uniq";
 import React from "react";
 import { useDispatch } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
@@ -8,6 +10,7 @@ import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexCo
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import noEventPropagation from "../../../Application/Events/NoEventPropagation";
 import {
+  hideDialogAction,
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
@@ -15,9 +18,9 @@ import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsAct
 import { IEconomicsParametersValue } from "./IParametersType";
 
 const EconomicsParametersValue = ({
-  row,
+  rows,
+  rowIndex,
   valueTitle,
-  nameOfTableOrEquation,
   genericAddtnlColumnsObj,
   customAddtnlColumnsObj,
 }: IEconomicsParametersValue) => {
@@ -32,15 +35,15 @@ const EconomicsParametersValue = ({
     string,
     string
   >;
-
+  const row = rows[rowIndex as number];
   const economicsTableDataDefined = {
-    row,
+    rows,
+    rowIndex,
     genericAddtnlColumnsObj: genericAddtnlColumnsObjDefined,
     customAddtnlColumnsObj: customAddtnlColumnsObjDefined,
   };
 
   const letterIcon = valueTitle === "Table" ? "T" : "E";
-  const valueText = nameOfTableOrEquation ? nameOfTableOrEquation : "No value";
 
   const valuePresentStyle = {
     color: theme.palette.primary.main,
@@ -54,12 +57,33 @@ const EconomicsParametersValue = ({
     border: `1px solid ${theme.palette.secondary.main}`,
   };
 
-  const finalStyle =
-    valueText === "No value" ? noValuePresentStyle : valuePresentStyle;
-  const letterIconStyle =
-    valueText === "No value"
-      ? { color: theme.palette.secondary.main }
-      : { color: theme.palette.primary.main };
+  const rowValues = row["value"];
+  let finalStyle = {} as React.CSSProperties;
+  let letterIconStyle = {} as React.CSSProperties;
+  let valueText: string;
+  if (typeof rowValues === "string") {
+    if (rowValues === "") {
+      finalStyle = noValuePresentStyle;
+      letterIconStyle = { color: theme.palette.secondary.main };
+      valueText = "No value";
+    } else {
+      finalStyle = valuePresentStyle;
+      letterIconStyle = { color: theme.palette.primary.main };
+      valueText = "Table";
+    }
+  } else {
+    const omittedRowValues = Object.values(
+      omit((rowValues as Record<string, any>)[0], "sn")
+    );
+    const rowsDataPresent = uniq(omittedRowValues)[0] !== "";
+    finalStyle = rowsDataPresent ? valuePresentStyle : noValuePresentStyle;
+
+    letterIconStyle = rowsDataPresent
+      ? { color: theme.palette.primary.main }
+      : { color: theme.palette.secondary.main };
+
+    valueText = rowsDataPresent ? "Table" : "No value";
+  }
 
   const handleAction = () => {
     const dialogParameters: DialogStuff = {
@@ -77,13 +101,15 @@ const EconomicsParametersValue = ({
           [true, false],
           [
             unloadDialogsAction,
-            () =>
+            () => {
+              dispatch(hideDialogAction());
               dispatch(
                 updateEconomicsParameterAction(
                   `inputDataWorkflows.economicsParametersDeckManual.tableData`,
                   rows
                 )
-              ),
+              );
+            },
           ],
           "Load",
           "loadOutlined",

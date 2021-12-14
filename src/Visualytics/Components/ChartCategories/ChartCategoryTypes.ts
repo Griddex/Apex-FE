@@ -27,6 +27,7 @@ export interface IChartCategories {
   rCategoryOptionTitle?: string;
   categoryTitle?: string;
   categoryOptionTitle?: string;
+  devScenariosTitle?: string;
   disable?: boolean;
   disableX?: boolean;
   disableY?: boolean;

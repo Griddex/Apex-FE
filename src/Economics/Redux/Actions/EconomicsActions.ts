@@ -186,7 +186,7 @@ export const getEconomicsParametersByIdRequestAction = (
       reducer,
       isCreateOrEdit,
     },
-    meta: { showSpinner: true, message: "Fetching economics parameters..." },
+    meta: { showSpinner: true, message: "Loading economics parameters..." },
   };
 };
 
@@ -578,7 +578,7 @@ export const getHeatMapDataRequestAction = (
       variableZKey,
       selectedZ,
     },
-    meta: { showSpinner: true, message: `Fetching map data...` },
+    meta: { showSpinner: true, message: `Loading map data...` },
   };
 };
 
