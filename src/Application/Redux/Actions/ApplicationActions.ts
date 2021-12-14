@@ -104,7 +104,7 @@ export const fetchMatchObjectRequestAction = () => {
   return {
     type: FETCH_MATCHOBJECT_REQUEST,
     payload: {},
-    meta: { showSpinner: true, message: "Fetching user matches..." },
+    meta: { showSpinner: true, message: "Loading user matches..." },
   };
 };
 
@@ -153,7 +153,7 @@ export const getTableDataByIdRequestAction = (
       collectionName,
     },
 
-    meta: { showSpinner: true, message: "Fetching table data..." },
+    meta: { showSpinner: true, message: "Loading table data..." },
   };
 };
 

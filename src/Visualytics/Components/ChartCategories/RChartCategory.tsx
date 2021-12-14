@@ -11,7 +11,7 @@ const RChartCategory = ({
   disable,
   showCategoryMembersSwitch,
   showCategoryMembersObj,
-  path,
+  devScenariosTitle,
   updateParameterAction,
   updateDragItemsAction,
   updateHasDroppedAction,
@@ -32,7 +32,7 @@ const RChartCategory = ({
       disable={disable}
       showCategoryMembersSwitch={showCategoryMembersSwitch}
       showCategoryMembersObj={showCategoryMembersObj}
-      path={path}
+      devScenariosTitle={devScenariosTitle}
       updateParameterAction={updateParameterAction}
       updateDragItemsAction={updateDragItemsAction}
       updateHasDroppedAction={updateHasDroppedAction}

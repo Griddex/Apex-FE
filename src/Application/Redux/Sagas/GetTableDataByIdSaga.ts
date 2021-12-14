@@ -61,7 +61,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
   } = payload;
 
   try {
-    yield put(showSpinnerAction("Fetching..."));
+    yield put(showSpinnerAction("Loading..."));
 
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
 

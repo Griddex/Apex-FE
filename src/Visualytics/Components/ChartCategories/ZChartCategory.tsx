@@ -11,7 +11,7 @@ const ZChartCategory = ({
   disable,
   showCategoryMembersSwitch,
   showCategoryMembersObj,
-  path,
+  devScenariosTitle,
   updateParameterAction,
   updateDragItemsAction,
   updateHasDroppedAction,
@@ -33,7 +33,7 @@ const ZChartCategory = ({
       disable={disable}
       showCategoryMembersSwitch={showCategoryMembersSwitch}
       showCategoryMembersObj={showCategoryMembersObj}
-      path={path}
+      devScenariosTitle={devScenariosTitle}
       updateParameterAction={updateParameterAction}
       updateDragItemsAction={updateDragItemsAction}
       updateHasDroppedAction={updateHasDroppedAction}

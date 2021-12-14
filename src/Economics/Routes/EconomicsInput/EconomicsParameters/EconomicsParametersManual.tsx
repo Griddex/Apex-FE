@@ -83,11 +83,11 @@ const EconomicsParametersManual = ({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const parametersDeckSelector = createDeepEqualSelector(
-  //   (state: RootState) => state.economicsReducer[wrkflwCtgry][wrkflwPrcss]["tableData"],
-  //   (data) => data
-  // );
-  // const parametersDeck = useSelector(parametersDeckSelector)
+  const parametersDeck = useSelector(
+    (state: RootState) =>
+      state.economicsReducer[wrkflwCtgry][wrkflwPrcss]["tableData"],
+    () => false
+  );
 
   const typeOptions = [
     { value: "Single", label: "Single" },
@@ -139,7 +139,9 @@ const EconomicsParametersManual = ({
     []
   );
 
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState<IRawRow[]>(
+    Object.entries(parametersDeck).length > 0 ? parametersDeck : initialRows
+  );
 
   const handleParameterTypeChange = (
     row: IRawRow,
@@ -213,8 +215,9 @@ const EconomicsParametersManual = ({
     []
   );
 
-  const typeString = rows.map((row) => row.type).join();
-  const unitString = rows.map((row) => row.unit).join();
+  const typeString = rows.map((row: any) => row.type).join();
+  const unitString = rows.map((row: any) => row.unit).join();
+  const valueString = rows.map((row: any) => JSON.stringify(row.value)).join();
 
   const columns = React.useMemo(
     () => [
@@ -272,6 +275,7 @@ const EconomicsParametersManual = ({
         },
         resizable: true,
         formatter: ({ row }: any) => {
+          const rowIndex = (row.sn as number) - 1;
           const value = row.value as string;
           const type = row.type as string;
           const parameterName = row.parameterName as string;
@@ -316,7 +320,8 @@ const EconomicsParametersManual = ({
             return (
               <EconomicsParametersValue
                 valueTitle="Table"
-                row={React.useMemo(() => row, [])}
+                rows={rows}
+                rowIndex={rowIndex}
                 genericAddtnlColumnsObj={genericAddtnlColumnsObj}
                 customAddtnlColumnsObj={customAddtnlColumnsObj}
               />
@@ -325,7 +330,8 @@ const EconomicsParametersManual = ({
             return (
               <EconomicsParametersValue
                 valueTitle="Equation"
-                row={React.useMemo(() => row, [])}
+                rowIndex={rowIndex}
+                rows={rows}
                 genericAddtnlColumnsObj={genericAddtnlColumnsObj}
                 customAddtnlColumnsObj={customAddtnlColumnsObj}
               />
@@ -388,7 +394,7 @@ const EconomicsParametersManual = ({
         resizable: true,
       },
     ],
-    [typeString, unitString]
+    [typeString, unitString, valueString]
   );
 
   const exportColumns = columns
@@ -440,6 +446,12 @@ const EconomicsParametersManual = ({
       )
     );
   }, [rows]);
+
+  React.useEffect(() => {
+    if (Object.entries(parametersDeck).length > 0) {
+      setRows(parametersDeck);
+    }
+  }, [parametersDeck]);
 
   return (
     <div className={classes.rootStoredData}>

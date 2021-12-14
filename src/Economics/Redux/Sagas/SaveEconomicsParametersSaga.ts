@@ -77,7 +77,7 @@ function* saveEconomicsParametersSaga(
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
-  const { tableData, appHeaderNameUnitsMap } = yield select(
+  const { basedOnVariables, tableData, appHeaderNameUnitsMap } = yield select(
     (state) => state.economicsReducer[wc][wp]
   );
   console.log(
@@ -109,6 +109,8 @@ function* saveEconomicsParametersSaga(
     inputDeck
   );
 
+  //TODO
+  //Get these names from backend so we have single source
   const commercialTechnical = pick(economicsParametersObj, [
     "yearDiscounting",
     "discountRate",
@@ -158,6 +160,8 @@ function* saveEconomicsParametersSaga(
       oilRoyalty,
       gasRoyalty,
     },
+    basedOnVariables:
+      wp === "economicsParametersDeckManual" ? basedOnVariables : {},
     variableUnits: appHeaderNameUnitsMap,
     matchObject,
   };

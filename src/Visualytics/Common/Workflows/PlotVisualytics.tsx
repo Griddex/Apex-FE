@@ -155,7 +155,7 @@ const PlotVisualytics = () => {
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
           chartOptions={visualyticsPlotCharts}
-          initialChartIndex={1}
+          initialChartIndex={2}
           putChartOptionAction={
             visualyticsResults.length > 0
               ? (chartOption: ISelectOption) => {

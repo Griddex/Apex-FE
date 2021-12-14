@@ -2,12 +2,14 @@ import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/Ape
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 export interface IColumnsObj {
-  row: IRawRow;
+  rows: IRawRow[];
+  rowIndex?: number;
   genericAddtnlColumnsObj?: Record<string, string>;
   customAddtnlColumnsObj?: Record<string, string>;
 }
 
 export interface IEconomicsParametersTable extends IColumnsObj {
+  row: IRawRow;
   isRoyalty: boolean;
   toggleSwitch: boolean;
   setToggleSwitch: TUseState<boolean>;

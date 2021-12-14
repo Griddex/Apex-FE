@@ -101,6 +101,7 @@ const storedWorkflowProcesses = [
   "economicsSensitivitiesStored",
   "economicsResultsStored",
 ];
+
 const generateStoredDataState = () => {
   return storedWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
@@ -120,6 +121,7 @@ const analysesWorkflowProcesses = [
   "internalRateOfReturn",
   "mulitpleAnalyses",
 ];
+
 const generateAnalysesState = () => {
   return analysesWorkflowProcesses.reduce((acc, workflowProcess) => {
     return {
