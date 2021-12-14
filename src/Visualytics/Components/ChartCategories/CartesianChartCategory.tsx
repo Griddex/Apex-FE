@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       borderBottom: `1px solid ${theme.palette.grey[300]}`,
       width: "100%",
-      paddingTop: 5,
+      paddingTop: 1,
     },
     list: {
       display: "block",
@@ -47,7 +47,7 @@ const CartesianChartCategory = ({
   showCategoryMembersSwitch,
   showCategoryMembersObj,
   showCategoryZMembers,
-  path,
+  devScenariosTitle,
   updateParameterAction,
   updateDragItemsAction,
   updateHasDroppedAction,
@@ -57,12 +57,28 @@ const CartesianChartCategory = ({
   categoryHasDroppedTitle,
   resultsTitle,
 }: IChartCategories) => {
+  console.log(
+    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryZMembers",
+    showCategoryZMembers
+  );
+  console.log(
+    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryMembersObj",
+    showCategoryMembersObj
+  );
+  console.log(
+    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryMembersSwitch",
+    showCategoryMembersSwitch
+  );
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const [membersSwitch, setMembersSwitch] = React.useState(
     showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
+  );
+  console.log(
+    "🚀 ~ file: CartesianChartCategory.tsx ~ line 70 ~ membersSwitch",
+    membersSwitch
   );
 
   const [hasDroppedObj, setHasDroppedObj] = React.useState(
@@ -147,7 +163,17 @@ const CartesianChartCategory = ({
     );
     setHasDroppedObj(categoryDropped as Record<string, true>);
     setDragItemObj(categoryDragItem as Record<string, IDragItem>);
-  }, [resultsTitle]);
+  }, [
+    resultsTitle,
+    devScenariosTitle,
+    JSON.stringify(
+      Object.values(showCategoryMembersObj as Record<string, boolean>)
+    ),
+    JSON.stringify(Object.values(categoryDropped as Record<string, boolean>)),
+    JSON.stringify(
+      Object.values(categoryDragItem as Record<string, IDragItem>)
+    ),
+  ]);
 
   return (
     <div className={classes.chartProps} style={style}>
@@ -172,10 +198,6 @@ const CartesianChartCategory = ({
                   showCategoryZMembers
                 )
             );
-            // dispatch(
-            //   updateParameterAction &&
-            //     updateParameterAction(path as string, showCategoryMembersObj)
-            // );
           }}
           checked={membersSwitch as boolean}
           checkedColor={theme.palette.success.main}
@@ -183,7 +205,7 @@ const CartesianChartCategory = ({
           hasLabels={true}
           leftLabel="Hide"
           rightLabel="Show"
-          moreStyles={{ alignSelf: "flex-end" }}
+          moreStyles={{ alignSelf: "flex-end", height: 30 }}
         />
       )}
       <AnalyticsComp

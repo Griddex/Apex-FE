@@ -79,7 +79,7 @@ function* runEconomicsForecastAggregationSaga(
   const url = `${getBaseEconomicsUrl()}/forecast/forecastResultDataByScenario/${selectedForecastingResultsId}/${forecastCase}`;
 
   try {
-    const message = "Fetching aggregated forecast results...";
+    const message = "Loading aggregated forecast results...";
     yield put(showSpinnerAction(message));
 
     const forecastResultsAPI = (url: string) => authService.get(url, config);

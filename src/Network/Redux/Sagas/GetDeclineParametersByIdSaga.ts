@@ -71,7 +71,7 @@ function* getDeclineParametersByIdSaga(action: IAction): Generator<
   const declineParametersUrl = `${getBaseForecastUrl()}/well-decline-parameters/${selectedDeclineParametersId}`;
 
   try {
-    yield put(showSpinnerAction("Fetching..."));
+    yield put(showSpinnerAction("Loading..."));
 
     const declineParametersResults = yield call(
       getDeclineParametersByIdAPI,

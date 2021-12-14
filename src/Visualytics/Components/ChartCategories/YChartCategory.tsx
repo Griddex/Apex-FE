@@ -11,7 +11,7 @@ const YChartCategory = ({
   disable,
   showCategoryMembersSwitch,
   showCategoryMembersObj,
-  path,
+  devScenariosTitle,
   updateParameterAction,
   updateDragItemsAction,
   updateHasDroppedAction,
@@ -36,7 +36,7 @@ const YChartCategory = ({
       disable={disable}
       showCategoryMembersSwitch={showCategoryMembersSwitch}
       showCategoryMembersObj={showCategoryMembersObj}
-      path={path}
+      devScenariosTitle={devScenariosTitle}
       updateParameterAction={updateParameterAction}
       updateDragItemsAction={updateDragItemsAction}
       updateHasDroppedAction={updateHasDroppedAction}

@@ -24,6 +24,7 @@ export interface IProject {
   icon?: JSX.Element;
   handleClick?: () => void;
   toggleSN?: boolean;
+  style?: CSSProperties;
   recentProjectsStyles?: CSSProperties;
 }
 

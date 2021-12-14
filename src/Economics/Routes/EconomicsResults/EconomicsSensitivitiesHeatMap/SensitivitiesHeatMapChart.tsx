@@ -16,6 +16,7 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import isObjectEmpty from "../../../../Application/Utils/IsObjectEmpty";
 import {
   developmentScenariosMap,
+  initialHeatMapData,
   TDevScenariosMapKeys,
 } from "../../../Data/EconomicsData";
 import {
@@ -212,27 +213,7 @@ const SensitivitiesHeatMapChart = ({
           shouldDispatch={[false, false]}
           finalActions={[
             () => {
-              dispatch(
-                updateEconomicsParametersAction({
-                  sensitivitiesHeatMapData: {},
-                  sensitivitiesHeatMap1or2D: [],
-                  heatMapVariableXOptions: {},
-                  heatMapVariableYOptions: {},
-                  heatMapVariableZOptions: {},
-                  categoryDragItems: {
-                    "X Category": {},
-                    "Y Category": {},
-                    "Z Category": {},
-                    "R Category": {},
-                  },
-                  categoryHasDropped: {
-                    "X Category": {},
-                    "Y Category": {},
-                    "Z Category": {},
-                    "R Category": {},
-                  },
-                })
-              );
+              dispatch(updateEconomicsParametersAction(initialHeatMapData));
             },
             () => {
               const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;

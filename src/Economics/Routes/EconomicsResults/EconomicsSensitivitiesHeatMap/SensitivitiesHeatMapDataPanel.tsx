@@ -28,6 +28,8 @@ import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHold
 import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
 import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
+import { initialHeatMapData } from "../../../Data/EconomicsData";
+import omit from "lodash.omit";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -84,10 +86,7 @@ const SensitivitiesHeatMapDataPanel = ({
   const selectedEconomicsResultsTitle = useSelector(
     selectedEconomicsResultsTitleSelector
   );
-  console.log(
-    "🚀 ~ file: SensitivitiesHeatMapDataPanel.tsx ~ line 87 ~ selectedEconomicsResultsTitle",
-    selectedEconomicsResultsTitle
-  );
+
   const selectedEconomicsResultsDescription = useSelector(
     selectedEconomicsResultsDescriptionSelector
   );
@@ -175,28 +174,20 @@ const SensitivitiesHeatMapDataPanel = ({
       selectedEconomicsResultsTitleOption as IExtendedSelectOption
     );
 
+  const clearAllChartData = React.useCallback(
+    () => dispatch(updateEconomicsParametersAction(initialHeatMapData)),
+    []
+  );
+
   const clearChartCategories = React.useCallback(
     () =>
       dispatch(
-        updateEconomicsParametersAction({
-          sensitivitiesHeatMapData: {},
-          sensitivitiesHeatMap1or2D: [],
-          heatMapVariableXOptions: {},
-          heatMapVariableYOptions: {},
-          heatMapVariableZOptions: {},
-          categoryDragItems: {
-            "X Category": {},
-            "Y Category": {},
-            "Z Category": {},
-            "R Category": {},
-          },
-          categoryHasDropped: {
-            "X Category": {},
-            "Y Category": {},
-            "Z Category": {},
-            "R Category": {},
-          },
-        })
+        updateEconomicsParametersAction(
+          omit(initialHeatMapData, [
+            "heatMapTreeByScenario",
+            "sensitivitiesHeatMapTree",
+          ])
+        )
       ),
     []
   );
@@ -218,8 +209,6 @@ const SensitivitiesHeatMapDataPanel = ({
           isEconomicsResultsSaved: false,
         })
       );
-
-      setDevOption({ value: "select", label: "Select..." });
     } else {
       const idTitleDescIsSaved = {
         selectedEconomicsResultsId: id,
@@ -236,9 +225,10 @@ const SensitivitiesHeatMapDataPanel = ({
         )
       );
 
-      clearChartCategories();
+      clearAllChartData();
     }
 
+    setDevOption({ value: "select", label: "Select..." });
     dispatch(resetHeatMapWorkflowsAction());
   };
 
@@ -263,6 +253,15 @@ const SensitivitiesHeatMapDataPanel = ({
                 updateEconomicsParameterAction(
                   "heatMapTreeByScenario",
                   heatMapTreeByScenario
+                )
+              );
+
+              dispatch(
+                updateEconomicsParametersAction(
+                  omit(initialHeatMapData, [
+                    "heatMapTreeByScenario",
+                    "sensitivitiesHeatMapTree",
+                  ])
                 )
               );
             }}
@@ -362,6 +361,7 @@ const SensitivitiesHeatMapDataPanel = ({
         />
       }
       resultsTitle={selectedEconomicsResultsTitle}
+      devScenariosTitle={devOption.value}
     />
   );
 
