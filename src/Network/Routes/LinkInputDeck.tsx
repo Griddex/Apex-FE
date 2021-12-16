@@ -5,14 +5,14 @@ import uniq from "lodash.uniq";
 import uniqBy from "lodash.uniqby";
 import zipObject from "lodash.zipobject";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { Node } from "react-flow-renderer";
 import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { ISelectOption } from "../../Application/Components/Selects/SelectItemsType";
 import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import LinkInputDeckAndNodes from "../Components/LinkInputDeck/LinkInputDeckAndNodes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -37,7 +37,6 @@ const LinkInputDeck = () => {
   const [nodeType, setNodeType] = React.useState("drainagepoint");
 
   const nodeElementsManual = useSelector(nodeElementsManualSelector);
-
   const selectedTableData = useSelector(selectedTableDataSelector);
 
   const uniqNodeTypes = uniqBy(

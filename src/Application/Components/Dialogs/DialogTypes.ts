@@ -76,7 +76,7 @@ export interface IApplicationDialogs {
   storedNetworksDialog: typeof StoredNetworksDialog;
   generateNetworkWorkflowDialog: typeof GenerateNetworkWorkflowDialog;
   storedForecastingParametersDialog: typeof StoredForecastingParametersDialog;
-  createForecastingParametersWorkflowDialog: typeof EditOrCreateForecastingParametersWorkflowDialog;
+  editOrCreateForecastingParametersWorkflowDialog: typeof EditOrCreateForecastingParametersWorkflowDialog;
   createDeclineParametersWorkflowDialog: typeof EditOrCreateDeclineParametersWorkflowDialog;
   createPrioritizationParametersWorkflowDialog: typeof EditOrCreateProductionPrioritizationWorkflowDialog;
   declineCurveParametersDialog: typeof DeclineCurveParametersDialog;
@@ -154,7 +154,7 @@ export interface DialogStuff<TRow = TDataRow> {
     | "storedNetworksDialog"
     | "generateNetworkWorkflowDialog"
     | "storedForecastingParametersDialog"
-    | "createForecastingParametersWorkflowDialog"
+    | "editOrCreateForecastingParametersWorkflowDialog"
     | "declineCurveParametersDialog"
     | "productionStreamPrioritizationDialog"
     | "saveCostsRevenuesInputDeckDialog"

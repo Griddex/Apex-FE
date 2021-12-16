@@ -1,8 +1,6 @@
 import { useTheme } from "@mui/material";
 import React from "react";
 import { Column } from "react-data-griddex";
-import { Node } from "react-flow-renderer";
-import { useDispatch } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { SizeMe } from "react-sizeme";
 import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
@@ -11,9 +9,8 @@ import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexCo
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
-  ISize,
+  ISize
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { nodeImages } from "../../Services/NodesImageService";
 import { TNodeTypes } from "../Widgets/WidgetTypes";
@@ -54,7 +51,6 @@ const LinkInputDeckAndNodes = ({
     "Logged output --> ~ file: LinkInputDeckAndNodes.tsx ~ line 50 ~ idxNodesObj",
     idxNodesObj
   );
-  const dispatch = useDispatch();
   const theme = useTheme();
 
   const linkRef = React.useRef<HTMLDivElement>(null);
@@ -71,7 +67,7 @@ const LinkInputDeckAndNodes = ({
       },
       {
         key: "nodeImage",
-        name: "IMAGE",
+        name: "WIDGET",
         resizable: true,
         formatter: ({ row }) => {
           const nodeImage = row.nodeImage as TNodeTypes;
@@ -147,7 +143,6 @@ const LinkInputDeckAndNodes = ({
               }}
               menuPortalTarget={linkRef.current as HTMLDivElement}
               isSelectOptionType={true}
-              containerHeight={40}
             />
           );
         },
@@ -192,10 +187,12 @@ const LinkInputDeckAndNodes = ({
     return columns;
   };
 
-  const columns = React.useMemo(
-    () => generateColumns(nodeDiffOptions),
-    [nodeDiffOptions]
-  );
+  const columns = generateColumns(nodeDiffOptions);
+
+  // const columns = React.useMemo(
+  //   () => generateColumns(nodeDiffOptions),
+  //   [nodeDiffOptions]
+  // );
 
   React.useEffect(() => {
     setRows(nodeRows);

@@ -26,7 +26,6 @@ const EditOrCreateForecastParametersWorkflow = ({
 }: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as ReducersType;
 
-  const wc = "storedDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 

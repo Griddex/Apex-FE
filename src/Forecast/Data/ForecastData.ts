@@ -86,3 +86,29 @@ export const forecastPlotChartsOptions = [
     label: "Scatter",
   },
 ];
+
+export const newUserForecastParametersRow = {
+  sn: 1,
+  forecastingParametersId: "",
+  forecastInputDeckId: "",
+  forecastInputdeckTitle: "",
+  title: "New Title",
+  description: "New Description",
+  type: "User",
+  wellDeclineParameterId: "",
+  wellPrioritizationId: "",
+  wellDeclineParameterTitle: "",
+  wellPrioritizationTitle: "",
+  targetFluid: "Oil",
+  timeFrequency: "Monthly",
+  isDefered: "noDeferment",
+  realtimeResults: "no",
+  startForecast: "",
+  endForecast: "",
+  author: {
+    avatarUrl: "",
+    name: "None",
+  },
+  createdOn: "",
+  modifiedOn: "",
+};

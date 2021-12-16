@@ -24,6 +24,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TUseState } from "../../Application/Types/ApplicationTypes";
+import { newUserForecastParametersRow } from "../../Forecast/Data/ForecastData";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import {
   defermentOptions,
@@ -99,16 +100,12 @@ const selectedProductionPrioritizationTitleSelector = createDeepEqualSelector(
 const EditOrCreateForecastingParameters = ({
   currentRow,
   setCurrentRow,
-  shouldUpdate,
   workflowProcess,
-  forecastParametersIndex,
 }: IEditOrCreateForecastingParameters) => {
   console.log(
-    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 88 ~ currentRow",
+    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 104 ~ currentRow",
     currentRow
   );
-  const wc = "storedDataWorkflows";
-
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
@@ -121,7 +118,9 @@ const EditOrCreateForecastingParameters = ({
 
   const dialogRef = React.useRef<HTMLElement>(null);
   const [formEditorRow, setFormEditorRow] = React.useState(
-    currentRow as IForecastParametersStoredRow
+    workflowProcess === "createForecastingParametersWorkflow"
+      ? (newUserForecastParametersRow as IForecastParametersStoredRow)
+      : (currentRow as IForecastParametersStoredRow)
   );
 
   const selectedDeclineParametersId = useSelector(
@@ -182,10 +181,6 @@ const EditOrCreateForecastingParameters = ({
           [true, false],
           [
             unloadDialogsAction,
-            // () =>
-            //   getDeclineParametersByIdRequestAction(
-            //     formEditorRow["wellDeclineParameterId"]
-            //   ),
             () => {
               setFormEditorRow((prev) => ({
                 ...prev,
@@ -273,9 +268,60 @@ const EditOrCreateForecastingParameters = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const TimeFrequency = () => (
+    <ApexSelectRS
+      valueOption={
+        timeFrequencyOptions.find(
+          (o) =>
+            o.value.toLowerCase() ===
+            formEditorRow["timeFrequency"].toLowerCase()
+        ) as ISelectOption
+      }
+      data={timeFrequencyOptions}
+      handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+        const optionDefined = option as ISelectOption;
+
+        setFormEditorRow((prev) => ({
+          ...prev,
+          timeFrequency: optionDefined.value as string,
+        }));
+      }}
+      menuPortalTarget={dialogRef.current as HTMLElement}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
+
+  const DefermentUtilization = () => (
+    <ApexSelectRS
+      valueOption={
+        defermentOptions.find(
+          (o) =>
+            o.value.toLowerCase() === formEditorRow["isDefered"].toLowerCase()
+        ) as ISelectOption
+      }
+      data={defermentOptions}
+      handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+        const optionDefined = option as ISelectOption;
+
+        setFormEditorRow((prev) => ({
+          ...prev,
+          isDefered: optionDefined.value as string,
+        }));
+      }}
+      menuPortalTarget={dialogRef.current as HTMLElement}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
+
   React.useEffect(() => {
     setCurrentRow && setCurrentRow(formEditorRow);
   }, [formEditorRow]);
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 316 ~ formEditorRow",
+    formEditorRow
+  );
 
   return (
     <div className={classes.root}>
@@ -351,56 +397,13 @@ const EditOrCreateForecastingParameters = ({
         <AnalyticsComp
           title="Time Frequency"
           direction="Vertical"
-          content={
-            <ApexSelectRS
-              valueOption={
-                timeFrequencyOptions.find(
-                  (o) =>
-                    o.value.toLowerCase() ===
-                    formEditorRow["timeFrequency"].toLowerCase()
-                ) as ISelectOption
-              }
-              data={timeFrequencyOptions}
-              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-                const optionDefined = option as ISelectOption;
-
-                setFormEditorRow((prev) => ({
-                  ...prev,
-                  timeFrequency: optionDefined.value as string,
-                }));
-              }}
-              menuPortalTarget={dialogRef.current as HTMLElement}
-              isSelectOptionType={true}
-            />
-          }
+          content={<TimeFrequency />}
           containerStyle={{ width: "45%", height: 50 }}
         />
         <AnalyticsComp
           title="Deferment Utilization"
           direction="Vertical"
-          content={
-            <ApexSelectRS
-              valueOption={
-                defermentOptions.find(
-                  (o) =>
-                    o.value.toLowerCase() ===
-                    formEditorRow["isDefered"].toLowerCase()
-                ) as ISelectOption
-              }
-              data={defermentOptions}
-              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-                const optionDefined = option as ISelectOption;
-
-                setFormEditorRow((prev) => ({
-                  ...prev,
-                  isDefered: optionDefined.value as string,
-                }));
-              }}
-              menuPortalTarget={dialogRef.current as HTMLElement}
-              isSelectOptionType={true}
-              containerHeight={40}
-            />
-          }
+          content={<DefermentUtilization />}
           containerStyle={{ width: "45%", height: 50 }}
         />
       </ApexFlexContainer>

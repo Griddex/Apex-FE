@@ -69,7 +69,7 @@ const applicationDialogs: IApplicationDialogs = {
   storedNetworksDialog: StoredNetworksDialog,
   generateNetworkWorkflowDialog: GenerateNetworkWorkflowDialog,
   storedForecastingParametersDialog: StoredForecastingParametersDialog,
-  createForecastingParametersWorkflowDialog:
+  editOrCreateForecastingParametersWorkflowDialog:
     EditOrCreateForecastingParametersWorkflowDialog,
   createDeclineParametersWorkflowDialog:
     EditOrCreateDeclineParametersWorkflowDialog,
@@ -135,7 +135,7 @@ const Dialogs: React.FC<DialogStuff> = () => {
           const { type } = dialog;
 
           if (dialog !== undefined && dialog.show === true && type) {
-            if (type === "createForecastingParametersWorkflowDialog") {
+            if (type === "editOrCreateForecastingParametersWorkflowDialog") {
               const SpecificDialog = applicationDialogs[type];
               const dialogDefined =
                 dialog as DialogStuff<IForecastParametersStoredRow>;
