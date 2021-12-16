@@ -208,7 +208,7 @@ const EditOrCreateProductionPrioritization = () => {
     });
 
     return (
-      <ApexFlexContainer ref={dialogRef}>
+      <ApexFlexContainer>
         <SizeMe monitorHeight refreshRate={32}>
           {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
         </SizeMe>
@@ -288,7 +288,7 @@ const EditOrCreateProductionPrioritization = () => {
   };
 
   return (
-    <ApexFlexContainer flexDirection="column">
+    <ApexFlexContainer flexDirection="column" ref={dialogRef}>
       <AnalyticsComp
         title="Prioritization Perspective"
         direction="Vertical"
