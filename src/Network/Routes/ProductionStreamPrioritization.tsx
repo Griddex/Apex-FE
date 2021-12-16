@@ -49,8 +49,6 @@ const ProductionStreamPrioritization = () => {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const theme = useTheme();
 
-  console.log("Production Prioritizationnnnnnnnnnnnnnnnnnnn");
-
   const selectedTableData = useSelector(selectedTableDataSelector);
   const prioritizationPerspective = useSelector(
     prioritizationPerspectiveSelector
@@ -96,15 +94,21 @@ const ProductionStreamPrioritization = () => {
   };
 
   const ProductionPrioritization = () => {
-    const columnKeys = Object.keys(snSelectedTableData[0]);
+    const columnKeys = Object.keys(
+      snSelectedTableData && snSelectedTableData[0]
+        ? snSelectedTableData[0]
+        : []
+    );
 
-    const streamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
+    const StreamFormatter = ({ row }: FormatterProps<IRawRow, unknown>) => {
+      const rowIndex = (row.sn as number) - 1;
       const optimizationWeight = row.optimizationWeight as string;
       const optimizationOptions = [
         { value: "high", label: "High" },
         { value: "normal", label: "Normal" },
         { value: "low", label: "Low" },
       ];
+
       const valueOption = {
         value: camelCase(optimizationWeight),
         label: capitalize(optimizationWeight),
@@ -115,11 +119,22 @@ const ProductionStreamPrioritization = () => {
           valueOption={valueOption as ISelectOption}
           data={optimizationOptions}
           handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-            console.log(option);
+            setRows((prev: any) => {
+              const next = [...prev];
+
+              const currentRow = prev[rowIndex];
+              const newRow = {
+                ...currentRow,
+                optimizationWeight: option?.value,
+              };
+
+              next[rowIndex] = newRow;
+
+              return next;
+            });
           }}
           menuPortalTarget={dialogRef.current as HTMLDivElement}
           isSelectOptionType={true}
-          containerHeight={40}
         />
       );
     };
@@ -132,7 +147,7 @@ const ProductionStreamPrioritization = () => {
         resizable: true,
         formatter:
           k.toLowerCase().trim() === "optimizationweight"
-            ? streamFormatter
+            ? StreamFormatter
             : undefined,
         width: k.toLowerCase().trim() === "sn" ? 50 : "auto",
       };
@@ -184,7 +199,6 @@ const ProductionStreamPrioritization = () => {
   };
 
   const StreamPrioritization = React.memo(() => {
-    console.log("Stream Prioritaizationnnnnnnnnnnnnnnnn");
     const streamPrioritizationData = React.useMemo(
       () => [
         {
