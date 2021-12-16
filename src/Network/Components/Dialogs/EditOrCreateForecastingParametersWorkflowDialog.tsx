@@ -41,6 +41,11 @@ const selectedForecastingParametersIdSelector = createDeepEqualSelector(
   (data) => data
 );
 
+const selectedForecastInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedForecastInputDeckId,
+  (data) => data
+);
+
 const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   DialogStuff<IForecastParametersStoredRow>
 > = (props) => {
@@ -56,15 +61,24 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     currentRow,
     forecastParametersIndex,
   } = props;
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 63 ~ props",
+    props
+  );
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
   const [shouldUpdate, setShouldUpdate] = React.useState(false);
 
+  const selectedForecastInputDeckId = useSelector(
+    selectedForecastInputDeckIdSelector
+  );
+
   const selectedForecastingParametersId = useSelector(
     selectedForecastingParametersIdSelector
   );
+
   const storedTitles = useSelector(forecastingParametersTitlesSelector);
 
   const [formTitle, setFormTitle] = React.useState("");
@@ -173,6 +187,14 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     } else return false;
   };
 
+  const getSelectedId = () => {
+    if (workflowProcessDefined === "createForecastingParametersWorkflow")
+      return selectedForecastInputDeckId;
+    else return selectedForecastingParametersId;
+  };
+
+  const id = getSelectedId();
+
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
@@ -183,7 +205,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
       reset: false,
       skip: false,
       back: activeStep === 0 ? true : false,
-      next: selectedForecastingParametersId ? false : true,
+      next: false,
     },
     finalAction: createForecastingParametersConfirmation,
     workflowProps,
@@ -202,7 +224,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   return (
     <Dialog

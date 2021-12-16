@@ -14,7 +14,7 @@ export const extrudeForecastParametersDPs = (
   return {
     name: "Edit_Forecast_Parameters_Parameters_Dialog",
     title,
-    type: "createForecastingParametersWorkflowDialog",
+    type: "editOrCreateForecastingParametersWorkflowDialog",
     show: true,
     exclusive: false,
     maxWidth: "lg",

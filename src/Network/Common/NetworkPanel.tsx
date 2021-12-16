@@ -105,6 +105,38 @@ const NetworkPanel = () => {
     };
   }
 
+  const ForecastInputDeckSelect = () => (
+    <ApexSelectRS
+      valueOption={forecastInputDeckOption}
+      data={forecastInputDeckOptions}
+      handleSelect={(option: OnChangeValue<IExtendedSelectOption, false>) => {
+        const optionDefined = option as IExtendedSelectOption;
+        setForecastInputDeckOption(optionDefined);
+
+        dispatch(
+          updateForecastResultsParameterAction(
+            "selectedForecastInputDeckId",
+            optionDefined.id
+          )
+        );
+
+        dispatch(
+          getTableDataByIdRequestAction(
+            reducer as ReducersType,
+            `${mainUrl}/${optionDefined.id}`,
+            optionDefined.label as string,
+            "networkManualBuild",
+            "success",
+            "InputDeckEntities"
+          )
+        );
+      }}
+      menuPortalTarget={document.body}
+      isSelectOptionType={true}
+      containerHeight={40}
+    />
+  );
+
   return (
     <>
       {!isNetworkAuto && (
@@ -112,36 +144,7 @@ const NetworkPanel = () => {
           title="Forecast InputDeck"
           content={
             <div style={{ display: "flex", alignItems: "center" }}>
-              <ApexSelectRS
-                valueOption={forecastInputDeckOption}
-                data={forecastInputDeckOptions}
-                handleSelect={(
-                  option: OnChangeValue<IExtendedSelectOption, false>
-                ) => {
-                  const optionDefined = option as IExtendedSelectOption;
-                  setForecastInputDeckOption(optionDefined);
-
-                  dispatch(
-                    updateForecastResultsParameterAction(
-                      "selectedForecastInputDeckId",
-                      optionDefined.id
-                    )
-                  );
-
-                  dispatch(
-                    getTableDataByIdRequestAction(
-                      reducer as ReducersType,
-                      `${mainUrl}/${optionDefined.id}`,
-                      optionDefined.label as string,
-                      "networkManualBuild",
-                      "success"
-                    )
-                  );
-                }}
-                menuPortalTarget={document.body}
-                isSelectOptionType={true}
-                containerHeight={40}
-              />
+              <ForecastInputDeckSelect />
               <CallMadeOutlinedIcon />
             </div>
           }
