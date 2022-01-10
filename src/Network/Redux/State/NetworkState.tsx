@@ -10,6 +10,7 @@ const networkState: INetworkState = {
   showPopover: false,
   showNetworkElementDetails: null,
 
+  showTitle: true,
   nodeElements: [],
   edgeElements: [],
   nodeElementsManual: [],
@@ -99,7 +100,6 @@ const networkState: INetworkState = {
     declineParametersStored: [],
     productionPrioritizationStored: [],
   },
-
 
   selectedDeclineParametersData: [],
   currentProductionPrioritization: [],

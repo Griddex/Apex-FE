@@ -10,8 +10,6 @@ import {
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -24,6 +22,8 @@ import {
   handleStyle,
 } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const DrainagePointSummaryTitle = ({ drainagePoints }: IWidget) => {
   const theme = useTheme();

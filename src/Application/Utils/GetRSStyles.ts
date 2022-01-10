@@ -21,12 +21,11 @@ const getRSStyles = <T extends ISelectOption>(
     }),
     valueContainer: (styles) => ({
       ...styles,
-      display: "flex",
-      justifyContent: "flex-start",
+      padding: 0,
+      marginLeft: 4,
       height: "100%",
-      width: "100%",
-      alignSelf: "center",
     }),
+    input: (styles) => ({ ...styles, height: "100%" }),
     singleValue: (styles, { data }) => {
       let label = theme.palette.grey[900];
 
@@ -54,9 +53,10 @@ const getRSStyles = <T extends ISelectOption>(
         display: "flex",
         alignItems: "center",
         width: "100%",
-        height: "100%",
+        height: containerHeight,
       };
     },
+    multiValue: (styles) => ({ ...styles, height: "100%" }),
     menu: (styles) => ({ ...styles, marginTop: 0 }),
     control: (styles, { getValue }) => {
       const selectOptions = getValue();
@@ -92,34 +92,12 @@ const getRSStyles = <T extends ISelectOption>(
         flex: 1,
       };
     },
-    // indicatorSeparator: (styles) => {
-    //   return { ...styles, backgroundColor: "white" };
-    // },
     indicatorsContainer: (styles) => {
       return { ...styles, height: "100%" };
     },
     dropdownIndicator: (styles) => {
       return { ...styles, color: theme.palette.grey[900] };
     },
-    // multiValue: (styles, { data }) => {
-    //   const color = chroma(data.color);
-    //   return {
-    //     ...styles,
-    //     backgroundColor: color.alpha(0.1).css(),
-    //   };
-    // },
-    // multiValueLabel: (styles, { data }) => ({
-    //   ...styles,
-    //   color: data.color,
-    // }),
-    // multiValueRemove: (styles, { data }) => ({
-    //   ...styles,
-    //   color: data.color,
-    //   ':hover': {
-    //     backgroundColor: data.color,
-    //     color: 'white',
-    //   },
-    // }),
   };
 
   return apexSelectStyles;

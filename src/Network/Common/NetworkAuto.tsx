@@ -190,8 +190,8 @@ const NetworkAuto = ({ isNetworkAuto }: INetworkProps) => {
     const mouseCoord = monitor.getClientOffset() as XYPosition;
 
     const mouseCoordUpdated = {
-      x: mouseCoord.x - networkBounds.left,
-      y: mouseCoord.y - networkBounds.top,
+      x: (mouseCoord?.x as number) - networkBounds.left,
+      y: (mouseCoord?.y as number) - networkBounds.top + 31,
     } as XYPosition;
 
     const mouseCoordProjected = (

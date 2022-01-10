@@ -98,3 +98,13 @@ export const networkIcons: Record<string, string> = {
   gatheringCenter: GatheringCenter,
   terminal: Terminal,
 };
+
+export const networkElementOptions: Record<string, string> = {
+  drainagePoint: "Drainage Point",
+  drainagePointSummary: "Drainage Point",
+  manifold: "Manifold",
+  flowstation: "Flowstation",
+  gasFacility: "Gas Facility",
+  gatheringCenter: "Gathering Center",
+  terminal: "Terminal",
+};

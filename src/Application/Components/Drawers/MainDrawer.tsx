@@ -250,7 +250,7 @@ const MainDrawer = () => {
                     }}
                   />
                 ) : (
-                  <>{name}</>
+                  <div>{name}</div>
                 )
               }
               placement="right"
