@@ -742,14 +742,12 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         name: "FILE HEADER",
         editable: false,
         resizable: true,
-        width: 200,
       },
       {
         key: "fileUnit",
         name: "FILE UNIT",
         editable: false,
         resizable: true,
-        width: 200,
       },
       {
         key: "type",

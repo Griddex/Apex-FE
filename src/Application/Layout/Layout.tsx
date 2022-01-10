@@ -3,6 +3,7 @@ import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  Prompt,
   Route,
   RouteComponentProps,
   Switch,
@@ -14,6 +15,7 @@ import { fetchApplicationHeadersRequestAction } from "../../Import/Redux/Actions
 import { fetchStoredProjectsRequestAction } from "../../Project/Redux/Actions/ProjectActions";
 import { fetchUnitSettingsRequestAction } from "../../Settings/Redux/Actions/UnitSettingsActions";
 import Dialogs from "../Components/Dialogs/Dialogs";
+import { ApexNavPrompt } from "../Components/Prompts/ApexNavPrompt";
 import { NavigationApexPrompt } from "../Components/Prompts/ApexPrompt";
 import Spinners from "../Components/Visuals/Spinners";
 import { fetchMatchObjectRequestAction } from "../Redux/Actions/ApplicationActions";
@@ -109,7 +111,24 @@ const Layout = () => {
       {showNavbar && <Navbar />}
       {showMainDrawer && <MainDrawer />}
       <main className={classes.main}>
+        <ApexNavPrompt
+          afterConfirm={afterConfirmAction}
+          when={false}
+          currentLocation={location.pathname}
+          name="Navigation_Confirmation_Dialog"
+          title="Navigation Confirmation"
+          dialogText={`You are about to leave this page and lose all workflow progress to this point. 
+                    Confirm Navigation?`}
+          onOK={async () => console.log("ok")}
+          onCancel={async () => console.log("cancel")}
+        />
         {/* <NavigationApexPrompt afterConfirm={afterConfirmAction} /> */}
+        {/* <Prompt
+          when={true}
+          message={(location) =>
+            `Are you sure you want to go to ${location.pathname}`
+          }
+        /> */}
         <Switch>
           <Route exact path={url} component={ProductBackground} />
           <Route path={`${url}/:layoutId`}>

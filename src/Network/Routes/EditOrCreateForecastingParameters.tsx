@@ -102,10 +102,6 @@ const EditOrCreateForecastingParameters = ({
   setCurrentRow,
   workflowProcess,
 }: IEditOrCreateForecastingParameters) => {
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 104 ~ currentRow",
-    currentRow
-  );
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();

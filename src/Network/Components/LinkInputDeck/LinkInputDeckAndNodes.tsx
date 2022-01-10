@@ -9,7 +9,7 @@ import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexCo
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import {
   IRawRow,
-  ISize
+  ISize,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { nodeImages } from "../../Services/NodesImageService";
@@ -20,41 +20,38 @@ export interface ISelectedOthers {
   others: ISelectOption[];
 }
 
-export type TIdxNodesObj = Record<
-  string,
-  {
-    inputDeckNodeTitleOptions: ISelectOption[];
-    idxNodes: Record<number, ISelectedOthers>;
-    nodeDiffOptions: ISelectOption[];
+export type TNodeRows = {
+  sn: number;
+  nodeImage: any;
+  applicationNode: any;
+  inputDeckNode: string;
+}[];
 
-    nodeRows: {
-      sn: number;
-      nodeImage: any;
-      applicationNode: any;
-      inputDeckNode: string;
-    }[];
-  }
->;
+export type TIdxNodesObj = {
+  inputDeckNodeTitleOptions: ISelectOption[];
+  idxNodes: Record<number, ISelectedOthers>;
+  nodeDiffOptions: ISelectOption[];
+  nodeRows: TNodeRows;
+};
+
+export type TIdxNodesByNodeObj = Record<string, TIdxNodesObj>;
 
 export interface ILinkInputDeckAndNodes {
   deckNodeTitle: string;
-  idxNodesObj: TIdxNodesObj;
-  setIdxNodesObj: TUseState<TIdxNodesObj>;
+  idxNodesByNodeObj: TIdxNodesByNodeObj;
+  setIdxNodesByNodeObj: TUseState<TIdxNodesByNodeObj>;
 }
 
 const LinkInputDeckAndNodes = ({
   deckNodeTitle,
-  idxNodesObj,
-  setIdxNodesObj,
+  idxNodesByNodeObj,
+  setIdxNodesByNodeObj,
 }: ILinkInputDeckAndNodes) => {
-  console.log(
-    "Logged output --> ~ file: LinkInputDeckAndNodes.tsx ~ line 50 ~ idxNodesObj",
-    idxNodesObj
-  );
   const theme = useTheme();
-
   const linkRef = React.useRef<HTMLDivElement>(null);
-  const { nodeDiffOptions, nodeRows } = idxNodesObj[deckNodeTitle];
+
+  const { nodeDiffOptions, nodeRows } = idxNodesByNodeObj[deckNodeTitle];
+
   const [rows, setRows] = React.useState(nodeRows);
 
   const generateColumns = (stnDiffOptions: ISelectOption[]) => {
@@ -93,53 +90,59 @@ const LinkInputDeckAndNodes = ({
             value: inputDeckNode,
             label: inputDeckNode,
           };
-          const options = stnDiffOptions;
 
           return (
             <ApexSelectRS
               valueOption={valueOption}
-              data={options as ISelectOption[]}
+              data={stnDiffOptions as ISelectOption[]}
               handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
                 const optionDefined = option as ISelectOption;
 
-                setIdxNodesObj((prev) => {
+                setIdxNodesByNodeObj((prev) => {
                   const currentRowIdxNodes = prev[deckNodeTitle]["idxNodes"];
 
                   const newRowIdxNodes = Object.keys(currentRowIdxNodes).reduce(
                     (acc: Record<number, ISelectedOthers>, key) => {
                       const keyDefined = parseInt(key);
                       const optionCategories = currentRowIdxNodes[keyDefined];
+                      const sldOption =
+                        keyDefined === i
+                          ? (option as ISelectOption)
+                          : optionCategories.selectedOption;
 
-                      return {
-                        ...acc,
-                        [keyDefined]: {
-                          selectedOption:
-                            keyDefined === i
-                              ? (option as ISelectOption)
-                              : optionCategories.selectedOption,
-                          others: stnDiffOptions,
-                        },
+                      acc[keyDefined] = {
+                        selectedOption: sldOption,
+                        others: stnDiffOptions,
                       };
+
+                      return acc;
                     },
                     {} as Record<number, ISelectedOthers>
                   );
-
                   prev[deckNodeTitle]["idxNodes"] = newRowIdxNodes;
-                  console.log(
-                    "Logged output --> ~ file: LinkInputDeckAndNodes.tsx ~ line 133 ~ setIdxNodesObj ~ prev",
-                    prev
-                  );
+
+                  const currentRows = prev[deckNodeTitle]["nodeRows"];
+                  const selectedRow = currentRows[i];
+                  currentRows[i] = {
+                    ...selectedRow,
+                    inputDeckNode: optionDefined.label,
+                  };
+
+                  prev[deckNodeTitle]["nodeRows"] = currentRows;
 
                   return prev;
                 });
 
-                const selectedRow = rows[i];
-                rows[i] = {
-                  ...selectedRow,
-                  inputDeckNode: optionDefined.label,
-                };
+                setRows((prev) => {
+                  const currentRows = prev;
+                  const selectedRow = currentRows[i];
+                  currentRows[i] = {
+                    ...selectedRow,
+                    inputDeckNode: optionDefined.label,
+                  };
 
-                setRows(rows);
+                  return currentRows;
+                });
               }}
               menuPortalTarget={linkRef.current as HTMLDivElement}
               isSelectOptionType={true}
@@ -153,32 +156,22 @@ const LinkInputDeckAndNodes = ({
         resizable: true,
         formatter: ({ row }) => {
           const inputDeckNode = row.inputDeckNode as string;
+          const themeColor =
+            inputDeckNode === "Select..."
+              ? theme.palette.secondary.main
+              : theme.palette.success.main;
 
-          if (inputDeckNode === "Select...") {
-            return (
-              <ApexFlexContainer>
-                <div
-                  style={{
-                    width: 24,
-                    height: 24,
-                    backgroundColor: theme.palette.secondary.main,
-                  }}
-                />
-              </ApexFlexContainer>
-            );
-          } else {
-            return (
-              <ApexFlexContainer>
-                <div
-                  style={{
-                    width: 24,
-                    height: 24,
-                    backgroundColor: theme.palette.success.main,
-                  }}
-                />
-              </ApexFlexContainer>
-            );
-          }
+          return (
+            <ApexFlexContainer>
+              <div
+                style={{
+                  width: 24,
+                  height: 24,
+                  backgroundColor: themeColor,
+                }}
+              />
+            </ApexFlexContainer>
+          );
         },
         width: 30,
       },
@@ -187,12 +180,11 @@ const LinkInputDeckAndNodes = ({
     return columns;
   };
 
-  const columns = generateColumns(nodeDiffOptions);
-
-  // const columns = React.useMemo(
-  //   () => generateColumns(nodeDiffOptions),
-  //   [nodeDiffOptions]
-  // );
+  const rowsIsChanged = rows.map((row) => row["inputDeckNode"]).join();
+  const columns = React.useMemo(
+    () => generateColumns(nodeDiffOptions),
+    [deckNodeTitle, rowsIsChanged]
+  );
 
   React.useEffect(() => {
     setRows(nodeRows);
@@ -216,4 +208,4 @@ const LinkInputDeckAndNodes = ({
   );
 };
 
-export default LinkInputDeckAndNodes;
+export default React.memo(LinkInputDeckAndNodes);

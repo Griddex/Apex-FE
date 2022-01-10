@@ -7,6 +7,7 @@ export interface IExtraNodeProps {
 
 export interface IWidget {
   title?: string;
+  showTitle?: boolean;
   drainagePoints?: string[];
 }
 

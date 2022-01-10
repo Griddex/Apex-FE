@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
     alignItems: "flex-end",
     height: "auto",
     width: "100%",
-    "& > *": { width: 30, height: 20, margin: 5 },
+    "& > *": { width: 30, height: 20, marginTop: 5 },
   },
 }));
 
@@ -102,6 +102,7 @@ const FillPopoverComponent = ({
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={<ColumnSelect />}
+        contentStyle={{ marginLeft: 0 }}
       />
       <AnalyticsComp
         title="Current Value"
@@ -144,6 +145,7 @@ const FillPopoverComponent = ({
           direction="Vertical"
           containerStyle={{ marginTop: 20 }}
           content={<DownToSelect />}
+          contentStyle={{ marginLeft: 0 }}
         />
       ) : (
         <AnalyticsComp
@@ -151,6 +153,7 @@ const FillPopoverComponent = ({
           direction="Vertical"
           containerStyle={{ marginTop: 20 }}
           content={<UpToSelect />}
+          contentStyle={{ marginLeft: 0 }}
         />
       )}
       <div className={classes.footer}>

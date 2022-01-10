@@ -14,10 +14,7 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import DialogCancelButton from "../../../Application/Components/DialogButtons/DialogCancelButton";
-import {
-  generalFailureDialogParameters,
-  generalSuccessDialogParameters,
-} from "../../../Application/Components/DialogParameters/GeneralSuccessFailureDialogParameters";
+import { generalSuccessDialogParameters } from "../../../Application/Components/DialogParameters/GeneralSuccessFailureDialogParameters";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
@@ -27,11 +24,9 @@ import {
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import {
-  validateForecastInputDeckFailureAction,
-  validateForecastInputDeckSuccessNoErrorAction,
-  validateForecastInputDeckSuccessErrorAction,
-  VALIDATE_FORECASTINPUTDECK_REQUEST,
   updateInputParameterAction,
+  validateForecastInputDeckFailureAction,
+  VALIDATE_FORECASTINPUTDECK_REQUEST,
 } from "../Actions/InputActions";
 
 export default function* watchValidateForecastInputDeckSaga(): Generator<
@@ -105,16 +100,15 @@ function* validateForecastInputDeckSaga(
           type: "forecastValidationErrorsDataDialog",
           show: true,
           exclusive: true,
-          maxWidth: "sm",
+          maxWidth: "lg",
           dialogText:
             "The following validation errors were found in your forecast inpudeck for your review",
           iconType: "error",
           actionsList: () => DialogCancelButton(),
+          validationErrorsData: data,
         })
       );
     } else {
-      const successAction = validateForecastInputDeckSuccessNoErrorAction();
-
       yield put(
         showDialogAction(
           generalSuccessDialogParameters(

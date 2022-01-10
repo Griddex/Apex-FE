@@ -9,6 +9,7 @@ import { Column } from "react-data-griddex";
 import { useDispatch } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
+import DeckValidation from "../DeckValidation/DeckValidation";
 import DialogContent from "../DialogContents/DialogContent";
 import DialogTitle from "../DialogTitles/DialogTitle";
 import ExcelExportTable, {
@@ -43,14 +44,30 @@ const ForecastValidationErrorsDataDialog: React.FC<DialogStuff> = (props) => {
   } = props;
 
   const validationErrorsDataDefined = validationErrorsData as any[];
-  const columnKeys = Object.keys(validationErrorsDataDefined[0]);
-  const columns = columnKeys.map((k) => {
+  const getColumnWidth = (column: string) => {
+    switch (column) {
+      case "sn":
+        return 50;
+      case "module":
+        return 150;
+      case "class":
+        return 100;
+      default:
+        return null;
+    }
+  };
+  const columns = ["sn", "module", "class", "description"].map((k) => {
     return {
       key: k,
       name: startCase(k).toUpperCase(),
       editable: false,
       resizable: true,
-      minWidth: k.toLowerCase().trim() === "sn" ? 50 : 150,
+      ...(k === "class" && {
+        formatter: ({ row }: any) => (
+          <DeckValidation deckValidationText={row.class} />
+        ),
+      }),
+      width: getColumnWidth(k),
     };
   });
 
@@ -81,7 +98,10 @@ const ForecastValidationErrorsDataDialog: React.FC<DialogStuff> = (props) => {
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns as Column<IRawRow>[],
-    rows: validationErrorsDataDefined as IRawRow[],
+    rows: validationErrorsDataDefined.map((row, i) => {
+      row["sn"] = i + 1;
+      return row;
+    }) as IRawRow[],
     tableButtons: tableButtons,
     size: size,
     autoAdjustTableDim: true,
@@ -107,7 +127,9 @@ const ForecastValidationErrorsDataDialog: React.FC<DialogStuff> = (props) => {
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
         <div className={classes.table}>
-          <Typography variant="h4">{dialogText}</Typography>
+          <Typography variant="body1">{dialogText}</Typography>
+          <br />
+          <br />
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => <ApexGrid apexGridProps={getApexGridProps(size)} />}
           </SizeMe>

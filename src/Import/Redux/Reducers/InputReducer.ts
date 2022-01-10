@@ -183,7 +183,6 @@ const inputReducer = (state = InputState, action: IAction) => {
 
       if (reducer === "inputReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
-        console.log("updatedState: ", updatedState);
         return updatedState;
       } else {
         return state;

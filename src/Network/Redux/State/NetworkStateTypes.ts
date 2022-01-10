@@ -118,6 +118,7 @@ export interface INetworkState extends ISaveNetworkFormProps {
   showDrainagePointSummaryNodes: boolean;
   showDrainagePointSummaryEdges: boolean;
 
+  showTitle: boolean;
   isNetworkSaved: boolean;
   isNetworkChanged: boolean;
   isNetworkDisplayed: boolean;

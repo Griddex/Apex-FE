@@ -142,9 +142,9 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
 
   const NetworkDiagramIconsProps = {
     showMiniMap,
-    setShowMiniMap,
+    setShowMiniMap: React.useCallback(setShowMiniMap, []),
     showControls,
-    setShowControls,
+    setShowControls: React.useCallback(setShowControls, []),
   };
 
   const [{ isOver, canDrop }, drop] = useDrop(
@@ -185,8 +185,8 @@ const NetworkManual = ({ isNetworkAuto }: INetworkProps) => {
     const mouseCoord = monitor.getClientOffset() as XYPosition;
 
     const mouseCoordUpdated = {
-      x: mouseCoord.x - networkBounds.left,
-      y: mouseCoord.y - networkBounds.top + 31,
+      x: (mouseCoord?.x as number) - networkBounds.left,
+      y: (mouseCoord?.y as number) - networkBounds.top + 31,
     } as XYPosition;
 
     const mouseCoordProjected = (
