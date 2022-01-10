@@ -1,10 +1,8 @@
 import { alpha, Theme } from "@mui/material";
 import grey from "@mui/material/colors/grey";
 import Input from "@mui/material/Input";
-import Slider from "@mui/material/Slider";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { TUseState } from "../../../Application/Types/ApplicationTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -12,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
     width: "100%",
   },
+  slider: { outline: "0px solid", width: "100%" },
   input: {
     width: 60,
     fontSize: 14,
@@ -52,7 +51,8 @@ const ApexSlider = ({
 }: IApexSlider) => {
   const classes = useStyles();
 
-  const handleSliderChange = (event: any, value: number | number[]) => {
+  const handleSliderEventChange = (event: any) => {
+    const value = event.target.value;
     sliderContextFxn && sliderContextFxn(value, name);
     action && action(actionPath as string, value);
   };
@@ -75,18 +75,26 @@ const ApexSlider = ({
   };
 
   return (
-    <div className={classes.root}>
-      <Slider
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
+      <Input
+        className={classes.slider}
+        type="range"
         name={name}
-        value={typeof sliderValue === "number" ? sliderValue : min}
-        onChange={handleSliderChange}
-        aria-labelledby="input-slider"
-        valueLabelDisplay="auto"
-        marks
-        style={{ width: `calc(100% - 75px)` }}
-        min={min}
-        max={max}
-        step={step}
+        value={typeof Number(sliderValue) === "number" ? sliderValue : min}
+        onChange={handleSliderEventChange}
+        componentsProps={{
+          input: {
+            min,
+            max,
+            step,
+          },
+        }}
       />
       <Input
         className={classes.input}

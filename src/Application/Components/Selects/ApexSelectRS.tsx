@@ -45,11 +45,10 @@ const ApexSelectRS = <T extends ISelectOption>({
       menuPortalTarget={menuPortalTarget}
       theme={(thm) => getRSTheme(thm, theme)}
       isDisabled={isDisabled}
-      isClearable={isClearable}
-      isSearchable={isSearchable}
+      isClearable={isClearable !== undefined ? isClearable : false}
+      isSearchable={isSearchable !== undefined ? isSearchable : false}
       components={components}
       {...rest}
-      // closeMenuOnSelect={false}
     />
   );
 };

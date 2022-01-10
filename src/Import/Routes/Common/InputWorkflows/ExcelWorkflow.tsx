@@ -1,10 +1,11 @@
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useCallback } from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import { WorkBook, utils } from "xlsx";
+import { WorkBook } from "xlsx";
+import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 import NavigationButtons from "../../../../Application/Components/NavigationButtons/NavigationButtons";
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
@@ -13,7 +14,6 @@ import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/Wor
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
-import ContextDrawer from "../../../../Application/Components/Drawers/ContextDrawer";
 
 const UploadFile = React.lazy(() => import("../Workflows/UploadFile"));
 const SelectSheet = React.lazy(() => import("../Workflows/SelectSheet"));
@@ -24,7 +24,7 @@ const PreviewSave = React.lazy(() => import("../Workflows/PreviewSave"));
 const MatchUnits = React.lazy(() => import("../Workflows/MatchUnits"));
 const MatchHeaders = React.lazy(() => import("../Workflows/MatchHeaders"));
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
@@ -105,11 +105,16 @@ const ExcelWorkflow = ({
       state[reducer][wc][wp]["developmentScenariosCompleted"],
     (data) => data
   );
+  const selectedWorksheetDataSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducer][wc][wp]["selectedWorksheetData"],
+    (data) => data
+  );
 
   const currentDevOption = useSelector(currentDevOptionSelector);
   const developmentScenariosCompleted = useSelector(
     developmentScenariosCompletedSelector
   );
+  const selectedWorksheetData = useSelector(selectedWorksheetDataSelector);
 
   const moduleName = useSelector(moduleNameSelector);
   const subModuleName = useSelector(subModuleNameSelector);
@@ -119,6 +124,10 @@ const ExcelWorkflow = ({
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
 
   const [inputWorkbook, setInputWorkbook] = React.useState({} as WorkBook);
+  console.log(
+    "🚀 ~ file: ExcelWorkflow.tsx ~ line 127 ~ inputWorkbook",
+    inputWorkbook
+  );
 
   const WorkflowBannerProps = {
     activeStep,
@@ -147,12 +156,23 @@ const ExcelWorkflow = ({
     isStepSkipped,
   };
 
+  const wbkIsFilled = Object.keys(inputWorkbook).length > 0;
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
     reducer,
-    inputWorkbook: React.useMemo(() => inputWorkbook, []),
+    inputWorkbook: React.useMemo(() => inputWorkbook, [wbkIsFilled]),
     setInputWorkbook: React.useCallback(setInputWorkbook, []),
+  };
+
+  const nextDisabled = (activeStep: number, selectedWorksheetData: any[]) => {
+    if (activeStep === 1) {
+      const wkShtIsFilled = selectedWorksheetData.length > 0;
+
+      return wkShtIsFilled ? false : true;
+    } else {
+      return false;
+    }
   };
 
   const navigationButtonProps: INavigationButtonsProp = {
@@ -165,7 +185,7 @@ const ExcelWorkflow = ({
       reset: false,
       skip: false,
       back: activeStep === 0 ? true : false,
-      next: false,
+      next: nextDisabled(activeStep, selectedWorksheetData),
     },
     finalAction: () => {
       if (wp.includes("economicsCostsRevenues")) {
@@ -182,6 +202,10 @@ const ExcelWorkflow = ({
     workflowProcess: wp,
     workflowCategory: wc,
   };
+  console.log(
+    "🚀 ~ file: ExcelWorkflow.tsx ~ line 194 ~ navigationButtonProps",
+    navigationButtonProps
+  );
 
   function renderImportStep(activeStep: number) {
     switch (activeStep) {

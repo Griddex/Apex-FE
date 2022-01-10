@@ -39,90 +39,97 @@ const LinkInputDeck = () => {
   const nodeElementsManual = useSelector(nodeElementsManualSelector);
   const selectedTableData = useSelector(selectedTableDataSelector);
 
-  const uniqNodeTypes = uniqBy(
-    nodeElementsManual as Node[],
-    (o) => o.data.label
-  )
-    .map((o) => o.data.label.toLowerCase())
-    .filter((l) => l !== "manifold");
+  const uniqNodeTypes = React.useRef(
+    uniqBy(nodeElementsManual as Node[], (o) => o.data.label)
+      .map((o) => o.data.label.toLowerCase())
+      .filter((l) => l !== "manifold")
+  );
 
-  const idxNodesByNodeObj = uniqNodeTypes.reduce((acc, ntp) => {
-    const uniqInputDeckNodeTitles = uniq(
-      selectedTableData.map((row: IRawRow) => {
-        const newKeys = Object.keys(row).map((k) => k.toLowerCase());
-        const newValues = Object.values(row);
+  const tableKeys = Object.keys(selectedTableData[0]);
+  const idxNodesByNodeObj = React.useRef(
+    uniqNodeTypes.current.reduce((acc, ntp) => {
+      const uniqInputDeckNodeTitles = uniq(
+        selectedTableData.map((row: IRawRow) => {
+          const newKeys = tableKeys.map((k) => k.toLowerCase());
+          const newValues = Object.values(row);
 
-        const newRow = zipObject(newKeys, newValues);
+          const newRow = zipObject(newKeys, newValues);
 
-        return newRow[ntp];
-      })
-    ) as string[];
+          return newRow[ntp];
+        })
+      ) as string[];
 
-    const inputDeckNodeTitleOptions = [
-      "Select...",
-      ...uniqInputDeckNodeTitles,
-    ].map((title) => ({
-      value: title,
-      label: title,
-    }));
+      const inputDeckNodeTitleOptions = [
+        "Select...",
+        ...uniqInputDeckNodeTitles,
+      ].map((title) => ({
+        value: title,
+        label: title,
+      }));
 
-    const nodesOnCanvasWithNode = (nodeElementsManual as Node[]).filter(
-      (node) => node.data.label.toLowerCase() === ntp
-    );
+      const nodesOnCanvasWithNode = (nodeElementsManual as Node[]).filter(
+        (node) => node.data.label.toLowerCase() === ntp
+      );
 
-    const idxNodes = nodesOnCanvasWithNode.reduce((acc, _, i) => {
-      return {
-        ...acc,
-        [i]: { selectedOption: firstOption, others: inputDeckNodeTitleOptions },
+      const idxNodes = nodesOnCanvasWithNode.reduce((acc, _, i) => {
+        acc[i] = {
+          selectedOption: firstOption,
+          others: inputDeckNodeTitleOptions,
+        };
+        return acc;
+      }, {} as Record<number, ISelectedOthers>);
+
+      const currentlySelectedNodeOptions = Object.keys(idxNodes).map(
+        (key) => idxNodes[parseInt(key)].selectedOption
+      );
+
+      const nodeDiffOptions = differenceBy(
+        inputDeckNodeTitleOptions,
+        currentlySelectedNodeOptions,
+        (o) => o.label
+      );
+
+      const nodeElementsManualByNode = (nodeElementsManual as Node[]).filter(
+        (node) => node.data.label.toLowerCase() === ntp
+      );
+
+      const nodeRows = (nodeElementsManualByNode as Node[]).map((n, i) => {
+        const { label, title } = n.data;
+
+        return {
+          sn: i + 1,
+          nodeImage: label,
+          applicationNode: title,
+          inputDeckNode: idxNodes[i].selectedOption.label,
+        };
+      });
+
+      acc[ntp] = {
+        inputDeckNodeTitleOptions,
+        idxNodes,
+        nodeDiffOptions,
+        nodeRows,
       };
-    }, {} as Record<number, ISelectedOthers>);
 
-    const currentlySelectedNodeOptions = Object.keys(idxNodes).map(
-      (key) => idxNodes[parseInt(key)].selectedOption
-    );
+      return acc;
+    }, {})
+  );
+  const [ndsByNdObj, setIdxNodesObj] = React.useState(
+    idxNodesByNodeObj.current
+  );
 
-    const nodeDiffOptions = differenceBy(
-      inputDeckNodeTitleOptions,
-      currentlySelectedNodeOptions,
-      (o) => o.label
-    );
-
-    const nodeElementsManualByNode = (nodeElementsManual as Node[]).filter(
-      (node) => node.data.label.toLowerCase() === ntp
-    );
-
-    const nodeRows = (nodeElementsManualByNode as Node[]).map((n, i) => {
-      const { label, title } = n.data;
-
-      return {
-        sn: i + 1,
-        nodeImage: label,
-        applicationNode: title,
-        inputDeckNode: idxNodes[i].selectedOption.label,
-      };
-    });
-
-    return {
-      ...acc,
-      [ntp]: { inputDeckNodeTitleOptions, idxNodes, nodeDiffOptions, nodeRows },
-    };
-  }, {});
-
-  const [idxNodesObj, setIdxNodesObj] = React.useState(idxNodesByNodeObj);
-
-  const linkInputDeckNodesObj = uniqNodeTypes.reduce((acc, ntyp) => {
+  const linkInputDeckNodesObj = uniqNodeTypes.current.reduce((acc, ntyp) => {
     const nytpLowerCase = ntyp.toLowerCase();
 
-    return {
-      ...acc,
-      [nytpLowerCase]: (
-        <LinkInputDeckAndNodes
-          deckNodeTitle={nytpLowerCase}
-          idxNodesObj={idxNodesObj}
-          setIdxNodesObj={setIdxNodesObj}
-        />
-      ),
-    };
+    acc[nytpLowerCase] = (
+      <LinkInputDeckAndNodes
+        deckNodeTitle={nytpLowerCase}
+        idxNodesByNodeObj={ndsByNdObj}
+        setIdxNodesByNodeObj={setIdxNodesObj}
+      />
+    );
+
+    return acc;
   }, {});
 
   return (
@@ -133,7 +140,7 @@ const LinkInputDeck = () => {
         exclusive
         onChange={(_, currentNode: string) => setNodeType(currentNode)}
       >
-        {uniqNodeTypes.map((nodeType, i) => (
+        {uniqNodeTypes.current.map((nodeType, i) => (
           <ToggleButton key={i} value={nodeType}>
             {nodeType}
           </ToggleButton>

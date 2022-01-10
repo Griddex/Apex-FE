@@ -95,6 +95,7 @@ export const SAVE_PRODUCTIONPRIORITIZATION_FAILURE =
   "SAVE_PRODUCTIONPRIORITIZATION_FAILURE";
 export const RESET_NETWORK = "RESET_NETWORK";
 export const GET_CURRENT_NETWORK_STORE = "GET_CURRENT_NETWORK_STORE";
+export const SHOW_NETWORKELEMENTTITLE = "SHOW_NETWORKELEMENTTITLE";
 
 export const runForecastRequestAction = () => {
   return {
@@ -708,6 +709,15 @@ export const saveProductionPrioritizationFailureAction = () => {
     payload: {
       status: 0,
       errors: { message: "" },
+    },
+  };
+};
+
+export const toggleElementTitlesAction = (showTitle: boolean) => {
+  return {
+    type: SHOW_NETWORKELEMENTTITLE,
+    payload: {
+      showTitle,
     },
   };
 };

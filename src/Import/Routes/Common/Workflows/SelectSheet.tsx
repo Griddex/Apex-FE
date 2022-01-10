@@ -9,11 +9,11 @@ import { useSnackbar } from "notistack";
 import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-import { WorkBook, utils } from "xlsx";
+import { utils, WorkBook } from "xlsx";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
@@ -26,7 +26,6 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import formatDate from "../../../../Application/Utils/FormatDate";
 import generateSelectOptions from "../../../../Application/Utils/GenerateSelectOptions";
 import sizeConversions from "../../../../Application/Utils/SizeConversions";
-import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { persistWorksheetAction } from "../../../Redux/Actions/InputActions";
 import FileIconService from "../../../Services/FileIconService";
 
@@ -60,10 +59,6 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     margin: 20,
-  },
-  selectWorksheet: {
-    height: 55,
-    width: 400,
   },
   fileImage: {
     width: 115,
@@ -155,8 +150,7 @@ const SelectSheet = ({
   );
 
   const handleSelectChange = (option: OnChangeValue<ISelectOption, false>) => {
-    const selectedWorksheetName = option && option.label;
-    const sWN = selectedWorksheetName as string;
+    const sWN = option?.label as string;
 
     setWorksheetName(sWN);
 
@@ -171,18 +165,21 @@ const SelectSheet = ({
         const keysData = Object.keys(row);
         const nRows = keysData.length;
         let iRow = 0;
+
         for (iRow = 0; iRow < nRows; iRow++) {
           if (row[keysData[iRow]] instanceof Date) {
             const date = row[keysData[iRow]] as Date;
+
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
+
             row[keysData[iRow]] = `${day}/${month}/${year}` as string;
           }
         }
       }
 
-      return { ...row } as any;
+      return row;
     }) as [];
 
     selectedWorksheetData = [...tableDataTemp];
@@ -207,7 +204,6 @@ const SelectSheet = ({
 
     return (
       <ApexSelectRS
-        className={classes.selectWorksheet}
         containerWidth={400}
         valueOption={worksheetNameOption}
         data={worksheetNameOptions}

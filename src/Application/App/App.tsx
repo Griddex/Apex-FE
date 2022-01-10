@@ -10,7 +10,6 @@ import SuspensePerpetualSpinner from "../Components/Visuals/SuspensePerpetualSpi
 const RegisterRoute = React.lazy(
   () => import("../../Administration/Routes/Register/RegisterRoute")
 );
-
 const NotFnd = React.lazy(() => import("../Routes/Challenges/NotFnd"));
 const ProtectedRoute = React.lazy(() => import("../Routes/ProtectedRoute"));
 const LandingRoute = React.lazy(() => import("../Routes/Landing/LandingRoute"));
@@ -29,6 +28,17 @@ const App = () => {
   const classes = useStyles();
 
   const notistackRef = React.useRef<SnackbarProvider>(null);
+
+  React.useEffect(() => {
+    document.addEventListener("keydown", (e) => {
+      e = e || window.event;
+
+      if (e.keyCode == 116 || (e.ctrlKey && e.keyCode == 82)) {
+        console.log("Yo, you just pressed F5!");
+        e.preventDefault();
+      }
+    });
+  }, []);
 
   return (
     <SnackbarProvider

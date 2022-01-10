@@ -10,8 +10,8 @@ const addNetworkNodeToCanvas = (
   nodeType: TNodeTypes
 ) => {
   const newElementPosition = {
-    x: nodePosition.x + 20,
-    y: nodePosition.y + 20,
+    x: (nodePosition?.x as number) + 20,
+    y: (nodePosition?.y as number) + 20,
   };
 
   const newElement = GenerateNodeByPositionService(

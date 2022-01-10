@@ -11,6 +11,27 @@ export interface IApexPrompt {
   afterConfirm: (() => void) | undefined;
 }
 
+export const NavigationApexPrompt = ({
+  afterConfirm,
+}: Partial<IApexPrompt>) => (
+  <ApexPrompt
+    afterConfirm={afterConfirm}
+    whenFunc={(crntLoc: any, nxtLoc: any) => {
+      if (crntLoc.pathname === nxtLoc.pathname) return false;
+
+      const crntModule = crntLoc.pathname.split("/")[2];
+      const nxtModule = nxtLoc.pathname.split("/")[2];
+
+      if (crntModule && crntModule !== nxtModule) return true;
+      else return false;
+    }}
+    name={"Navigation_Confirmation_Dialog"}
+    title={"Navigation Confirmation"}
+    dialogText={`You are about to leave this page and lose all workflow progress to this point. 
+  Confirm Navigation?`}
+  />
+);
+
 const ApexPrompt = ({
   whenFunc,
   name,
@@ -21,7 +42,7 @@ const ApexPrompt = ({
   return (
     <NavigationPrompt
       when={whenFunc}
-      renderIfNotActive={false}
+      renderIfNotActive={true}
       afterConfirm={afterConfirm}
     >
       {({ isActive, onConfirm, onCancel }) => {
@@ -58,22 +79,3 @@ const ApexPrompt = ({
 };
 
 export default ApexPrompt;
-
-export const NavigationApexPrompt = ({
-  afterConfirm,
-}: Partial<IApexPrompt>) => (
-  <ApexPrompt
-    afterConfirm={afterConfirm}
-    whenFunc={(crntLoc: any, nxtLoc: any) => {
-      const crntModule = crntLoc.pathname.split("/")[2];
-      const nxtModule = nxtLoc.pathname.split("/")[2];
-
-      if (crntModule && crntModule !== nxtModule) return true;
-      else return false;
-    }}
-    name={"Navigation_Confirmation_Dialog"}
-    title={"Navigation Confirmation"}
-    dialogText={`You are about to leave this page and lose all workflow progress to this point. 
-  Confirm Navigation?`}
-  />
-);

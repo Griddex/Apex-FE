@@ -37,6 +37,7 @@ import {
   UPDATE_NETWORK_PARAMETERS,
   GET_DECLINEPARAMETERSBYID_REQUEST,
   GET_CURRENT_NETWORK_STORE,
+  SHOW_NETWORKELEMENTTITLE,
 } from "../Actions/NetworkActions";
 import NetworkState from "../State/NetworkState";
 import set from "lodash.set";
@@ -365,11 +366,16 @@ const networkReducer = (state = NetworkState, action: IAction) => {
 
       if (reducer === "networkReducer") {
         const updatedState = set(state, "selectedTableData", selectedTableData);
-        console.log("updatedState: ", updatedState);
         return updatedState;
       } else {
         return state;
       }
+    }
+
+    case SHOW_NETWORKELEMENTTITLE: {
+      const { showTitle } = action.payload;
+
+      return { ...state, showTitle };
     }
 
     case RESET_NETWORK: {
