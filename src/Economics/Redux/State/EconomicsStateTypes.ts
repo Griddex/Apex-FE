@@ -28,6 +28,7 @@ import {
   IIdNameTitlePathOption,
   ISelectOption,
 } from "./../../../Application/Components/Selects/SelectItemsType";
+import { TChartStory } from "../../../Visualytics/Components/Charts/ChartTypes";
 
 export interface IEconomicsImport {
   fileLastModified: string;
@@ -195,6 +196,7 @@ export interface IStoredEconomicsResultsRow {
 export interface IEconomicsState
   extends INewCostsRevenuesInputDeckFormValues,
     INewEconomicsParametersInputDeckFormValues {
+  currentChartStory: TChartStory;
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   loadCostsRevenueWorkflow: boolean;
   loadEconomicsParametersWorkflow: boolean;
@@ -285,7 +287,7 @@ export interface IEconomicsState
   plotChartsData: null;
   plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;
-  showPlotChartsCategories: boolean;
+  selectedEconomicsPlotSecondaryChartOption: ISelectOption;
 
   plotChartsVariableXOptions: Record<string, IIdNameTitlePathOption>;
   plotChartsVariableYOptions: Record<string, IIdNameTitlePathOption>;

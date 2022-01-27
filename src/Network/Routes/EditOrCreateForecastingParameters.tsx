@@ -314,10 +314,6 @@ const EditOrCreateForecastingParameters = ({
   React.useEffect(() => {
     setCurrentRow && setCurrentRow(formEditorRow);
   }, [formEditorRow]);
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 316 ~ formEditorRow",
-    formEditorRow
-  );
 
   return (
     <div className={classes.root}>

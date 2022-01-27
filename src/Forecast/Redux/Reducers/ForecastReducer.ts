@@ -6,12 +6,16 @@ import {
   GET_TABLEDATABYID_FAILURE,
   GET_TABLEDATABYID_SUCCESS,
 } from "../../../Application/Redux/Actions/ApplicationActions";
-import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
+import {
+  TChartStory,
+  TChartTypes,
+} from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   PUT_SELECTCHART,
   PUT_SELECTCHART_SUCCESS,
   RESET_CHART_DATA,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
+import { TAllChartsDataAndSpecificPropertiesPrimaryObj } from "../../../Visualytics/Redux/State/VisualyticsStateTypes";
 import {
   GET_FORECASTDATABYID_FAILURE,
   GET_FORECASTDATABYID_SUCCESS,
@@ -25,6 +29,7 @@ import {
   PUT_FORECASTRESULTS_CHARTDATA_SUCCESS,
   REMOVE_FORECAST,
   RESET_FORECAST,
+  RESET_FORECAST_CHARTWORKFLOWS,
   RUN_FORECASTRESULTSAGGREGATION_SUCCESS,
   RUN_FORECAST_FAILURE,
   RUN_FORECAST_SUCCESS,
@@ -40,7 +45,6 @@ import {
   UPDATE_FORECASTPARAMETERS,
   UPDATE_FORECASTRESULT_PARAMETERS,
   UPDATE_SELECTEDIDTITLE,
-  RESET_FORECAST_CHARTWORKFLOWS,
 } from "../Actions/ForecastActions";
 import forecastState from "../ForecastState/ForecastState";
 import { ForecastStateType } from "../ForecastState/ForecastStateTypes";
@@ -138,19 +142,30 @@ const forecastReducer = (
       };
 
     case GET_FORECASTRESULTS_CHARTDATA_SUCCESS: {
-      const { chartData, xValueCategories } = action.payload;
+      const { chartStory, chartData, xValueCategories } = action.payload;
+      const chtStory: TChartStory = chartStory ? chartStory : "primary";
 
-      return {
-        ...state,
-        xValueCategories,
-        forecastChartsWorkflows: {
-          ...state["forecastChartsWorkflows"],
-          stackedAreaChart: {
-            ...state["forecastChartsWorkflows"]["stackedAreaChart"],
-            chartData,
+      let chartTypeObj = {} as any;
+      if (chtStory === "primary") {
+        chartTypeObj = state["forecastChartsWorkflows"][
+          chtStory
+        ] as TAllChartsDataAndSpecificPropertiesPrimaryObj;
+
+        return {
+          ...state,
+          xValueCategories,
+          forecastChartsWorkflows: {
+            ...state["forecastChartsWorkflows"],
+            [chtStory]: {
+              ...state["forecastChartsWorkflows"][chtStory],
+              stackedAreaChart: {
+                ...chartTypeObj["stackedAreaChart"],
+                chartData,
+              },
+            },
           },
-        },
-      };
+        };
+      } else return state;
     }
 
     case GET_FORECASTRESULTS_CHARTDATA_FAILURE: {

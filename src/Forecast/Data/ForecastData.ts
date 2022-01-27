@@ -35,12 +35,8 @@ export const forecastAggregationLevels = [
     label: "Reservoir",
   },
   {
-    value: "projectCode",
-    label: "Project Code",
-  },
-  {
-    value: "projectName",
-    label: "Project Name",
+    value: "project",
+    label: "Project",
   },
   {
     value: "hydrocarbonStream",

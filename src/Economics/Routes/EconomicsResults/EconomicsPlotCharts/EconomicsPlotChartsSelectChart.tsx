@@ -1,14 +1,14 @@
 import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { IVisualyticsSelectChart } from "../../../../Visualytics/Common/VisualyticsSelectChart";
 import { getEconomicsPlotChartDataRequestAction } from "../../../Redux/Actions/EconomicsActions";
-import { TSize } from "../../../../Application/Types/ApplicationTypes";
 
 const SelectChart = React.lazy(
   () => import("../../../../Visualytics/Common/SelectChart")
@@ -21,7 +21,11 @@ const plotChartsVariableXOptionsSelector = createDeepEqualSelector(
   (option) => option
 );
 
-const EconomicsPlotChartsSelectChart = ({ width, height }: TSize) => {
+const EconomicsPlotChartsSelectChart = ({
+  width,
+  height,
+  chartStory,
+}: IVisualyticsSelectChart) => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
   const wp = "economicsResultsPlotCharts";
@@ -49,6 +53,7 @@ const EconomicsPlotChartsSelectChart = ({ width, height }: TSize) => {
         reducer={reducer}
         selectedChartOptionTitle="selectedEconomicsPlotChartOption"
         indexBy={indexBy}
+        chartStory={chartStory}
       />
       <ApexFlexContainer
         justifyContent="space-evenly"

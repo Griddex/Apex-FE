@@ -11,6 +11,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import renderTick from "../../Utils/RenderTicks";
 import { AxisProps, IChartProps } from "../ChartTypes";
+import { TChartStory } from "./ChartTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -19,23 +20,34 @@ const xValueCategoriesSelector = createDeepEqualSelector(
   (categories) => categories
 );
 
-const StackedAreaChart = ({ workflowCategory, reducer }: IChartProps) => {
+const StackedAreaChart = ({
+  workflowCategory,
+  reducer,
+  chartStory,
+}: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
   const xValueCategories = useSelector(xValueCategoriesSelector);
 
   const commonChartProps = useSelector(
-    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["commonChartProps"],
     () => false
   );
 
   const chartDataSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state[reducerDefined][wc]["stackedAreaChart"]["chartData"],
+      state[reducerDefined][wc][chartStory as TChartStory]["stackedAreaChart"][
+        "chartData"
+      ],
     (data) => data
   );
   const chartData = useSelector(chartDataSelector);
+  console.log(
+    "🚀 ~ file: StackedAreaChart.tsx ~ line 47 ~ chartData",
+    chartData
+  );
 
   let keys: string[] = [];
   if (Array.isArray(chartData) && chartData.length > 0)

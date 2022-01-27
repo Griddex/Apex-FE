@@ -29,6 +29,7 @@ const ForecastSelectChart = ({
         reducer={reducer}
         selectedChartOptionTitle="selectedForecastChartOption"
         indexBy={indexBy}
+        chartStory="primary"
       />
     </div>
   );

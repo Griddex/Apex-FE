@@ -98,6 +98,7 @@ function* saveCostsRevenuesSaga(
     forecastScenario: forecastCase,
     matchObject,
     variableUnits: appHeaderNameUnitsMap,
+    // aggregationLevel:
   };
 
   const config = { withCredentials: false };

@@ -55,6 +55,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 const applicationDialogs: IApplicationDialogs = {
   listDialog: ListDialog,
   textDialog: TextDialog,
+  finalizeForecastProfilesDialog: TextDialog,
 
   storedProjectsDialog: StoredProjectsDialog,
   selectWorksheetDialog: SelectWorksheetDialog,

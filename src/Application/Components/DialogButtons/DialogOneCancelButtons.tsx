@@ -24,6 +24,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CancelPresentationOutlinedIcon from "@mui/icons-material/CancelPresentationOutlined";
 import GetAppOutlinedIcon from "@mui/icons-material/GetAppOutlined";
 import DoneAllOutlinedIcon from "@mui/icons-material/DoneAllOutlined";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const DialogOneCancelButtons = (
   shouldExecute: IButtonsConfigProps["shouldExecute"],
@@ -52,6 +53,7 @@ const DialogOneCancelButtons = (
     closeWithBorder: <CancelPresentationOutlinedIcon />,
     download: <GetAppOutlinedIcon />,
     finalize: <DoneAllOutlinedIcon />,
+    filter: <FilterListIcon />,
   };
 
   const dispatch = useDispatch();

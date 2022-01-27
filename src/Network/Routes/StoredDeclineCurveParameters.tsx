@@ -518,7 +518,7 @@ export default function StoredDeclineCurveParameters({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+  const columns = React.useMemo(() => generateColumns(), [checkboxSelected]);
   const [rows, setRows] = React.useState(snTransStoredData);
 
   const exportColumns = columns

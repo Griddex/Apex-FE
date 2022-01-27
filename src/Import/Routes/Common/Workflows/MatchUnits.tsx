@@ -791,7 +791,6 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         formatter: ({ row }) => {
           const fileHeader = row.fileHeader as string;
           const type = row.type as TUnit;
-
           const unitOptions = keyedApplicationUnitOptions[fileHeader];
 
           const scoreOptions = keyedScoreOptions.current[fileHeader];

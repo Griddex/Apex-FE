@@ -60,6 +60,10 @@ export const initialEconomicsWorkflowState = {
   developmentScenariosCompleted: [],
   costsRevenues: {},
   costRevenuesButtons: [],
+  costsRevenueAggregationLevelOption: {
+    value: "project",
+    label: "Project",
+  },
   forecastCase: "2P_2C",
 
   inputDeckId: "",
@@ -151,6 +155,7 @@ export const sensitivitiesInfo = {
 } as IEconomicsSensitivities;
 
 const EconomicsState: IEconomicsState = {
+  currentChartStory: "primary",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
   loadEconomicsParametersWorkflow: false,
@@ -272,7 +277,10 @@ const EconomicsState: IEconomicsState = {
     value: "lineChart",
     label: "Line Chart...",
   },
-  showPlotChartsCategories: false,
+  selectedEconomicsPlotSecondaryChartOption: {
+    value: "lineChart",
+    label: "Line Chart...",
+  },
   plotChartsVariableXOptions: {},
   plotChartsVariableYOptions: {},
   plotChartsSecondaryVariableYOptions: {},

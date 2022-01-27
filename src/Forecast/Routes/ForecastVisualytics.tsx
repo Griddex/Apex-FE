@@ -106,7 +106,7 @@ const wc = "forecastChartsWorkflows";
 const ch = "stackedAreaChart";
 
 const chartSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+  (state: RootState) => state.forecastReducer[wc]["primary"][ch]["chartData"],
   (chart) => chart
 );
 
@@ -131,6 +131,10 @@ const ForecastVisualytics = () => {
   const xValueCategories = useSelector(xValueCategoriesSelector);
 
   const chartType = selectedForecastChartOption.value;
+  console.log(
+    "🚀 ~ file: ForecastVisualytics.tsx ~ line 134 ~ ForecastVisualytics ~ chartType",
+    chartType
+  );
 
   const chartData = useSelector(chartSelector);
 
@@ -139,6 +143,8 @@ const ForecastVisualytics = () => {
     extraButtons: () => (
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
+          chartStory="primary"
+          secondaryChartStory="secondary"
           chartOptions={forecastPlotChartsOptions}
           initialChartIndex={1}
           putChartOptionAction={
@@ -235,10 +241,6 @@ const ForecastVisualytics = () => {
 
   const basePath = `${wc}.commonChartProps`;
 
-  React.useEffect(() => {
-    dispatch(showContextDrawerAction());
-  }, [dispatch]);
-
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
@@ -263,12 +265,7 @@ const ForecastVisualytics = () => {
 
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => {
-                return chartType === "Select Chart..." ? (
-                  <NoSelectionPlaceholder
-                    icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                    text="Select chart.."
-                  />
-                ) : (
+                return chartType !== "Select Chart..." ? (
                   <div className={classes.plotChart}>
                     <ForecastSelectChart
                       width={size.width as number}
@@ -276,6 +273,11 @@ const ForecastVisualytics = () => {
                       indexBy={"Year"}
                     />
                   </div>
+                ) : (
+                  <NoSelectionPlaceholder
+                    icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                    text="Select chart.."
+                  />
                 );
               }}
             </SizeMe>

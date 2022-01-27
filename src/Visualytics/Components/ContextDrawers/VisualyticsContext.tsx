@@ -5,11 +5,12 @@ import { Button } from "@mui/material";
 import React from "react";
 import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer";
 import { ApexNewWindow } from "../../../Application/Components/NewWindows/ApexNewWindow";
+import ApexRadioGroup from "../../../Application/Components/Radios/ApexRadioGroup";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { THeatMapThreshold } from "../../../Economics/Components/ApexHeatMapThreshold/ApexHeatMapThreshold";
-import { TChartTypes } from "../Charts/ChartTypes";
+import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
 import { ChartFormatAggregatorContextProvider } from "../Contexts/ChartFormatAggregatorContext";
 import ChartFormatAggregator from "../FormatAggregators/ChartFormatAggregator";
 import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
@@ -33,10 +34,27 @@ const VisualyticsContext = ({
   openContextWindow,
   setOpenContextWindow,
 }: IVisualyticsContext) => {
+  const [chartStory, setChartStory] = React.useState("primary");
+  const chartStoryData = [
+    {
+      value: "primary",
+      label: "Primary",
+      handleCheck: () => {},
+    },
+    {
+      value: "secondary",
+      label: "Secondary",
+      handleCheck: () => {},
+    },
+  ];
+
   return (
     <ContextDrawer iconReplacement={<DetailsOutlinedIcon />}>
       {() => (
-        <ChartFormatAggregatorContextProvider reducer={reducer}>
+        <ChartFormatAggregatorContextProvider
+          reducer={reducer}
+          chartStory={chartStory as TChartStory}
+        >
           {
             <ApexFlexContainer
               flexDirection="column"
@@ -70,12 +88,22 @@ const VisualyticsContext = ({
                     setOpenContextWindow(false);
                   }}
                 >
-                  <ChartFormatAggregator
-                    currentThresholdTitle={currentThresholdTitle}
-                    basePath={basePath}
-                    updateParameterAction={updateParameterAction}
-                    chartType={chartType as TChartTypes}
-                  />
+                  <ApexFlexContainer
+                    flexDirection="column"
+                    justifyContent="flex-start"
+                  >
+                    <ApexRadioGroup
+                      apexRadioGroupData={chartStoryData}
+                      selectedVariable={chartStory}
+                      setSelectedVariable={setChartStory}
+                    />
+                    <ChartFormatAggregator
+                      currentThresholdTitle={currentThresholdTitle}
+                      basePath={basePath}
+                      updateParameterAction={updateParameterAction}
+                      chartType={chartType as TChartTypes}
+                    />
+                  </ApexFlexContainer>
                 </ApexNewWindow>
               )}
             </ApexFlexContainer>

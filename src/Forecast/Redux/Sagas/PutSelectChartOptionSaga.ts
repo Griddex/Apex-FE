@@ -36,8 +36,8 @@ function* putSelectChartOptionSaga(
   action: IAction
 ): Generator<TakeEffect | PutEffect<IAction> | SelectEffect, void, any> {
   const { payload } = action;
-
-  const { reducer, selectedChartOptionTitle, chartOption } = payload;
+  const { reducer, chartStory, selectedChartOptionTitle, chartOption } =
+    payload;
 
   try {
     const successAction = putSelectChartOptionSuccessAction();
@@ -58,7 +58,7 @@ function* putSelectChartOptionSaga(
       });
     else if (reducer === "visualyticsReducer")
       yield put({
-        ...transformVisualyticsChartDataAction(reducer),
+        ...transformVisualyticsChartDataAction(reducer, chartStory, "put"),
         payload,
       });
     else if (reducer === "economicsReducer")

@@ -12,7 +12,7 @@ import IconButtonWithTooltip from "../../../Application/Components/IconButtons/I
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { showContextDrawerAction } from "../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { TChartTypes } from "../../Components/Charts/ChartTypes";
+import { TChartStory, TChartTypes } from "../../Components/Charts/ChartTypes";
 import ChartButtons from "../../Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Components/Menus/ChartSelectionMenu";
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "auto",
   },
   chartPanel: {
     display: "flex",
@@ -78,9 +79,14 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
+const currentChartStorySelector = createDeepEqualSelector(
+  (state: RootState) => state.visualyticsReducer.currentChartStory,
+  (data) => data
+);
+
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,
-  (reducer) => reducer
+  (data) => data
 );
 
 const visualyticsSelector = createDeepEqualSelector(
@@ -102,21 +108,17 @@ const PlotVisualytics = () => {
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
+  const currentChartStory = useSelector(currentChartStorySelector);
   const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const {
     visualyticsResults,
     xValueCategories,
-    showPlotChartsCategories,
     selectedVisualyticsChartOption,
   } = useSelector(visualyticsSelector);
 
   const chartType = selectedVisualyticsChartOption.value;
   const visualyticsPlotCharts = [
-    {
-      value: "Select Chart...",
-      label: "Select Chart...",
-    },
     {
       value: "stackedAreaChart",
       label: "Stacked Area",
@@ -147,6 +149,25 @@ const PlotVisualytics = () => {
     },
   ];
 
+  const visualyticsSecondaryPlotCharts = [
+    {
+      value: "stackedAreaChart",
+      label: "Stacked Area",
+    },
+    {
+      value: "lineChart",
+      label: "Line",
+    },
+    {
+      value: "barChart",
+      label: "Bar",
+    },
+    {
+      value: "scatterChart",
+      label: "Scatter",
+    },
+  ];
+
   const basePath = `${wc}.commonChartProps`;
 
   const chartButtons: IChartButtonsProps = {
@@ -154,8 +175,12 @@ const PlotVisualytics = () => {
     extraButtons: () => (
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
+          chartStory="primary"
+          secondaryChartStory="secondary"
           chartOptions={visualyticsPlotCharts}
-          initialChartIndex={2}
+          chartSecondaryOptions={visualyticsSecondaryPlotCharts}
+          initialChartIndex={1}
+          initialSecondaryChartIndex={1}
           putChartOptionAction={
             visualyticsResults.length > 0
               ? (chartOption: ISelectOption) => {
@@ -164,6 +189,7 @@ const PlotVisualytics = () => {
                     workflowCategory: wc,
                     chartOption,
                     chartType: chartOption.value,
+                    chartStory: "primary",
                     xValueCategories,
                     lineOrScatter:
                       chartOption.value === "lineChart"
@@ -179,6 +205,36 @@ const PlotVisualytics = () => {
                   dispatch(
                     updateVisualyticsParameterAction(
                       "selectedVisualyticsChartOption",
+                      chartOption
+                    )
+                  );
+                }
+          }
+          putChartSecondaryOptionAction={
+            visualyticsResults.length > 0
+              ? (chartOption: ISelectOption) => {
+                  const payload = {
+                    reducer: "visualyticsReducer",
+                    workflowCategory: wc,
+                    chartOption,
+                    chartType: chartOption.value,
+                    chartStory: "secondary",
+                    xValueCategories,
+                    lineOrScatter:
+                      chartOption.value === "lineChart"
+                        ? "lineChart"
+                        : "scatterChart",
+                    selectedChartOptionTitle:
+                      "selectedVisualyticsSecondaryChartOption",
+                    collateBy: "yValue",
+                  };
+
+                  dispatch(putSelectChartOptionAction(payload));
+                }
+              : (chartOption: ISelectOption) => {
+                  dispatch(
+                    updateVisualyticsParameterAction(
+                      "selectedVisualyticsSecondaryChartOption",
                       chartOption
                     )
                   );
@@ -273,18 +329,19 @@ const PlotVisualytics = () => {
 
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => {
-              return chartType === "Select Chart..." ? (
-                <NoSelectionPlaceholder
-                  icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                  text="Select chart.."
-                />
-              ) : (
+              return chartType !== "Select Chart..." ? (
                 <div className={classes.plotChart}>
                   <VisualyticsSelectChart
                     width={size.width as number}
                     height={size.height as number}
+                    chartStory={currentChartStory as TChartStory}
                   />
                 </div>
+              ) : (
+                <NoSelectionPlaceholder
+                  icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                  text="Select chart.."
+                />
               );
             }}
           </SizeMe>

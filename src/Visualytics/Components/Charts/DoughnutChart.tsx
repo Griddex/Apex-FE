@@ -11,6 +11,7 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
+import { TChartStory } from "./ChartTypes";
 
 const wc = "visualyticsChartsWorkflows";
 
@@ -56,18 +57,25 @@ export const DoughnutChartAnalytics = ({
   );
 };
 
-const DoughnutChart = ({ workflowCategory, reducer }: IChartProps) => {
+const DoughnutChart = ({
+  workflowCategory,
+  reducer,
+  chartStory,
+}: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
   const commonChartProps = useSelector(
-    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["commonChartProps"],
     () => false
   );
 
   const chartDataSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state[reducerDefined][wc]["doughnutChart"]["chartData"],
+      state[reducerDefined][wc][chartStory as TChartStory]["doughnutChart"][
+        "chartData"
+      ],
     (data) => data
   );
 

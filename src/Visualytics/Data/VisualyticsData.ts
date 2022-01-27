@@ -1,9 +1,10 @@
 import { format } from "d3-format";
+import omit from "lodash.omit";
 import {
-  visualyticsDataToStackedChartData,
-  visualyticsDataToLineOrScatterChartData,
   visualyticsDataToBarOrHeatmapChartData,
   visualyticsDataToDoughnutChartData,
+  visualyticsDataToLineOrScatterChartData,
+  visualyticsDataToStackedChartData,
 } from "../../Application/Utils/TransformOneVisualyticsDataToAnother";
 import { IChart } from "../Redux/State/VisualyticsStateTypes";
 import {
@@ -780,7 +781,7 @@ export const commonChartProps = {
   ],
 } as IChart;
 
-export const allChartsDataAndSpecificProperties = {
+const chartDataContainer = {
   commonChartProps,
 
   stackedAreaChart: {
@@ -810,4 +811,12 @@ export const allChartsDataAndSpecificProperties = {
   heatMapChart: {
     chartData: [],
   },
+};
+export const allChartsDataAndSpecificProperties = {
+  primary: chartDataContainer,
+  secondary: omit(chartDataContainer, [
+    "doughnutChart",
+    "radarChart",
+    "heatMapChart",
+  ]),
 };

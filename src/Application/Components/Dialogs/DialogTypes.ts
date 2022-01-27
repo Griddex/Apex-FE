@@ -64,6 +64,10 @@ import TextDialog from "./TextDialog";
 export interface IApplicationDialogs {
   listDialog: typeof ListDialog;
   textDialog: typeof TextDialog;
+
+  //TODO Implement dialog
+  finalizeForecastProfilesDialog: typeof TextDialog;
+
   storedProjectsDialog: typeof StoredProjectsDialog;
   selectWorksheetDialog: typeof SelectWorksheetDialog;
   finalizeForecastInputDeckDialog: typeof FinalizeForecastInputDeckDialog;
@@ -139,6 +143,7 @@ export interface DialogStuff<TRow = TDataRow> {
   type?:
     | "listDialog"
     | "textDialog"
+    | "finalizeForecastProfilesDialog"
     | "storedProjectsDialog"
     | "selectWorksheetDialog"
     | "finalizeForecastInputDeckDialog"
@@ -223,6 +228,7 @@ export interface DialogStuff<TRow = TDataRow> {
   errorText?: string;
   isDialog?: boolean;
   validationErrorsData?: any[];
+  costsRevenueAgrregationProps?: any;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

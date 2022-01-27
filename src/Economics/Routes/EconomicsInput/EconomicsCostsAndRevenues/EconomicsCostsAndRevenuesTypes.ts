@@ -1,7 +1,9 @@
 import { ButtonProps } from "../../../../Application/Components/Dialogs/DialogTypes";
+import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { IRawRow } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { TAllWorkflowProcesses } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { TUseState } from "../../../../Application/Types/ApplicationTypes";
+import { costsRevenueAggregationLevelOptions } from "../../../Data/EconomicsData";
 import { TDevScenarioNames } from "../../EconomicsAnalyses/EconomicsAnalysesTypes";
 
 export interface IEconomicsCostsAndRevenuesLayouts {
@@ -23,6 +25,7 @@ export interface IAggregateButtonProps extends ButtonProps {
 
 export interface ICostsRevenues {
   basePath: string;
+  costsRevenueAggregationLevelOption: ISelectOption;
   wkPs?: TAllWorkflowProcesses;
   oilDevelopmentRows?: IRawRow[];
   setOilDevelopmentRows?: TUseState<IRawRow[]>;

@@ -14,7 +14,6 @@ const StoredProductionStreamPrioritizationDialog: React.FC<DialogStuff> = (
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, actionsList, currentRow } = props;
   const wp = "productionPrioritizationStored";
-  const isCreateOrEdit = true;
 
   return (
     <Dialog

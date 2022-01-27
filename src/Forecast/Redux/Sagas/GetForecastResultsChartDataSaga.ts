@@ -126,14 +126,14 @@ function* getForecastResultsChartDataSaga(
 
       yield put(
         updateForecastResultsParameterAction(
-          "forecastChartsWorkflows.commonChartProps.axisLeft.legend",
+          "forecastChartsWorkflows.primary.commonChartProps.axisLeft.legend",
           `${selectedVarTitle} [${unitTitle}]`
         )
       );
 
       yield put(
         updateForecastResultsParameterAction(
-          "forecastChartsWorkflows.commonChartProps.axisBottom.legend",
+          "forecastChartsWorkflows.primary.commonChartProps.axisBottom.legend",
           "Year"
         )
       );

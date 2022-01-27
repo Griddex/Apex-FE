@@ -13,18 +13,27 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 import { ClosedCurveFactoryId } from "@nivo/core";
+import { TChartStory } from "./ChartTypes";
 
-const RadarChartChart = ({ workflowCategory, reducer }: IChartProps) => {
+const RadarChartChart = ({
+  workflowCategory,
+  reducer,
+  chartStory,
+}: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
   const commonChartProps = useSelector(
-    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["commonChartProps"],
     () => false
   );
 
   const chartDataSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc]["radarChart"]["chartData"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["radarChart"][
+        "chartData"
+      ],
     (data) => data
   );
 

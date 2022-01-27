@@ -2,18 +2,19 @@ import { BarLegendProps, ComputedBarDatum, ResponsiveBar } from "@nivo/bar";
 import { InheritedColorConfig } from "@nivo/colors";
 import { DatumValue } from "@nivo/core";
 import { format } from "d3-format";
+import omit from "lodash.omit";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
-import { AxisProps, GridValues, IChartProps } from "../ChartTypes";
-import omit from "lodash.omit";
+import { GridValues, IChartProps } from "../ChartTypes";
+import { TChartStory } from "./ChartTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -21,17 +22,22 @@ const SimpleBarChart = ({
   workflowCategory,
   reducer,
   indexBy,
+  chartStory,
 }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
   const commonChartProps = useSelector(
-    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["commonChartProps"],
     () => false
   );
 
   const barChartDataSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc]["barChart"]["chartData"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["barChart"][
+        "chartData"
+      ],
     (data) => data
   );
 

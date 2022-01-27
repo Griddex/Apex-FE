@@ -31,7 +31,7 @@ import { IApplicationHeaders } from "./MatchHeadersTypes";
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import IconButtonWithTooltip from "../../../../Application/Components/IconButtons/IconButtonWithTooltip";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootPreviewSave: {
     display: "flex",
     flexDirection: "column",
@@ -147,6 +147,7 @@ export default function PreviewSave({
   const forecastAppHeaders = useSelector(forecastAppHeadersSelector);
   const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
   const cRHeaders = costsRevenuesAppHeaders;
+
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
   );

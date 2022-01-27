@@ -46,8 +46,6 @@ import getGlobalUnitGroup from "../Utils/GetGlobalUnitGroup";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
-//<IUnitsRow, ITableButtonsProps>
-
 const useStyles = makeStyles(() => ({
   rootUnitSettingsGrid: {
     display: "flex",

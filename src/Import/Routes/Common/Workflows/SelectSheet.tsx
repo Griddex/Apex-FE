@@ -248,10 +248,6 @@ const SelectSheet = ({
     );
   };
 
-  React.useEffect(() => {
-    dispatch(hideSpinnerAction());
-  }, [dispatch]);
-
   return (
     <Container className={classes.container} maxWidth="md" fixed disableGutters>
       <Grid container spacing={3} className={classes.fileHeader}>

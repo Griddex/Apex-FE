@@ -80,8 +80,12 @@ const SubNavbar = ({ subNavbarData }: ISubNavbar) => {
   const getBadgeProps = (name: string) => {
     return {
       color: "secondary",
-      ...(name === "Production Data" && { badgeContent: "" }),
-      ...(name === "Production Data" && { variant: "dot" }),
+      ...(["Production Data", "Forecast Profiles"].includes(name) && {
+        badgeContent: "",
+      }),
+      ...(["Production Data", "Forecast Profiles"].includes(name) && {
+        variant: "dot",
+      }),
     } as BadgeProps;
   };
 

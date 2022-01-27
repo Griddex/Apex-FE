@@ -10,21 +10,29 @@ import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { TChartStory } from "./ChartTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const ScatterChart = ({ workflowCategory, reducer }: IChartProps) => {
+const ScatterChart = ({
+  workflowCategory,
+  reducer,
+  chartStory,
+}: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
   const commonChartProps = useSelector(
-    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["commonChartProps"],
     () => false
   );
 
   const chartDataSelector = createDeepEqualSelector(
     (state: RootState) =>
-      state[reducerDefined][wc]["scatterChart"]["chartData"],
+      state[reducerDefined][wc][chartStory as TChartStory]["scatterChart"][
+        "chartData"
+      ],
     (data) => data
   );
 

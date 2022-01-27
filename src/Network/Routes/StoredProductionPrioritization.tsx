@@ -240,7 +240,6 @@ export default function StoredProductionPrioritization({
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/well-prioritization`;
 
-  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
   const dayFormat = useSelector(dayFormatSelector);
@@ -298,11 +297,15 @@ export default function StoredProductionPrioritization({
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const ApexGridCheckboxColumn = apexGridCheckbox({
-    shouldExecute: true,
-    shouldDispatch: false,
-    apexGridCheckboxFxn: handleCheckboxChange,
-  });
+  const ApexGridCheckboxColumn = React.useMemo(
+    () =>
+      apexGridCheckbox({
+        shouldExecute: true,
+        shouldDispatch: false,
+        apexGridCheckboxFxn: handleCheckboxChange,
+      }),
+    [checkboxSelected]
+  );
 
   const dividerPositions = [50];
   const isCustomComponent = false;
@@ -636,8 +639,6 @@ export default function StoredProductionPrioritization({
     rows: rows,
     tableButtons: tableButtons,
     newTableRowHeight: 35,
-    selectedRows: selectedRows,
-    setSelectedRows: setSelectedRows,
     selectedRow: sRow,
     onSelectedRowChange: setSRow,
     onRowsChange: setRows,

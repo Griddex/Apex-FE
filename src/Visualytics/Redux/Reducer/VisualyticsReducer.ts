@@ -211,6 +211,7 @@ const visualyticsReducer = (
         reducer,
         workflowCategory,
         chartType,
+        chartStory,
         chartData,
         xValueCategories,
       } = action.payload;
@@ -219,11 +220,17 @@ const visualyticsReducer = (
         return {
           ...state,
           xValueCategories,
+          currentChartStory: chartStory,
           [workflowCategory]: {
             ...(state as any)[workflowCategory],
-            [chartType]: {
-              ...(state as any)[workflowCategory][chartType as TChartTypes],
-              chartData,
+            [chartStory]: {
+              ...(state as any)[workflowCategory][chartStory],
+              [chartType]: {
+                ...(state as any)[workflowCategory][chartStory][
+                  chartType as TChartTypes
+                ],
+                chartData,
+              },
             },
           },
         };

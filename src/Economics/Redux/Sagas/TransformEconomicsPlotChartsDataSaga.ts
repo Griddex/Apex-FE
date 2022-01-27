@@ -46,11 +46,14 @@ function* transformEconomicsChartDataSaga(
     reducer,
     workflowCategory,
     chartType,
+    secondaryChartType,
+    chartStory,
     chartData,
     xValueCategories,
     lineOrScatter,
     collateBy,
     collationFxn,
+    pipeline,
   } = payload;
 
   const { plotChartsResults, plotChartsCategoryDragItems } = yield select(
@@ -63,28 +66,96 @@ function* transformEconomicsChartDataSaga(
   else data = plotChartsResults;
 
   try {
-    const transformedChartDataFxn =
-      visualyticsChartDataTransformersObj[chartType as TChartTypes];
+    if (pipeline === "request") {
+      const xCategoryName = plotChartsCategoryDragItems["X Category"][0].name;
+      const yCategoryNames = plotChartsCategoryDragItems["Y Category"].map(
+        (o: any) => o.name
+      );
+      const ySecondaryCategoryNames = plotChartsCategoryDragItems[
+        "Y Secondary Category"
+      ].map((o: any) => o.name);
 
-    const transformedChartData = transformedChartDataFxn({
-      data,
-      categoryDragItems: plotChartsCategoryDragItems,
-      lineOrScatter,
-      collateBy,
-      collationFxn,
-    });
+      if (xCategoryName && yCategoryNames.length > 0) {
+        const transformedChartDataFxn =
+          visualyticsChartDataTransformersObj[chartType as TChartTypes];
 
-    const successAction = transformEconomicsChartDataSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        reducer,
-        workflowCategory,
-        chartType,
-        chartData: (transformedChartData as any)["data"],
-        xValueCategories,
-      },
-    });
+        const transformedChartData = transformedChartDataFxn({
+          data,
+          categoryDragItems: plotChartsCategoryDragItems,
+          chartStory: "primary",
+          lineOrScatter,
+          collateBy,
+          collationFxn,
+        });
+
+        const successAction = transformEconomicsChartDataSuccessAction();
+        yield put({
+          ...successAction,
+          payload: {
+            reducer,
+            workflowCategory,
+            chartType,
+            chartStory: "primary",
+            chartData: (transformedChartData as any)["data"],
+            xValueCategories,
+          },
+        });
+      }
+
+      if (xCategoryName && ySecondaryCategoryNames.length > 0) {
+        const transformedChartDataFxn =
+          visualyticsChartDataTransformersObj[
+            secondaryChartType as TChartTypes
+          ];
+
+        const transformedChartData = transformedChartDataFxn({
+          data,
+          categoryDragItems: plotChartsCategoryDragItems,
+          chartStory: "secondary",
+          lineOrScatter,
+          collateBy,
+          collationFxn,
+        });
+
+        const successAction = transformEconomicsChartDataSuccessAction();
+        yield put({
+          ...successAction,
+          payload: {
+            reducer,
+            workflowCategory,
+            chartType: secondaryChartType,
+            chartStory: "secondary",
+            chartData: (transformedChartData as any)["data"],
+            xValueCategories,
+          },
+        });
+      }
+    } else {
+      const transformedChartDataFxn =
+        visualyticsChartDataTransformersObj[chartType as TChartTypes];
+
+      const transformedChartData = transformedChartDataFxn({
+        data,
+        categoryDragItems: plotChartsCategoryDragItems,
+        chartStory,
+        lineOrScatter,
+        collateBy,
+        collationFxn,
+      });
+
+      const successAction = transformEconomicsChartDataSuccessAction();
+      yield put({
+        ...successAction,
+        payload: {
+          reducer,
+          workflowCategory,
+          chartType,
+          chartStory,
+          chartData: (transformedChartData as any)["data"],
+          xValueCategories,
+        },
+      });
+    }
   } catch (errors) {
     const failureAction = transformEconomicsChartDataFailureAction();
 

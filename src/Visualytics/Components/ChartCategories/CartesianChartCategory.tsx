@@ -57,28 +57,12 @@ const CartesianChartCategory = ({
   categoryHasDroppedTitle,
   resultsTitle,
 }: IChartCategories) => {
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryZMembers",
-    showCategoryZMembers
-  );
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryMembersObj",
-    showCategoryMembersObj
-  );
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryMembersSwitch",
-    showCategoryMembersSwitch
-  );
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const [membersSwitch, setMembersSwitch] = React.useState(
     showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
-  );
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 70 ~ membersSwitch",
-    membersSwitch
   );
 
   const [hasDroppedObj, setHasDroppedObj] = React.useState(

@@ -38,6 +38,7 @@ const unitOptionsByVariableNameSelector = createDeepEqualSelector(
 
 export default function CostsAndRevenueManualNAG({
   wkPs,
+  costsRevenueAggregationLevelOption,
   basePath,
   nagDevelopmentRows,
   setNAGDevelopmentRows,
@@ -45,6 +46,11 @@ export default function CostsAndRevenueManualNAG({
 }: ICostsRevenues) {
   const initialRowsLength = 10;
   const wkCs = "inputDataWorkflows";
+
+  const nagDevelopmentRowsDefined = nagDevelopmentRows as IRawRow[];
+  const currentAggregationLevelOption = costsRevenueAggregationLevelOption;
+  const currentAggregationLevelOptionValue =
+    currentAggregationLevelOption?.value as string;
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -58,13 +64,31 @@ export default function CostsAndRevenueManualNAG({
 
   const [nagDevelopmentSRow, setNAGDevelopmentSRow] = React.useState(-1);
 
+  const keys = Object.keys(nagDevelopmentRowsDefined[0]);
+  keys[1] = currentAggregationLevelOptionValue;
+  const nagDevelopmentRowsUpdated = React.useMemo(
+    () =>
+      nagDevelopmentRowsDefined.map((row) => {
+        const values = Object.values(row);
+
+        return zipObject(keys, values);
+      }),
+    [currentAggregationLevelOptionValue, nagDevelopmentRowsDefined]
+  );
+
   const initialNAGDevelopmentUnitsObj: Record<
     string,
     OnChangeValue<ISelectOption, false>
   > = React.useMemo(
     () =>
       (nagDevelopmentNames as string[]).reduce((acc, name) => {
-        const firstOption = unitOptionsByVariableName[name][0];
+        const options = unitOptionsByVariableName[name];
+
+        const firstOption =
+          options && Object.keys(options).length > 0
+            ? unitOptionsByVariableName[name][0]
+            : { value: "unitless", label: "unitless" };
+
         return { ...acc, [name]: firstOption };
       }, {}) as Record<string, OnChangeValue<ISelectOption, false>>,
     []
@@ -82,17 +106,19 @@ export default function CostsAndRevenueManualNAG({
       [headerName]: option,
     }));
 
-    const selectedRow = (nagDevelopmentRows as IRawRow[])[0];
-    (nagDevelopmentRows as IRawRow[])[0] = {
+    const selectedRow = nagDevelopmentRowsUpdated[0];
+    nagDevelopmentRowsUpdated[0] = {
       ...selectedRow,
       [headerName]: (option as ISelectOption).label,
     };
 
-    setNAGDevelopmentRows &&
-      setNAGDevelopmentRows(nagDevelopmentRows as IRawRow[]);
+    setNAGDevelopmentRows && setNAGDevelopmentRows(nagDevelopmentRowsUpdated);
   };
 
   const generateColumns = () => {
+    const currentAggregationLevelOptionValueDefined =
+      currentAggregationLevelOption?.value as string;
+
     const columns: Column<IRawRow>[] = [
       {
         key: "sn",
@@ -122,6 +148,53 @@ export default function CostsAndRevenueManualNAG({
             );
         },
         width: 100,
+      },
+      {
+        key: `${currentAggregationLevelOption?.value}`,
+        name: `${currentAggregationLevelOption.label.toUpperCase()}${
+          wkPs === "economicsCostsRevenuesDeckApexForecast" ? "" : "*"
+        }`,
+        editable:
+          wkPs === "economicsCostsRevenuesDeckApexForecast" ? false : true,
+        editor: (props: EditorProps<IRawRow>) => {
+          const { rowIdx } = props;
+          if (rowIdx === 0) return <div></div>;
+          else return <TextEditor {...props} />;
+        },
+        resizable: true,
+        formatter: ({ row }) => {
+          const option = appHeaderChosenAppUnitObj[
+            currentAggregationLevelOptionValueDefined
+          ] as ISelectOption;
+
+          if (row.sn === 0)
+            return (
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={option}
+                  data={
+                    unitOptionsByVariableName[
+                      currentAggregationLevelOptionValueDefined
+                    ]
+                  }
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
+                    handleApplicationUnitChange(
+                      value,
+                      currentAggregationLevelOptionValueDefined
+                    )
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
+            );
+          else
+            return <div>{row[currentAggregationLevelOptionValueDefined]}</div>;
+        },
+        width: 170,
       },
       {
         key: "year",
@@ -687,7 +760,7 @@ export default function CostsAndRevenueManualNAG({
 
   const getNAGDevApexGridProps = (size?: ISize) => ({
     columns: columns,
-    rows: nagDevelopmentRows as IRawRow[],
+    rows: nagDevelopmentRowsUpdated,
     onRowsChange: setNAGDevelopmentRows,
     tableButtons: tableButtons as ITableButtonsProps,
     newTableRowHeight: 35,
@@ -700,7 +773,6 @@ export default function CostsAndRevenueManualNAG({
     initialRowsLength: initialRowsLength,
   });
 
-  const nagDevelopmentRowsDefined = nagDevelopmentRows as IRawRow[];
   //TODO maybe Gift has to send me units for apexforecast process?
   const nagDevelopmentRowsFin =
     wkPs === "economicsCostsRevenuesDeckManual"

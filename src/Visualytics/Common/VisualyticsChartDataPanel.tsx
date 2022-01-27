@@ -52,6 +52,12 @@ const selectedVisualyticsChartOptionSelector = createDeepEqualSelector(
   (data) => data
 );
 
+const selectedVisualyticsSecondaryChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.visualyticsReducer.selectedVisualyticsSecondaryChartOption,
+  (data) => data
+);
+
 const visualyticsVariableZOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.visualyticsReducer.visualyticsVariableZOptions,
   (data) => data
@@ -101,8 +107,8 @@ const VisualyticsChartDataPanel = ({
   const selectedVisualyticsChartOption = useSelector(
     selectedVisualyticsChartOptionSelector
   );
-  const visualyticsVariableZOptions = useSelector(
-    visualyticsVariableZOptionsSelector
+  const selectedVisualyticsSecondaryChartOption = useSelector(
+    selectedVisualyticsSecondaryChartOptionSelector
   );
   const showVisualyticsCategoryMembersObj = useSelector(
     showVisualyticsCategoryMembersObjSelector
@@ -225,7 +231,6 @@ const VisualyticsChartDataPanel = ({
         () => showVisualyticsCategoryMembersObj,
         [JSON.stringify(showVisualyticsCategoryMembersObj)]
       )}
-      path="showVisualyticsCategoryMembersObj"
       updateParameterAction={React.useCallback(
         updateVisualyticsParameterAction,
         []

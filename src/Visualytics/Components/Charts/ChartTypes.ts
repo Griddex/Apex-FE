@@ -12,6 +12,8 @@ export type TChartTypes =
   | "radarChart"
   | "heatMapChart";
 
+export type TChartStory = "primary" | "secondary";
+
 export interface IApexChartGrid {
   gridName: string;
   gridTitle: string;

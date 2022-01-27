@@ -3,10 +3,14 @@ import { IRawRow } from "../../Application/Components/Table/ReactDataGrid/ApexGr
 import { TBackendDevScenarioTitles } from "../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const generateInitialRows = (noOfRows: number, headerNames: string[]) => {
+  console.log(
+    "🚀 ~ file: InitializeCostRevenuesData.ts ~ line 6 ~ generateInitialRows ~ headerNames",
+    headerNames
+  );
   const iniRows = [];
   const row = zipObject(headerNames, Array(headerNames.length).fill(""));
 
-  for (let i = 0; i < noOfRows; i++) {
+  for (let i = 0; i <= noOfRows; i++) {
     iniRows.push({ sn: i, ...row });
   }
 

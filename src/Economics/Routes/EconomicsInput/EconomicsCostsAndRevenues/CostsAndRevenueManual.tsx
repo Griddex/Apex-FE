@@ -16,6 +16,7 @@ import { confirmationDialogParameters } from "../../../../Import/Components/Dial
 import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
 import {
   backendDevScenarioOptions,
+  costsRevenueAggregationLevelOptions,
   developmentScenarioOptions,
   developmentScenariosMap,
   forecastCaseOptions,
@@ -33,6 +34,8 @@ import CostsAndRevenueManualNAG from "./CostsAndRevenueManualNAG";
 import CostsAndRevenueManualOil from "./CostsAndRevenueManualOil";
 import CostsAndRevenueManualOilNAG from "./CostsAndRevenueManualOilNAG";
 import { IAggregateButtonProps } from "./EconomicsCostsAndRevenuesTypes";
+import AppsIcon from "@mui/icons-material/Apps";
+import ApexTableFilterer from "../../../../Application/Components/TableFilterer/ApexTableFilterer";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -86,6 +89,14 @@ export default function CostsAndRevenueManual({
 
   const [forecastCaseOption, setForecastCaseOption] =
     React.useState<ISelectOption>(forecastCaseOptions[1]);
+
+  const [
+    costsRevenueAggregationLevelOption,
+    setCostsRevenueAggregationLevelOption,
+  ] = React.useState<ISelectOption>({
+    value: "project",
+    label: "Project",
+  });
 
   const initButtonsData =
     wkPs === "economicsCostsRevenuesDeckApexForecast"
@@ -185,6 +196,43 @@ export default function CostsAndRevenueManual({
     />
   );
 
+  const renderAggCompoment = () => {
+    if (devVal === "oilDevelopment") {
+      return (
+        <ApexTableFilterer
+          aggregationLevelOption={costsRevenueAggregationLevelOption}
+          setAggregationLevelOption={setCostsRevenueAggregationLevelOption}
+          aggregationLevelOptions={costsRevenueAggregationLevelOptions}
+          rows={oilDevelopmentRows}
+          setRows={setOilDevelopmentRows}
+          Icon={AppsIcon}
+        />
+      );
+    } else if (devVal === "nagDevelopment") {
+      return (
+        <ApexTableFilterer
+          aggregationLevelOption={costsRevenueAggregationLevelOption}
+          setAggregationLevelOption={setCostsRevenueAggregationLevelOption}
+          aggregationLevelOptions={costsRevenueAggregationLevelOptions}
+          rows={nagDevelopmentRows}
+          setRows={setNAGDevelopmentRows}
+          Icon={AppsIcon}
+        />
+      );
+    } else {
+      return (
+        <ApexTableFilterer
+          aggregationLevelOption={costsRevenueAggregationLevelOption}
+          setAggregationLevelOption={setCostsRevenueAggregationLevelOption}
+          aggregationLevelOptions={costsRevenueAggregationLevelOptions}
+          rows={oilNAGDevelopmentRows}
+          setRows={setOilNAGDevelopmentRows}
+          Icon={AppsIcon}
+        />
+      );
+    }
+  };
+
   const ForecastCases = () => (
     <ApexSelectRS
       valueOption={forecastCaseOption}
@@ -207,6 +255,9 @@ export default function CostsAndRevenueManual({
     if (devVal === "oilDevelopment") {
       return (
         <CostsAndRevenueManualOil
+          costsRevenueAggregationLevelOption={
+            costsRevenueAggregationLevelOption
+          }
           wkPs={wkPs}
           basePath={basePath}
           oilDevelopmentRows={oilDevelopmentRows}
@@ -218,6 +269,9 @@ export default function CostsAndRevenueManual({
       return (
         <CostsAndRevenueManualNAG
           wkPs={wkPs}
+          costsRevenueAggregationLevelOption={
+            costsRevenueAggregationLevelOption
+          }
           basePath={basePath}
           nagDevelopmentRows={nagDevelopmentRows}
           setNAGDevelopmentRows={setNAGDevelopmentRows}
@@ -228,6 +282,9 @@ export default function CostsAndRevenueManual({
       return (
         <CostsAndRevenueManualOilNAG
           wkPs={wkPs}
+          costsRevenueAggregationLevelOption={
+            costsRevenueAggregationLevelOption
+          }
           basePath={basePath}
           oilNAGDevelopmentRows={oilNAGDevelopmentRows}
           setOilNAGDevelopmentRows={setOilNAGDevelopmentRows}
@@ -241,21 +298,21 @@ export default function CostsAndRevenueManual({
   const oilRevsIsFilledOnFirstRow = React.useMemo(
     () =>
       Object.values(oilDevelopmentRows[checkedRowSN]).filter((v) => v !== "")
-        .length === 16,
+        .length === 17,
     [oilDevelopmentRows]
   );
 
   const nagRevsIsFilledOnFirstRow = React.useMemo(
     () =>
       Object.values(nagDevelopmentRows[checkedRowSN]).filter((v) => v !== "")
-        .length === 17,
+        .length === 18,
     [nagDevelopmentRows]
   );
 
   const oilNAGRevsIsFilledOnFirstRow = React.useMemo(
     () =>
       Object.values(oilNAGDevelopmentRows[checkedRowSN]).filter((v) => v !== "")
-        .length === 19,
+        .length === 20,
     [oilNAGDevelopmentRows]
   );
 
@@ -304,6 +361,16 @@ export default function CostsAndRevenueManual({
           />
         </ApexFlexContainer>
 
+        <AnalyticsComp
+          title="Costs/Revenue Tier"
+          direction="Vertical"
+          containerStyle={{
+            display: "flex",
+            flexDirection: "row",
+            width: 440,
+          }}
+          content={renderAggCompoment()}
+        />
         <AnalyticsComp
           title="Forecast Case"
           direction="Vertical"

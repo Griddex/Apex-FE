@@ -29,11 +29,18 @@ import {
   PERSIST_WORKSHEETNAMES,
   UPDATE_INPUT,
 } from "../../../Import/Redux/Actions/InputActions";
-import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
+import {
+  TChartStory,
+  TChartTypes,
+} from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   PUT_SELECTCHART,
   RESET_CHART_DATA,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
+import {
+  TAllChartsDataAndSpecificPropertiesPrimary,
+  TAllChartsDataAndSpecificPropertiesSecondary,
+} from "../../../Visualytics/Redux/State/VisualyticsStateTypes";
 import {
   ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
   ECONOMICSHEATMAP_UPDATE_HASDROPPED,
@@ -408,12 +415,10 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         categoryOptionTitle,
         id,
         chartType,
+        chartStory,
       } = action.payload;
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ action.payload",
-        action.payload
-      );
 
+      const chtStory: TChartStory = chartStory ? chartStory : "primary";
       const categoryMembers = (state as any)[categoryMembersObjTitle][
         categoryTitle
       ];
@@ -426,10 +431,21 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const newCategoryDragItems = omit(categoryDragItems, [id]);
       const newCategoryOptionTitles = omit(categoryOptionTitles, [id]);
 
-      const chartData =
-        state["economicsChartsWorkflows"][chartType as TChartTypes][
-          "chartData"
-        ];
+      let chartData = [] as any[];
+      let chartTypeObj = {} as any;
+      if (chtStory === "primary") {
+        chartTypeObj =
+          state["economicsChartsWorkflows"][chtStory][
+            chartType as TAllChartsDataAndSpecificPropertiesPrimary
+          ];
+        chartData = chartTypeObj["chartData"];
+      } else {
+        chartTypeObj =
+          state["economicsChartsWorkflows"][chtStory][
+            chartType as TAllChartsDataAndSpecificPropertiesSecondary
+          ];
+        chartData = chartTypeObj["chartData"];
+      }
 
       const chartVariableOption = categoryOptionTitles[
         id
@@ -457,7 +473,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         economicsChartsWorkflows: {
           ...state["economicsChartsWorkflows"],
           [chartType]: {
-            ...state["economicsChartsWorkflows"][chartType as TChartTypes],
+            ...chartTypeObj,
             chartData: filteredChartData,
           },
         },
@@ -551,7 +567,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const {
         economicsChartsWorkflows,
         selectedEconomicsPlotChartOption,
-        showPlotChartsCategories,
         plotChartsVariableXOptions,
         plotChartsVariableYOptions,
         plotChartsSecondaryVariableYOptions,
@@ -566,7 +581,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         ...state,
         economicsChartsWorkflows,
         selectedEconomicsPlotChartOption,
-        showPlotChartsCategories,
         plotChartsVariableXOptions,
         plotChartsVariableYOptions,
         plotChartsSecondaryVariableYOptions,

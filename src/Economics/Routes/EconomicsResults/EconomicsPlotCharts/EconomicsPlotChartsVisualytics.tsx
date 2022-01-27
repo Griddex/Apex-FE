@@ -14,13 +14,19 @@ import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHold
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import { showContextDrawerAction } from "../../../../Application/Redux/Actions/LayoutActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
+import {
+  TChartStory,
+  TChartTypes,
+} from "../../../../Visualytics/Components/Charts/ChartTypes";
 import ChartButtons from "../../../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../../../Visualytics/Components/Menus/ChartSelectionMenu";
 import { putSelectChartOptionAction } from "../../../../Visualytics/Redux/Actions/VisualyticsActions";
 import EconomicsChartTitlePlaque from "../../../Components/TitlePlaques/EconomicsChartTitlePlaque";
-import { economicsPlotChartsOptions } from "../../../Data/EconomicsData";
+import {
+  economicsPlotChartsOptions,
+  economicsSecondaryPlotChartsOptions,
+} from "../../../Data/EconomicsData";
 import { updateEconomicsParameterAction } from "../../../Redux/Actions/EconomicsActions";
 
 const VisualyticsContext = React.lazy(
@@ -87,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+const currentChartStorySelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.currentChartStory,
+  (data) => data
+);
 
 const showContextDrawerSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showContextDrawer,
@@ -98,10 +108,6 @@ const plotChartsResultsSelector = createDeepEqualSelector(
 );
 const xValueCategoriesSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.xValueCategories,
-  (data) => data
-);
-const showPlotChartsCategoriesSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.showPlotChartsCategories,
   (data) => data
 );
 const selectedEconomicsPlotChartOptionSelector = createDeepEqualSelector(
@@ -121,12 +127,15 @@ const EconomicsPlotChartsVisualytics = () => {
   const [selectedZ, setSelectedZ] = React.useState("");
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
+  const currentChartStory = useSelector(currentChartStorySelector);
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsVisualytics.tsx ~ line 128 ~ EconomicsPlotChartsVisualytics ~ currentChartStory",
+    currentChartStory
+  );
   const showContextDrawer = useSelector(showContextDrawerSelector);
   const plotChartsResults = useSelector(plotChartsResultsSelector);
   const xValueCategories = useSelector(xValueCategoriesSelector);
-  const showPlotChartsCategories = useSelector(
-    showPlotChartsCategoriesSelector
-  );
+
   const selectedEconomicsPlotChartOption = useSelector(
     selectedEconomicsPlotChartOptionSelector
   );
@@ -140,8 +149,12 @@ const EconomicsPlotChartsVisualytics = () => {
     extraButtons: () => (
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
+          chartStory="primary"
+          secondaryChartStory="secondary"
           chartOptions={economicsPlotChartsOptions}
-          initialChartIndex={2}
+          chartSecondaryOptions={economicsSecondaryPlotChartsOptions}
+          initialChartIndex={1}
+          initialSecondaryChartIndex={2}
           putChartOptionAction={
             plotChartsResults.length > 0
               ? (chartOption: ISelectOption) => {
@@ -150,6 +163,7 @@ const EconomicsPlotChartsVisualytics = () => {
                     workflowCategory: wc,
                     chartOption,
                     chartType: chartOption.value,
+                    chartStory: "primary",
                     xValueCategories,
                     lineOrScatter:
                       chartOption.value === "lineChart"
@@ -167,6 +181,36 @@ const EconomicsPlotChartsVisualytics = () => {
                   dispatch(
                     updateEconomicsParameterAction(
                       "selectedEconomicsPlotChartOption",
+                      chartOption
+                    )
+                  );
+                }
+          }
+          putChartSecondaryOptionAction={
+            plotChartsResults.length > 0
+              ? (chartOption: ISelectOption) => {
+                  const payload = {
+                    reducer: "visualyticsReducer",
+                    workflowCategory: wc,
+                    chartOption,
+                    chartType: chartOption.value,
+                    chartStory: "secondary",
+                    xValueCategories,
+                    lineOrScatter:
+                      chartOption.value === "lineChart"
+                        ? "lineChart"
+                        : "scatterChart",
+                    selectedChartOptionTitle:
+                      "selectedVisualyticsSecondaryChartOption",
+                    collateBy: "yValue",
+                  };
+
+                  dispatch(putSelectChartOptionAction(payload));
+                }
+              : (chartOption: ISelectOption) => {
+                  dispatch(
+                    updateEconomicsParameterAction(
+                      "selectedEconomicsPlotSecondaryChartOption",
                       chartOption
                     )
                   );
@@ -284,18 +328,19 @@ const EconomicsPlotChartsVisualytics = () => {
           </div>
           <SizeMe monitorHeight refreshRate={32}>
             {({ size }) => {
-              return chartType === "Select Chart..." ? (
-                <NoSelectionPlaceholder
-                  icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                  text="Select chart.."
-                />
-              ) : (
+              return chartType !== "Select Chart..." ? (
                 <div className={classes.plotChart}>
                   <EconomicsPlotChartsSelectChart
                     width={size.width as number}
                     height={size.height as number}
+                    chartStory={currentChartStory as TChartStory}
                   />
                 </div>
+              ) : (
+                <NoSelectionPlaceholder
+                  icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                  text="Select chart.."
+                />
               );
             }}
           </SizeMe>

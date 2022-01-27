@@ -116,6 +116,7 @@ const generateVisualyticsState = () => {
 const visualyticsDataState = generateVisualyticsState();
 
 const visualyticsState: IVisualyticsState = {
+  currentChartStory: "primary",
   selectedChartIndex: 0,
   selectedChartObjId: "",
   chartObjects: [],
@@ -135,10 +136,16 @@ const visualyticsState: IVisualyticsState = {
   isYear: true,
   transVisualyticsResult: [],
   visualyticsResultsId: "",
-  showPlotChartsCategories: false,
 
   loadVisualyticsWorkflow: false,
-  selectedVisualyticsChartOption: { label: "Select...", value: "Select..." },
+  selectedVisualyticsChartOption: {
+    label: "Line",
+    value: "lineChart",
+  },
+  selectedVisualyticsSecondaryChartOption: {
+    label: "Line",
+    value: "lineChart",
+  },
   selectedVisualyticsId: "",
   selectedVisualyticsTitle: "",
   selectedVisualyticsDescription: "",
@@ -146,7 +153,7 @@ const visualyticsState: IVisualyticsState = {
 
   visualyticsVariableXOptions: {},
   visualyticsVariableYOptions: {},
-  visualyticsSecondaryVariableYOptions: {},
+  visualyticsSecondaryVariableYOptions: {}, //
   visualyticsVariableZOptions: {},
   visualyticsVariableROptions: {},
   showVisualyticsCategoryMembersObj: {
@@ -164,6 +171,7 @@ const visualyticsState: IVisualyticsState = {
     "Z Category": {},
     "R Category": {},
   },
+
   visualyticsCategoryHasDropped: {
     "X Category": {},
     "Y Category": {},

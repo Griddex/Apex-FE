@@ -124,10 +124,6 @@ const ExcelWorkflow = ({
   const isStepSkipped = useCallback((step) => skipped.has(step), [skipped]);
 
   const [inputWorkbook, setInputWorkbook] = React.useState({} as WorkBook);
-  console.log(
-    "🚀 ~ file: ExcelWorkflow.tsx ~ line 127 ~ inputWorkbook",
-    inputWorkbook
-  );
 
   const WorkflowBannerProps = {
     activeStep,
@@ -202,10 +198,6 @@ const ExcelWorkflow = ({
     workflowProcess: wp,
     workflowCategory: wc,
   };
-  console.log(
-    "🚀 ~ file: ExcelWorkflow.tsx ~ line 194 ~ navigationButtonProps",
-    navigationButtonProps
-  );
 
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
@@ -234,7 +226,7 @@ const ExcelWorkflow = ({
 
   React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={classes.root}>

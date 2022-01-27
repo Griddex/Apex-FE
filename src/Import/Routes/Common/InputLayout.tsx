@@ -22,6 +22,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import EconomicsInputButtonsMenu from "../../../Economics/Components/Menus/EconomicsInputButtonsMenu";
 import { IdType } from "./InputLayoutTypes";
 import { IEconomicsInputButton } from "./Workflows/InputWorkflowsTypes";
+import BackupTableIcon from "@mui/icons-material/BackupTable";
 
 const EconomicsCostsRevenuesLanding = React.lazy(
   () =>
@@ -37,6 +38,9 @@ const EconomicsParametersLanding = React.lazy(
 );
 const ForecastInputDeckLanding = React.lazy(
   () => import("../ForecastInputDeck/ForecastInputDeckLanding")
+);
+const ForecastProfilesDeckLanding = React.lazy(
+  () => import("../ForecastInputDeck/ForecastProfilesDeckLanding")
 );
 const ProductionDataLanding = React.lazy(
   () => import("../ProductionData/ProductionDataLanding")
@@ -98,6 +102,12 @@ const InputLayout = () => {
     {
       name: "Forecast Deck",
       route: `${url}/forecastdeck`,
+      startIcon: <BackupTableIcon fontSize="medium" />,
+      component: () => <div></div>,
+    },
+    {
+      name: "Forecast Profiles",
+      route: `${url}/forecastprofiles`,
       startIcon: <LandscapeIcon fontSize="medium" />,
       component: () => <div></div>,
     },
@@ -164,6 +174,7 @@ const InputLayout = () => {
                 background: <InputBackground />,
                 facilitiesdeck: <FacilitiesInputDeckLanding />,
                 forecastdeck: <ForecastInputDeckLanding />,
+                forecastprofiles: <ForecastProfilesDeckLanding />,
                 productiondata: <ProductionDataLanding />,
                 costsrevenue: <EconomicsCostsRevenuesLanding />,
                 parameters: <EconomicsParametersLanding />,

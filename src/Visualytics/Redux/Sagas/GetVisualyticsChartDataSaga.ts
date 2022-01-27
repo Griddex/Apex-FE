@@ -63,9 +63,11 @@ function* getVisualyticsChartDataSaga(
     selectedVisualyticsId,
     visualyticsCategoryDragItems,
     selectedVisualyticsChartOption,
+    selectedVisualyticsSecondaryChartOption,
   } = yield select((state) => state.visualyticsReducer);
 
   const chartType = selectedVisualyticsChartOption.value;
+  const secondaryChartType = selectedVisualyticsSecondaryChartOption.value;
 
   const config = {};
   const url = `${getBaseVisualyticsUrl()}/chartData`;
@@ -80,6 +82,7 @@ function* getVisualyticsChartDataSaga(
 
   const requestData = {
     chartType,
+    secondaryChartType,
     columnNames,
     visualyticsId: selectedVisualyticsId,
   };
@@ -106,7 +109,9 @@ function* getVisualyticsChartDataSaga(
         reducer,
         workflowCategory,
         chartType,
+        secondaryChartType,
         chartData,
+        pipeline: "request",
       },
     });
   } catch (errors) {

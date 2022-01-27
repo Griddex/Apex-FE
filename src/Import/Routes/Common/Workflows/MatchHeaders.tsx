@@ -156,6 +156,7 @@ const MatchHeaders = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
   const costsRevenuesAppHeaders = useSelector(costsRevenuesAppHeadersSelector);
 
   const cRHeaders = costsRevenuesAppHeaders;
+
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
   );
