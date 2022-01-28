@@ -175,6 +175,11 @@ export interface Position {
   rowIdx: number;
 }
 
+export interface ApexXYPosition {
+  x: number | null;
+  y: number | null;
+}
+
 export type TPastePosition = {
   topLeft: { rowIdx?: number; colIdx?: number };
   botRight: { rowIdx?: number; colIdx?: number };

@@ -3,18 +3,13 @@ import React from "react";
 import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import {
-  Connection,
-  Handle,
-  Node,
-  Position,
-  XYPosition,
-} from "react-flow-renderer";
+import { Connection, Handle, Node, Position } from "react-flow-renderer";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import Flowstation from "../../Images/Flowstation.svg";
 import FlowstationContextMenu from "../ContextMenu/FlowstationContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
+import { ApexXYPosition } from "../../../Application/Types/ApplicationTypes";
 
 const FlowstationWidget = ({ title, showTitle }: IWidget) => {
   const [open, setOpen] = React.useState(false);
@@ -109,7 +104,7 @@ const FlowstationNode = React.memo((props: Node & IExtraNodeProps) => {
     title = data?.title;
   }
 
-  const position: XYPosition = {
+  const position: ApexXYPosition = {
     x: xPos,
     y: yPos,
   };

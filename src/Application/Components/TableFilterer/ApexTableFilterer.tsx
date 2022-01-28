@@ -67,31 +67,20 @@ const ApexTableFilterer = ({
     const optionIsFound = selectedOptions.find(
       (o) => o?.value === option?.value
     );
-    console.log(
-      "🚀 ~ file: ApexTableFilterer.tsx ~ line 67 ~ apexListemAction ~ optionIsFound",
-      optionIsFound
-    );
 
     if (optionIsFound) {
       setSelectedOptions((prev) => {
         const newOptions = [...prev];
-        console.log(
-          "🚀 ~ file: ApexTableFilterer.tsx ~ line 75 ~ setSelectedOptions ~ newOptions",
-          newOptions
-        );
         const currIdx = newOptions.findIndex((o) => o?.value === option?.value);
-        const currSelectOptions = newOptions.splice(currIdx, 1);
-        console.log(
-          "🚀 ~ file: ApexTableFilterer.tsx ~ line 76 ~ setSelectedOptions ~ currSelectOptions",
-          currSelectOptions
-        );
+        newOptions.splice(currIdx, 1);
 
-        return currSelectOptions;
+        return newOptions;
       });
     } else {
       setSelectedOptions((prev) => {
         const newOptions = [...prev];
         newOptions.push(option);
+
         return newOptions;
       });
     }
@@ -211,7 +200,7 @@ const ApexTableFilterer = ({
           <ApexListMultiOptions
             contentListOptions={contentListOptions}
             selectedOptions={selectedOptions}
-            apexListemAction={apexListemAction}
+            apexListemAction={React.useCallback(apexListemAction, [])}
             Icon={Icon}
           />
           <div style={{ display: "flex", justifyContent: "flex-end" }}>

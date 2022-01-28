@@ -39,10 +39,6 @@ const ApexListMultiOptions = ({
   apexListemAction,
   Icon,
 }: IApexListMultiOptions) => {
-  console.log(
-    "🚀 ~ file: ApexListMultiOptions.tsx ~ line 42 ~ selectedOptions",
-    selectedOptions
-  );
   const classes = useStyles();
   const theme = useTheme();
 
