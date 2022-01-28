@@ -11,15 +11,27 @@ import {
 } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import ModuleCard from "../../Application/Components/Cards/ModuleCard";
+import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import Image from "../../Application/Components/Visuals/Image";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import { updateDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
+import {
+  unloadDialogsAction,
+  showDialogAction,
+} from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
 import AutoNetwork from "../Images/AutoNetwork.svg";
 import DeclineParameters from "../Images/DeclineParameters.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import StoredDeck from "../Images/StoredDeck.svg";
-import { updateNetworkParameterAction } from "../Redux/Actions/NetworkActions";
+import {
+  fetchStoredForecastingParametersRequestAction,
+  updateNetworkParameterAction,
+} from "../Redux/Actions/NetworkActions";
 import { IdType } from "./NetworkLandingTypes";
 
 const DeclineCurveParameters = React.lazy(
@@ -81,6 +93,9 @@ const loadNetworkGenerationWorkflowSelector = createDeepEqualSelector(
 // );
 
 const NetworkLanding = () => {
+  const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
+  const reducer = "networkReducer";
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const { url } = useRouteMatch();
@@ -196,6 +211,44 @@ const NetworkLanding = () => {
     },
   ];
 
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredForecastingParametersRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
+
   return (
     <>
       {loadNetworkGenerationWorkflow ? (
@@ -230,6 +283,9 @@ const NetworkLanding = () => {
                     <StoredForecastingParameters
                       showChart={true}
                       isAllForecastParameters={true}
+                      updateTableActionConfirmation={
+                        updateTableActionConfirmation
+                      }
                     />
                   ),
                   declineParametersStored: (

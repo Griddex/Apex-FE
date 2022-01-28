@@ -34,6 +34,7 @@ import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
+  updateDataByIdRequestAction,
 } from "../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
@@ -63,6 +64,7 @@ import { IApexEditor } from "./../../Application/Components/Editors/ApexEditor";
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import generateDoughnutAnalyticsData from "../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 
 //<IStoredForecastResultsRow, ITableButtonsProps>
 
@@ -164,7 +166,6 @@ export default function StoredForecastResults({
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
   const dayFormat = useSelector(dayFormatSelector);
@@ -248,6 +249,47 @@ export default function StoredForecastResults({
 
   const dividerPositions = [50];
 
+  const fetchStoredRequestAction = () =>
+    fetchStoredForecastingResultsRequestAction(currentProjectId);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
+
   const columns: Column<IStoredForecastResultsRow>[] = [
     { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
     ApexGridCheckboxColumn,
@@ -295,11 +337,15 @@ export default function StoredForecastResults({
                 maxWidth: "xs",
                 iconType: "edit",
                 apexEditorProps,
-                actionsList: () =>
+                actionsList: (titleDesc: Record<string, string>) =>
                   DialogOneCancelButtons(
                     [true, true],
                     [true, false],
-                    [unloadDialogsAction, () => {}],
+                    [
+                      unloadDialogsAction,
+
+                      () => updateTableActionConfirmation(id)(titleDesc),
+                    ],
                     "Update",
                     "updateOutlined"
                   ),

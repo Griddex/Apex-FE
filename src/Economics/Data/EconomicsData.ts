@@ -461,15 +461,19 @@ export const initialHeatMapData = {
 
 export const costsRevenueAggregationLevelOptions = [
   {
+    value: "portfolio",
+    label: "Portfolio",
+  },
+  {
     value: "module",
-    label: "Module...",
+    label: "Module",
   },
   {
     value: "drainagePoint",
     label: "Drainage Point",
   },
   {
-    value: "station",
+    value: "flowStation",
     label: "Station",
   },
   {
@@ -485,7 +489,7 @@ export const costsRevenueAggregationLevelOptions = [
     label: "Reservoir",
   },
   {
-    value: "project",
+    value: "projectName",
     label: "Project",
   },
   {

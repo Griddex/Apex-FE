@@ -2,7 +2,6 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -28,7 +27,11 @@ import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid"
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
-import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import {
+  deleteDataByIdRequestAction,
+  updateDataByIdRequestAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -153,16 +156,9 @@ const forecastingParametersStoredSelector = createDeepEqualSelector(
 export default function StoredDeclineCurveParameters({
   showChart,
   isAllDeclineParameters,
-  updateTableActionConfirmation,
 }: IStoredDataProps) {
-  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const updateTableActionConfirmationDefined =
-    updateTableActionConfirmation as NonNullable<
-      IStoredDataProps["updateTableActionConfirmation"]
-    >;
 
   const componentRef = React.useRef();
 
@@ -248,6 +244,44 @@ export default function StoredDeclineCurveParameters({
 
   const dividerPositions = [50];
   const isCustomComponent = false;
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredDeclineCurveParametersRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
 
   const generateColumns = () => {
     const columns: Column<IStoredDataRow>[] = [
@@ -347,8 +381,7 @@ export default function StoredDeclineCurveParameters({
                       [true, false],
                       [
                         unloadDialogsAction,
-                        () =>
-                          updateTableActionConfirmationDefined(id)(titleDesc),
+                        () => updateTableActionConfirmation(id)(titleDesc),
                       ],
                       "Update",
                       "updateOutlined",

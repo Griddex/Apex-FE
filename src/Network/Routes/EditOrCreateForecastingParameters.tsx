@@ -1,7 +1,7 @@
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { Button, TextField } from "@mui/material";
+import { Button, Input, TextField } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
@@ -311,6 +311,12 @@ const EditOrCreateForecastingParameters = ({
     />
   );
 
+  const startForecastDate = new Date(formEditorRow["startForecast"]);
+  const endForecastDate = new Date(formEditorRow["endForecast"]);
+  const forecastDuration =
+    (endForecastDate.getTime() - startForecastDate.getTime()) /
+    (1000 * 60 * 60 * 24 * 365.24);
+
   React.useEffect(() => {
     setCurrentRow && setCurrentRow(formEditorRow);
   }, [formEditorRow]);
@@ -441,7 +447,7 @@ const EditOrCreateForecastingParameters = ({
               //User should have ability to change position
               //of day, month and year
               inputFormat={currentDateFormat}
-              value={new Date(formEditorRow["startForecast"])}
+              value={startForecastDate}
               onChange={() => {}}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -456,7 +462,7 @@ const EditOrCreateForecastingParameters = ({
               //User should have ability to change position
               //of day, month and year
               inputFormat={currentDateFormat}
-              value={new Date(formEditorRow["endForecast"])}
+              value={endForecastDate}
               onChange={(date: unknown) => {
                 setFormEditorRow((prev: any) => ({
                   ...prev,
@@ -466,6 +472,19 @@ const EditOrCreateForecastingParameters = ({
               //TODO at least one year ahead
               minDate={new Date(formEditorRow["startForecast"])}
               renderInput={(params) => <TextField {...params} />}
+            />
+          }
+        />
+        <AnalyticsComp
+          title="Forecast Duration"
+          direction="Vertical"
+          content={
+            <Input
+              name="forecastDuration"
+              style={{ width: 80 }}
+              value={forecastDuration.toFixed(0)}
+              required
+              fullWidth
             />
           }
         />

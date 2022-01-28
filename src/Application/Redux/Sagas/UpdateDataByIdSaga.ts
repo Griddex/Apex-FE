@@ -7,6 +7,7 @@ import {
   ForkEffect,
   put,
   PutEffect,
+  select,
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -47,10 +48,13 @@ function* updateDataByIdSaga(action: IAction): Generator<
   const { reducer, updateDataUrl, titleDesc, fetchStoredRequestAction } =
     payload;
 
+  const { currentProjectId } = yield select((state) => state.projectReducer);
+
   const { title, description } = titleDesc;
   const data = {
     title,
     description,
+    projectId: currentProjectId,
   };
 
   const config = { withCredentials: false };
