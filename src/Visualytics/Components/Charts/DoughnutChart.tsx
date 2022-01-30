@@ -1,9 +1,9 @@
 import { InheritedColorConfig } from "@nivo/colors";
 import { ComputedDatum, Pie, ResponsivePie } from "@nivo/pie";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -88,6 +88,10 @@ const DoughnutChart = ({
     ComputedDatum<any>
   >;
   commonChartPropsDefined["borderColor"] = borderColorDoughnut;
+
+  if (chartStory === "secondary") {
+    commonChartPropsDefined["axisBottom"] = undefined;
+  }
 
   return <ResponsivePie data={chartData} {...commonChartPropsDefined} />;
 };

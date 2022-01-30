@@ -6,16 +6,17 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
-import { IChartProps } from "../ChartTypes";
+import { AxisProps, IChartProps } from "../ChartTypes";
 import { TChartStory } from "./ChartTypes";
+import renderTick from "../../Utils/RenderTicks";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const SimpleLineChart = ({
   workflowCategory,
@@ -24,6 +25,14 @@ const SimpleLineChart = ({
 }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
+
+  const xValueCategoriesSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined]["xValueCategories"],
+    (categories) => categories
+  );
+  const xValueCategories = useSelector(xValueCategoriesSelector);
+
+  const bottomAxisValues = xValueCategories.map((v: any) => v);
 
   const commonChartProps = useSelector(
     (state: RootState) =>
@@ -72,6 +81,24 @@ const SimpleLineChart = ({
 
   const yFormatLine = (v: DatumValue) => format(yFormatString)(v as number);
   commonChartPropsDefined["yFormat"] = yFormatLine;
+
+  if (chartStory === "secondary") {
+    commonChartPropsDefined["axisBottom"] = undefined;
+  } else {
+    commonChartPropsDefined["axisBottom"] = {
+      axisEnabled: true,
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      format: (v) => format(" >-.0f")(v),
+      legend: "",
+      legendOffset: 36,
+      legendPosition: "middle",
+    } as AxisProps;
+
+    (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =
+      renderTick(bottomAxisValues);
+  }
 
   return <ResponsiveLine data={chartData} {...commonChartPropsDefined} />;
 };

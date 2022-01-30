@@ -63,9 +63,12 @@ const plotChartsCategoryHasDroppedSelector = createDeepEqualSelector(
 const EconomicsPlotChartsDataPanel = ({
   selectedZ,
   setSelectedZ,
+  chartStory,
   variableZDataOptions,
   ZValuesTitle,
 }: IEconomicsResultsVisualytics) => {
+  const reducer = "economicsReducer";
+
   const dispatch = useDispatch();
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
@@ -184,6 +187,8 @@ const EconomicsPlotChartsDataPanel = ({
   const chartTypeDefined = chartType as TChartTypes;
   const categoriesComponent = (
     <XYYZRChartCategories
+      reducer={reducer}
+      chartStory={chartStory}
       chartType={chartTypeDefined}
       xCategoryOptionTitle="plotChartsVariableXOptions"
       yCategoryOptionTitle="plotChartsVariableYOptions"
@@ -237,6 +242,7 @@ const EconomicsPlotChartsDataPanel = ({
             setSelectedZ as TUseState<string>,
             []
           )}
+          chartStory={chartStory}
           variableZDataOptions={variableZDataOptions}
           ZValuesTitle={ZValuesTitle}
         />

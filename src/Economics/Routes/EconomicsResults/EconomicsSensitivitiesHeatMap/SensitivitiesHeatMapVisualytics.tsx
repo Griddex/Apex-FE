@@ -16,6 +16,7 @@ import SensitivitiesHeatMapChart from "./SensitivitiesHeatMapChart";
 import SensitivitiesHeatMapDataPanel from "./SensitivitiesHeatMapDataPanel";
 import VisualyticsContext from "../../../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import generateVariableDataOptions from "../../../../Visualytics/Utils/GenerateVariableDataOptions";
+import { Resizable } from "re-resizable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,14 +118,20 @@ const SensitivitiesHeatMapVisualytics = () => {
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
-        <div className={classes.chartPanel}>
+        <Resizable
+          // style={style}
+          defaultSize={{
+            width: 300,
+            height: "100%",
+          }}
+        >
           <SensitivitiesHeatMapDataPanel
             selectedZ={selectedZValue}
             setSelectedZ={React.useCallback(setSelectedZ, [])}
             variableZDataOptions={variableZDataOptions}
             ZValuesTitle={ZValuesTitle}
           />
-        </div>
+        </Resizable>
 
         <div className={classes.chartContent}>
           <div

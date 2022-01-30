@@ -72,13 +72,21 @@ function* getVisualyticsChartDataSaga(
   const config = {};
   const url = `${getBaseVisualyticsUrl()}/chartData`;
 
-  const columnNames = Object.values(
-    visualyticsCategoryDragItems as Record<string, Record<string, IDragItem>>
-  ).reduce((acc, row) => {
-    const dragItems = Object.values(row);
+  const visualyticsCategoryDragItemsDefined =
+    visualyticsCategoryDragItems as Record<string, Record<string, IDragItem>>;
 
-    return [...acc, ...dragItems.map((obj) => obj.name)];
-  }, [] as string[]);
+  const columnNames = Object.values(visualyticsCategoryDragItemsDefined).reduce(
+    (acc, row) => {
+      const dragItems = Object.values(row);
+
+      return [...acc, ...dragItems.map((obj) => obj.name)];
+    },
+    [] as string[]
+  );
+
+  const ids = Object.keys(visualyticsCategoryDragItemsDefined["X Category"]);
+  const xCatDrgItmName =
+    visualyticsCategoryDragItemsDefined["X Category"][ids[0]].name;
 
   const requestData = {
     chartType,
@@ -102,6 +110,14 @@ function* getVisualyticsChartDataSaga(
       },
     } = result;
 
+    const xValueCategories = chartData.find(
+      (row: any) => row.name === xCatDrgItmName
+    )?.values;
+    console.log(
+      "🚀 ~ file: GetVisualyticsChartDataSaga.ts ~ line 116 ~ xValueCategories",
+      xValueCategories
+    );
+
     const successAction = getVisualyticsChartDataSuccessAction();
     yield put({
       ...successAction,
@@ -111,6 +127,7 @@ function* getVisualyticsChartDataSaga(
         chartType,
         secondaryChartType,
         chartData,
+        xValueCategories,
         pipeline: "request",
       },
     });

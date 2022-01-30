@@ -17,6 +17,7 @@ const EditOrCreateForecastParametersWorkflow = ({
   workflowProcess,
   activeStep,
   forecastParametersIndex,
+  setNextDisableds,
 
   title,
   setTitle,
@@ -53,6 +54,8 @@ const EditOrCreateForecastParametersWorkflow = ({
             shouldUpdate={shouldUpdate}
             workflowProcess={workflowProcessDefined}
             forecastParametersIndex={forecastParametersIndex}
+            activeStep={activeStep}
+            setNextDisableds={setNextDisableds}
           />
         );
       case 2:

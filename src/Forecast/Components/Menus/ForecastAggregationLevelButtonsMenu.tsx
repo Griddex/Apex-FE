@@ -62,7 +62,7 @@ const ForecastAggregationLevelButtonsMenu = () => {
             height: 28,
             backgroundColor: theme.palette.primary.light,
             border: `1px solid ${theme.palette.primary.main}`,
-            width: 120,
+            width: 200,
             marginRight: 4,
             color: theme.palette.grey["800"],
           }}

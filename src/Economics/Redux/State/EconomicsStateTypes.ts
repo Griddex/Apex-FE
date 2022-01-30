@@ -282,6 +282,7 @@ export interface IEconomicsState
 
   showCategoryZMembers: boolean;
 
+  xValueCategories: string[];
   economicsPlotChartsTree: RenderTree;
   plotChartsResults: any[];
   plotChartsData: null;

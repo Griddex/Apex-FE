@@ -61,10 +61,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     currentRow,
     forecastParametersIndex,
   } = props;
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 63 ~ props",
-    props
-  );
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
@@ -84,6 +80,13 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   const [formTitle, setFormTitle] = React.useState("");
   const [formDescription, setFormDescription] = React.useState("");
   const [currRow, setCurrRow] = React.useState(currentRow);
+  const [nextDisableds, setNextDisableds] = React.useState<
+    Record<number, boolean>
+  >({ 0: false, 1: false, 2: false });
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 84 ~ nextDisableds",
+    nextDisableds
+  );
 
   const titleDesc = {
     title: formTitle,
@@ -114,6 +117,10 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   );
 
   const activeStep = useSelector(activeStepSelector);
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 120 ~ activeStep",
+    activeStep
+  );
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
@@ -141,6 +148,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     activeStep,
     workflowProcess: workflowProcessDefined,
     forecastParametersIndex,
+    setNextDisableds,
 
     title: formTitle,
     setTitle: setFormTitle,
@@ -193,6 +201,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     else return selectedForecastingParametersId;
   };
 
+  //TODO
   const id = getSelectedId();
 
   const navigationButtonProps: INavigationButtonsProp = {
@@ -205,7 +214,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
       reset: false,
       skip: false,
       back: activeStep === 0 ? true : false,
-      next: false,
+      next: nextDisableds[activeStep] ? true : false,
     },
     finalAction: createForecastingParametersConfirmation,
     workflowProps,

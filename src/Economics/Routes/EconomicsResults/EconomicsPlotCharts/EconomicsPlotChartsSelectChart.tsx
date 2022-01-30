@@ -52,6 +52,7 @@ const EconomicsPlotChartsSelectChart = ({
         workflowCategory={wc}
         reducer={reducer}
         selectedChartOptionTitle="selectedEconomicsPlotChartOption"
+        selectedSecondaryChartOptionTitle="selectedEconomicsPlotSecondaryChartOption"
         indexBy={indexBy}
         chartStory={chartStory}
       />

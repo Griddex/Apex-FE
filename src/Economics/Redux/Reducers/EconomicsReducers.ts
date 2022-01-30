@@ -408,15 +408,10 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICS_REMOVE_CHARTCATEGORY: {
-      const {
-        categoryMembersObjTitle,
-        categoryDragItemsTitle,
-        categoryTitle,
-        categoryOptionTitle,
-        id,
-        chartType,
-        chartStory,
-      } = action.payload;
+      const { chartType, chartStory, categoryTitle, categoryOptionTitle, id } =
+        action.payload;
+      const categoryMembersObjTitle = "showPlotChartsCategoryMembersObj";
+      const categoryDragItemsTitle = "showPlotChartsCategoryMembersObj";
 
       const chtStory: TChartStory = chartStory ? chartStory : "primary";
       const categoryMembers = (state as any)[categoryMembersObjTitle][
@@ -545,18 +540,12 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case RESET_CHART_DATA: {
       const { reducer, workflowCategory } = action.payload;
 
+      const initialWCObj = EconomicsState["economicsChartsWorkflows"];
+
       if (reducer === "economicsReducer") {
         return {
           ...state,
-          [workflowCategory]: {
-            ...(state as any)[workflowCategory],
-            stackedAreaChart: { chartData: [] },
-            lineChart: { chartData: [] },
-            scatterChart: { chartData: [] },
-            doughnutChart: { chartData: [] },
-            radarChart: { chartData: [] },
-            heatMapChart: { chartData: [] },
-          },
+          [workflowCategory]: initialWCObj,
         };
       } else {
         return state;

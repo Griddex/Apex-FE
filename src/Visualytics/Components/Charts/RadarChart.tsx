@@ -1,10 +1,9 @@
+import { ClosedCurveFactoryId } from "@nivo/core";
 import { ResponsiveRadar } from "@nivo/radar";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
@@ -12,8 +11,9 @@ import {
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
 import { IChartProps } from "../ChartTypes";
-import { ClosedCurveFactoryId } from "@nivo/core";
 import { TChartStory } from "./ChartTypes";
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const RadarChartChart = ({
   workflowCategory,
@@ -43,6 +43,10 @@ const RadarChartChart = ({
 
   const curveRad = commonChartPropsDefined["curve"];
   commonChartPropsDefined["curve"] = curveRad as ClosedCurveFactoryId;
+
+  if (chartStory === "secondary") {
+    commonChartPropsDefined["axisBottom"] = undefined;
+  }
 
   return <ResponsiveRadar data={chartData} {...commonChartPropsDefined} />;
 };

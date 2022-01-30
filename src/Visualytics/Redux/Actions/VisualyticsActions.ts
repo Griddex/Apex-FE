@@ -4,7 +4,7 @@ import {
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { TChartStory } from "../../Components/Charts/ChartTypes";
+import { TChartStory, TChartTypes } from "../../Components/Charts/ChartTypes";
 import { chartObjectsNameTitleMap } from "../State/VisualyticsState";
 import { IChartObject } from "../State/VisualyticsStateTypes";
 
@@ -376,12 +376,15 @@ export const updateVisualyticsHasDroppedAction = (
 };
 
 export const removeVisualyticsChartCategoryAction = (
+  chartStory: TChartStory,
+  chartType: TChartTypes,
+  categoryTitle: string,
   categoryOptionTitle: string,
-  id: string
+  id: any
 ) => {
   return {
     type: VISUALYTICS_REMOVE_CHARTCATEGORY,
-    payload: { categoryOptionTitle, id },
+    payload: { chartStory, chartType, categoryTitle, categoryOptionTitle, id },
   };
 };
 

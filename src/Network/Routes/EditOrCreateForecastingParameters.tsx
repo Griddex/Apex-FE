@@ -1,7 +1,7 @@
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { Button, Input, TextField } from "@mui/material";
+import { Button, Input, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
@@ -62,6 +62,7 @@ export interface IEditOrCreateForecastingParameters {
   workflowProcess?: TAllWorkflowProcesses;
   activeStep?: number;
   forecastParametersIndex?: number;
+  setNextDisableds?: TUseState<Record<number, boolean>>;
 }
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -101,6 +102,8 @@ const EditOrCreateForecastingParameters = ({
   currentRow,
   setCurrentRow,
   workflowProcess,
+  activeStep,
+  setNextDisableds,
 }: IEditOrCreateForecastingParameters) => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -321,6 +324,22 @@ const EditOrCreateForecastingParameters = ({
     setCurrentRow && setCurrentRow(formEditorRow);
   }, [formEditorRow]);
 
+  React.useEffect(() => {
+    if (forecastDuration < 0) {
+      setNextDisableds &&
+        setNextDisableds((prev) => ({
+          ...prev,
+          [activeStep as number]: true,
+        }));
+    } else {
+      setNextDisableds &&
+        setNextDisableds((prev) => ({
+          ...prev,
+          [activeStep as number]: false,
+        }));
+    }
+  }, [forecastDuration]);
+
   return (
     <div className={classes.root}>
       <ApexFlexContainer justifyContent="space-between" height={50}>
@@ -476,16 +495,28 @@ const EditOrCreateForecastingParameters = ({
           }
         />
         <AnalyticsComp
-          title="Forecast Duration"
+          title="Forecast Duration (years)"
           direction="Vertical"
           content={
-            <Input
-              name="forecastDuration"
-              style={{ width: 80 }}
-              value={forecastDuration.toFixed(0)}
-              required
-              fullWidth
-            />
+            <>
+              <Input
+                name="forecastDuration"
+                style={{ backgroundColor: theme.palette.grey["200"] }}
+                value={forecastDuration.toFixed(0)}
+                error={forecastDuration < 0}
+                disabled
+                required
+                fullWidth
+              />
+              {forecastDuration < 0 && (
+                <Typography
+                  variant="subtitle2"
+                  style={{ color: theme.palette.secondary.main }}
+                >
+                  {"Duration cannot be negative"}
+                </Typography>
+              )}
+            </>
           }
         />
       </ApexFlexContainer>

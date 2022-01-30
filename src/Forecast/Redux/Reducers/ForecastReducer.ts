@@ -377,6 +377,10 @@ const forecastReducer = (
         workflowCategory,
       } = action.payload;
 
+      const wcCategoryObj = (state as any)[workflowCategory];
+      const chartStoryObj = wcCategoryObj["primary"];
+      const chartObj = chartStoryObj[chartType as TChartTypes];
+
       if (reducer === "forecastReducer") {
         return {
           ...state,
@@ -384,10 +388,13 @@ const forecastReducer = (
           lineOrScatter,
           isYear,
           [workflowCategory]: {
-            ...(state as any)[workflowCategory],
-            [chartType]: {
-              ...(state as any)[workflowCategory][chartType as TChartTypes],
-              chartData,
+            ...wcCategoryObj,
+            primary: {
+              ...chartStoryObj,
+              [chartType]: {
+                ...chartObj,
+                chartData,
+              },
             },
           },
         };
@@ -399,18 +406,12 @@ const forecastReducer = (
     case RESET_CHART_DATA: {
       const { reducer, workflowCategory } = action.payload;
 
+      const initialWCObj = forecastState["forecastChartsWorkflows"];
+
       if (reducer === "forecastReducer") {
         return {
           ...state,
-          [workflowCategory]: {
-            ...(state as any)[workflowCategory],
-            stackedAreaChart: { chartData: [] },
-            lineChart: { chartData: [] },
-            scatterChart: { chartData: [] },
-            doughnutChart: { chartData: [] },
-            radarChart: { chartData: [] },
-            heatMapChart: { chartData: [] },
-          },
+          [workflowCategory]: initialWCObj,
         };
       } else {
         return state;
@@ -434,6 +435,7 @@ const forecastReducer = (
         ...state,
         forecastChartsWorkflows: forecastState.forecastChartsWorkflows,
         selectedModuleIds: forecastState.selectedModuleIds,
+        qualityAssuranceResults: forecastState.qualityAssuranceResults,
       };
     }
 

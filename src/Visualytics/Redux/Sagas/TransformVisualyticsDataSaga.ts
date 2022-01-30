@@ -55,17 +55,9 @@ function* transformVisualyticsChartDataSaga(
     collationFxn,
     pipeline,
   } = payload;
-  console.log(
-    "🚀 ~ file: TransformVisualyticsDataSaga.ts ~ line 56 ~ payload",
-    payload
-  );
 
   const { visualyticsResults, visualyticsCategoryDragItems } = yield select(
     (state: RootState) => state[reducer as ReducersType]
-  );
-  console.log(
-    "🚀 ~ file: TransformVisualyticsDataSaga.ts ~ line 64 ~ visualyticsCategoryDragItems",
-    visualyticsCategoryDragItems
   );
 
   let data = [] as any[];
@@ -77,24 +69,13 @@ function* transformVisualyticsChartDataSaga(
     if (pipeline === "request") {
       const xObj = visualyticsCategoryDragItems["X Category"];
       const xCategoryName = (Object.values(xObj) as any[])[0].name;
-      console.log(
-        "🚀 ~ file: TransformVisualyticsDataSaga.ts ~ line 80 ~ xCategoryName",
-        xCategoryName
-      );
       const yCategoryNames = Object.values(
         visualyticsCategoryDragItems["Y Category"]
       ).map((o: any) => o.name);
-      console.log(
-        "🚀 ~ file: TransformVisualyticsDataSaga.ts ~ line 84 ~ yCategoryNames",
-        yCategoryNames
-      );
+
       const ySecondaryCategoryNames = Object.values(
         visualyticsCategoryDragItems["Y Secondary Category"]
       ).map((o: any) => o.name);
-      console.log(
-        "🚀 ~ file: TransformVisualyticsDataSaga.ts ~ line 88 ~ ySecondaryCategoryNames",
-        ySecondaryCategoryNames
-      );
 
       if (xCategoryName && yCategoryNames.length > 0) {
         const transformedChartDataFxn =
@@ -178,10 +159,6 @@ function* transformVisualyticsChartDataSaga(
       });
     }
   } catch (errors) {
-    console.log(
-      "🚀 ~ file: TransformVisualyticsDataSaga.ts ~ line 95 ~ errors",
-      errors
-    );
     const failureAction = transformVisualyticsChartDataFailureAction();
 
     yield put({

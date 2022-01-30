@@ -3,6 +3,7 @@ import CartesianChartCategory from "./CartesianChartCategory";
 import { IChartCategories } from "./ChartCategoryTypes";
 
 const RChartCategory = ({
+  chartStory,
   chartType,
   reducer,
   categoryOptionTitle,
@@ -23,6 +24,7 @@ const RChartCategory = ({
 }: IChartCategories) => {
   return (
     <CartesianChartCategory
+      chartStory={chartStory}
       chartType={chartType}
       reducer={reducer}
       categoryTitle={"R Category"}

@@ -19,20 +19,16 @@ import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexConta
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   primaryChart: {
-    display: "flex",
     width: "100%",
     height: "100%",
     position: "absolute",
-    zIndex: 0,
   },
   secondaryChart: {
-    display: "flex",
     width: "100%",
     height: "100%",
     position: "absolute",
-    zIndex: 4,
   },
 }));
 
@@ -109,10 +105,29 @@ const SelectChart = ({
   selectedChartOptionTitle,
   selectedSecondaryChartOptionTitle,
   indexBy,
-  chartStory,
 }: IChartProps) => {
   const classes = useStyles();
+
   const reducerDefined = reducer as ReducersType;
+  const reducersCategoryHasDropped = {
+    visualyticsReducer: "visualyticsCategoryHasDropped",
+    economicsReducer: "plotChartsCategoryHasDropped",
+  } as Record<Partial<ReducersType>, string>;
+
+  const hasDroppedCategory = reducersCategoryHasDropped[reducerDefined];
+  let ySecondaryCategoryDropped: boolean;
+  if (reducerDefined !== "forecastReducer") {
+    const ySecondaryCategorySelector = createDeepEqualSelector(
+      (state: RootState) =>
+        state[reducerDefined][hasDroppedCategory]["Y Secondary Category"],
+      (data) => data
+    );
+
+    const ySecondaryCategory = useSelector(ySecondaryCategorySelector);
+    ySecondaryCategoryDropped = Object.keys(ySecondaryCategory).length > 0;
+  } else {
+    ySecondaryCategoryDropped = false;
+  }
 
   const selectedChartOptionTitleSelector = createDeepEqualSelector(
     (state: RootState) =>
@@ -132,8 +147,15 @@ const SelectChart = ({
   );
   const secondaryChartType = selectedSecondaryChartOption?.value as TChartTypes;
 
+  const showSecondaryChart =
+    reducerDefined !== "forecastReducer" && ySecondaryCategoryDropped;
+  console.log(
+    "🚀 ~ file: SelectChart.tsx ~ line 152 ~ showSecondaryChart",
+    showSecondaryChart
+  );
+
   return (
-    <ApexFlexContainer>
+    <ApexFlexContainer moreStyles={{ position: "relative" }}>
       <div className={classes.primaryChart}>
         <ChartSelector
           chartType={chartType}
@@ -143,7 +165,7 @@ const SelectChart = ({
           chartStory="primary"
         />
       </div>
-      {reducerDefined !== "forecastReducer" && (
+      {showSecondaryChart && (
         <div className={classes.secondaryChart}>
           <ChartSelector
             chartType={secondaryChartType}

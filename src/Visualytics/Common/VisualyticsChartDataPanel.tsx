@@ -89,6 +89,7 @@ const visualyticsDeckStoredSelector = createDeepEqualSelector(
 const VisualyticsChartDataPanel = ({
   selectedZ,
   setSelectedZ,
+  chartStory,
   variableZDataOptions,
   ZValuesTitle,
 }: IChartVisualytics) => {
@@ -209,6 +210,7 @@ const VisualyticsChartDataPanel = ({
   const categoriesComponent = (
     <XYYZRChartCategories
       reducer={reducer}
+      chartStory={chartStory}
       chartType={chartTypeDefined}
       xCategoryOptionTitle="visualyticsVariableXOptions"
       yCategoryOptionTitle="visualyticsVariableYOptions"
@@ -258,6 +260,7 @@ const VisualyticsChartDataPanel = ({
         <CategoryPanelComponent
           selectedZ={selectedZ}
           setSelectedZ={React.useCallback(setSelectedZ, [])}
+          chartStory={chartStory}
           variableZDataOptions={variableZDataOptions}
           ZValuesTitle={ZValuesTitle}
         />

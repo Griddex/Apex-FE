@@ -269,6 +269,7 @@ const EconomicsState: IEconomicsState = {
   },
 
   //Plot Charts
+  xValueCategories: [],
   economicsPlotChartsTree: { id: "", name: "" },
   plotChartsResults: [],
   plotChartsData: null,
@@ -309,6 +310,7 @@ const EconomicsState: IEconomicsState = {
     "Z Category": {},
     "R Category": {},
   },
+
   plotChartsHeatMapThresholdData: {
     heatMapThresholdValue: 0,
     heatMapThresholdColor: "white",

@@ -1,7 +1,7 @@
 import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { TChartTypes } from "../Charts/ChartTypes";
+import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
 
 export interface IDragItem {
   id: string;
@@ -19,6 +19,7 @@ export interface IChartCategory {
 export type TCategoriesTitle = string;
 export interface IChartCategories {
   reducer?: ReducersType;
+  chartStory?: TChartStory;
   chartType?: TChartTypes;
   xCategoryOptionTitle?: string;
   yCategoryOptionTitle?: string;
@@ -36,12 +37,11 @@ export interface IChartCategories {
   disableR?: boolean;
   updateAction: (name: string, item: any) => IAction;
   removeAction: (
-    categoryMembersObjTitle: string,
-    categoryDragItemsTitle: string,
+    chartStory: TChartStory,
+    chartType: TChartTypes,
     categoryTitle: string,
     categoryOptionTitle: string,
-    id: any,
-    chartType: TChartTypes
+    id: any
   ) => IAction;
   showCategoryMembersSwitch?: boolean;
   showXCategoryMembersSwitch?: boolean;
