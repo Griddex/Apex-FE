@@ -179,6 +179,7 @@ export interface INewEconomicsResultsWorkflowProps
 export interface IStoredEconomicsResultsRow {
   sn: number;
   id: string;
+  economicsResultsId: string;
   userId?: string;
   approval: TApproval;
   title: string;

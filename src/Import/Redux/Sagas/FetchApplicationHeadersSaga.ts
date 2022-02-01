@@ -92,21 +92,22 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     const successAction2 = fetchStoredCostsRevenuesHeadersSuccessAction();
     const successAction3 = fetchStoredEconomicsParametersHeadersSuccessAction();
 
-    const costsRevenuesAppHeaders = {
-      ...costsRevenuesAppHeadersInit,
-      oilDevelopment: [
-        { variableName: "project", variableTitle: "Project" },
-        ...costsRevenuesAppHeadersInit["oilDevelopment"],
-      ],
-      nagDevelopment: [
-        { variableName: "project", variableTitle: "Project" },
-        ...costsRevenuesAppHeadersInit["nagDevelopment"],
-      ],
-      oilNAGDevelopment: [
-        { variableName: "project", variableTitle: "Project" },
-        ...costsRevenuesAppHeadersInit["oilNAGDevelopment"],
-      ],
-    };
+    const costsRevenuesAppHeaders = costsRevenuesAppHeadersInit;
+    // const costsRevenuesAppHeaders = {
+    //   ...costsRevenuesAppHeadersInit,
+    //   oilDevelopment: [
+    //     { variableName: "project", variableTitle: "Project" },
+    //     ...costsRevenuesAppHeadersInit["oilDevelopment"],
+    //   ],
+    //   nagDevelopment: [
+    //     { variableName: "project", variableTitle: "Project" },
+    //     ...costsRevenuesAppHeadersInit["nagDevelopment"],
+    //   ],
+    //   oilNAGDevelopment: [
+    //     { variableName: "project", variableTitle: "Project" },
+    //     ...costsRevenuesAppHeadersInit["oilNAGDevelopment"],
+    //   ],
+    // };
 
     const facilitiesHeadersSelectOptions =
       swapVariableNameTitleForISelectOption(facilitiesAppHeaders);

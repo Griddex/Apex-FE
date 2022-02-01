@@ -107,6 +107,7 @@ const VisualyticsExcelWorkflow = ({
     moduleName,
     subModuleName,
     workflowName,
+    showChip: true,
   };
 
   const VerticalWorkflowStepperProps = {

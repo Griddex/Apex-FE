@@ -151,6 +151,7 @@ const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
             activeStep={activeStep}
             steps={steps}
             subModuleName={title as string}
+            showChip={true}
           />
         </DialogTitle>
         <DialogContent
@@ -189,6 +190,7 @@ const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
         activeStep={activeStep}
         steps={steps}
         subModuleName={title as string}
+        showChip={true}
       />
       <div
         style={{

@@ -248,6 +248,7 @@ export default function StoredForecastResults({
   });
 
   const dividerPositions = [50];
+  const isCustomComponent = false;
 
   const fetchStoredRequestAction = () =>
     fetchStoredForecastingResultsRequestAction(currentProjectId);
@@ -310,20 +311,17 @@ export default function StoredForecastResults({
             title: "FORECAST RESULTS TITLE",
             value: row["forecastResultsTitle"],
             editorType: "input",
+            width: "100%",
           },
           {
             name: "description",
             title: "Description",
             value: row["description"],
             editorType: "textArea",
+            width: "100%",
+            height: "100%",
           },
         ] as IApexEditorRow[];
-
-        const apexEditorProps = {
-          editorData,
-          editedRow,
-          dividerPositions,
-        } as Partial<IApexEditor>;
 
         const EditCommand = (
           <EditOutlinedIcon
@@ -333,21 +331,28 @@ export default function StoredForecastResults({
                 title: "Edit Table",
                 type: "tableEditorDialog",
                 show: true,
-                exclusive: true,
-                maxWidth: "xs",
+                exclusive: false,
+                maxWidth: isCustomComponent ? "lg" : "sm",
                 iconType: "edit",
-                apexEditorProps,
+                isCustomComponent,
+                titleName: "forecastResultsTitle",
+                apexEditorProps: {
+                  editorData,
+                  editedRow,
+                  dividerPositions,
+                },
                 actionsList: (titleDesc: Record<string, string>) =>
                   DialogOneCancelButtons(
                     [true, true],
                     [true, false],
                     [
                       unloadDialogsAction,
-
                       () => updateTableActionConfirmation(id)(titleDesc),
                     ],
                     "Update",
-                    "updateOutlined"
+                    "updateOutlined",
+                    false,
+                    "None"
                   ),
               };
 

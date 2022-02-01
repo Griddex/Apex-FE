@@ -111,7 +111,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
         title: "Forecast Input Deck Success",
         type: "textDialog",
         show: true,
-        exclusive: true,
+        exclusive: false,
         maxWidth: "xs",
         dialogText: `Forecast input deck was successfully fetched!`,
         iconType: "success",

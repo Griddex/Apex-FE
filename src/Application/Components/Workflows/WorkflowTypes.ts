@@ -10,6 +10,7 @@ export interface IWorkflowBannerProps {
   moduleName?: string;
   subModuleName: string;
   workflowName?: string;
+  showChip?: boolean;
 }
 
 export interface IWorkflowDataProps extends IWorkflowProcessState {

@@ -131,6 +131,7 @@ const ExcelWorkflow = ({
     moduleName,
     subModuleName,
     workflowName,
+    showChip: true,
   };
 
   const VerticalWorkflowStepperProps = {

@@ -280,6 +280,7 @@ export default function StoredProductionPrioritization({
     wellPrioritizationFiltered
   );
 
+  const [rows, setRows] = React.useState(snTransStoredData);
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
     dispatch(
@@ -305,6 +306,9 @@ export default function StoredProductionPrioritization({
   const dividerPositions = [50];
   const isCustomComponent = false;
 
+  const fetchStoredRequestAction = () =>
+    fetchStoredProductionPrioritizationRequestAction(currentProjectId);
+
   const updateTableActionConfirmation =
     (id: string) => (titleDesc: Record<string, string>) => {
       const updateDataUrl = `${mainUrl}/${id}`;
@@ -329,7 +333,7 @@ export default function StoredProductionPrioritization({
                   reducer,
                   updateDataUrl as string,
                   titleDesc,
-                  fetchStoredProductionPrioritizationRequestAction as () => IAction
+                  fetchStoredRequestAction as () => IAction
                 ),
             ],
             "Update",
@@ -343,6 +347,8 @@ export default function StoredProductionPrioritization({
       dispatch(showDialogAction(confirmationDialogParameters));
     };
 
+  const rowsTitlesString = rows.map((row) => row.title).join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
   const generateColumns = () => {
     const columns: Column<IStoredDataRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -622,8 +628,10 @@ export default function StoredProductionPrioritization({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
-  const [rows, setRows] = React.useState(snTransStoredData);
+  const columns = React.useMemo(
+    () => generateColumns(),
+    [rowsTitlesString, rowsDescriptionsString]
+  );
 
   const exportColumns = columns
     .filter(
@@ -659,12 +667,24 @@ export default function StoredProductionPrioritization({
     generateDoughnutAnalyticsData(rows, "approval")
   );
 
+  const storedDataTitlesString = wellPrioritizationFiltered
+    .map((row: any) => row.title)
+    .join();
+  const storedDataDescriptionsString = wellPrioritizationFiltered
+    .map((row: any) => row.description)
+    .join();
+
   React.useEffect(() => {
     const updatedStoredData = productionPrioritizationStoredWithSN(
       wellPrioritizationFiltered
     );
+
     setRows(updatedStoredData);
-  }, [productionPrioritizationStored.length]);
+  }, [
+    productionPrioritizationStored.length,
+    storedDataTitlesString,
+    storedDataDescriptionsString,
+  ]);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,

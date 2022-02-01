@@ -105,7 +105,19 @@ const SimpleBarChart = ({
   commonChartPropsDefined["valueFormat"] = valueFormatBar;
 
   if (chartStory === "secondary") {
-    commonChartPropsDefined["axisBottom"] = undefined;
+    commonChartPropsDefined["axisBottom"] = null;
+    commonChartPropsDefined["axisLeft"] = null;
+    commonChartPropsDefined["enableGridY"] = false;
+    commonChartPropsDefined["axisRight"] = {
+      axisEnabled: true,
+      tickSize: 5,
+      tickPadding: 5,
+      tickRotation: 0,
+      format: (v) => format(" >-.0f")(v),
+      legend: "",
+      legendOffset: 36,
+      legendPosition: "middle",
+    } as AxisProps;
   } else {
     commonChartPropsDefined["axisBottom"] = {
       axisEnabled: true,

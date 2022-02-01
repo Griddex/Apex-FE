@@ -224,6 +224,7 @@ export default function StoredDeclineCurveParameters({
     declineParametersFiltered as IBackendDeclineParametersRow[]
   );
 
+  const [rows, setRows] = React.useState(snTransStoredData);
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
     dispatch(
@@ -244,6 +245,9 @@ export default function StoredDeclineCurveParameters({
 
   const dividerPositions = [50];
   const isCustomComponent = false;
+
+  const fetchStoredRequestAction = () =>
+    fetchStoredDeclineCurveParametersRequestAction(currentProjectId);
 
   const updateTableActionConfirmation =
     (id: string) => (titleDesc: Record<string, string>) => {
@@ -269,7 +273,7 @@ export default function StoredDeclineCurveParameters({
                   reducer,
                   updateDataUrl as string,
                   titleDesc,
-                  fetchStoredDeclineCurveParametersRequestAction as () => IAction
+                  fetchStoredRequestAction as () => IAction
                 ),
             ],
             "Update",
@@ -283,6 +287,8 @@ export default function StoredDeclineCurveParameters({
       dispatch(showDialogAction(confirmationDialogParameters));
     };
 
+  const rowsTitlesString = rows.map((row) => row.title).join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
   const generateColumns = () => {
     const columns: Column<IStoredDataRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -551,8 +557,10 @@ export default function StoredDeclineCurveParameters({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [checkboxSelected]);
-  const [rows, setRows] = React.useState(snTransStoredData);
+  const columns = React.useMemo(
+    () => generateColumns(),
+    [rowsTitlesString, rowsDescriptionsString]
+  );
 
   const exportColumns = columns
     .filter(
@@ -588,9 +596,20 @@ export default function StoredDeclineCurveParameters({
     generateDoughnutAnalyticsData(rows, "approval")
   );
 
+  const storedDataTitlesString = declineParametersFiltered
+    .map((row: any) => row.title)
+    .join();
+  const storedDataDescriptionsString = declineParametersFiltered
+    .map((row: any) => row.description)
+    .join();
+
   React.useEffect(() => {
     setRows(snTransStoredData);
-  }, [declineParametersStored.length]);
+  }, [
+    declineParametersStored.length,
+    storedDataTitlesString,
+    storedDataDescriptionsString,
+  ]);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,

@@ -50,6 +50,7 @@ import {
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
+import ComponentDialog from "./ComponentDialog";
 import DeleteDataDialog from "./DeleteDataDialog";
 import DraggableDialog from "./DraggableDialog";
 import ForecastValidationErrorsDataDialog from "./ForecastValidationErrorsDataDialog";
@@ -116,6 +117,8 @@ export interface IApplicationDialogs {
 
   forecastValidationErrorsDataDialog: typeof ForecastValidationErrorsDataDialog;
   economicsAnalysesFinalizationDialog: typeof EconomicsAnalysesFinalizationDialog;
+
+  componentDialog: typeof ComponentDialog;
 }
 
 export interface IDialogsServiceProps {
@@ -184,7 +187,8 @@ export interface DialogStuff<TRow = TDataRow> {
     | "createPrioritizationParametersWorkflowDialog"
     | "saveVisualyticsDeckDialog"
     | "forecastValidationErrorsDataDialog"
-    | "economicsAnalysesFinalizationDialog";
+    | "economicsAnalysesFinalizationDialog"
+    | "componentDialog";
   show?: boolean;
   exclusive?: boolean;
   maxWidth?: false | "xs" | "sm" | "md" | "lg" | "xl" | undefined;
@@ -229,6 +233,9 @@ export interface DialogStuff<TRow = TDataRow> {
   isDialog?: boolean;
   validationErrorsData?: any[];
   costsRevenueAgrregationProps?: any;
+  customComponent?: JSX.Element;
+  titleName?: string;
+  descriptionName?: string;
 }
 export interface IDialogState<T> {
   dialogs: T[] | [];

@@ -164,7 +164,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       noOfRows: number
     ) => ({ ...currentRow, sn: noOfRows + 1 });
 
-    const generateColumns = () => {
+    const generateColumns = (rows: IStoredDataRow[]) => {
       const columns: Column<IStoredDataRow>[] = [
         {
           key: "sn",
@@ -187,6 +187,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
             const deleteUrl = `${mainUrl}/${id}`;
 
             const editedRow = rows[currentSN - 1];
+
             const editorData = [
               {
                 name: dataKey,
@@ -408,7 +409,13 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
       return columns;
     };
 
-    const columns = React.useMemo(() => generateColumns(), [selectedRows]);
+    const rowsTitlesString = rows.map((row) => row.title).join();
+    const rowsDescriptionsString = rows.map((row) => row.description).join();
+
+    const columns = React.useMemo(
+      () => generateColumns(rows),
+      [selectedRows.values.length, rowsTitlesString, rowsDescriptionsString]
+    );
 
     const exportColumns = columns
       .filter(

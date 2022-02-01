@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
+    overflow: "auto",
   },
   plotChart: {
     height: "100%",

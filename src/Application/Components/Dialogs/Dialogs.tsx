@@ -38,6 +38,7 @@ import StoredProjectsDialog from "../../../Project/Components/Dialogs/StoredProj
 import SaveVisualyticsDeckDialog from "../../../Visualytics/Components/Dialogs/SaveVisualyticsDeckDialog";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import { IStoredDataRow } from "../../Types/ApplicationTypes";
+import ComponentDialog from "./ComponentDialog";
 import DeleteDataDialog from "./DeleteDataDialog";
 import { DialogStuff, IApplicationDialogs } from "./DialogTypes";
 import DraggableDialog from "./DraggableDialog";
@@ -113,6 +114,8 @@ const applicationDialogs: IApplicationDialogs = {
 
   forecastValidationErrorsDataDialog: ForecastValidationErrorsDataDialog,
   economicsAnalysesFinalizationDialog: EconomicsAnalysesFinalizationDialog,
+
+  componentDialog: ComponentDialog,
 };
 
 const dialogsSelector = createDeepEqualSelector(

@@ -1,3 +1,4 @@
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import {
   DialogActions,
   Divider,
@@ -7,30 +8,20 @@ import {
   ListItemText,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import MuiDialogActions from "@mui/material/DialogActions";
-import MuiDialogContent from "@mui/material/DialogContent";
-import MuiDialogTitle from "@mui/material/DialogTitle"; // DialogTitleProps,
-import IconButton from "@mui/material/IconButton";
 import { Theme } from "@mui/material/styles";
-import makeStyles from "@mui/styles/makeStyles";
-import withStyles from "@mui/styles/withStyles";
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { ReactNode } from "react";
 import { useDispatch } from "react-redux";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
-import DialogIcons from "../Icons/DialogIcons";
-import { IconNameType } from "../Icons/DialogIconsTypes";
+import DialogContent from "../DialogContents/DialogContent";
+import DialogTitle from "../DialogTitles/DialogTitle";
 import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
-import DialogContent from "../DialogContents/DialogContent";
-import DialogTitle from "../DialogTitles/DialogTitle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

@@ -82,20 +82,7 @@ const SimpleLineChart = ({
   const yFormatLine = (v: DatumValue) => format(yFormatString)(v as number);
   commonChartPropsDefined["yFormat"] = yFormatLine;
 
-  if (chartStory === "secondary") {
-    commonChartPropsDefined["axisBottom"] = undefined;
-  } else {
-    commonChartPropsDefined["axisBottom"] = {
-      axisEnabled: true,
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      format: (v) => format(" >-.0f")(v),
-      legend: "",
-      legendOffset: 36,
-      legendPosition: "middle",
-    } as AxisProps;
-
+  if (chartStory === "primary") {
     (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =
       renderTick(bottomAxisValues);
   }

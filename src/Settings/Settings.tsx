@@ -135,6 +135,7 @@ const Settings = () => {
     moduleName,
     subModuleName,
     workflowName,
+    showChip: true,
   };
 
   function renderImportStep(activeStep: number) {

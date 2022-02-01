@@ -119,6 +119,7 @@ const DatabaseWorkflow = ({
     moduleName,
     subModuleName,
     workflowName,
+    showChip: true,
   };
 
   const VerticalWorkflowStepperProps = {

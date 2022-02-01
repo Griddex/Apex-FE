@@ -250,6 +250,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
           activeStep={activeStep}
           steps={steps}
           subModuleName={title as string}
+          showChip={true}
         />
       </DialogTitle>
       <DialogContent
