@@ -1,7 +1,5 @@
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import ViewDayTwoToneIcon from "@mui/icons-material/ViewDayTwoTone";
 import { Button, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
@@ -22,8 +20,6 @@ import SelectScenariosByButtonsWithForecastCaseEconomics from "../../Components/
 import { developmentScenarioOptions } from "../../Data/EconomicsData";
 import {
   getEconomicsSensitivitiesByIdRequestAction,
-  runEconomicsAnalysisRequestAction,
-  saveEconomicsResultsRequestAction,
   saveEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../Redux/Actions/EconomicsActions";
@@ -33,7 +29,6 @@ import {
   TDevScenarioNames,
   TDevScenarioTitles,
   TEconomicsAnalysesNames,
-  TEconomicsAnalysesTitles,
 } from "./EconomicsAnalysesTypes";
 
 const EconomicsDecksSelectionTable = React.lazy(
@@ -89,8 +84,13 @@ const sensitivitiesTableSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer[wc]["sensitivitiesTable"],
   (table) => table
 );
+const selectedAnalysesNamesSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedAnalysesNames,
+  (data) => data
+);
 
 const EconomicsAnalysis = ({
+  economicsAnalyses,
   workflowProcess,
   selectedAnalysis,
 }: IEconomicsParametersSensitivitiesProps) => {
@@ -102,8 +102,8 @@ const EconomicsAnalysis = ({
     IEconomicsParametersSensitivitiesProps["workflowProcess"]
   >;
 
+  const selectedAnalysesNames = useSelector(selectedAnalysesNamesSelector);
   const showSensitivitiesTable = useSelector(showSensitivitiesTableSelector);
-
   const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
 
   const selectedAnalysisDefined =
@@ -281,10 +281,34 @@ const EconomicsAnalysis = ({
       justifyContent="space-around"
       height={"95%"}
     >
-      <div className={classes.npvImage}>
-        <div style={{ width: 40, height: 40 }}>{icon}</div>
-        <Typography>{analysisTitle}</Typography>
-      </div>
+      {selectedAnalysesNames.length > 1 ? (
+        <ApexFlexContainer height={90}>
+          {selectedAnalysesNames?.map(
+            (name: TEconomicsAnalysesNames, i: number) => {
+              const analysisObj = economicsAnalyses?.find(
+                (a) => a.name === name
+              ) as IEconomicsAnalysis;
+              const { icon, title } = analysisObj;
+
+              return (
+                <div
+                  className={classes.npvImage}
+                  key={i}
+                  style={{ marginLeft: 5 }}
+                >
+                  <div style={{ width: 40, height: 40 }}>{icon}</div>
+                  <Typography>{title}</Typography>
+                </div>
+              );
+            }
+          )}
+        </ApexFlexContainer>
+      ) : (
+        <div className={classes.npvImage}>
+          <div style={{ width: 40, height: 40 }}>{icon}</div>
+          <Typography>{analysisTitle}</Typography>
+        </div>
+      )}
 
       <EconomicsDecksSelectionTable />
 

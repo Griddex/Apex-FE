@@ -12,7 +12,7 @@ import React, { CSSProperties } from "react";
 import { useDispatch } from "react-redux";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import getFirstCharFromEveryWord from "../../../Application/Utils/GetFirstCharFromEveryWord";
-import { TChartTypes } from "../Charts/ChartTypes";
+import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
 import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +46,7 @@ export interface IChartCategoryVariable {
   removeChartCategoryAction: IChartCategories["removeAction"];
   style: CSSProperties;
   chartType: TChartTypes;
+  chartStory: TChartStory;
 }
 
 const ChartCategoryVariable = ({
@@ -54,12 +55,15 @@ const ChartCategoryVariable = ({
   setHasDroppedObj,
   setDragItemObj,
   categoryTitle,
-  categoryDragItemsTitle,
-  categoryHasDroppedTitle,
   categoryOptionTitle,
   removeChartCategoryAction,
   style,
 }: IChartCategoryVariable) => {
+  let chartStory = "primary" as TChartStory;
+  if (categoryTitle.toLowerCase().includes("secondary")) {
+    chartStory = "secondary";
+  }
+
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -93,12 +97,11 @@ const ChartCategoryVariable = ({
 
           dispatch(
             removeChartCategoryAction(
-              categoryDragItemsTitle,
-              categoryHasDroppedTitle,
+              chartStory,
+              chartType,
               categoryTitle,
               categoryOptionTitle,
-              id,
-              chartType
+              id
             )
           );
         }}

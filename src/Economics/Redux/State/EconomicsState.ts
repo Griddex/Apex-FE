@@ -60,6 +60,10 @@ export const initialEconomicsWorkflowState = {
   developmentScenariosCompleted: [],
   costsRevenues: {},
   costRevenuesButtons: [],
+  costsRevenueAggregationLevelOption: {
+    value: "project",
+    label: "Project",
+  },
   forecastCase: "2P_2C",
 
   inputDeckId: "",
@@ -151,6 +155,7 @@ export const sensitivitiesInfo = {
 } as IEconomicsSensitivities;
 
 const EconomicsState: IEconomicsState = {
+  currentChartStory: "primary",
   currentWorkflowProcess: "economicsAnalyses",
   loadCostsRevenueWorkflow: false,
   loadEconomicsParametersWorkflow: false,
@@ -264,6 +269,7 @@ const EconomicsState: IEconomicsState = {
   },
 
   //Plot Charts
+  xValueCategories: [],
   economicsPlotChartsTree: { id: "", name: "" },
   plotChartsResults: [],
   plotChartsData: null,
@@ -272,7 +278,10 @@ const EconomicsState: IEconomicsState = {
     value: "lineChart",
     label: "Line Chart...",
   },
-  showPlotChartsCategories: false,
+  selectedEconomicsPlotSecondaryChartOption: {
+    value: "lineChart",
+    label: "Line Chart...",
+  },
   plotChartsVariableXOptions: {},
   plotChartsVariableYOptions: {},
   plotChartsSecondaryVariableYOptions: {},
@@ -301,6 +310,7 @@ const EconomicsState: IEconomicsState = {
     "Z Category": {},
     "R Category": {},
   },
+
   plotChartsHeatMapThresholdData: {
     heatMapThresholdValue: 0,
     heatMapThresholdColor: "white",
@@ -311,6 +321,11 @@ const EconomicsState: IEconomicsState = {
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },
 
+  //Economics Ranking
+  economicsRanking: [],
+  sensitivitiesTable: [],
+
+  //Economics Analyses
   resultsAnalyisOptions: [],
 
   forecastEconomicsAggregated: {

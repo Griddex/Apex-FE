@@ -53,9 +53,13 @@ const WithUnit = ({ innerComponent, unitValue }: IWithUnit) => {
   return (
     <div style={{ display: "flex" }}>
       {InnerComponent}
-      <div style={{ alignSelf: "center", marginLeft: 5 }}>{`[${
-        isUnitValue ? displayUnitsObj?.title : "No unit"
-      }]`}</div>
+      {unitValue === "payout" ? (
+        <div style={{ alignSelf: "center", marginLeft: 5 }}>{`[months]`}</div>
+      ) : (
+        <div style={{ alignSelf: "center", marginLeft: 5 }}>{`[${
+          isUnitValue ? displayUnitsObj?.title : "No unit"
+        }]`}</div>
+      )}
     </div>
   );
 };

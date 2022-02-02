@@ -71,6 +71,7 @@ export const linkColumnNamesToCategories = (
 export const visualyticsDataToStackedChartData = ({
   data,
   categoryDragItems,
+  chartStory,
 }: IVisualyticsResultsTransformers) => {
   const linkedData = linkColumnNamesToCategories(
     data,
@@ -81,7 +82,11 @@ export const visualyticsDataToStackedChartData = ({
 
   const xValues = linkedData && Object.values(linkedData["X Category"])[0];
 
-  const yObj = linkedData && linkedData["Y Category"];
+  const yObj =
+    linkedData &&
+    linkedData[
+      chartStory === "primary" ? "Y Category" : "Y Secondary Category"
+    ];
   const yNames = Object.keys(yObj);
 
   for (let i = 0; i < xValues.length; i++) {
@@ -99,13 +104,16 @@ export const visualyticsDataToLineOrScatterChartData = ({
   data,
   categoryDragItems,
   lineOrScatter,
+  chartStory,
 }: IVisualyticsResultsTransformers) => {
   const linkedData = linkColumnNamesToCategories(
     data,
     categoryDragItems
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
 
-  const yNames = Object.keys(linkedData["Y Category"]);
+  const yNames = Object.keys(
+    linkedData[chartStory === "primary" ? "Y Category" : "Y Secondary Category"]
+  );
   if (yNames.length === 0) return [];
 
   const xValues = Object.values(linkedData["X Category"])[0];
@@ -113,7 +121,9 @@ export const visualyticsDataToLineOrScatterChartData = ({
   const lineData = yNames.reduce((acc, yName) => {
     const yNamesData =
       linkedData &&
-      linkedData["Y Category"][yName].map((name: string, i: number) => {
+      linkedData[
+        chartStory === "primary" ? "Y Category" : "Y Secondary Category"
+      ][yName].map((name: string, i: number) => {
         return {
           x: (xValues as any[])[i],
           y: name,
@@ -136,6 +146,7 @@ export const visualyticsDataToLineOrScatterChartData = ({
 export const visualyticsDataToDoughnutChartData = ({
   data,
   categoryDragItems,
+  chartStory,
   collateBy,
   collationFxn,
 }: IVisualyticsResultsTransformers) => {
@@ -144,7 +155,9 @@ export const visualyticsDataToDoughnutChartData = ({
     categoryDragItems
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
 
-  const yNames = Object.keys(linkedData["Y Category"]);
+  const yNames = Object.keys(
+    linkedData[chartStory === "primary" ? "Y Category" : "Y Secondary Category"]
+  );
   if (yNames.length === 0) return [];
   const xValues = Object.values(linkedData["X Category"])[0];
 
@@ -153,12 +166,13 @@ export const visualyticsDataToDoughnutChartData = ({
 
   if (collateBy === "xValue") {
     doughnutData = xValues.map((xValue: string, i: number) => {
-      cummulativeValue = Object.values(linkedData["Y Category"]).reduce(
-        (acc: number, arr: any) => {
-          return acc + parseFloat(arr[i]);
-        },
-        0
-      );
+      cummulativeValue = Object.values(
+        linkedData[
+          chartStory === "primary" ? "Y Category" : "Y Secondary Category"
+        ]
+      ).reduce((acc: number, arr: any) => {
+        return acc + parseFloat(arr[i]);
+      }, 0);
 
       return {
         id: xValue,
@@ -169,12 +183,11 @@ export const visualyticsDataToDoughnutChartData = ({
     }, []);
   } else {
     doughnutData = yNames.map((yName: string, i: number) => {
-      cummulativeValue = linkedData["Y Category"][yName].reduce(
-        (acc: number, v: any) => {
-          return acc + parseFloat(v);
-        },
-        0
-      );
+      cummulativeValue = linkedData[
+        chartStory === "primary" ? "Y Category" : "Y Secondary Category"
+      ][yName].reduce((acc: number, v: any) => {
+        return acc + parseFloat(v);
+      }, 0);
 
       return {
         id: yName,
@@ -191,13 +204,17 @@ export const visualyticsDataToDoughnutChartData = ({
 export const visualyticsDataToBarOrHeatmapChartData = ({
   data,
   categoryDragItems,
+  chartStory,
 }: IVisualyticsResultsTransformers) => {
   const linkedData = linkColumnNamesToCategories(
     data,
     categoryDragItems
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
 
-  const yObj = linkedData["Y Category"];
+  const yObj =
+    linkedData[
+      chartStory === "primary" ? "Y Category" : "Y Secondary Category"
+    ];
   const yNames = Object.keys(yObj);
   if (yNames.length === 0) return [];
 

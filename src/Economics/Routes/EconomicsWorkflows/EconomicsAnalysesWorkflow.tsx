@@ -105,6 +105,7 @@ const EconomicsAnalysesWorkflow = () => {
     moduleName,
     subModuleName,
     workflowName,
+    showChip: true,
   };
 
   const VerticalWorkflowStepperProps = {

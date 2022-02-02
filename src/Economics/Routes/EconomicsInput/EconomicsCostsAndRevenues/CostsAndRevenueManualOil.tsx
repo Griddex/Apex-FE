@@ -38,12 +38,18 @@ const unitOptionsByVariableNameSelector = createDeepEqualSelector(
 
 export default function CostsAndRevenueManualOil({
   wkPs,
+  costsRevenueAggregationLevelOption,
   oilDevelopmentRows,
   setOilDevelopmentRows,
   oilDevelopmentNames,
 }: ICostsRevenues) {
   const initialRowsLength = 10;
   const wkCs = "inputDataWorkflows";
+  const oilDevelopmentRowsDefined = oilDevelopmentRows as IRawRow[];
+
+  const currentAggregationLevelOption = costsRevenueAggregationLevelOption;
+  const currentAggregationLevelOptionValue =
+    currentAggregationLevelOption?.value as string;
 
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -57,13 +63,31 @@ export default function CostsAndRevenueManualOil({
 
   const [oilDevelopmentSRow, setOilDevelopmentSRow] = React.useState(-1);
 
+  const keys = Object.keys(oilDevelopmentRowsDefined[0]);
+  keys[1] = currentAggregationLevelOptionValue;
+  const oilDevelopmentRowsUpdated = React.useMemo(
+    () =>
+      oilDevelopmentRowsDefined.map((row) => {
+        const values = Object.values(row);
+
+        return zipObject(keys, values);
+      }),
+    [currentAggregationLevelOptionValue, oilDevelopmentRowsDefined]
+  );
+
   const initialOilDevelopmentUnitsObj: Record<
     string,
     OnChangeValue<ISelectOption, false>
   > = React.useMemo(
     () =>
       (oilDevelopmentNames as string[]).reduce((acc, name) => {
-        const firstOption = unitOptionsByVariableName[name][0];
+        const options = unitOptionsByVariableName[name];
+
+        const firstOption =
+          options && Object.keys(options).length > 0
+            ? unitOptionsByVariableName[name][0]
+            : { value: "unitless", label: "unitless" };
+
         return { ...acc, [name]: firstOption };
       }, {}) as Record<string, OnChangeValue<ISelectOption, false>>,
     []
@@ -81,17 +105,19 @@ export default function CostsAndRevenueManualOil({
       [headerName]: option,
     }));
 
-    const selectedRow = (oilDevelopmentRows as IRawRow[])[0];
-    (oilDevelopmentRows as IRawRow[])[0] = {
+    const selectedRow = oilDevelopmentRowsDefined[0];
+    oilDevelopmentRowsDefined[0] = {
       ...selectedRow,
       [headerName]: (option as ISelectOption).label,
     };
 
-    setOilDevelopmentRows &&
-      setOilDevelopmentRows(oilDevelopmentRows as IRawRow[]);
+    setOilDevelopmentRows && setOilDevelopmentRows(oilDevelopmentRowsDefined);
   };
 
-  const generateColumns = () => {
+  const generateColumns = (currentAggregationLevelOption: ISelectOption) => {
+    const currentAggregationLevelOptionValueDefined =
+      currentAggregationLevelOption?.value as string;
+
     const columns: Column<IRawRow>[] = [
       {
         key: "sn",
@@ -121,6 +147,53 @@ export default function CostsAndRevenueManualOil({
             );
         },
         width: 100,
+      },
+      {
+        key: `${currentAggregationLevelOption?.value}`,
+        name: `${currentAggregationLevelOption.label.toUpperCase()}${
+          wkPs === "economicsCostsRevenuesDeckApexForecast" ? "" : "*"
+        }`,
+        editable:
+          wkPs === "economicsCostsRevenuesDeckApexForecast" ? false : true,
+        editor: (props: EditorProps<IRawRow>) => {
+          const { rowIdx } = props;
+          if (rowIdx === 0) return <div></div>;
+          else return <TextEditor {...props} />;
+        },
+        resizable: true,
+        formatter: ({ row }) => {
+          const option = appHeaderChosenAppUnitObj[
+            currentAggregationLevelOptionValueDefined
+          ] as ISelectOption;
+
+          if (row.sn === 0)
+            return (
+              <div
+                style={{ width: "100%", height: "100%" }}
+                {...noEventPropagation()}
+              >
+                <ApexSelectRS
+                  valueOption={option}
+                  data={
+                    unitOptionsByVariableName[
+                      currentAggregationLevelOptionValueDefined
+                    ]
+                  }
+                  handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
+                    handleApplicationUnitChange(
+                      value,
+                      currentAggregationLevelOptionValueDefined
+                    )
+                  }
+                  menuPortalTarget={document.body}
+                  isSelectOptionType={true}
+                />
+              </div>
+            );
+          else
+            return <div>{row[currentAggregationLevelOptionValueDefined]}</div>;
+        },
+        width: 170,
       },
       {
         key: "year",
@@ -595,7 +668,10 @@ export default function CostsAndRevenueManualOil({
     return columns;
   };
 
-  const columns = React.useMemo(() => generateColumns(), []);
+  const columns = React.useMemo(
+    () => generateColumns(currentAggregationLevelOption),
+    [currentAggregationLevelOption.value]
+  );
 
   const exportColumns = columns
     .filter(
@@ -657,7 +733,7 @@ export default function CostsAndRevenueManualOil({
 
   const getOilDevApexGridProps = (size?: ISize) => ({
     columns: columns,
-    rows: oilDevelopmentRows as IRawRow[],
+    rows: oilDevelopmentRowsUpdated,
     onRowsChange: setOilDevelopmentRows,
     tableButtons: tableButtons as ITableButtonsProps,
     newTableRowHeight: 35,
@@ -670,12 +746,11 @@ export default function CostsAndRevenueManualOil({
     initialRowsLength: initialRowsLength,
   });
 
-  const oilDevelopmentRowsDefined = oilDevelopmentRows as IRawRow[];
   //TODO maybe Gift has to send me units for apexforecast process?
   const oilDevelopmentRowsFin =
     wkPs === "economicsCostsRevenuesDeckManual"
-      ? oilDevelopmentRowsDefined.slice(1)
-      : oilDevelopmentRowsDefined;
+      ? oilDevelopmentRowsUpdated.slice(1)
+      : oilDevelopmentRowsUpdated;
 
   React.useEffect(() => {
     if (oilDevelopmentRowsFin?.length > 0) {

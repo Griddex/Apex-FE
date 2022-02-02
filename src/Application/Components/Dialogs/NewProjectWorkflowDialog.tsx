@@ -122,10 +122,6 @@ const NewProjectWorkflowDialog: React.FC<DialogStuff> = (props) => {
   };
 
   React.useEffect(() => {
-    console.log("hey");
-  }, [disable]);
-
-  React.useEffect(() => {
     dispatch(
       workflowInitAction(
         steps,
@@ -135,7 +131,7 @@ const NewProjectWorkflowDialog: React.FC<DialogStuff> = (props) => {
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   return (
     <Dialog
@@ -152,6 +148,7 @@ const NewProjectWorkflowDialog: React.FC<DialogStuff> = (props) => {
           activeStep={activeStep}
           steps={steps}
           subModuleName={title as string}
+          showChip={true}
         />
       </DialogTitle>
       <DialogContent

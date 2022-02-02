@@ -57,7 +57,7 @@ function* transformForecastChartDataSaga(
   const ch = defaultChart;
 
   const chartDataObj = yield select(
-    (state: RootState) => state[reducer as ReducersType][wc][ch]
+    (state: RootState) => state[reducer as ReducersType][wc]["primary"][ch]
   );
   let data = [] as any[];
 

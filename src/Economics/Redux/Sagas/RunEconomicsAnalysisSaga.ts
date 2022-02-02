@@ -69,15 +69,17 @@ function* runEconomicsAnalysisSaga(
     selectedCostsRevenuesInputDeckId,
     selectedEconomicsParametersInputDeckId,
     selectedEconomicsSensitivitiesId,
+    selectedAnalysesNames,
   } = yield select((state) => state.economicsReducer);
 
   const { economicsAnalysisButtons, forecastScenarioAnalysis } = yield select(
     (state) => state.economicsReducer[wc][ap]
   );
 
+  //TODO For multiple analysis, just to make sure we have a viable name
   const data = {
     projectId: currentProjectId,
-    analysisName,
+    analysisName: analysisName === "mulitpleAnalyses" ? "payout" : analysisName,
     economicsdataId: selectedCostsRevenuesInputDeckId,
     economicsParameterId: selectedEconomicsParametersInputDeckId,
     economicsSensitivitiesId: selectedEconomicsSensitivitiesId,
@@ -94,14 +96,16 @@ function* runEconomicsAnalysisSaga(
     authService.post(url, data, config);
 
   try {
-    yield put(showSpinnerAction(`Calculating ${analysisTitle}...`));
+    if (selectedAnalysesNames.length > 1) {
+      yield put(showSpinnerAction(`Calculating multiple analyses...`));
+    } else {
+      yield put(showSpinnerAction(`Calculating ${analysisTitle}...`));
+    }
 
     const result = yield call(
       runEconomicsAnalysisAPI,
       `${getBaseEconomicsUrl()}/analyses/run-sensitivities`
     );
-
-    console.log("result: ", result);
 
     const {
       data: {
@@ -109,6 +113,7 @@ function* runEconomicsAnalysisSaga(
           heatMapTree: sensitivitiesHeatMapTree,
           plotChartsTree: economicsPlotChartsTree,
           templatesTree: economicsTemplatesTree,
+          economicsRanking,
         },
       },
       status,
@@ -125,6 +130,7 @@ function* runEconomicsAnalysisSaga(
         sensitivitiesHeatMapTree,
         economicsPlotChartsTree,
         economicsTemplatesTree,
+        economicsRanking,
       },
     });
 

@@ -20,6 +20,7 @@ import {
 import { IStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import { IInputState } from "../../../Import/Redux/State/InputStateTypes";
 import { IDragItem } from "../../Components/ChartCategories/ChartCategoryTypes";
+import { TChartStory } from "../../Components/Charts/ChartTypes";
 import {
   AxisProps,
   CrosshairType,
@@ -46,7 +47,22 @@ export interface IChartObject {
 
 export type TAllChartsDataAndSpecificProperties =
   typeof allChartsDataAndSpecificProperties;
+
+export type TAllChartsDataAndSpecificPropertiesPrimaryObj =
+  typeof allChartsDataAndSpecificProperties["primary"];
+
+export type TAllChartsDataAndSpecificPropertiesPrimary = Exclude<
+  keyof typeof allChartsDataAndSpecificProperties["primary"],
+  "commonChartProps"
+>;
+
+export type TAllChartsDataAndSpecificPropertiesSecondary = Exclude<
+  keyof typeof allChartsDataAndSpecificProperties["secondary"],
+  "commonChartProps"
+>;
+
 export interface IVisualyticsState {
+  currentChartStory: TChartStory;
   selectedChartIndex: number;
   selectedChartObjId: string;
 
@@ -71,10 +87,9 @@ export interface IVisualyticsState {
   transVisualyticsResult: any[];
   visualyticsResultsId: string;
 
-  showPlotChartsCategories: boolean;
-
   loadVisualyticsWorkflow: boolean;
   selectedVisualyticsChartOption: ISelectOption;
+  selectedVisualyticsSecondaryChartOption: ISelectOption;
   selectedVisualyticsId: string;
   selectedVisualyticsTitle: string;
   selectedVisualyticsDescription: string;

@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const XYYZRChartCategories = ({
   reducer,
+  chartStory,
   chartType,
   xCategoryOptionTitle,
   yCategoryOptionTitle,
@@ -87,6 +88,7 @@ const XYYZRChartCategories = ({
         {[...XYY, ...XYZ, ...XYR].includes(chartTypeDefined) && (
           <XChartCategory
             chartType={chartType}
+            chartStory={chartStory}
             reducer={reducer}
             categoryOptionTitle={xCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -112,6 +114,7 @@ const XYYZRChartCategories = ({
         {[...XYY, ...XYZ, ...XYR].includes(chartTypeDefined) && (
           <YChartCategory
             chartType={chartType}
+            chartStory={chartStory}
             reducer={reducer}
             categoryOptionTitle={yCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -137,6 +140,7 @@ const XYYZRChartCategories = ({
         {XYY.includes(chartTypeDefined) && (
           <YChartCategory
             chartType={chartType}
+            chartStory={chartStory}
             reducer={reducer}
             categoryOptionTitle={ySecondaryCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -162,6 +166,7 @@ const XYYZRChartCategories = ({
         {XYZ.includes(chartTypeDefined) && (
           <ZChartCategory
             chartType={chartType}
+            chartStory={chartStory}
             reducer={reducer}
             categoryOptionTitle={zCategoryOptionTitle as string}
             updateAction={updateAction}
@@ -187,6 +192,7 @@ const XYYZRChartCategories = ({
         {XYR.includes(chartTypeDefined) && (
           <RChartCategory
             chartType={chartType}
+            chartStory={chartStory}
             reducer={reducer}
             categoryOptionTitle={rCategoryOptionTitle as string}
             updateAction={updateAction}

@@ -1,24 +1,23 @@
-import { Button } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
+import { Button } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import React from "react";
 import { Rnd } from "react-rnd";
 import { OnChangeValue } from "react-select";
+import { SizeMe } from "react-sizeme";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
-import ApexSelectRS from "../../../Application/Components/Selects/ApexSelectRS";
+import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
 import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { getApexIconButtonStyle } from "../../../Application/Styles/IconButtonStyles";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import DraggableDialog from "../../../Application/Components/Dialogs/DraggableDialog";
-import { SizeMe } from "react-sizeme";
 
 export interface ITreeViewProps {
   height?: number;

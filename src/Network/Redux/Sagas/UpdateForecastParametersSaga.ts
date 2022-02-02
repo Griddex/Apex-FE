@@ -13,16 +13,15 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { IAllWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
-  UPDATE_FORECASTPARAMETERS_REQUEST,
-  updateForecastParametersSuccessAction,
   updateForecastParametersFailureAction,
+  updateForecastParametersSuccessAction,
+  UPDATE_FORECASTPARAMETERS_REQUEST,
 } from "../Actions/NetworkActions";
 
 export default function* watchUpdateForecastParametersSaga(): Generator<
@@ -51,7 +50,6 @@ function* updateForecastParametersSaga(
   any
 > {
   const { payload } = action;
-  const { userId } = yield select((state) => state.loginReducer);
   const {
     forecastParametersTitle,
     forecastParametersDescription,

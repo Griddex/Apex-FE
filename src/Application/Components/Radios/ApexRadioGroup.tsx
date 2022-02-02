@@ -64,6 +64,7 @@ const ApexRadioGroup = ({
   selectedVariable,
   setSelectedVariable,
   apexRadioGroupData,
+  isHorizontal,
 }: IApexRadioGroup) => {
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sVal = (event.target as HTMLInputElement).value;
@@ -85,6 +86,7 @@ const ApexRadioGroup = ({
           selectedVariable ? selectedVariable : apexRadioGroupData[0]?.value
         }
         onChange={handleRadioChange}
+        row={isHorizontal ? true : false}
       >
         {apexRadioGroupData.map((obj, i) => {
           const { value, label } = obj;

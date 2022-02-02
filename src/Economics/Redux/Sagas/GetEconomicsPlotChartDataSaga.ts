@@ -1,4 +1,6 @@
 import { ActionType } from "@redux-saga/types";
+import uniqBy from "lodash.uniqby";
+import zipObject from "lodash.zipobject";
 import {
   actionChannel,
   ActionChannelEffect,
@@ -14,23 +16,20 @@ import {
   takeLeading,
 } from "redux-saga/effects";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { showDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
 import {
   hideSpinnerAction,
   showSpinnerAction,
 } from "../../../Application/Redux/Actions/UISpinnerActions";
+import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { IDragItem } from "../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
-import zipObject from "lodash.zipobject";
 import {
   getEconomicsPlotChartDataFailureAction,
   getEconomicsPlotChartDataSuccessAction,
   GET_ECONOMICSPLOT_CHARTDATA_REQUEST,
   updateEconomicsParameterAction,
 } from "../Actions/EconomicsActions";
-import uniq from "lodash.uniq";
-import uniqBy from "lodash.uniqby";
 
 export default function* watchGetEconomicsPlotChartDataSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -68,19 +67,22 @@ function* getEconomicsPlotChartDataSaga(
     isEconomicsResultsSaved,
     plotChartsCategoryDragItems,
     selectedEconomicsPlotChartOption,
-  } = yield select((state) => state.economicsReducer);
-
-  const { variableUnits, variableNameUnitsMap } = yield select(
-    (state) => state.unitSettingsReducer
-  );
+    selectedEconomicsPlotSecondaryChartOption,
+  } = yield select((state: RootState) => state.economicsReducer);
 
   const chartType = selectedEconomicsPlotChartOption.value;
+  const secondaryChartType = selectedEconomicsPlotSecondaryChartOption.value;
 
   const config = {};
   const url = `${getBaseEconomicsUrl()}/analysis-chart/plotCharts`;
 
-  const plotChartDragItems = Object.values(
-    plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>
+  const plotChartsCategoryDragItemsDefined =
+    plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
+
+  const plotChartDragItems = Object.values(plotChartsCategoryDragItemsDefined);
+  console.log(
+    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 83 ~ plotChartDragItems",
+    plotChartDragItems
   );
 
   const data = plotChartDragItems.reduce((acc, categoryObj) => {
@@ -152,84 +154,75 @@ function* getEconomicsPlotChartDataSaga(
       };
     });
 
-    const yUnitNamesTitles = uniqBy(
-      Object.values(plotChartsCategoryDragItems["Y Category"]).map(
-        (u: any) => ({
-          name: u.name.split("_")[0],
-          title: u.title.split("_")[0],
-        })
-      ),
-      (o) => o.name
-    );
-    console.log(
-      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 162 ~ yUnitNamesTitles",
-      yUnitNamesTitles
-    );
+    const ids = Object.keys(plotChartsCategoryDragItemsDefined["X Category"]);
+    const xCatDrgItmName =
+      plotChartsCategoryDragItemsDefined["X Category"][ids[0]].name;
 
-    const yUnitNames = yUnitNamesTitles.map((u) => u.name);
-    console.log(
-      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 164 ~ yUnitNames",
-      yUnitNames
-    );
+    const xValueCategories = economicsResults.find(
+      (row: any) => row.name === xCatDrgItmName
+    )?.values;
 
-    const varYObjArrayByNames = variableUnits.filter((v: any) =>
-      yUnitNames.includes(v.variableName)
-    );
-    console.log(
-      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 168 ~ varYObjArrayByNames",
-      varYObjArrayByNames
-    );
+    let yAxisLegend = "";
+    let ySecondaryAxisLegend = "";
+    const yCategoryMoreThanOne =
+      Object.values(plotChartsCategoryDragItemsDefined["Y Category"]).length >
+      1;
+    const yCategoryEqualToZero =
+      Object.values(plotChartsCategoryDragItemsDefined["Y Category"]).length ===
+      0;
+    const ySecondaryCategoryMoreThanOne =
+      Object.values(plotChartsCategoryDragItemsDefined["Y Secondary Category"])
+        .length > 1;
+    const ySecondaryCategoryEqualToZero =
+      Object.values(plotChartsCategoryDragItemsDefined["Y Secondary Category"])
+        .length === 0;
 
-    const selectedVarYObjArray = varYObjArrayByNames.map((obj: any) => {
-      const unitsObj = obj["units"].find(
-        (o: any) => o.unitId === obj.displayUnitId
+    if (yCategoryMoreThanOne) {
+      yAxisLegend = "Multiple Series";
+    } else if (yCategoryEqualToZero) {
+      ySecondaryAxisLegend = "";
+    } else {
+      const yCategoryObjs = Object.values(
+        plotChartsCategoryDragItemsDefined["Y Category"]
       );
 
-      return unitsObj;
-    });
-    console.log(
-      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 177 ~ selectedVarYObjArray ~ selectedVarYObjArray",
-      selectedVarYObjArray
-    );
-
-    const selectedVarTitleUnitTitleArray = selectedVarYObjArray.map(
-      (u: any, i: number) => {
-        const selectedVarTitle = yUnitNamesTitles[i].title;
-
-        return `${selectedVarTitle} [${u.title}]`;
-      }
-    );
-    console.log(
-      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 186 ~ selectedVarTitleUnitTitleArray",
-      selectedVarTitleUnitTitleArray
-    );
-
-    const selectedVarTitleUnitTitleString =
-      selectedVarTitleUnitTitleArray.join(",");
-
-    if (Object.keys(selectedVarYObjArray).length > 0) {
-      yield put(
-        updateEconomicsParameterAction(
-          "economicsChartsWorkflows.commonChartProps.axisLeft.legend",
-          selectedVarTitleUnitTitleString
-        )
-      );
+      yAxisLegend = yCategoryObjs[0].title.split("_")[0];
     }
 
-    const xUnitNamesTitles = uniqBy(
-      Object.values(plotChartsCategoryDragItems["X Category"]).map(
-        (u: any) => ({
-          name: u.name.split("_")[0],
-          title: u.title.split("_")[0],
-        })
-      ),
-      (o) => o.name
+    if (ySecondaryCategoryMoreThanOne) {
+      ySecondaryAxisLegend = "Multiple Series";
+    } else if (ySecondaryCategoryEqualToZero) {
+      ySecondaryAxisLegend = "";
+    } else {
+      const yCategoryObjs = Object.values(
+        plotChartsCategoryDragItemsDefined["Y Secondary Category"]
+      );
+
+      ySecondaryAxisLegend = yCategoryObjs[0]?.title?.split("_")[0];
+    }
+
+    const xCategoryObjs = Object.values(
+      plotChartsCategoryDragItemsDefined["X Category"]
     );
+
+    const xAxisLegend = xCategoryObjs[0].title.split("_")[0];
 
     yield put(
       updateEconomicsParameterAction(
-        "economicsChartsWorkflows.commonChartProps.axisBottom.legend",
-        "Year"
+        "economicsChartsWorkflows.primary.commonChartProps.axisLeft.legend",
+        yAxisLegend
+      )
+    );
+    yield put(
+      updateEconomicsParameterAction(
+        "economicsChartsWorkflows.secondary.commonChartProps.axisRight.legend",
+        ySecondaryAxisLegend
+      )
+    );
+    yield put(
+      updateEconomicsParameterAction(
+        "economicsChartsWorkflows.primary.commonChartProps.axisBottom.legend",
+        xAxisLegend
       )
     );
 
@@ -241,7 +234,10 @@ function* getEconomicsPlotChartDataSaga(
         reducer,
         workflowCategory,
         chartType,
+        secondaryChartType,
         chartData,
+        xValueCategories,
+        pipeline: "request",
       },
     });
   } catch (errors) {

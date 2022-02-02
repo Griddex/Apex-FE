@@ -34,11 +34,10 @@ function PlusSquare(props: any) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootTreeView: {
     height: 250,
     width: "100%",
-    maxWidth: 300,
   },
 }));
 
@@ -326,7 +325,6 @@ const ApexTreeView = ({
       treeWalker={treeWalker}
       itemSize={30}
       height={height ? height : 800}
-      width={400}
     >
       {ApexNode}
     </Tree>

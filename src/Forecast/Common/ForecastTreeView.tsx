@@ -65,7 +65,7 @@ const xValueCategoriesSelector = createDeepEqualSelector(
 const wc = "forecastChartsWorkflows";
 const ch = "stackedAreaChart";
 const chartDataSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+  (state: RootState) => state.forecastReducer[wc]["primary"][ch]["chartData"],
   (data) => data
 );
 

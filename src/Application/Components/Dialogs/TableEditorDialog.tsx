@@ -20,6 +20,8 @@ const TableEditorDialog: React.FC<DialogStuff> = (props) => {
     isCustomComponent,
     apexEditorProps,
     apexEditorComponent,
+    titleName,
+    descriptionName,
   } = props;
 
   const apexEditorPropsDefined = apexEditorProps as NonNullable<IApexEditor>;
@@ -27,10 +29,16 @@ const TableEditorDialog: React.FC<DialogStuff> = (props) => {
   const { editedRow } = apexEditorPropsDefined;
   const [formEditorRow, setFormEditorRow] = React.useState(editedRow);
 
+  const titleUsed = titleName ? titleName : "title";
+  const descriptionUsed = descriptionName ? descriptionName : "description";
   const titleDesc = {
-    title: formEditorRow["title"],
-    description: formEditorRow["description"],
+    [titleUsed]: formEditorRow[titleUsed],
+    [descriptionUsed]: formEditorRow[descriptionUsed],
   } as Record<string, string>;
+  console.log(
+    "🚀 ~ file: TableEditorDialog.tsx ~ line 38 ~ titleDesc",
+    titleDesc
+  );
 
   const ApexEditorComponent = apexEditorComponent as NonNullable<
     DialogStuff["apexEditorComponent"]

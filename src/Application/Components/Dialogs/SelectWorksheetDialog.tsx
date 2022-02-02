@@ -1,17 +1,8 @@
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
-import {
-  Button,
-  DialogActions,
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@mui/material";
+import { Button, DialogActions, Divider } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import { Theme, useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import makeStyles from "@mui/styles/makeStyles";
 import { useSnackbar } from "notistack";
@@ -19,7 +10,7 @@ import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import { WorkBook, utils } from "xlsx";
+import { utils, WorkBook } from "xlsx";
 import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActions";
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import { hideSpinnerAction } from "../../Redux/Actions/UISpinnerActions";
@@ -27,12 +18,13 @@ import { workflowNextAction } from "../../Redux/Actions/WorkflowActions";
 import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogContent from "../DialogContents/DialogContent";
 import DialogTitle from "../DialogTitles/DialogTitle";
+import ApexListSingle from "../List/ApexListSingle";
 import { IInputWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   listDialogContent: {
     display: "flex",
     flexDirection: "column",
@@ -48,7 +40,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
   const classes = useStyles(props);
   const dispatch = useDispatch();
-  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -84,37 +75,15 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
           Workbook contains more than one worksheet. Please select the worksheet
           that contains the Facilities Deck
         </Typography>
-        <List className={classes.listBorder}>
-          {contentList &&
-            contentList.map((name: string, i: number) => {
-              return (
-                <ListItem
-                  key={i}
-                  selected={name === selectedWorksheetName}
-                  button
-                  onClick={() => {
-                    setSelectedWorksheetName(name);
-                    dispatch(
-                      persistWorksheetAction(reducerDefined, name, [], wp)
-                    );
-                  }}
-                  style={
-                    name === selectedWorksheetName
-                      ? {
-                          border: `1px solid ${theme.palette.primary.main}`,
-                          backgroundColor: theme.palette.primary.light,
-                        }
-                      : {}
-                  }
-                >
-                  <ListItemAvatar>
-                    <DescriptionOutlinedIcon color="primary" />
-                  </ListItemAvatar>
-                  <ListItemText>{name}</ListItemText>
-                </ListItem>
-              );
-            })}
-        </List>
+        <ApexListSingle
+          contentList={contentList}
+          selectedName={selectedWorksheetName}
+          apexListemAction={(name: string) => {
+            setSelectedWorksheetName(name);
+            dispatch(persistWorksheetAction(reducerDefined, name, [], wp));
+          }}
+          Icon={DescriptionOutlinedIcon}
+        />
       </div>
     );
   };

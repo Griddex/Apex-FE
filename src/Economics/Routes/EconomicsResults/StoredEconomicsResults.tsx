@@ -3,15 +3,15 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
-import { ClickAwayListener, useTheme } from "@mui/material";
+import { ClickAwayListener } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import startCase from "lodash.startcase";
 import React from "react";
 import { Column } from "react-data-griddex";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import Approval from "../../../Application/Components/Approval/Approval";
 import Author from "../../../Application/Components/Author/Author";
 import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
@@ -28,21 +28,24 @@ import ExcelExportTable, {
 } from "../../../Application/Components/Export/ExcelExportTable";
 import Saved from "../../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
+  updateDataByIdRequestAction,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import {
@@ -50,9 +53,9 @@ import {
   IStoredDataProps,
 } from "../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../Application/Utils/FormatDate";
+import generateDoughnutAnalyticsData from "../../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
 import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { IUnitSettingsData } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
@@ -60,13 +63,8 @@ import {
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
-import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import generateDoughnutAnalyticsData from "../../../Application/Utils/GenerateDoughnutAnalyticsData";
-import { ISize } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 
-//<IStoredEconomicsResultsRow, ITableButtonsProps>
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   rootStoredData: {
     display: "flex",
     flexDirection: "column",
@@ -88,12 +86,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     padding: 20,
   },
-  status: {
-    height: "100%",
-    width: "100%",
-    fontSize: 14,
-  },
-  image: { height: 30, width: 30 },
   author: {
     display: "flex",
     flexDirection: "row",
@@ -101,27 +93,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     width: "100%",
     height: "100%",
-  },
-  approvers: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  dcaTable: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-    justifyContent: "space-around",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  visibilityOutlinedIcon: {
-    "&:hover": {
-      color: theme.palette.primary.main,
-    },
   },
 }));
 
@@ -164,7 +135,6 @@ export default function StoredEcoResults({
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
 
@@ -177,7 +147,6 @@ export default function StoredEcoResults({
   const [storedEconomicsResults, setStoredEconomicsResults] = React.useState(
     economicsResultsStored
   );
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
 
   const handleCheckboxChange = (row: IStoredEconomicsResultsRow) => {
@@ -215,6 +184,47 @@ export default function StoredEcoResults({
     () => new Set<React.Key>()
   );
 
+  const fetchStoredRequestAction = () =>
+    fetchStoredEconomicsResultsRequestAction(currentProjectId, false);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer as ReducersType,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
+
   const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
     shouldDispatch: false,
@@ -222,6 +232,7 @@ export default function StoredEcoResults({
   });
 
   const dividerPositions = [50];
+  const isCustomComponent = false;
 
   const columns: Column<IStoredEconomicsResultsRow>[] = [
     { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -233,7 +244,7 @@ export default function StoredEcoResults({
       formatter: ({ row }) => {
         const sn = row.sn as number;
         const title = row.title as string;
-        const id = row.id as string;
+        const id = row.economicsResultsId as string;
         const deleteUrl = `${mainUrl}/${id}`;
 
         const editedRow = rows[sn - 1];
@@ -243,20 +254,17 @@ export default function StoredEcoResults({
             title: "ECONOMICS RESULTS TITLE",
             value: row["title"],
             editorType: "input",
+            width: "100%",
           },
           {
             name: "description",
             title: "Description",
             value: row["description"],
             editorType: "textArea",
+            width: "100%",
+            height: "100%",
           },
         ] as IApexEditorRow[];
-
-        const apexEditorProps = {
-          editorData,
-          editedRow,
-          dividerPositions,
-        } as Partial<IApexEditor>;
 
         return (
           <ApexFlexContainer>
@@ -267,25 +275,29 @@ export default function StoredEcoResults({
                   title: "Edit Table",
                   type: "tableEditorDialog",
                   show: true,
-                  exclusive: true,
-                  maxWidth: "xs",
+                  exclusive: false,
+                  maxWidth: isCustomComponent ? "lg" : "sm",
                   iconType: "edit",
-                  apexEditorProps,
-                  actionsList: () =>
+                  isCustomComponent,
+                  apexEditorProps: {
+                    editorData,
+                    editedRow,
+                    dividerPositions,
+                  },
+                  actionsList: (titleDesc: Record<string, string>) =>
                     DialogOneCancelButtons(
                       [true, true],
                       [true, false],
                       [
                         unloadDialogsAction,
-                        //Captured variable
-                        //solve with componentRef
-                        () => setShouldUpdate(!shouldUpdate),
+                        () => updateTableActionConfirmation(id)(titleDesc),
                       ],
                       "Update",
-                      "updateOutlined"
+                      "updateOutlined",
+                      false,
+                      "None"
                     ),
                 };
-
                 dispatch(showDialogAction(dialogParameters));
               }}
             />
@@ -349,16 +361,16 @@ export default function StoredEcoResults({
       },
       width: 100,
     },
-    {
-      key: "saved",
-      name: "STATUS",
-      editable: false,
-      resizable: true,
-      formatter: ({ row }) => {
-        return <Saved savedText={row.saved} />;
-      },
-      width: 100,
-    },
+    // {
+    //   key: "saved",
+    //   name: "STATUS",
+    //   editable: false,
+    //   resizable: true,
+    //   formatter: ({ row }) => {
+    //     return <Saved savedText={row.saved} />;
+    //   },
+    //   width: 100,
+    // },
     {
       key: "title",
       name: "ECONOMICS RESULTS TITLE",
@@ -498,7 +510,7 @@ export default function StoredEcoResults({
   };
 
   const chartData = React.useRef(
-    generateDoughnutAnalyticsData(storedEconomicsResults, "approval")
+    generateDoughnutAnalyticsData(rows, "approval")
   );
 
   React.useEffect(() => {

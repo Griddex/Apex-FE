@@ -78,6 +78,11 @@ const showMainDrawerSelector = createDeepEqualSelector(
   (v) => v
 );
 
+// const expandMainDrawerSelector = createDeepEqualSelector(
+//   (state: RootState) => state.layoutReducer.expandMainDrawer,
+//   (v) => v
+// );
+
 const showNavbarSelector = createDeepEqualSelector(
   (state: RootState) => state.layoutReducer.showNavbar,
   (v) => v
@@ -91,6 +96,7 @@ const Layout = () => {
   const location = useLocation();
 
   const showMainDrawer = useSelector(showMainDrawerSelector);
+  // const expandMainDrawer = useSelector(expandMainDrawerSelector);
   const showNavbar = useSelector(showNavbarSelector);
 
   const afterConfirmAction = React.useCallback(() => {

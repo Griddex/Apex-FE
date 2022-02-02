@@ -1,7 +1,6 @@
 import { OrdinalColorScaleConfig } from "@nivo/colors";
 import { ComputedDatum } from "@nivo/pie";
-import type { FluidValue } from "@react-spring/shared";
-import type { Any, Lookup } from "@react-spring/types";
+import { SpringValues } from "@react-spring/web";
 import {
   ScaleBand as D3ScaleBand,
   ScaleLinear as D3ScaleLinear,
@@ -10,14 +9,12 @@ import {
   ScaleSymLog as D3ScaleSymLog,
   ScaleTime as D3ScaleTime,
 } from "d3-scale";
-import { SpringValue } from "react-spring";
 import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { axisNameTitlesObj } from "../Data/VisualyticsData";
-import { TChartTypes } from "./Charts/ChartTypes";
-import { SpringValues } from "@react-spring/web";
+import { TChartStory, TChartTypes } from "./Charts/ChartTypes";
 
 export interface IChartProps {
   chartType?: TChartTypes;
@@ -26,12 +23,14 @@ export interface IChartProps {
   workflowCategory?: TAllWorkflowCategories;
   reducer?: ReducersType;
   selectedChartOptionTitle?: string;
+  selectedSecondaryChartOptionTitle?: string;
   defs?: any;
   fill?: any;
   indexBy?: string;
   colors?: OrdinalColorScaleConfig<
     Omit<ComputedDatum<any>, "color" | "fill" | "arc">
   >;
+  chartStory?: TChartStory;
 }
 
 export declare type TAxisName = keyof typeof axisNameTitlesObj;

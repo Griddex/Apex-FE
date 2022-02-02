@@ -26,7 +26,11 @@ import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid"
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
-import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import {
+  deleteDataByIdRequestAction,
+  updateDataByIdRequestAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -77,21 +81,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     padding: 20,
   },
-  status: {
-    height: "100%",
-    width: "100%",
-    fontSize: 14,
-  },
-  image: { height: 30, width: 30 },
   author: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  approvers: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -151,17 +141,11 @@ const forecastingParametersStoredSelector = createDeepEqualSelector(
 export default function StoredForecastingParameters({
   showChart,
   isAllForecastParameters,
-  updateTableActionConfirmation,
 }: IStoredDataProps) {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
   const componentRef = React.useRef();
-
-  const updateTableActionConfirmationDefined =
-    updateTableActionConfirmation as NonNullable<
-      IStoredDataProps["updateTableActionConfirmation"]
-    >;
 
   const currentProjectId = useSelector(currentProjectIdSelector);
 
@@ -262,6 +246,47 @@ export default function StoredForecastingParameters({
     shouldDispatch: false,
     apexGridCheckboxFxn: handleCheckboxChange,
   });
+
+  const fetchStoredRequestAction = () =>
+    fetchStoredForecastingParametersRequestAction(currentProjectId);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer as ReducersType,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
 
   const dividerPositions = [50];
   const isCustomComponent = false;
@@ -384,8 +409,7 @@ export default function StoredForecastingParameters({
                         [true, false],
                         [
                           unloadDialogsAction,
-                          () =>
-                            updateTableActionConfirmationDefined(id)(titleDesc),
+                          () => updateTableActionConfirmation(id)(titleDesc),
                         ],
                         "Update",
                         "updateOutlined",
@@ -676,7 +700,7 @@ export default function StoredForecastingParameters({
     })) as IExcelSheetData<IForecastParametersStoredRow>["columns"];
 
   const exportTableProps = {
-    fileName: "CostsAndRevenuesTemplate",
+    fileName: "storedForecastingParametersTemplate",
     tableData: {
       Template: {
         data: rows,

@@ -2,7 +2,7 @@ import Menu from "@mui/material/Menu";
 import React from "react";
 import NetworkContextMenu from "./NetworkContextMenu";
 import { IContextMenuProps } from "./ContextMenuTypes";
-import { XYPosition } from "react-flow-renderer";
+import { ApexXYPosition } from "../../../Application/Types/ApplicationTypes";
 
 const FlowstationContextMenu = ({ children, position }: IContextMenuProps) => {
   const [open, setOpen] = React.useState(false);
@@ -20,7 +20,7 @@ const FlowstationContextMenu = ({ children, position }: IContextMenuProps) => {
     setNodePosition({
       x: event.clientX,
       y: event.clientY,
-    });
+    } as ApexXYPosition);
 
     setOpen(true);
   };
@@ -29,7 +29,7 @@ const FlowstationContextMenu = ({ children, position }: IContextMenuProps) => {
     setOpen(false);
   };
 
-  const pos = nodePosition as XYPosition;
+  const pos = nodePosition as ApexXYPosition;
   const anchorPosition =
     pos.y !== null && pos.x !== null ? { top: pos.y, left: pos.x } : undefined;
 

@@ -1,6 +1,5 @@
 import omit from "lodash.omit";
 import set from "lodash.set";
-import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { TAllWorkflowProcesses } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
@@ -9,7 +8,6 @@ import {
   RESET_INPUTDATA,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
-import removeSeriesFromChart from "../../../Application/Utils/RemoveSeriesFromChart";
 import {
   IMPORTFILE_INITIALIZATION,
   PERSIST_CHOSENAPPLICATIONHEADERS,
@@ -29,7 +27,6 @@ import {
   PERSIST_WORKSHEETNAMES,
   UPDATE_INPUT,
 } from "../../../Import/Redux/Actions/InputActions";
-import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   PUT_SELECTCHART,
   RESET_CHART_DATA,
@@ -49,6 +46,7 @@ import {
   GET_ECONOMICSSENSITIVITIESBYID_FAILURE,
   GET_ECONOMICSSENSITIVITIESBYID_SUCCESS,
   LOAD_ECONOMICS_WORKFLOW,
+  PERSIST_COSTSREVENUESDECKS,
   RESET_ECONOMICS,
   RESET_HEATMAP_CHARTWORKFLOWS,
   RESET_PLOTCHARTS_CHARTWORKFLOWS,
@@ -59,13 +57,11 @@ import {
   STORED_ECONOMICSDATA_SUCCESS,
   STORED_ECONOMICSRESULTS_FAILURE,
   STORED_ECONOMICSRESULTS_SUCCESS,
-  PERSIST_COSTSREVENUESDECKS,
   STORED_ECONOMICSSENSITIVITIES_FAILURE,
   STORED_ECONOMICSSENSITIVITIES_SUCCESS,
   TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS,
   UPDATE_ECONOMICSPARAMETER,
   UPDATE_ECONOMICSPARAMETERS,
-  UPDATE_BY_PARAMETERSTABLE,
 } from "../Actions/EconomicsActions";
 import EconomicsState from "../State/EconomicsState";
 
@@ -372,17 +368,32 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case TRANSFORM_ECONOMICSPLOT_CHARTDATA_SUCCESS: {
-      const { workflowCategory, chartType, chartData, xValueCategories } =
-        action.payload;
+      const {
+        workflowCategory,
+        chartType,
+        chartStory,
+        chartData,
+        xValueCategories,
+      } = action.payload;
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 384 ~ economicsReducer ~  action.payload",
+        action.payload
+      );
+
+      const wCObj = (state as any)[workflowCategory];
+      const chtStryObj = (state as any)[workflowCategory][chartStory];
+      const chtDataObj = (state as any)[workflowCategory][chartStory][
+        chartType
+      ];
 
       return {
         ...state,
         xValueCategories,
         [workflowCategory]: {
-          ...(state as any)[workflowCategory],
-          [chartType]: {
-            ...(state as any)[workflowCategory][chartType as TChartTypes],
-            chartData,
+          ...wCObj,
+          [chartStory]: {
+            ...chtStryObj,
+            [chartType]: { chartData },
           },
         },
       };
@@ -401,65 +412,24 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICS_REMOVE_CHARTCATEGORY: {
-      const {
-        categoryMembersObjTitle,
-        categoryDragItemsTitle,
-        categoryTitle,
-        categoryOptionTitle,
-        id,
-        chartType,
-      } = action.payload;
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 354 ~ economicsReducer ~ action.payload",
-        action.payload
-      );
+      const { categoryTitle, id } = action.payload;
 
-      const categoryMembers = (state as any)[categoryMembersObjTitle][
-        categoryTitle
-      ];
-      const categoryDragItems = (state as any)[categoryDragItemsTitle][
-        categoryTitle
-      ];
-      const categoryOptionTitles = (state as any)[categoryOptionTitle];
+      const categoryObj = state["plotChartsCategoryDragItems"][categoryTitle];
+      const newCategoryObj = omit(categoryObj, [id]);
 
-      const newCategoryMembers = omit(categoryMembers, [id]);
-      const newCategoryDragItems = omit(categoryDragItems, [id]);
-      const newCategoryOptionTitles = omit(categoryOptionTitles, [id]);
-
-      const chartData =
-        state["economicsChartsWorkflows"][chartType as TChartTypes][
-          "chartData"
-        ];
-
-      const chartVariableOption = categoryOptionTitles[
-        id
-      ] as IIdNameTitlePathOption;
-
-      const filteredChartData = removeSeriesFromChart(
-        chartType,
-        chartVariableOption,
-        chartData
-      );
+      const hasDroppedObj =
+        state["plotChartsCategoryHasDropped"][categoryTitle];
+      const newHasDroppedObj = omit(hasDroppedObj, [id]);
 
       return {
         ...state,
-        sensitivitiesHeatMapData: {},
-        sensitivitiesHeatMap1or2D: [],
-        [categoryMembersObjTitle]: {
-          ...(state as any)[categoryMembersObjTitle],
-          [categoryTitle]: newCategoryMembers,
+        plotChartsCategoryDragItems: {
+          ...state["plotChartsCategoryDragItems"],
+          [categoryTitle]: newCategoryObj,
         },
-        [categoryDragItemsTitle]: {
-          ...(state as any)[categoryDragItemsTitle],
-          [categoryTitle]: newCategoryDragItems,
-        },
-        [categoryOptionTitle]: newCategoryOptionTitles,
-        economicsChartsWorkflows: {
-          ...state["economicsChartsWorkflows"],
-          [chartType]: {
-            ...state["economicsChartsWorkflows"][chartType as TChartTypes],
-            chartData: filteredChartData,
-          },
+        plotChartsCategoryHasDropped: {
+          ...state["plotChartsCategoryHasDropped"],
+          [categoryTitle]: newHasDroppedObj,
         },
       };
     }
@@ -529,18 +499,12 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     case RESET_CHART_DATA: {
       const { reducer, workflowCategory } = action.payload;
 
+      const initialWCObj = EconomicsState["economicsChartsWorkflows"];
+
       if (reducer === "economicsReducer") {
         return {
           ...state,
-          [workflowCategory]: {
-            ...(state as any)[workflowCategory],
-            stackedAreaChart: { chartData: [] },
-            lineChart: { chartData: [] },
-            scatterChart: { chartData: [] },
-            doughnutChart: { chartData: [] },
-            radarChart: { chartData: [] },
-            heatMapChart: { chartData: [] },
-          },
+          [workflowCategory]: initialWCObj,
         };
       } else {
         return state;
@@ -551,7 +515,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       const {
         economicsChartsWorkflows,
         selectedEconomicsPlotChartOption,
-        showPlotChartsCategories,
         plotChartsVariableXOptions,
         plotChartsVariableYOptions,
         plotChartsSecondaryVariableYOptions,
@@ -566,7 +529,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         ...state,
         economicsChartsWorkflows,
         selectedEconomicsPlotChartOption,
-        showPlotChartsCategories,
         plotChartsVariableXOptions,
         plotChartsVariableYOptions,
         plotChartsSecondaryVariableYOptions,

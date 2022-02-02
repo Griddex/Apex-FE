@@ -21,14 +21,18 @@ import ExcelExportTable, {
   IExcelSheetData,
 } from "../../../../Application/Components/Export/ExcelExportTable";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
+import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
+import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
+  updateDataByIdRequestAction,
 } from "../../../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
@@ -39,16 +43,11 @@ import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlSer
 import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
 import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
-import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import {
   fetchStoredEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,
 } from "../../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsSensitivitiesRow } from "./EconomicsParametersSensitivitiesTypes";
-import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/ApexGrid";
-import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-
-//<IStoredEconomicsSensitivitiesRow, ITableButtonsProps>
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -59,25 +58,11 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     backgroundColor: "#FFF",
   },
-  chart: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "20%",
-  },
   table: {
     width: "100%",
     height: "100%",
     padding: 20,
   },
-  status: {
-    height: "100%",
-    width: "100%",
-    fontSize: 14,
-  },
-  image: { height: 30, width: 30 },
   author: {
     display: "flex",
     flexDirection: "row",
@@ -85,27 +70,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     width: "100%",
     height: "100%",
-  },
-  approvers: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    height: "100%",
-  },
-  dcaTable: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-    justifyContent: "space-around",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  visibilityOutlinedIcon: {
-    "&:hover": {
-      color: theme.palette.primary.main,
-    },
   },
 }));
 
@@ -157,17 +121,9 @@ export default function StoredEconomicsSensitivities() {
   const economicsSensitivitiesStored = useSelector(
     economicsSensitivitiesStoredSelector
   );
-  console.log(
-    "🚀 ~ file: StoredEconomicsSensitivities.tsx ~ line 159 ~ StoredEconomicsSensitivities ~ economicsSensitivitiesStored",
-    economicsSensitivitiesStored
-  );
 
   const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
     React.useState(economicsSensitivitiesStored);
-  console.log(
-    "🚀 ~ file: StoredEconomicsSensitivities.tsx ~ line 162 ~ StoredEconomicsSensitivities ~ storedEconomicsSensitivities",
-    storedEconomicsSensitivities
-  );
 
   const transStoredSensitivitiesData = (
     storedEconomicsSensitivities as IApplicationStoredDataRow[]
@@ -183,8 +139,6 @@ export default function StoredEconomicsSensitivities() {
     modifiedOn: row.createdAt,
   })) as IStoredEconomicsSensitivitiesRow[];
 
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
-
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredEconomicsSensitivitiesRow) => {
     const name = "selectedEconomicsSensitivitiesId";
@@ -193,6 +147,47 @@ export default function StoredEconomicsSensitivities() {
     dispatch(updateEconomicsParameterAction(name, value));
     setCheckboxSelected(!checkboxSelected);
   };
+
+  const fetchStoredRequestAction = () =>
+    fetchStoredEconomicsSensitivitiesRequestAction(currentProjectId, false);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer as ReducersType,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
 
   const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
@@ -241,35 +236,29 @@ export default function StoredEconomicsSensitivities() {
           <ApexFlexContainer>
             <EditOutlinedIcon
               onClick={() => {
-                const extrudeDialogParameters = (shouldUpdate: boolean) => {
-                  return {
-                    name: "Edit_Table_Dialog",
-                    title: "Edit Table",
-                    type: "tableEditorDialog",
-                    show: true,
-                    exclusive: true,
-                    maxWidth: "xs",
-                    iconType: "edit",
-                    apexEditorProps,
-                    actionsList: () =>
-                      DialogOneCancelButtons(
-                        [true, true],
-                        [true, false],
-                        [
-                          unloadDialogsAction,
-                          //Captured variable
-                          //solve with componentRef
-                          () => setShouldUpdate(!shouldUpdate),
-                        ],
-                        "Update",
-                        "updateOutlined"
-                      ),
-                  } as DialogStuff;
+                const dialogParameters: DialogStuff = {
+                  name: "Edit_Table_Dialog",
+                  title: "Edit Table",
+                  type: "tableEditorDialog",
+                  show: true,
+                  exclusive: true,
+                  maxWidth: "xs",
+                  iconType: "edit",
+                  apexEditorProps,
+                  actionsList: (titleDesc: Record<string, string>) =>
+                    DialogOneCancelButtons(
+                      [true, true],
+                      [true, false],
+                      [
+                        unloadDialogsAction,
+                        () => updateTableActionConfirmation(id)(titleDesc),
+                      ],
+                      "Update",
+                      "updateOutlined"
+                    ),
                 };
 
-                dispatch(
-                  showDialogAction(extrudeDialogParameters(shouldUpdate))
-                );
+                dispatch(showDialogAction(dialogParameters));
               }}
             />
             <DeleteOutlinedIcon

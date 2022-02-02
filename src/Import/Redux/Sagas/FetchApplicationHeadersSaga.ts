@@ -82,7 +82,7 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
       data: { data: forecastAppHeaders },
     } = forecastResults;
     const {
-      data: { data: costsRevenuesAppHeaders },
+      data: { data: costsRevenuesAppHeadersInit },
     } = costsRevenueResults;
     const {
       data: { data: economicsParametersAppHeaders },
@@ -91,6 +91,23 @@ function* fetchApplicationHeadersSaga(action: IAction): Generator<
     const successAction1 = fetchApplicationHeadersSuccessAction();
     const successAction2 = fetchStoredCostsRevenuesHeadersSuccessAction();
     const successAction3 = fetchStoredEconomicsParametersHeadersSuccessAction();
+
+    const costsRevenuesAppHeaders = costsRevenuesAppHeadersInit;
+    // const costsRevenuesAppHeaders = {
+    //   ...costsRevenuesAppHeadersInit,
+    //   oilDevelopment: [
+    //     { variableName: "project", variableTitle: "Project" },
+    //     ...costsRevenuesAppHeadersInit["oilDevelopment"],
+    //   ],
+    //   nagDevelopment: [
+    //     { variableName: "project", variableTitle: "Project" },
+    //     ...costsRevenuesAppHeadersInit["nagDevelopment"],
+    //   ],
+    //   oilNAGDevelopment: [
+    //     { variableName: "project", variableTitle: "Project" },
+    //     ...costsRevenuesAppHeadersInit["oilNAGDevelopment"],
+    //   ],
+    // };
 
     const facilitiesHeadersSelectOptions =
       swapVariableNameTitleForISelectOption(facilitiesAppHeaders);

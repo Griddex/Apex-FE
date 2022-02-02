@@ -7,7 +7,10 @@ import {
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
-import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
+import {
+  TChartStory,
+  TChartTypes,
+} from "../../../Visualytics/Components/Charts/ChartTypes";
 import {
   TDevScenarioNames,
   TEconomicsAnalysesNames,
@@ -530,11 +533,17 @@ export const getEconomicsPlotChartDataFailureAction = () => {
   };
 };
 
-export const transformEconomicsChartDataAction = (reducer: ReducersType) => {
+export const transformEconomicsChartDataAction = (
+  reducer: ReducersType,
+  chartStory: TChartStory,
+  pipeline: "put" | "request"
+) => {
   return {
     type: TRANSFORM_ECONOMICSPLOT_CHARTDATA,
     payload: {
       reducer,
+      chartStory,
+      pipeline,
     },
   };
 };
@@ -764,22 +773,20 @@ export const updateEconomicsChartCategoryAction = (
 };
 
 export const removeEconomicsChartCategoryAction = (
-  categoryMembersObjTitle: string,
-  categoryDragItemsTitle: string,
+  chartStory: TChartStory,
+  chartType: TChartTypes,
   categoryTitle: string,
   categoryOptionTitle: string,
-  id: string,
-  chartType: TChartTypes
+  id: any
 ) => {
   return {
     type: ECONOMICS_REMOVE_CHARTCATEGORY,
     payload: {
-      categoryMembersObjTitle,
-      categoryDragItemsTitle,
+      chartStory,
+      chartType,
       categoryTitle,
       categoryOptionTitle,
       id,
-      chartType,
     },
   };
 };

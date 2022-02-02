@@ -14,7 +14,7 @@ import {
   itemTypesForecast,
   itemTypesVisualytics,
 } from "../../Utils/DragAndDropItemTypes";
-import { TChartTypes } from "../Charts/ChartTypes";
+import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
 import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
 
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CartesianChartCategory = ({
+  chartStory,
   chartType,
   reducer,
   categoryTitle,
@@ -57,28 +58,12 @@ const CartesianChartCategory = ({
   categoryHasDroppedTitle,
   resultsTitle,
 }: IChartCategories) => {
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryZMembers",
-    showCategoryZMembers
-  );
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryMembersObj",
-    showCategoryMembersObj
-  );
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 60 ~ showCategoryMembersSwitch",
-    showCategoryMembersSwitch
-  );
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const [membersSwitch, setMembersSwitch] = React.useState(
     showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
-  );
-  console.log(
-    "🚀 ~ file: CartesianChartCategory.tsx ~ line 70 ~ membersSwitch",
-    membersSwitch
   );
 
   const [hasDroppedObj, setHasDroppedObj] = React.useState(
@@ -157,23 +142,25 @@ const CartesianChartCategory = ({
     width: "100%",
   } as CSSProperties;
 
+  const shwCatMbs = Object.values(
+    showCategoryMembersObj as Record<string, boolean>
+  ).join();
+  const dragCatDrpd = Object.values(
+    categoryDropped as Record<string, boolean>
+  ).join();
+  const dragItemNames = Object.values(
+    categoryDragItem as Record<string, IDragItem>
+  )
+    .map((item) => item.name)
+    .join();
+
   React.useEffect(() => {
     setMembersSwitch(
       showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
     );
     setHasDroppedObj(categoryDropped as Record<string, true>);
     setDragItemObj(categoryDragItem as Record<string, IDragItem>);
-  }, [
-    resultsTitle,
-    devScenariosTitle,
-    JSON.stringify(
-      Object.values(showCategoryMembersObj as Record<string, boolean>)
-    ),
-    JSON.stringify(Object.values(categoryDropped as Record<string, boolean>)),
-    JSON.stringify(
-      Object.values(categoryDragItem as Record<string, IDragItem>)
-    ),
-  ]);
+  }, [resultsTitle, devScenariosTitle, shwCatMbs, dragCatDrpd, dragItemNames]);
 
   return (
     <div className={classes.chartProps} style={style}>
@@ -184,11 +171,6 @@ const CartesianChartCategory = ({
             const { checked } = event.target;
 
             setMembersSwitch(checked);
-
-            // (showCategoryMembersObj as Record<string, boolean>)[
-            //   categoryTitle as string
-            // ] = checked;
-
             showCategoryZMembers = checked;
 
             dispatch(
@@ -231,6 +213,7 @@ const CartesianChartCategory = ({
 
                   return (
                     <ChartCategoryVariable
+                      chartStory={chartStory as TChartStory}
                       chartType={chartType as TChartTypes}
                       style={style}
                       key={id}

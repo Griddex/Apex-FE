@@ -101,11 +101,11 @@ const ApexChartInteractivity = ({
   const initializeMotion = (obj: any) => {
     setChartProps((prev) => ({
       ...prev,
-      pointColor: obj,
+      motionConfig: obj,
     }));
 
     updateParameterAction &&
-      dispatch(updateParameterAction(`${basePath}.pointColor`, obj));
+      dispatch(updateParameterAction(`${basePath}.motionConfig`, obj));
   };
 
   return (

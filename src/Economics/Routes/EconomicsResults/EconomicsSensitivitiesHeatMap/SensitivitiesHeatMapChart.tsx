@@ -66,6 +66,10 @@ const selectedEconomicsResultsIdSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.selectedEconomicsResultsId,
   (data) => data
 );
+const sensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.sensitivitiesTable,
+  (data) => data
+);
 
 export interface IHeatMapVariableZData extends ISelectOption {
   handleCheck: (obj: ISelectOption["value"]) => void;
@@ -86,10 +90,12 @@ const SensitivitiesHeatMapChart = ({
   const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
   const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
+
   const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
   const selectedEconomicsResultsId = useSelector(
     selectedEconomicsResultsIdSelector
   );
+  const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
 
   const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
     resultsAnalyisOptions[0]
@@ -106,7 +112,7 @@ const SensitivitiesHeatMapChart = ({
   const isHeatMapVariableXYOptionOnly = isX && isY && !isZ;
   const isHeatMapVariableXYZOptionOnly = isX && isY && isZ;
 
-  const noOfSensitivities = heatMapTreeByScenario?.children?.length;
+  const noOfSensitivities = sensitivitiesTable?.length;
 
   let disableds = true;
   if (noOfSensitivities === 1 && isHeatMapVariableXOptionOnly) {
@@ -129,7 +135,7 @@ const SensitivitiesHeatMapChart = ({
   if (heatMapTreeByScenario && heatMapTreeByScenario?.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
-    heatMapTreeZRow = heatMapTreeByScenario?.children?.filter(
+    heatMapTreeZRow = heatMapTreeByScenario?.children[0]?.children?.filter(
       (row: any) => row.title === heatMapVariableZOptions[firstKey].title
     )[0] as NonNullable<RenderTree>;
 

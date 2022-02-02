@@ -151,6 +151,7 @@ const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
           activeStep={activeStep}
           steps={steps}
           subModuleName={title as string}
+          showChip={true}
         />
       </DialogTitle>
       <DialogContent

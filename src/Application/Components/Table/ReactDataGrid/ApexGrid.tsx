@@ -178,18 +178,22 @@ const ApexGrid = <R, O>(
               headerNames,
               Array(headerNames.length).fill("")
             );
-            extraRows.push({ ...row, sn: lastSN + i });
+            extraRows.push({ sn: lastSN + i, ...row });
           }
 
           rows = [...rows, ...extraRows];
         }
 
         for (let i = 0; i < newRows.length; i++) {
-          if (startRowIdx + i < rows.length) {
+          if (startRowIdx + i <= rows.length) {
             rows[startRowIdx + i] = { ...rows[startRowIdx + i], ...newRows[i] };
           }
         }
 
+        console.log(
+          "🚀 ~ file: ApexGrid.tsx ~ line 195 ~ onRowsChange ~ rows",
+          rows
+        );
         return rows;
       });
   };
@@ -205,7 +209,8 @@ const ApexGrid = <R, O>(
       let pasteData;
 
       if (e && e.clipboardData) {
-        pasteData = parsePasteData(e.clipboardData.getData("text/plain"));
+        const clipboardData = e.clipboardData.getData("text/plain");
+        pasteData = parsePasteData(clipboardData);
 
         pasteData.forEach((row) => {
           const rowData = {} as Record<string, any>;
@@ -436,6 +441,7 @@ const ApexGrid = <R, O>(
         "paste",
         handlePaste
       );
+      console.log("Paste handler registered");
     }
     countRef.current = countRef.current + 1;
 

@@ -1,11 +1,13 @@
 import { format } from "d3-format";
+import omit from "lodash.omit";
 import {
-  visualyticsDataToStackedChartData,
-  visualyticsDataToLineOrScatterChartData,
   visualyticsDataToBarOrHeatmapChartData,
   visualyticsDataToDoughnutChartData,
+  visualyticsDataToLineOrScatterChartData,
+  visualyticsDataToStackedChartData,
 } from "../../Application/Utils/TransformOneVisualyticsDataToAnother";
 import { IChart } from "../Redux/State/VisualyticsStateTypes";
+import renderTick from "../Utils/RenderTicks";
 import {
   stackedChartToBarChartData,
   stackedChartToDoughnutChartData,
@@ -660,7 +662,16 @@ export const commonChartProps = {
 
   //Axis
   axisTop: undefined,
-  axisRight: undefined,
+  axisRight: {
+    axisEnabled: true,
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    format: (v) => format(" >-.0f")(v),
+    legend: "",
+    legendOffset: 36,
+    legendPosition: "middle",
+  },
   axisBottom: {
     axisEnabled: true,
     tickSize: 5,
@@ -780,7 +791,7 @@ export const commonChartProps = {
   ],
 } as IChart;
 
-export const allChartsDataAndSpecificProperties = {
+const chartDataContainer = {
   commonChartProps,
 
   stackedAreaChart: {
@@ -809,5 +820,47 @@ export const allChartsDataAndSpecificProperties = {
 
   heatMapChart: {
     chartData: [],
+  },
+};
+
+const chartSecondaryDataContainer = {
+  commonChartProps,
+
+  stackedAreaChart: {
+    chartData: [],
+  },
+
+  lineChart: {
+    chartData: [],
+  },
+
+  scatterChart: {
+    chartData: [],
+  },
+
+  barChart: {
+    chartData: [],
+  },
+};
+export const allChartsDataAndSpecificProperties = {
+  primary: {
+    ...chartDataContainer,
+    commonChartProps: {
+      ...chartDataContainer["commonChartProps"],
+      axisRight: null,
+      axisBottom: {
+        ...chartDataContainer["commonChartProps"]["axisBottom"],
+        renderTick: renderTick([]),
+      },
+    },
+  },
+  secondary: {
+    ...chartSecondaryDataContainer,
+    commonChartProps: {
+      ...chartDataContainer["commonChartProps"],
+      enableGridY: false,
+      axisBottom: null,
+      axisLeft: null,
+    },
   },
 };

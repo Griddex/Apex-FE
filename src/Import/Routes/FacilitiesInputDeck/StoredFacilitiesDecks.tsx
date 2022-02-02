@@ -2,7 +2,17 @@ import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions/ApplicationActions";
+import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
+import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
+import {
+  persistSelectedIdTitleAction,
+  updateDataByIdRequestAction,
+} from "../../../Application/Redux/Actions/ApplicationActions";
+import {
+  unloadDialogsAction,
+  showDialogAction,
+} from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../../Application/Services/BaseUrlService";
 import {
@@ -42,11 +52,6 @@ export default function StoredFacilitiesDecks({
   const facilitiesInputDeckStored = useSelector(
     facilitiesInputDeckStoredSelector
   );
-  console.log(
-    "🚀 ~ file: StoredFacilitiesDecks.tsx ~ line 73 ~ facilitiesInputDeckStored",
-    facilitiesInputDeckStored
-  );
-  console.log("IsArray: ", Array.isArray(facilitiesInputDeckStored));
 
   const componentRef = React.useRef();
 
@@ -91,6 +96,47 @@ export default function StoredFacilitiesDecks({
       );
   };
 
+  const fetchStoredRequestAction = () =>
+    fetchStoredInputDeckRequestAction(currentProjectId);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
+
   const isDataVisibility = true;
   const isCloning = false;
 
@@ -111,6 +157,7 @@ export default function StoredFacilitiesDecks({
     clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),
+    updateTableActionConfirmation,
   };
 
   return (

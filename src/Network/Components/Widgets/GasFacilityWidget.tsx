@@ -11,6 +11,7 @@ import {
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { ApexXYPosition } from "../../../Application/Types/ApplicationTypes";
 import GasFacility from "../../Images/GasFacility.svg";
 import GasfacilityContextMenu from "../ContextMenu/GasfacilityContextMenu";
 import { handleStyle, widgetStyle } from "./WidgetStyles";
@@ -109,7 +110,7 @@ const GasFacilityNode = React.memo((props: Node & IExtraNodeProps) => {
     title = data?.title;
   }
 
-  const position: XYPosition = {
+  const position: ApexXYPosition = {
     x: xPos,
     y: yPos,
   };

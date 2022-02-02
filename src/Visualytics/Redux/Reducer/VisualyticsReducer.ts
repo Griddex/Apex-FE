@@ -211,19 +211,30 @@ const visualyticsReducer = (
         reducer,
         workflowCategory,
         chartType,
+        chartStory,
         chartData,
         xValueCategories,
       } = action.payload;
+      console.log(
+        "🚀 ~ file: VisualyticsReducer.ts ~ line 217 ~ xValueCategories",
+        xValueCategories
+      );
 
       if (reducer === "visualyticsReducer") {
         return {
           ...state,
           xValueCategories,
+          currentChartStory: chartStory,
           [workflowCategory]: {
             ...(state as any)[workflowCategory],
-            [chartType]: {
-              ...(state as any)[workflowCategory][chartType as TChartTypes],
-              chartData,
+            [chartStory]: {
+              ...(state as any)[workflowCategory][chartStory],
+              [chartType]: {
+                ...(state as any)[workflowCategory][chartStory][
+                  chartType as TChartTypes
+                ],
+                chartData,
+              },
             },
           },
         };
@@ -235,18 +246,12 @@ const visualyticsReducer = (
     case RESET_CHART_DATA: {
       const { reducer, workflowCategory } = action.payload;
 
+      const initialWCObj = visualyticsState["visualyticsChartsWorkflows"];
+
       if (reducer === "visualyticsReducer") {
         return {
           ...state,
-          [workflowCategory]: {
-            ...(state as any)[workflowCategory],
-            stackedAreaChart: { chartData: [] },
-            lineChart: { chartData: [] },
-            scatterChart: { chartData: [] },
-            doughnutChart: { chartData: [] },
-            radarChart: { chartData: [] },
-            heatMapChart: { chartData: [] },
-          },
+          [workflowCategory]: initialWCObj,
         };
       } else {
         return state;
@@ -310,25 +315,24 @@ const visualyticsReducer = (
     }
 
     case VISUALYTICS_REMOVE_CHARTCATEGORY: {
-      const { categoryOptionTitle, id } = action.payload;
+      const { categoryTitle, id } = action.payload;
 
-      const categoryObj =
-        state["visualyticsCategoryDragItems"][categoryOptionTitle];
+      const categoryObj = state["visualyticsCategoryDragItems"][categoryTitle];
       const newCategoryObj = omit(categoryObj, [id]);
 
       const hasDroppedObj =
-        state["visualyticsCategoryHasDropped"][categoryOptionTitle];
+        state["visualyticsCategoryHasDropped"][categoryTitle];
       const newHasDroppedObj = omit(hasDroppedObj, [id]);
 
       return {
         ...state,
         visualyticsCategoryDragItems: {
           ...state["visualyticsCategoryDragItems"],
-          [categoryOptionTitle]: newCategoryObj,
+          [categoryTitle]: newCategoryObj,
         },
         visualyticsCategoryHasDropped: {
           ...state["visualyticsCategoryHasDropped"],
-          [categoryOptionTitle]: newHasDroppedObj,
+          [categoryTitle]: newHasDroppedObj,
         },
       };
     }

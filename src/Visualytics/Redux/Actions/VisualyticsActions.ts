@@ -4,6 +4,7 @@ import {
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TChartStory, TChartTypes } from "../../Components/Charts/ChartTypes";
 import { chartObjectsNameTitleMap } from "../State/VisualyticsState";
 import { IChartObject } from "../State/VisualyticsStateTypes";
 
@@ -99,11 +100,17 @@ export const loadVisualyticsWorkflowAction = (
   };
 };
 
-export const transformVisualyticsChartDataAction = (reducer: ReducersType) => {
+export const transformVisualyticsChartDataAction = (
+  reducer: ReducersType,
+  chartStory: TChartStory,
+  pipeline: "put" | "request"
+) => {
   return {
     type: TRANSFORM_VISUALYTICS_CHARTDATA,
     payload: {
       reducer,
+      chartStory,
+      pipeline,
     },
   };
 };
@@ -369,12 +376,15 @@ export const updateVisualyticsHasDroppedAction = (
 };
 
 export const removeVisualyticsChartCategoryAction = (
+  chartStory: TChartStory,
+  chartType: TChartTypes,
+  categoryTitle: string,
   categoryOptionTitle: string,
-  id: string
+  id: any
 ) => {
   return {
     type: VISUALYTICS_REMOVE_CHARTCATEGORY,
-    payload: { categoryOptionTitle, id },
+    payload: { chartStory, chartType, categoryTitle, categoryOptionTitle, id },
   };
 };
 

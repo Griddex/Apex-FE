@@ -46,60 +46,118 @@ function* transformVisualyticsChartDataSaga(
     reducer,
     workflowCategory,
     chartType,
+    secondaryChartType,
+    chartStory,
     chartData,
     xValueCategories,
     lineOrScatter,
     collateBy,
     collationFxn,
+    pipeline,
   } = payload;
-  console.log(
-    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 56 ~ payload",
-    payload
-  );
 
   const { visualyticsResults, visualyticsCategoryDragItems } = yield select(
     (state: RootState) => state[reducer as ReducersType]
   );
-  console.log(
-    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 64 ~ visualyticsResults",
-    visualyticsResults
-  );
+
   let data = [] as any[];
 
   if (chartData) data = chartData;
   else data = visualyticsResults;
-  console.log(
-    "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 68 ~ data",
-    data
-  );
 
   try {
-    const transformedChartDataFxn =
-      visualyticsChartDataTransformersObj[chartType as TChartTypes];
+    if (pipeline === "request") {
+      const xObj = visualyticsCategoryDragItems["X Category"];
+      const xCategoryName = (Object.values(xObj) as any[])[0].name;
+      const yCategoryNames = Object.values(
+        visualyticsCategoryDragItems["Y Category"]
+      ).map((o: any) => o.name);
 
-    const transformedChartData = transformedChartDataFxn({
-      data,
-      categoryDragItems: visualyticsCategoryDragItems,
-      lineOrScatter,
-      collateBy,
-      collationFxn,
-    });
-    console.log(
-      "Logged output --> ~ file: TransformVisualyticsDataSaga.ts ~ line 82 ~ transformedChartData",
-      transformedChartData
-    );
+      const ySecondaryCategoryNames = Object.values(
+        visualyticsCategoryDragItems["Y Secondary Category"]
+      ).map((o: any) => o.name);
 
-    const successAction = transformVisualyticsChartDataSuccessAction();
-    yield put({
-      ...successAction,
-      payload: {
-        reducer,
-        workflowCategory,
-        chartType,
-        chartData: (transformedChartData as any)["data"],
-        xValueCategories,
-      },
-    });
+      if (xCategoryName && yCategoryNames.length > 0) {
+        const transformedChartDataFxn =
+          visualyticsChartDataTransformersObj[chartType as TChartTypes];
+
+        const transformedChartData = transformedChartDataFxn({
+          data,
+          categoryDragItems: visualyticsCategoryDragItems,
+          chartStory: "primary",
+          lineOrScatter,
+          collateBy,
+          collationFxn,
+        });
+
+        const successAction = transformVisualyticsChartDataSuccessAction();
+        yield put({
+          ...successAction,
+          payload: {
+            reducer,
+            workflowCategory,
+            chartType,
+            chartStory: "primary",
+            chartData: (transformedChartData as any)["data"],
+            xValueCategories,
+          },
+        });
+      }
+
+      if (xCategoryName && ySecondaryCategoryNames.length > 0) {
+        const transformedChartDataFxn =
+          visualyticsChartDataTransformersObj[
+            secondaryChartType as TChartTypes
+          ];
+
+        const transformedChartData = transformedChartDataFxn({
+          data,
+          categoryDragItems: visualyticsCategoryDragItems,
+          chartStory: "secondary",
+          lineOrScatter,
+          collateBy,
+          collationFxn,
+        });
+
+        const successAction = transformVisualyticsChartDataSuccessAction();
+        yield put({
+          ...successAction,
+          payload: {
+            reducer,
+            workflowCategory,
+            chartType: secondaryChartType,
+            chartStory: "secondary",
+            chartData: (transformedChartData as any)["data"],
+            xValueCategories,
+          },
+        });
+      }
+    } else {
+      const transformedChartDataFxn =
+        visualyticsChartDataTransformersObj[chartType as TChartTypes];
+
+      const transformedChartData = transformedChartDataFxn({
+        data,
+        categoryDragItems: visualyticsCategoryDragItems,
+        chartStory,
+        lineOrScatter,
+        collateBy,
+        collationFxn,
+      });
+
+      const successAction = transformVisualyticsChartDataSuccessAction();
+      yield put({
+        ...successAction,
+        payload: {
+          reducer,
+          workflowCategory,
+          chartType,
+          chartStory,
+          chartData: (transformedChartData as any)["data"],
+          xValueCategories,
+        },
+      });
+    }
   } catch (errors) {
     const failureAction = transformVisualyticsChartDataFailureAction();
 

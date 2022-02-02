@@ -193,6 +193,17 @@ const EconomicsAnalysesTitles = [
   "Multiple Analyses",
 ];
 
+export const economicsAnalysisNamesAbbrMap = {
+  netcashFlow: "ncf",
+  payout: "payout",
+  minimumCapitalRatio: "mcr",
+  netPresentValue: "npv",
+  presentValueRatio: "pvr",
+  unitTechnicalCost: "utc",
+  internalRateOfReturn: "irr",
+  mulitpleAnalyses: "mpa",
+};
+
 export const economicsAnalysesNameTitlesObj = zipObject(
   EconomicsAnalysesNames,
   EconomicsAnalysesTitles
@@ -306,10 +317,6 @@ export type TEconomicsTreePerspective =
 
 export const economicsPlotChartsOptions = [
   {
-    value: "Select Chart...",
-    label: "Select Chart...",
-  },
-  {
     value: "stackedAreaChart",
     label: "Stacked Area",
   },
@@ -339,9 +346,30 @@ export const economicsPlotChartsOptions = [
   },
 ];
 
+export const economicsSecondaryPlotChartsOptions = [
+  {
+    value: "stackedAreaChart",
+    label: "Stacked Area",
+  },
+  {
+    value: "lineChart",
+    label: "Line",
+  },
+  {
+    value: "barChart",
+    label: "Bar",
+  },
+  {
+    value: "scatterChart",
+    label: "Scatter",
+  },
+];
+
 export type TDevScenariosMapKeys = keyof typeof developmentScenariosMap;
 
 export const oilNAGDevelopmentNames = [
+  "project",
+  "year",
   "baseOilRate",
   "associatedGasRate",
   "seismicCost",
@@ -362,6 +390,8 @@ export const oilNAGDevelopmentNames = [
 ];
 
 export const oilDevelopmentNames = [
+  "project",
+  "year",
   "baseOilRate",
   "associatedGasRate",
   "seismicCost",
@@ -379,6 +409,8 @@ export const oilDevelopmentNames = [
 ];
 
 export const nagDevelopmentNames = [
+  "project",
+  "year",
   "condensateRate",
   "nonAssociatedGasRate",
   "seismicCost",
@@ -437,3 +469,57 @@ export const initialHeatMapData = {
     "R Category": {},
   },
 };
+
+export const costsRevenueAggregationLevelOptions = [
+  {
+    value: "portfolio",
+    label: "Portfolio",
+  },
+  {
+    value: "module",
+    label: "Module",
+  },
+  {
+    value: "drainagePoint",
+    label: "Drainage Point",
+  },
+  {
+    value: "flowStation",
+    label: "Station",
+  },
+  {
+    value: "scenario",
+    label: "Scenario",
+  },
+  {
+    value: "field",
+    label: "Field",
+  },
+  {
+    value: "reservoir",
+    label: "Reservoir",
+  },
+  {
+    value: "projectName",
+    label: "Project",
+  },
+  {
+    value: "hydrocarbonStream",
+    label: "Hydrocarbon Stream",
+  },
+  {
+    value: "hydrocarbonType",
+    label: "Hydrocarbon Type",
+  },
+  {
+    value: "resourceClass",
+    label: "Resource Class",
+  },
+  {
+    value: "developmentTranche",
+    label: "Development Tranche",
+  },
+];
+
+export const costsRevenueAggregationLevelsNames =
+  costsRevenueAggregationLevelOptions.map((o) => o?.value);

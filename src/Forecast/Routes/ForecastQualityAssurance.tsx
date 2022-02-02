@@ -2,6 +2,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
+import { Resizable } from "re-resizable";
 
 const ForecastChartDataPanel = React.lazy(
   () => import("../Common/ForecastChartDataPanel")
@@ -49,9 +50,14 @@ const ForecastQualityAssurance = () => {
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
-        <div className={classes.chartPanel}>
+        <Resizable
+          defaultSize={{
+            width: 300,
+            height: "100%",
+          }}
+        >
           <ForecastChartDataPanel />
-        </div>
+        </Resizable>
 
         <ForecastQualityAssuranceData
           showChart={false}

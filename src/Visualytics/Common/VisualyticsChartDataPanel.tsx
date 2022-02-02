@@ -52,6 +52,12 @@ const selectedVisualyticsChartOptionSelector = createDeepEqualSelector(
   (data) => data
 );
 
+const selectedVisualyticsSecondaryChartOptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.visualyticsReducer.selectedVisualyticsSecondaryChartOption,
+  (data) => data
+);
+
 const visualyticsVariableZOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.visualyticsReducer.visualyticsVariableZOptions,
   (data) => data
@@ -83,6 +89,7 @@ const visualyticsDeckStoredSelector = createDeepEqualSelector(
 const VisualyticsChartDataPanel = ({
   selectedZ,
   setSelectedZ,
+  chartStory,
   variableZDataOptions,
   ZValuesTitle,
 }: IChartVisualytics) => {
@@ -101,8 +108,8 @@ const VisualyticsChartDataPanel = ({
   const selectedVisualyticsChartOption = useSelector(
     selectedVisualyticsChartOptionSelector
   );
-  const visualyticsVariableZOptions = useSelector(
-    visualyticsVariableZOptionsSelector
+  const selectedVisualyticsSecondaryChartOption = useSelector(
+    selectedVisualyticsSecondaryChartOptionSelector
   );
   const showVisualyticsCategoryMembersObj = useSelector(
     showVisualyticsCategoryMembersObjSelector
@@ -203,6 +210,7 @@ const VisualyticsChartDataPanel = ({
   const categoriesComponent = (
     <XYYZRChartCategories
       reducer={reducer}
+      chartStory={chartStory}
       chartType={chartTypeDefined}
       xCategoryOptionTitle="visualyticsVariableXOptions"
       yCategoryOptionTitle="visualyticsVariableYOptions"
@@ -225,7 +233,6 @@ const VisualyticsChartDataPanel = ({
         () => showVisualyticsCategoryMembersObj,
         [JSON.stringify(showVisualyticsCategoryMembersObj)]
       )}
-      path="showVisualyticsCategoryMembersObj"
       updateParameterAction={React.useCallback(
         updateVisualyticsParameterAction,
         []
@@ -253,6 +260,7 @@ const VisualyticsChartDataPanel = ({
         <CategoryPanelComponent
           selectedZ={selectedZ}
           setSelectedZ={React.useCallback(setSelectedZ, [])}
+          chartStory={chartStory}
           variableZDataOptions={variableZDataOptions}
           ZValuesTitle={ZValuesTitle}
         />

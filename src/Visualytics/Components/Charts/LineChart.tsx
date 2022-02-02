@@ -6,27 +6,45 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
-
-const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 import {
   ReducersType,
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
-import { IChartProps } from "../ChartTypes";
+import { AxisProps, IChartProps } from "../ChartTypes";
+import { TChartStory } from "./ChartTypes";
+import renderTick from "../../Utils/RenderTicks";
 
-const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const SimpleLineChart = ({
+  workflowCategory,
+  reducer,
+  chartStory,
+}: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
   const reducerDefined = reducer as ReducersType;
 
+  const xValueCategoriesSelector = createDeepEqualSelector(
+    (state: RootState) => state[reducerDefined]["xValueCategories"],
+    (categories) => categories
+  );
+  const xValueCategories = useSelector(xValueCategoriesSelector);
+
+  const bottomAxisValues = xValueCategories.map((v: any) => v);
+
   const commonChartProps = useSelector(
-    (state: RootState) => state[reducerDefined][wc]["commonChartProps"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["commonChartProps"],
     () => false
   );
 
   const chartDataSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducerDefined][wc]["lineChart"]["chartData"],
+    (state: RootState) =>
+      state[reducerDefined][wc][chartStory as TChartStory]["lineChart"][
+        "chartData"
+      ],
     (data) => data
   );
 
@@ -63,6 +81,11 @@ const SimpleLineChart = ({ workflowCategory, reducer }: IChartProps) => {
 
   const yFormatLine = (v: DatumValue) => format(yFormatString)(v as number);
   commonChartPropsDefined["yFormat"] = yFormatLine;
+
+  if (chartStory === "primary") {
+    (commonChartPropsDefined["axisBottom"] as AxisProps)["renderTick"] =
+      renderTick(bottomAxisValues);
+  }
 
   return <ResponsiveLine data={chartData} {...commonChartPropsDefined} />;
 };

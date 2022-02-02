@@ -166,6 +166,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
           activeStep={activeStep}
           steps={steps}
           subModuleName={title as string}
+          showChip={true}
         />
       </DialogTitle>
 

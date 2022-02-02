@@ -2,7 +2,6 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { Column } from "react-data-griddex";
@@ -28,7 +27,11 @@ import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid"
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
-import { deleteDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
+import { IAction } from "../../Application/Redux/Actions/ActionTypes";
+import {
+  deleteDataByIdRequestAction,
+  updateDataByIdRequestAction,
+} from "../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
   unloadDialogsAction,
@@ -222,17 +225,9 @@ const forecastingParametersStoredSelector = createDeepEqualSelector(
 export default function StoredProductionPrioritization({
   showChart,
   isAllWellPrioritization,
-  updateTableActionConfirmation,
 }: IStoredDataProps) {
-  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const updateTableActionConfirmationDefined =
-    updateTableActionConfirmation as NonNullable<
-      IStoredDataProps["updateTableActionConfirmation"]
-    >;
-
   const componentRef = React.useRef();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
@@ -240,7 +235,6 @@ export default function StoredProductionPrioritization({
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/well-prioritization`;
 
-  const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
   const dayFormat = useSelector(dayFormatSelector);
@@ -286,6 +280,7 @@ export default function StoredProductionPrioritization({
     wellPrioritizationFiltered
   );
 
+  const [rows, setRows] = React.useState(snTransStoredData);
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
     dispatch(
@@ -298,15 +293,62 @@ export default function StoredProductionPrioritization({
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const ApexGridCheckboxColumn = apexGridCheckbox({
-    shouldExecute: true,
-    shouldDispatch: false,
-    apexGridCheckboxFxn: handleCheckboxChange,
-  });
+  const ApexGridCheckboxColumn = React.useMemo(
+    () =>
+      apexGridCheckbox({
+        shouldExecute: true,
+        shouldDispatch: false,
+        apexGridCheckboxFxn: handleCheckboxChange,
+      }),
+    [checkboxSelected]
+  );
 
   const dividerPositions = [50];
   const isCustomComponent = false;
 
+  const fetchStoredRequestAction = () =>
+    fetchStoredProductionPrioritizationRequestAction(currentProjectId);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
+
+  const rowsTitlesString = rows.map((row) => row.title).join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
   const generateColumns = () => {
     const columns: Column<IStoredDataRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -452,8 +494,7 @@ export default function StoredProductionPrioritization({
                       [true, false],
                       [
                         unloadDialogsAction,
-                        () =>
-                          updateTableActionConfirmationDefined(id)(titleDesc),
+                        () => updateTableActionConfirmation(id)(titleDesc),
                       ],
                       "Update",
                       "updateOutlined",
@@ -587,8 +628,10 @@ export default function StoredProductionPrioritization({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
-  const [rows, setRows] = React.useState(snTransStoredData);
+  const columns = React.useMemo(
+    () => generateColumns(),
+    [rowsTitlesString, rowsDescriptionsString]
+  );
 
   const exportColumns = columns
     .filter(
@@ -624,20 +667,30 @@ export default function StoredProductionPrioritization({
     generateDoughnutAnalyticsData(rows, "approval")
   );
 
+  const storedDataTitlesString = wellPrioritizationFiltered
+    .map((row: any) => row.title)
+    .join();
+  const storedDataDescriptionsString = wellPrioritizationFiltered
+    .map((row: any) => row.description)
+    .join();
+
   React.useEffect(() => {
     const updatedStoredData = productionPrioritizationStoredWithSN(
       wellPrioritizationFiltered
     );
+
     setRows(updatedStoredData);
-  }, [productionPrioritizationStored.length]);
+  }, [
+    productionPrioritizationStored.length,
+    storedDataTitlesString,
+    storedDataDescriptionsString,
+  ]);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,
     rows: rows,
     tableButtons: tableButtons,
     newTableRowHeight: 35,
-    selectedRows: selectedRows,
-    setSelectedRows: setSelectedRows,
     selectedRow: sRow,
     onSelectedRowChange: setSRow,
     onRowsChange: setRows,

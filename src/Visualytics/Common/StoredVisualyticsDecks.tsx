@@ -1,8 +1,7 @@
-import { useTheme } from "@mui/material";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
@@ -39,8 +38,6 @@ export default function StoredVisualyticsDecks({
   containerStyle,
   showChart,
 }: IStoredDeck) {
-  const theme = useTheme();
-
   const currentProjectId = useSelector(currentProjectIdSelector);
 
   const tableTitle = "Visualytics InputDeck Table";

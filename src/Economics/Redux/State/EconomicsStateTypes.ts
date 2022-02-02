@@ -28,6 +28,7 @@ import {
   IIdNameTitlePathOption,
   ISelectOption,
 } from "./../../../Application/Components/Selects/SelectItemsType";
+import { TChartStory } from "../../../Visualytics/Components/Charts/ChartTypes";
 
 export interface IEconomicsImport {
   fileLastModified: string;
@@ -178,6 +179,7 @@ export interface INewEconomicsResultsWorkflowProps
 export interface IStoredEconomicsResultsRow {
   sn: number;
   id: string;
+  economicsResultsId: string;
   userId?: string;
   approval: TApproval;
   title: string;
@@ -195,6 +197,7 @@ export interface IStoredEconomicsResultsRow {
 export interface IEconomicsState
   extends INewCostsRevenuesInputDeckFormValues,
     INewEconomicsParametersInputDeckFormValues {
+  currentChartStory: TChartStory;
   currentWorkflowProcess: IEconomicsWorkflowProcessesType;
   loadCostsRevenueWorkflow: boolean;
   loadEconomicsParametersWorkflow: boolean;
@@ -280,12 +283,13 @@ export interface IEconomicsState
 
   showCategoryZMembers: boolean;
 
+  xValueCategories: string[];
   economicsPlotChartsTree: RenderTree;
   plotChartsResults: any[];
   plotChartsData: null;
   plotChartsDataTrans: null;
   selectedEconomicsPlotChartOption: ISelectOption;
-  showPlotChartsCategories: boolean;
+  selectedEconomicsPlotSecondaryChartOption: ISelectOption;
 
   plotChartsVariableXOptions: Record<string, IIdNameTitlePathOption>;
   plotChartsVariableYOptions: Record<string, IIdNameTitlePathOption>;
@@ -304,6 +308,9 @@ export interface IEconomicsState
   };
 
   economicsTemplatesTree: RenderTree;
+
+  economicsRanking: any[];
+  sensitivitiesTable: any[];
 
   resultsAnalyisOptions: ISelectOption[];
 

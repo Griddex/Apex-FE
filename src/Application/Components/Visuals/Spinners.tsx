@@ -34,7 +34,6 @@ const override = css`
   margin: 0 auto;
   height: "100%";
   width: "100%";
-  z-index: 1300;
   position: "fixed";
   right: 0;
   bottom: 0;
@@ -64,7 +63,7 @@ const Spinners = () => {
       className={classes.backdrop}
       open={pending}
       onClick={handleClose}
-      // sx={{ color: "grey", backgroundColor: "white" }}
+      sx={{ zIndex: 9900 }}
     >
       <div>
         <HashLoader css={override} color={"white"} loading={pending} />

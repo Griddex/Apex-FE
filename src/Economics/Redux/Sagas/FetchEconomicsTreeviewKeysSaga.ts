@@ -95,6 +95,9 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
           value: row["analysisName"],
           label: row["analysisTitle"],
         })),
+        economicsRanking: economicsTree["economicsRanking"],
+        sensitivitiesTable:
+          economicsTree["economicsSensitivitiesResult"]["sensitivitiesTable"],
       })
     );
 

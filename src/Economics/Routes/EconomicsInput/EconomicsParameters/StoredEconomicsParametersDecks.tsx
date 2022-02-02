@@ -15,6 +15,12 @@ import Approvers from "../../../../Application/Components/Approvers/Approvers";
 import Author from "../../../../Application/Components/Author/Author";
 import apexGridCheckbox from "../../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import ApexGridMoreActionsContextMenu from "../../../../Application/Components/ContextMenus/ApexGridMoreActionsContextMenu";
+import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
+import {
+  IApexEditor,
+  IApexEditorRow,
+} from "../../../../Application/Components/Editors/ApexEditor";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
@@ -28,12 +34,17 @@ import {
   ReducersType,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
   getTableDataByIdRequestAction,
   persistSelectedIdTitleAction,
+  updateDataByIdRequestAction,
 } from "../../../../Application/Redux/Actions/ApplicationActions";
-import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
 import { getDisabledStyle } from "../../../../Application/Styles/disabledStyles";
@@ -192,8 +203,8 @@ export default function StoredEconomicsParametersDecks({
   const theme = useTheme();
 
   const classes = useStyles();
-
   const dispatch = useDispatch();
+  const componentRef = React.useRef();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
 
@@ -215,8 +226,14 @@ export default function StoredEconomicsParametersDecks({
     economicsParametersDeckStored
   );
 
-  const componentRef = React.useRef();
+  const storedDataTitlesString = snTransStoredData
+    .map((row) => row.title)
+    .join();
+  const storedDataDescriptionsString = snTransStoredData
+    .map((row) => row.description)
+    .join();
 
+  const [rows, setRows] = React.useState(snTransStoredData);
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
@@ -231,6 +248,50 @@ export default function StoredEconomicsParametersDecks({
         })
       );
   };
+
+  const dividerPositions = [50];
+  const isCustomComponent = false;
+
+  const fetchStoredRequestAction = () =>
+    fetchStoredForecastingParametersRequestAction(currentProjectId);
+
+  const updateTableActionConfirmation =
+    (id: string) => (titleDesc: Record<string, string>) => {
+      const updateDataUrl = `${mainUrl}/${id}`;
+
+      const confirmationDialogParameters: DialogStuff = {
+        name: "Update_Data_Dialog_Confirmation",
+        title: `Update Confirmation`,
+        type: "textDialog",
+        show: true,
+        exclusive: false,
+        maxWidth: "xs",
+        dialogText: `Do you want to proceed with this update?`,
+        iconType: "confirmation",
+        actionsList: () =>
+          DialogOneCancelButtons(
+            [true, true],
+            [true, true],
+            [
+              unloadDialogsAction,
+              () =>
+                updateDataByIdRequestAction(
+                  reducer as ReducersType,
+                  updateDataUrl as string,
+                  titleDesc,
+                  fetchStoredRequestAction as () => IAction
+                ),
+            ],
+            "Update",
+            "updateOutlined",
+            false,
+            "All"
+          ),
+        dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+      };
+
+      dispatch(showDialogAction(confirmationDialogParameters));
+    };
 
   const ApexGridCheckboxColumn = apexGridCheckbox({
     shouldExecute: true,
@@ -247,19 +308,36 @@ export default function StoredEconomicsParametersDecks({
         name: "ACTIONS",
         editable: false,
         formatter: ({ row }) => {
-          const { sn } = row;
-          const currentSN = sn as number;
-          const currentRow = rows[currentSN - 1];
+          const sn = row.sn as number;
 
           const title = row.title as string;
           const id = row.id as string;
           const deleteUrl = `${mainUrl}/${id}`;
 
+          const editedRow = rows[sn - 1];
+          const editorData = [
+            {
+              name: "title",
+              title: "ECONOMICS PARAMETERS TITLE",
+              value: row["title"],
+              editorType: "input",
+              width: "100%",
+            },
+            {
+              name: "description",
+              title: "Description",
+              value: row["description"],
+              editorType: "textArea",
+              width: "100%",
+              height: "100%",
+            },
+          ] as IApexEditorRow[];
+
           const importMoreActionsData = [
             {
               title: "Clone",
               action: () => {
-                const currentRow = rows[currentSN - 1];
+                const currentRow = rows[sn - 1];
                 const clonedRow = cloneEconomicParameter(
                   currentRow,
                   rows.length
@@ -309,16 +387,48 @@ export default function StoredEconomicsParametersDecks({
             <EditOutlinedIcon
               style={style as CSSProperties}
               onClick={() => {
-                const isCreateOrEdit = true;
+                const dialogParameters: DialogStuff = {
+                  name: "Edit_Table_Dialog",
+                  title: "Edit Table",
+                  type: "tableEditorDialog",
+                  show: true,
+                  exclusive: false,
+                  maxWidth: isCustomComponent ? "lg" : "sm",
+                  iconType: "edit",
+                  isCustomComponent,
+                  apexEditorProps: {
+                    editorData,
+                    editedRow,
+                    dividerPositions,
+                  },
+                  actionsList: (titleDesc: Record<string, string>) =>
+                    DialogOneCancelButtons(
+                      [true, true],
+                      [true, false],
+                      [
+                        unloadDialogsAction,
+                        () => updateTableActionConfirmation(id)(titleDesc),
+                      ],
+                      "Update",
+                      "updateOutlined",
+                      false,
+                      "None"
+                    ),
+                };
 
-                dispatch(
-                  getEconomicsParametersByIdRequestAction(
-                    currentRow.id as string,
-                    "economicsReducer" as ReducersType,
-                    isCreateOrEdit as boolean
-                  )
-                );
+                dispatch(showDialogAction(dialogParameters));
               }}
+              // onClick={() => {
+              //   const isCreateOrEdit = true;
+
+              //   dispatch(
+              //     getEconomicsParametersByIdRequestAction(
+              //       currentRow.id as string,
+              //       "economicsReducer" as ReducersType,
+              //       isCreateOrEdit as boolean
+              //     )
+              //   );
+              // }}
             />
           );
 
@@ -443,8 +553,14 @@ export default function StoredEconomicsParametersDecks({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
-  const [rows, setRows] = React.useState(snTransStoredData);
+
+  const rowsTitlesString = rows.map((row) => row.title).join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
+
+  const columns = React.useMemo(
+    () => generateColumns(),
+    [rowsTitlesString, rowsDescriptionsString]
+  );
 
   const exportColumns = columns
     .filter(
@@ -485,7 +601,11 @@ export default function StoredEconomicsParametersDecks({
       economicsParametersDeckStored as IApplicationStoredDataRow[]
     );
     setRows(updatedStoredData);
-  }, [economicsParametersDeckStored.length]);
+  }, [
+    economicsParametersDeckStored.length,
+    storedDataTitlesString,
+    storedDataDescriptionsString,
+  ]);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,

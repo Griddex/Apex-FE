@@ -8,15 +8,17 @@ import { ReducersType } from "../../../Application/Components/Workflows/Workflow
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
+import { TChartStory } from "../Charts/ChartTypes";
 
 interface IFormatAggregatorContext {
+  // chartProps: Record<TChartStory, IChart>;
   chartProps: IChart;
   setChartProps: Dispatch<SetStateAction<IChart>>;
 }
 
 const ChartFormatAggregatorContext =
   React.createContext<IFormatAggregatorContext>({
-    chartProps: allChartsDataAndSpecificProperties[
+    chartProps: allChartsDataAndSpecificProperties["primary"][
       "commonChartProps"
     ] as IChart,
     setChartProps: () => {},
@@ -25,27 +27,31 @@ const ChartFormatAggregatorContext =
 interface IChartFormatAggregatorContextProvider {
   children: React.ReactNode;
   reducer: ReducersType;
+  chartStory: TChartStory;
 }
-
-const visualyticsChartsWorkflowsSelector = createDeepEqualSelector(
-  (state: RootState) => state.visualyticsReducer.visualyticsChartsWorkflows,
-  (workflow) => workflow
-);
-
-const forecastChartsWorkflowsSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer.forecastChartsWorkflows,
-  (workflow) => workflow
-);
-
-const economicsChartsWorkflowsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.economicsChartsWorkflows,
-  (workflow) => workflow
-);
 
 const ChartFormatAggregatorContextProvider = ({
   children,
   reducer,
+  chartStory,
 }: IChartFormatAggregatorContextProvider) => {
+  const visualyticsChartsWorkflowsSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.visualyticsReducer.visualyticsChartsWorkflows[chartStory],
+    (workflow) => workflow
+  );
+
+  const forecastChartsWorkflowsSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.forecastReducer.forecastChartsWorkflows[chartStory],
+    (workflow) => workflow
+  );
+
+  const economicsChartsWorkflowsSelector = createDeepEqualSelector(
+    (state: RootState) =>
+      state.economicsReducer.economicsChartsWorkflows[chartStory],
+    (workflow) => workflow
+  );
   const { commonChartProps: visualyticsCommonChartProps } = useSelector(
     visualyticsChartsWorkflowsSelector
   );
@@ -70,7 +76,10 @@ const ChartFormatAggregatorContextProvider = ({
 
   return (
     <ChartFormatAggregatorContext.Provider
-      value={{ chartProps, setChartProps }}
+      value={{
+        chartProps,
+        setChartProps: React.useCallback(setChartProps, []),
+      }}
     >
       {children}
     </ChartFormatAggregatorContext.Provider>

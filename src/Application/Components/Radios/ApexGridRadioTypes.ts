@@ -16,4 +16,5 @@ export interface IApexRadioGroup {
   setSelectedVariable?: TUseState<string>;
   variableZOption?: IExtendedSelectOption;
   apexRadioGroupData: IExtendedSelectOption[];
+  isHorizontal?: boolean;
 }

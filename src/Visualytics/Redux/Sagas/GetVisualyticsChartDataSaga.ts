@@ -63,23 +63,34 @@ function* getVisualyticsChartDataSaga(
     selectedVisualyticsId,
     visualyticsCategoryDragItems,
     selectedVisualyticsChartOption,
+    selectedVisualyticsSecondaryChartOption,
   } = yield select((state) => state.visualyticsReducer);
 
   const chartType = selectedVisualyticsChartOption.value;
+  const secondaryChartType = selectedVisualyticsSecondaryChartOption.value;
 
   const config = {};
   const url = `${getBaseVisualyticsUrl()}/chartData`;
 
-  const columnNames = Object.values(
-    visualyticsCategoryDragItems as Record<string, Record<string, IDragItem>>
-  ).reduce((acc, row) => {
-    const dragItems = Object.values(row);
+  const visualyticsCategoryDragItemsDefined =
+    visualyticsCategoryDragItems as Record<string, Record<string, IDragItem>>;
 
-    return [...acc, ...dragItems.map((obj) => obj.name)];
-  }, [] as string[]);
+  const columnNames = Object.values(visualyticsCategoryDragItemsDefined).reduce(
+    (acc, row) => {
+      const dragItems = Object.values(row);
+
+      return [...acc, ...dragItems.map((obj) => obj.name)];
+    },
+    [] as string[]
+  );
+
+  const ids = Object.keys(visualyticsCategoryDragItemsDefined["X Category"]);
+  const xCatDrgItmName =
+    visualyticsCategoryDragItemsDefined["X Category"][ids[0]].name;
 
   const requestData = {
     chartType,
+    secondaryChartType,
     columnNames,
     visualyticsId: selectedVisualyticsId,
   };
@@ -99,6 +110,10 @@ function* getVisualyticsChartDataSaga(
       },
     } = result;
 
+    const xValueCategories = chartData.find(
+      (row: any) => row.name === xCatDrgItmName
+    )?.values;
+
     const successAction = getVisualyticsChartDataSuccessAction();
     yield put({
       ...successAction,
@@ -106,7 +121,10 @@ function* getVisualyticsChartDataSaga(
         reducer,
         workflowCategory,
         chartType,
+        secondaryChartType,
         chartData,
+        xValueCategories,
+        pipeline: "request",
       },
     });
   } catch (errors) {

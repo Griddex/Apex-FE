@@ -1,14 +1,14 @@
 import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import BaseButtons from "../../Application/Components/BaseButtons/BaseButtons";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { TChartStory } from "../Components/Charts/ChartTypes";
 import { getVisualyticsChartDataRequestAction } from "../Redux/Actions/VisualyticsActions";
-import { TSize } from "../../Application/Types/ApplicationTypes";
 
 const SelectChart = React.lazy(() => import("./SelectChart"));
 
@@ -19,7 +19,17 @@ const visualyticsVariableXOptionsSelector = createDeepEqualSelector(
   (load) => load
 );
 
-const VisualyticsSelectChart = ({ width, height }: TSize) => {
+export interface IVisualyticsSelectChart {
+  height: number;
+  width: number;
+  chartStory: TChartStory;
+}
+
+const VisualyticsSelectChart = ({
+  width,
+  height,
+  chartStory,
+}: IVisualyticsSelectChart) => {
   const reducer = "visualyticsReducer";
   const wc = "visualyticsChartsWorkflows";
 
@@ -45,7 +55,9 @@ const VisualyticsSelectChart = ({ width, height }: TSize) => {
         workflowCategory={wc}
         reducer={reducer}
         selectedChartOptionTitle="selectedVisualyticsChartOption"
+        selectedSecondaryChartOptionTitle="selectedVisualyticsSecondaryChartOption"
         indexBy={indexBy}
+        chartStory={chartStory}
       />
       <ApexFlexContainer
         justifyContent="space-evenly"

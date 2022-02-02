@@ -10,6 +10,7 @@ export interface IWorkflowBannerProps {
   moduleName?: string;
   subModuleName: string;
   workflowName?: string;
+  showChip?: boolean;
 }
 
 export interface IWorkflowDataProps extends IWorkflowProcessState {
@@ -42,6 +43,9 @@ export interface IInputWorkflows {
     | "forecastInputDeckDatabase"
     | "forecastInputDeckSaveAutogenerate"
     | "forecastInputDeckSaveManualgenerate"
+    | "forecastProfilesExcel"
+    | "forecastProfilesDatabase"
+    | "forecastProfilesStored"
     | "productionInputDataExcel"
     | "productionInputDataDatabase"
     | "economicsCostsRevenuesDeckExcel"
@@ -118,6 +122,7 @@ export interface IEconomicsWorkflows {
     | "economicsTemplateResultsData"
     | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
+    | "economicsRanking"
     | "economicsResultsStored";
   wkCy:
     | "economicsDataWorkflows"

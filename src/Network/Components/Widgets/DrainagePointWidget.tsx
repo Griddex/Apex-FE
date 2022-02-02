@@ -15,6 +15,7 @@ import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { ApexXYPosition } from "../../../Application/Types/ApplicationTypes";
 
 const DrainagePointWidget = ({ title, showTitle }: IWidget) => {
   const [open, setOpen] = React.useState(false);
@@ -88,7 +89,7 @@ const DrainagePointNode = React.memo((props: Node & IExtraNodeProps) => {
 
   const showTitle = useSelector(showTitleSelector);
 
-  const position: XYPosition = {
+  const position: ApexXYPosition = {
     x: xPos,
     y: yPos,
   };

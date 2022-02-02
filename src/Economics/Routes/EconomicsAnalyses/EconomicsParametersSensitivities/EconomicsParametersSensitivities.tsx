@@ -18,6 +18,7 @@ import {
   IEcoSelectedSensitivities,
   TParametersId,
 } from "../EconomicsAnalysesTypes";
+import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 
 const ParameterSensitivity = React.lazy(() => import("./ParameterSensitivity"));
 
@@ -50,8 +51,9 @@ const EconomicsParametersSensitivities = ({
   const { ecoParAppHeadersSelectOptions, createSensitivitiesIsDialog } =
     useSelector(economicsSelector);
 
-  const ePAppHeaderSelectOptions =
-    ecoParAppHeadersSelectOptions as ISelectOption[];
+  const ePAppHeaderSelectOptions = (
+    ecoParAppHeadersSelectOptions as ISelectOption[]
+  ).filter((o) => o.value !== "mulitpleAnalyses");
 
   let analysisNameOptions = [] as ISelectOption[];
 
@@ -93,82 +95,96 @@ const EconomicsParametersSensitivities = ({
     React.useState(initialSensitivitiesObj);
 
   return (
-    <ApexFlexContainer
-      flexDirection="column"
-      justifyContent="space-around"
-      height={700}
-      moreStyles={borderStyles}
-    >
-      <AnalyticsComp
-        title="Target Variable"
-        direction="Vertical"
-        containerStyle={{ width: 250 }}
-        content={
-          <ApexSelectRS
-            valueOption={targetOption}
-            data={analysisNameOptions}
-            handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
-              const optionDefined = option as ISelectOption;
-              setTargetOption(optionDefined);
-
-              dispatch(
-                updateEconomicsParameterAction(
-                  "selectedAnalysis",
-                  optionDefined
-                )
-              );
-            }}
-            menuPortalTarget={document.body}
-            isSelectOptionType={true}
-            containerHeight={40}
-          />
-        }
-      />
-
+    <ApexFlexContainer flexDirection="column">
+      {!createSensitivitiesIsDialog && (
+        <WorkflowBanner
+          activeStep={0}
+          steps={["Economics Parameters Sensitivities"]}
+          subModuleName="Create Sensitivities"
+          showChip={false}
+        />
+      )}
       <ApexFlexContainer
-        width={"90%"}
-        height={500}
         flexDirection="column"
         justifyContent="space-around"
+        height={700}
+        moreStyles={borderStyles}
       >
-        {Object.keys(initialSensitivitiesObj).map((p: any, i) => {
-          return (
-            <ParameterSensitivity
-              key={i}
-              parIndex={i}
-              parId={p}
-              parameterSensitivitiesObj={parameterSensitivitiesObj}
-              setParameterSensitivitiesObj={setParameterSensitivitiesObj}
+        <AnalyticsComp
+          title="Target Variable"
+          direction="Vertical"
+          containerStyle={{ width: 250 }}
+          content={
+            <ApexSelectRS
+              valueOption={targetOption}
+              data={analysisNameOptions}
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+                const optionDefined = option as ISelectOption;
+                setTargetOption(optionDefined);
+
+                dispatch(
+                  updateEconomicsParameterAction(
+                    "selectedAnalysis",
+                    optionDefined
+                  )
+                );
+              }}
+              menuPortalTarget={document.body}
+              isSelectOptionType={true}
+              containerHeight={40}
             />
-          );
-        })}
-      </ApexFlexContainer>
-      <ApexFlexContainer justifyContent="space-between" height={50} width={200}>
-        {!createSensitivitiesIsDialog && (
-          <ApexFlexContainer
-            justifyContent="space-between"
-            height={50}
-            moreStyles={{ marginBottom: 4, width: 270 }}
-          >
-            <BaseButtons
-              buttonTexts={["Reset", "Save"]}
-              variants={["contained", "contained"]}
-              colors={["secondary", "primary"]}
-              startIcons={[
-                <RotateLeftOutlinedIcon key={1} />,
-                <SaveOutlinedIcon key={2} />,
-              ]}
-              shouldExecute={[true, true]}
-              shouldDispatch={[false, false]}
-              finalActions={[
-                () => setParameterSensitivitiesObj(initialSensitivitiesObj),
-                finalAction as NonNullable<
-                  IEconomicsParametersSensitivitiesProps["finalAction"]
-                >,
-              ]}
-            />
-          </ApexFlexContainer>
-        )}
+          }
+        />
+
+        <ApexFlexContainer
+          width={"90%"}
+          height={500}
+          flexDirection="column"
+          justifyContent="space-around"
+        >
+          {Object.keys(initialSensitivitiesObj).map((p: any, i) => {
+            return (
+              <ParameterSensitivity
+                key={i}
+                parIndex={i}
+                parId={p}
+                parameterSensitivitiesObj={parameterSensitivitiesObj}
+                setParameterSensitivitiesObj={setParameterSensitivitiesObj}
+              />
+            );
+          })}
+        </ApexFlexContainer>
+        <ApexFlexContainer
+          justifyContent="space-between"
+          height={50}
+          width={200}
+        >
+          {!createSensitivitiesIsDialog && (
+            <ApexFlexContainer
+              justifyContent="space-between"
+              height={50}
+              moreStyles={{ marginBottom: 4, width: 270 }}
+            >
+              <BaseButtons
+                buttonTexts={["Reset", "Save"]}
+                variants={["contained", "contained"]}
+                colors={["secondary", "primary"]}
+                startIcons={[
+                  <RotateLeftOutlinedIcon key={1} />,
+                  <SaveOutlinedIcon key={2} />,
+                ]}
+                shouldExecute={[true, true]}
+                shouldDispatch={[false, false]}
+                finalActions={[
+                  () => setParameterSensitivitiesObj(initialSensitivitiesObj),
+                  finalAction as NonNullable<
+                    IEconomicsParametersSensitivitiesProps["finalAction"]
+                  >,
+                ]}
+              />
+            </ApexFlexContainer>
+          )}
+        </ApexFlexContainer>
       </ApexFlexContainer>
     </ApexFlexContainer>
   );

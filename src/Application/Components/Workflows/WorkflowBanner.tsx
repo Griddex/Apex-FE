@@ -3,7 +3,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   workflowHeaderRow: {
     display: "flex",
     justifyContent: "flex-start",
@@ -23,6 +23,7 @@ const WorkflowBanner = ({
   activeStep,
   steps,
   subModuleName,
+  showChip,
 }: IWorkflowBannerProps) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -41,16 +42,18 @@ const WorkflowBanner = ({
           variant="subtitle1"
           style={{ color: theme.palette.grey[700], letterSpacing: 1.2 }}
         >{`${steps[activeStep]} `}</Typography>
-        <Chip
-          style={{
-            marginLeft: 5,
-            border: `1px solid ${theme.palette.primary.main}`,
-            backgroundColor: theme.palette.primary.light,
-            minWidth: 50,
-          }}
-          size="small"
-          label={`${activeStep + 1} | ${steps.length}`}
-        />
+        {showChip && (
+          <Chip
+            style={{
+              marginLeft: 5,
+              border: `1px solid ${theme.palette.primary.main}`,
+              backgroundColor: theme.palette.primary.light,
+              minWidth: 50,
+            }}
+            size="small"
+            label={`${activeStep + 1} | ${steps.length}`}
+          />
+        )}
       </Box>
     </Container>
   );

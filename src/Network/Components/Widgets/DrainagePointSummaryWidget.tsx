@@ -22,6 +22,7 @@ import {
   handleStyle,
 } from "./WidgetStyles";
 import { IExtraNodeProps, IWidget } from "./WidgetTypes";
+import { ApexXYPosition } from "../../../Application/Types/ApplicationTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -126,7 +127,7 @@ const DrainagePointSummaryNode = React.memo((props: Node & IExtraNodeProps) => {
     data: { drainagePoints },
   } = props;
 
-  const position: XYPosition = {
+  const position: ApexXYPosition = {
     x: xPos,
     y: yPos,
   };

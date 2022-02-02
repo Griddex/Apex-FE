@@ -1,9 +1,8 @@
-import { useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import zipObject from "lodash.zipobject";
 import React from "react";
 import isEqual from "react-fast-compare";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import ExcelExportTable, {
@@ -13,9 +12,7 @@ import ExcelExportTable, {
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { hideSpinnerAction } from "../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import generateDoughnutAnalyticsData from "../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
@@ -23,6 +20,7 @@ import ForecastAggregationLevelButtonsMenu from "../Components/Menus/ForecastAgg
 import ForecastAggregationTypeButtonsMenu from "../Components/Menus/ForecastAggregationTypeButtonsMenu";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import { IStoredForecastResultsRow } from "../Redux/ForecastState/ForecastStateTypes";
+import { forecastVariablesMap } from "../Utils/ForecastVariables";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -57,20 +55,9 @@ const qualityAssuranceResultsSelector = createDeepEqualSelector(
 
 export default function ForecastQualityAssuranceData({
   showChart,
-  showBaseButtons,
-  collectionName,
 }: IStoredDataProps) {
-  const reducer = "forecastReducer";
-  const mainUrl = `${getBaseForecastUrl()}`;
-
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const theme = useTheme();
-
   const componentRef = React.useRef();
-
-  const wc = "storedDataWorkflows";
-  const wp = "forecastResultsQualityAssurance";
 
   const qualityAssuranceResults = useSelector(qualityAssuranceResultsSelector);
 
@@ -79,13 +66,30 @@ export default function ForecastQualityAssuranceData({
   );
 
   let columnKeys = ["SN"];
-  if (qualityAssuranceResults.length > 0)
+  let forecastVariableTitle: string;
+  if (qualityAssuranceResults.length > 0) {
     columnKeys = Object.keys(qualityAssuranceResults[0]).map((v) =>
       v.toUpperCase()
     );
-  const rows = qualityAssuranceResults.map((row) =>
-    zipObject(columnKeys, Object.values(row) as string[])
-  );
+
+    const qualityAssuranceResultsFirstRow = qualityAssuranceResults[0];
+    const forecastVariableKey = Object.keys(
+      qualityAssuranceResultsFirstRow
+    ).find((k) => k.toLowerCase() === "variable") as string;
+
+    const forecastVariableName =
+      qualityAssuranceResultsFirstRow[forecastVariableKey];
+    forecastVariableTitle = Object.keys(forecastVariablesMap).find(
+      (k) =>
+        forecastVariablesMap[k].toLowerCase() ===
+        forecastVariableName.toLowerCase()
+    ) as string;
+  }
+
+  const rows = qualityAssuranceResults.map((row) => {
+    const updatedRow = { ...row, Variable: forecastVariableTitle };
+    return zipObject(columnKeys, Object.values(updatedRow) as string[]);
+  });
 
   const columns = columnKeys.map((k) => {
     const column = {

@@ -123,6 +123,7 @@ const VisualyticsDatabaseWorkflow = ({
     moduleName,
     subModuleName,
     workflowName,
+    showChip: true,
   };
 
   const VerticalWorkflowStepperProps = {

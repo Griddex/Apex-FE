@@ -7,6 +7,7 @@ import {
   ForkEffect,
   put,
   PutEffect,
+  select,
   SelectEffect,
   takeLeading,
 } from "redux-saga/effects";
@@ -22,7 +23,10 @@ import {
   UPDATE_DATABYID_REQUEST,
 } from "../Actions/ApplicationActions";
 import { showDialogAction } from "../Actions/DialogsAction";
-import { hideSpinnerAction } from "../Actions/UISpinnerActions";
+import {
+  hideSpinnerAction,
+  showSpinnerAction,
+} from "../Actions/UISpinnerActions";
 
 export default function* watchUpdateDataByIdSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -47,10 +51,13 @@ function* updateDataByIdSaga(action: IAction): Generator<
   const { reducer, updateDataUrl, titleDesc, fetchStoredRequestAction } =
     payload;
 
+  const { currentProjectId } = yield select((state) => state.projectReducer);
+
   const { title, description } = titleDesc;
   const data = {
     title,
     description,
+    projectId: currentProjectId,
   };
 
   const config = { withCredentials: false };
@@ -58,6 +65,8 @@ function* updateDataByIdSaga(action: IAction): Generator<
     authService.updateData(url, data, config);
 
   try {
+    yield put(showSpinnerAction("Updating..."));
+
     const updateResults = yield call(updateDataByIdAPI, updateDataUrl);
     const {
       data: { success: updateSuccess },

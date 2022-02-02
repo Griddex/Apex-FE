@@ -296,12 +296,12 @@ const SensitivitiesHeatMapDataPanel = ({
     disableCollection = [true, true, true];
   } else if (
     heatMapTreeByScenario &&
-    heatMapTreeByScenario?.children?.length === 1
+    heatMapTreeByScenario?.children[0]?.children?.length === 1
   ) {
     disableCollection = [false, true, true];
   } else if (
     heatMapTreeByScenario &&
-    heatMapTreeByScenario?.children?.length === 2
+    heatMapTreeByScenario?.children[0]?.children?.length === 2
   ) {
     disableCollection = [false, false, true];
   } else {

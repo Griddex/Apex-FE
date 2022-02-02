@@ -250,7 +250,7 @@ export default function ForecastData({
       },
       {
         // key: "projectname",
-        key: "Project Name",
+        key: "Project",
         name: "PROJECT NAME",
         editable: false,
         resizable: true,

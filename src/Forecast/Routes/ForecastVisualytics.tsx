@@ -1,37 +1,35 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import makeStyles from "@mui/styles/makeStyles";
+import { Resizable } from "re-resizable";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
+import { useDispatch, useSelector } from "react-redux";
+import { SizeMe } from "react-sizeme";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import IconButtonWithTooltip from "../../Application/Components/IconButtons/IconButtonWithTooltip";
-import { showContextDrawerAction } from "../../Application/Redux/Actions/LayoutActions";
+import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
+import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
+import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
 import ChartButtons from "../../Visualytics/Components/Menus/ChartButtons";
 import { IChartButtonsProps } from "../../Visualytics/Components/Menus/ChartButtonsTypes";
 import ChartSelectionMenu from "../../Visualytics/Components/Menus/ChartSelectionMenu";
 import { putSelectChartOptionAction } from "../../Visualytics/Redux/Actions/VisualyticsActions";
+import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
+import ForecastSelectChart from "../Common/ForecastSelectChart";
 import ForecastVariableButtonsMenu from "../Components/Menus/ForecastVariableButtonsMenu";
 import ForecastChartTitlePlaque from "../Components/TitlePlaques/ForecastChartTitlePlaque";
 import { forecastPlotChartsOptions } from "../Data/ForecastData";
 import {
-  removeCurrentForecastAction,
   updateForecastResultsParameterAction,
   updateForecastResultsParametersAction,
 } from "../Redux/Actions/ForecastActions";
 import { ISelectOption } from "./../../Application/Components/Selects/SelectItemsType";
-import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";
-import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
-import ForecastChartDataPanel from "../Common/ForecastChartDataPanel";
-import ForecastSelectChart from "../Common/ForecastSelectChart";
-import { SizeMe } from "react-sizeme";
-import RotateLeftOutlinedIcon from "@mui/icons-material/RotateLeftOutlined";
-import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFF",
     border: `1px solid ${theme.palette.grey[200]}`,
     maxWidth: "90%",
+    overflow: "auto",
   },
   plotChart: {
     height: "100%",
@@ -106,7 +105,7 @@ const wc = "forecastChartsWorkflows";
 const ch = "stackedAreaChart";
 
 const chartSelector = createDeepEqualSelector(
-  (state: RootState) => state.forecastReducer[wc][ch]["chartData"],
+  (state: RootState) => state.forecastReducer[wc]["primary"][ch]["chartData"],
   (chart) => chart
 );
 
@@ -139,6 +138,9 @@ const ForecastVisualytics = () => {
     extraButtons: () => (
       <div style={{ display: "flex" }}>
         <ChartSelectionMenu
+          reducer={reducer}
+          chartStory="primary"
+          secondaryChartStory="secondary"
           chartOptions={forecastPlotChartsOptions}
           initialChartIndex={1}
           putChartOptionAction={
@@ -235,16 +237,20 @@ const ForecastVisualytics = () => {
 
   const basePath = `${wc}.commonChartProps`;
 
-  React.useEffect(() => {
-    dispatch(showContextDrawerAction());
-  }, [dispatch]);
-
   return (
     <div className={classes.root}>
       <div className={classes.chartBody}>
-        <div className={classes.chartPanel}>
+        {/* <div className={classes.chartPanel}> */}
+        <Resizable
+          // style={style}
+          defaultSize={{
+            width: 300,
+            height: "100%",
+          }}
+        >
           <ForecastChartDataPanel />
-        </div>
+        </Resizable>
+        {/* </div> */}
         {isForecastResultsLoading ? (
           <div>Forecast results loading</div>
         ) : (
@@ -263,12 +269,7 @@ const ForecastVisualytics = () => {
 
             <SizeMe monitorHeight refreshRate={32}>
               {({ size }) => {
-                return chartType === "Select Chart..." ? (
-                  <NoSelectionPlaceholder
-                    icon={<ArrowUpwardOutlinedIcon color="primary" />}
-                    text="Select chart.."
-                  />
-                ) : (
+                return chartType !== "Select Chart..." ? (
                   <div className={classes.plotChart}>
                     <ForecastSelectChart
                       width={size.width as number}
@@ -276,6 +277,11 @@ const ForecastVisualytics = () => {
                       indexBy={"Year"}
                     />
                   </div>
+                ) : (
+                  <NoSelectionPlaceholder
+                    icon={<ArrowUpwardOutlinedIcon color="primary" />}
+                    text="Select chart.."
+                  />
                 );
               }}
             </SizeMe>

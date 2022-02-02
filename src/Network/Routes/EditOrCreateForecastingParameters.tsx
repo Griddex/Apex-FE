@@ -1,7 +1,7 @@
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import HourglassFullTwoToneIcon from "@mui/icons-material/HourglassFullTwoTone";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import { Button, TextField } from "@mui/material";
+import { Button, Input, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
@@ -62,6 +62,7 @@ export interface IEditOrCreateForecastingParameters {
   workflowProcess?: TAllWorkflowProcesses;
   activeStep?: number;
   forecastParametersIndex?: number;
+  setNextDisableds?: TUseState<Record<number, boolean>>;
 }
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -101,6 +102,8 @@ const EditOrCreateForecastingParameters = ({
   currentRow,
   setCurrentRow,
   workflowProcess,
+  activeStep,
+  setNextDisableds,
 }: IEditOrCreateForecastingParameters) => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -311,13 +314,31 @@ const EditOrCreateForecastingParameters = ({
     />
   );
 
+  const startForecastDate = new Date(formEditorRow["startForecast"]);
+  const endForecastDate = new Date(formEditorRow["endForecast"]);
+  const forecastDuration =
+    (endForecastDate.getTime() - startForecastDate.getTime()) /
+    (1000 * 60 * 60 * 24 * 365.24);
+
   React.useEffect(() => {
     setCurrentRow && setCurrentRow(formEditorRow);
   }, [formEditorRow]);
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParameters.tsx ~ line 316 ~ formEditorRow",
-    formEditorRow
-  );
+
+  React.useEffect(() => {
+    if (forecastDuration < 0) {
+      setNextDisableds &&
+        setNextDisableds((prev) => ({
+          ...prev,
+          [activeStep as number]: true,
+        }));
+    } else {
+      setNextDisableds &&
+        setNextDisableds((prev) => ({
+          ...prev,
+          [activeStep as number]: false,
+        }));
+    }
+  }, [forecastDuration]);
 
   return (
     <div className={classes.root}>
@@ -445,7 +466,7 @@ const EditOrCreateForecastingParameters = ({
               //User should have ability to change position
               //of day, month and year
               inputFormat={currentDateFormat}
-              value={new Date(formEditorRow["startForecast"])}
+              value={startForecastDate}
               onChange={() => {}}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -460,7 +481,7 @@ const EditOrCreateForecastingParameters = ({
               //User should have ability to change position
               //of day, month and year
               inputFormat={currentDateFormat}
-              value={new Date(formEditorRow["endForecast"])}
+              value={endForecastDate}
               onChange={(date: unknown) => {
                 setFormEditorRow((prev: any) => ({
                   ...prev,
@@ -471,6 +492,31 @@ const EditOrCreateForecastingParameters = ({
               minDate={new Date(formEditorRow["startForecast"])}
               renderInput={(params) => <TextField {...params} />}
             />
+          }
+        />
+        <AnalyticsComp
+          title="Forecast Duration (years)"
+          direction="Vertical"
+          content={
+            <>
+              <Input
+                name="forecastDuration"
+                style={{ backgroundColor: theme.palette.grey["200"] }}
+                value={forecastDuration.toFixed(0)}
+                error={forecastDuration < 0}
+                disabled
+                required
+                fullWidth
+              />
+              {forecastDuration < 0 && (
+                <Typography
+                  variant="subtitle2"
+                  style={{ color: theme.palette.secondary.main }}
+                >
+                  {"Duration cannot be negative"}
+                </Typography>
+              )}
+            </>
           }
         />
       </ApexFlexContainer>
