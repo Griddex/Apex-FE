@@ -14,6 +14,11 @@ import {
 } from "./../../Redux/Actions/EconomicsActions";
 import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import { economicsAnalysesData } from "./EconomicsAnalyses";
+import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 
 const EconomicsAnalysesWorkflow = React.lazy(
   () => import("./../EconomicsWorkflows/EconomicsAnalysesWorkflow")
@@ -26,6 +31,7 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
     justifyContent: "center",
     width: "100%",
+    height: "100%",
     "& > *": {
       height: 200,
       width: 185,
@@ -58,56 +64,83 @@ const EconomicsAnalysesLanding = () => {
     loadEconomicsAnalysesWorkflowSelector
   );
 
+  const [selectedAnalysisNames, setSelectedAnalysisNames] = React.useState(
+    [] as string[]
+  );
+
+  const clearEconomicsAnalysisStore = () => {
+    dispatch(
+      updateEconomicsParametersAction({
+        loadEconomicsAnalysesWorkflow: true,
+        heatMapVariableXOptions: {},
+        heatMapVariableYOptions: {},
+        heatMapVariableZOptions: {},
+        heatMapTreeByScenario: { id: "", name: "" },
+        sensitivitiesHeatMapTree: { id: "", name: "" },
+        sensitivitiesHeatMapData: {},
+        sensitivitiesHeatMap1or2D: [],
+      })
+    );
+    dispatch(
+      updateEconomicsParameterAction(
+        "economicsAnalysisWorkflows.showSensitivitiesTable",
+        false
+      )
+    );
+    dispatch(
+      updateEconomicsParameterAction(
+        "economicsAnalysisWorkflows.sensitivitiesTable",
+        []
+      )
+    );
+    dispatch(
+      updateEconomicsParameterAction(
+        "economicsAnalysisWorkflows.sensitivitiesTableTitle",
+        ""
+      )
+    );
+  };
+
   const analysesButtons = economicsAnalysesData.map(
     (analysisObj: IEconomicsAnalysis) => {
       const { name, title, icon } = analysisObj;
 
-      const styledIcon = React.cloneElement(icon, {
-        fontSize: "default",
-        color: "primary",
-      });
-
       return {
+        name,
         title,
         icon,
         color: "primary",
         variant: "contained",
         handleAction: () => {
-          dispatch(
-            updateEconomicsParametersAction({
-              loadEconomicsAnalysesWorkflow: true,
-              selectedAnalysesNames: [name],
-              heatMapVariableXOptions: {},
-              heatMapVariableYOptions: {},
-              heatMapVariableZOptions: {},
-              heatMapTreeByScenario: { id: "", name: "" },
-              sensitivitiesHeatMapTree: { id: "", name: "" },
-              sensitivitiesHeatMapData: {},
-              sensitivitiesHeatMap1or2D: [],
-            })
-          );
-          dispatch(
-            updateEconomicsParameterAction(
-              "economicsAnalysisWorkflows.showSensitivitiesTable",
-              false
-            )
-          );
-          dispatch(
-            updateEconomicsParameterAction(
-              "economicsAnalysisWorkflows.sensitivitiesTable",
-              []
-            )
-          );
-          dispatch(
-            updateEconomicsParameterAction(
-              "economicsAnalysisWorkflows.sensitivitiesTableTitle",
-              ""
-            )
-          );
+          setSelectedAnalysisNames((prev) => {
+            const newNames = [...prev];
+
+            if (newNames.includes(name)) {
+              const nameIndex = newNames.findIndex(
+                (n) => n.toLowerCase() === name.toLowerCase()
+              );
+              newNames.splice(nameIndex, 1);
+
+              return newNames;
+            } else {
+              return newNames.concat(name);
+            }
+          });
         },
       };
     }
   );
+
+  const disabled = selectedAnalysisNames.length === 0;
+
+  React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        "selectedAnalysesNames",
+        selectedAnalysisNames
+      )
+    );
+  }, [selectedAnalysisNames.length]);
 
   return (
     <>
@@ -124,19 +157,48 @@ const EconomicsAnalysesLanding = () => {
           </Route>
         </div>
       ) : (
-        <div className={classes.rootAnalysesButtons}>
-          {analysesButtons.map((button) => {
-            const { icon, handleAction, title } = button;
+        <div>
+          <div className={classes.rootAnalysesButtons}>
+            {analysesButtons.map((button) => {
+              const { icon, handleAction, title, name } = button;
 
-            return (
-              <MiniCard
-                key={title}
-                title={title as IMiniCardProps["title"]}
-                icon={icon as IMiniCardProps["icon"]}
-                moduleAction={handleAction as IMiniCardProps["moduleAction"]}
-              />
-            );
-          })}
+              return (
+                <MiniCard
+                  key={title}
+                  name={name as IMiniCardProps["name"]}
+                  title={title as IMiniCardProps["title"]}
+                  icon={icon as IMiniCardProps["icon"]}
+                  moduleAction={handleAction as IMiniCardProps["moduleAction"]}
+                  selected={selectedAnalysisNames}
+                />
+              );
+            })}
+          </div>
+          <ApexFlexContainer
+            justifyContent="center"
+            alignItems="center"
+            height={50}
+            moreStyles={{ marginBottom: 4, width: 270 }}
+          >
+            <BaseButtons
+              buttonTexts={["Reset", "Analysis"]}
+              variants={["contained", "contained"]}
+              colors={["secondary", "primary"]}
+              startIcons={[
+                <RotateLeftIcon key={1} />,
+                <AirplayOutlinedIcon key={2} />,
+              ]}
+              disableds={[false, disabled]}
+              shouldExecute={[true, true]}
+              shouldDispatch={[false, false]}
+              finalActions={[
+                () => setSelectedAnalysisNames([]),
+                () => {
+                  clearEconomicsAnalysisStore();
+                },
+              ]}
+            />
+          </ApexFlexContainer>
         </div>
       )}
     </>

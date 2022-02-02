@@ -63,7 +63,7 @@ function* putSelectChartOptionSaga(
       });
     else if (reducer === "economicsReducer")
       yield put({
-        ...transformEconomicsChartDataAction(reducer),
+        ...transformEconomicsChartDataAction(reducer, chartStory, "put"),
         payload,
       });
   }

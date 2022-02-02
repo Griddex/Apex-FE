@@ -96,12 +96,14 @@ const EconomicsParametersSensitivities = ({
 
   return (
     <ApexFlexContainer flexDirection="column">
-      <WorkflowBanner
-        activeStep={0}
-        steps={["Economics Parameters Sensitivities"]}
-        subModuleName="Create Sensitivities"
-        showChip={false}
-      />
+      {!createSensitivitiesIsDialog && (
+        <WorkflowBanner
+          activeStep={0}
+          steps={["Economics Parameters Sensitivities"]}
+          subModuleName="Create Sensitivities"
+          showChip={false}
+        />
+      )}
       <ApexFlexContainer
         flexDirection="column"
         justifyContent="space-around"

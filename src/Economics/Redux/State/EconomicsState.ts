@@ -321,6 +321,11 @@ const EconomicsState: IEconomicsState = {
   //Template Results
   economicsTemplatesTree: { id: "", name: "" },
 
+  //Economics Ranking
+  economicsRanking: [],
+  sensitivitiesTable: [],
+
+  //Economics Analyses
   resultsAnalyisOptions: [],
 
   forecastEconomicsAggregated: {

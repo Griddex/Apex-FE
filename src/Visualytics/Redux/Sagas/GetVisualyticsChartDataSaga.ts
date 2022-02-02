@@ -113,10 +113,6 @@ function* getVisualyticsChartDataSaga(
     const xValueCategories = chartData.find(
       (row: any) => row.name === xCatDrgItmName
     )?.values;
-    console.log(
-      "🚀 ~ file: GetVisualyticsChartDataSaga.ts ~ line 116 ~ xValueCategories",
-      xValueCategories
-    );
 
     const successAction = getVisualyticsChartDataSuccessAction();
     yield put({

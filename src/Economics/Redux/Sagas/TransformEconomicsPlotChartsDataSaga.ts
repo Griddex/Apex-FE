@@ -13,6 +13,7 @@ import {
 import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
+import { IDragItem } from "../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import { TChartTypes } from "../../../Visualytics/Components/Charts/ChartTypes";
 import { visualyticsChartDataTransformersObj } from "../../../Visualytics/Data/VisualyticsData";
 import {
@@ -65,15 +66,24 @@ function* transformEconomicsChartDataSaga(
   if (chartData) data = chartData;
   else data = plotChartsResults;
 
+  const plotChartsCategoryDragItemsDefined =
+    plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
+
   try {
     if (pipeline === "request") {
-      const xCategoryName = plotChartsCategoryDragItems["X Category"][0].name;
-      const yCategoryNames = plotChartsCategoryDragItems["Y Category"].map(
-        (o: any) => o.name
+      const xCategoryName = Object.values(
+        plotChartsCategoryDragItemsDefined["X Category"]
+      )[0].name;
+      console.log(
+        "🚀 ~ file: TransformEconomicsPlotChartsDataSaga.ts ~ line 79 ~ xCategoryName",
+        xCategoryName
       );
-      const ySecondaryCategoryNames = plotChartsCategoryDragItems[
-        "Y Secondary Category"
-      ].map((o: any) => o.name);
+      const yCategoryNames = Object.values(
+        plotChartsCategoryDragItemsDefined["Y Category"]
+      ).map((o: any) => o.name);
+      const ySecondaryCategoryNames = Object.values(
+        plotChartsCategoryDragItemsDefined["Y Secondary Category"]
+      ).map((o: any) => o.name);
 
       if (xCategoryName && yCategoryNames.length > 0) {
         const transformedChartDataFxn =
@@ -81,7 +91,7 @@ function* transformEconomicsChartDataSaga(
 
         const transformedChartData = transformedChartDataFxn({
           data,
-          categoryDragItems: plotChartsCategoryDragItems,
+          categoryDragItems: plotChartsCategoryDragItemsDefined,
           chartStory: "primary",
           lineOrScatter,
           collateBy,
@@ -110,7 +120,7 @@ function* transformEconomicsChartDataSaga(
 
         const transformedChartData = transformedChartDataFxn({
           data,
-          categoryDragItems: plotChartsCategoryDragItems,
+          categoryDragItems: plotChartsCategoryDragItemsDefined,
           chartStory: "secondary",
           lineOrScatter,
           collateBy,
@@ -136,7 +146,7 @@ function* transformEconomicsChartDataSaga(
 
       const transformedChartData = transformedChartDataFxn({
         data,
-        categoryDragItems: plotChartsCategoryDragItems,
+        categoryDragItems: plotChartsCategoryDragItemsDefined,
         chartStory,
         lineOrScatter,
         collateBy,

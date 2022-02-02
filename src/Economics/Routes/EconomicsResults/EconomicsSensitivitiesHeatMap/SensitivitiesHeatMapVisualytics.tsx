@@ -70,7 +70,7 @@ const heatMapVariableZOptionsSelector = createDeepEqualSelector(
 const SensitivitiesHeatMapVisualytics = () => {
   const reducer = "economicsReducer";
   const wc = "economicsChartsWorkflows";
-  const basePath = `${wc}.commonChartProps`;
+  const basePath = `${wc}.primary.commonChartProps`;
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -120,7 +120,6 @@ const SensitivitiesHeatMapVisualytics = () => {
     <div className={classes.root}>
       <div className={classes.chartBody}>
         <Resizable
-          // style={style}
           defaultSize={{
             width: 300,
             height: "100%",

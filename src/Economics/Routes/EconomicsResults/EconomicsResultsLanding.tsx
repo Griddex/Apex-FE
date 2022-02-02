@@ -1,6 +1,7 @@
 import { Badge, BadgeProps } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Route,
@@ -8,20 +9,20 @@ import {
   Switch,
   useRouteMatch,
 } from "react-router-dom";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import BadgeComingSoon from "../../../Application/Components/Badges/BadgeComingSoon";
 import ModuleCard from "../../../Application/Components/Cards/ModuleCard";
 import Image from "../../../Application/Components/Visuals/Image";
-import Spreadsheet from "../../../Application/Images/Spreadsheet.svg";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import VisualyticsCharts from "../../../Economics/Images/VisualyticsCharts.svg";
 import StoredDeck from "../../../Import/Images/StoredDeck.svg";
+import EconomicsRank from "../../Images/EconomicsRank.svg";
 import HeatMap from "../../Images/HeatMap.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
+import EconomicsRanking from "./EconomicsRanking/EconomicsRanking";
 import { IdType } from "./EconomicsResultsTypes";
 import StoredEconomicsResults from "./StoredEconomicsResults";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const SensitivitiesHeatMapVisualytics = React.lazy(
   () =>
@@ -113,6 +114,16 @@ const EconomicsResultsLanding = () => {
       workflowCategory: "storedDataWorkflows",
     },
     {
+      name: "Economics Ranking",
+      description: `View key economic indicators as defined by parameter sensitivities`,
+      icon: (
+        <Image className={classes.image} src={EconomicsRank} alt="Chart Logo" />
+      ),
+      route: `${url}/economicsRanking`,
+      workflowProcess: "economicsRanking",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
       name: `Stored Economics Results`,
       description: `Select a pre-exisiting and approved economics results data stored in the Apex\u2122 database`,
       icon: (
@@ -154,6 +165,7 @@ const EconomicsResultsLanding = () => {
                   templateResults: <EconomicsTemplateVisualytics />,
                   plotchartsTables: <EconomicsPlotChartsVisualytics />,
                   sensitivitiesHeatmap: <SensitivitiesHeatMapVisualytics />,
+                  economicsRanking: <EconomicsRanking />,
                   storedResults: (
                     <StoredEconomicsResults
                       reducer={"economicsReducer"}

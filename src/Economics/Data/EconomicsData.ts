@@ -193,6 +193,17 @@ const EconomicsAnalysesTitles = [
   "Multiple Analyses",
 ];
 
+export const economicsAnalysisNamesAbbrMap = {
+  netcashFlow: "ncf",
+  payout: "payout",
+  minimumCapitalRatio: "mcr",
+  netPresentValue: "npv",
+  presentValueRatio: "pvr",
+  unitTechnicalCost: "utc",
+  internalRateOfReturn: "irr",
+  mulitpleAnalyses: "mpa",
+};
+
 export const economicsAnalysesNameTitlesObj = zipObject(
   EconomicsAnalysesNames,
   EconomicsAnalysesTitles

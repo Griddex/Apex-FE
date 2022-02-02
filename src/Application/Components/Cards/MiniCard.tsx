@@ -1,5 +1,5 @@
 import CardActionArea from "@mui/material/CardActionArea";
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { IAction } from "../../Redux/Actions/ActionTypes";
@@ -12,15 +12,21 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   cardActionArea: (props: IMiniCardProps) => {
-    const { cardWidth } = props;
+    const { cardWidth, selected, name } = props;
     const cw = cardWidth ? cardWidth : 150;
+
+    const highlighted = selected?.includes(name as string);
 
     return {
       width: cw,
       height: cw * 1.3,
       cursor: "pointer ",
-      border: `1px solid ${theme.palette.primary.main}`,
-      backgroundColor: theme.palette.primary.light,
+      border: highlighted
+        ? `1px solid ${theme.palette.primary.main}`
+        : `1px solid ${theme.palette.grey["400"]}`,
+      backgroundColor: highlighted
+        ? theme.palette.primary.light
+        : theme.palette.grey["200"],
     };
   },
   title: {
@@ -41,11 +47,13 @@ const useStyles = makeStyles((theme) => ({
 
 export interface IMiniCardProps {
   icon: JSX.Element;
+  name?: string;
   title: string;
   moduleAction: () => IAction | void;
   cardWidth?: number;
   wP?: TAllWorkflowProcesses | IStoredDataProps["wkPs"];
   wC?: TAllWorkflowCategories | IStoredDataProps["wkCy"];
+  selected?: string[];
 }
 
 const MiniCard: React.FC<IMiniCardProps> = (props) => {

@@ -32,6 +32,13 @@ export type TEconomicsAnalysesTitles =
   | "Internal Rate of Return"
   | "Multiple Analyses";
 
+export type TEconomicsAnalysesNamesAbbr =
+  | "irr"
+  | "mcr"
+  | "npv"
+  | "payout"
+  | "utc";
+
 export type TParametersId = "Parameter 1" | "Parameter 2" | "Parameter 3";
 
 export interface IEcoSelectedSensitivities {

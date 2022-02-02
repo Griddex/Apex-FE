@@ -25,6 +25,10 @@ const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
   (data) => data
 );
+const sensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.sensitivitiesTable,
+  (data) => data
+);
 
 export interface IEconomicsSensitivitiesHeatMap {
   sensitivitiesHeatMap1or2D: any[];
@@ -37,8 +41,14 @@ const EconomicsSensitivitiesHeatMap = () => {
   const heatMapVariableXOptions = useSelector(heatMapVariableXOptionsSelector);
   const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
+  const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
 
-  const noOfSensitivities = heatMapTreeByScenario?.children?.length;
+  console.log(
+    "🚀 ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 40 ~ EconomicsSensitivitiesHeatMap ~ heatMapTreeByScenario",
+    heatMapTreeByScenario
+  );
+
+  const noOfSensitivities = sensitivitiesTable.length;
 
   const keys = Object?.keys(sensitivitiesHeatMap1or2D[0])
     ?.filter((key) => key.includes("Color"))

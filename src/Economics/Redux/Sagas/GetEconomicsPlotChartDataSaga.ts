@@ -67,9 +67,11 @@ function* getEconomicsPlotChartDataSaga(
     isEconomicsResultsSaved,
     plotChartsCategoryDragItems,
     selectedEconomicsPlotChartOption,
+    selectedEconomicsPlotSecondaryChartOption,
   } = yield select((state: RootState) => state.economicsReducer);
 
   const chartType = selectedEconomicsPlotChartOption.value;
+  const secondaryChartType = selectedEconomicsPlotSecondaryChartOption.value;
 
   const config = {};
   const url = `${getBaseEconomicsUrl()}/analysis-chart/plotCharts`;
@@ -78,6 +80,10 @@ function* getEconomicsPlotChartDataSaga(
     plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
 
   const plotChartDragItems = Object.values(plotChartsCategoryDragItemsDefined);
+  console.log(
+    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 83 ~ plotChartDragItems",
+    plotChartDragItems
+  );
 
   const data = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
@@ -148,38 +154,58 @@ function* getEconomicsPlotChartDataSaga(
       };
     });
 
-    //TODO test these out
+    const ids = Object.keys(plotChartsCategoryDragItemsDefined["X Category"]);
+    const xCatDrgItmName =
+      plotChartsCategoryDragItemsDefined["X Category"][ids[0]].name;
+
+    const xValueCategories = economicsResults.find(
+      (row: any) => row.name === xCatDrgItmName
+    )?.values;
 
     let yAxisLegend = "";
     let ySecondaryAxisLegend = "";
     const yCategoryMoreThanOne =
       Object.values(plotChartsCategoryDragItemsDefined["Y Category"]).length >
       1;
+    const yCategoryEqualToZero =
+      Object.values(plotChartsCategoryDragItemsDefined["Y Category"]).length ===
+      0;
     const ySecondaryCategoryMoreThanOne =
       Object.values(plotChartsCategoryDragItemsDefined["Y Secondary Category"])
         .length > 1;
+    const ySecondaryCategoryEqualToZero =
+      Object.values(plotChartsCategoryDragItemsDefined["Y Secondary Category"])
+        .length === 0;
 
     if (yCategoryMoreThanOne) {
       yAxisLegend = "Multiple Series";
+    } else if (yCategoryEqualToZero) {
+      ySecondaryAxisLegend = "";
     } else {
       const yCategoryObjs = Object.values(
         plotChartsCategoryDragItemsDefined["Y Category"]
       );
+
       yAxisLegend = yCategoryObjs[0].title.split("_")[0];
     }
 
     if (ySecondaryCategoryMoreThanOne) {
       ySecondaryAxisLegend = "Multiple Series";
+    } else if (ySecondaryCategoryEqualToZero) {
+      ySecondaryAxisLegend = "";
     } else {
       const yCategoryObjs = Object.values(
         plotChartsCategoryDragItemsDefined["Y Secondary Category"]
       );
-      ySecondaryAxisLegend = yCategoryObjs[0].title.split("_")[0];
+
+      ySecondaryAxisLegend = yCategoryObjs[0]?.title?.split("_")[0];
     }
 
-    const xAxisLegend = Object.values(
+    const xCategoryObjs = Object.values(
       plotChartsCategoryDragItemsDefined["X Category"]
-    )[0].title.split("_")[0];
+    );
+
+    const xAxisLegend = xCategoryObjs[0].title.split("_")[0];
 
     yield put(
       updateEconomicsParameterAction(
@@ -208,7 +234,10 @@ function* getEconomicsPlotChartDataSaga(
         reducer,
         workflowCategory,
         chartType,
+        secondaryChartType,
         chartData,
+        xValueCategories,
+        pipeline: "request",
       },
     });
   } catch (errors) {

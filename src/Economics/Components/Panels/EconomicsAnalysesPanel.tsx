@@ -81,18 +81,31 @@ const EconomicsAnalysesPanel = ({
           economicsAnalyses.map((analysis, i) => {
             const { name, title, icon } = analysis;
             const isSelected = title === selectedAnalysis?.title;
-            const isActivated = selectedAnalysesNames.indexOf(name) !== -1;
-
             let style = {};
-            if (isActivated) {
-              if (isSelected)
-                style = {
-                  border: `1px solid ${theme.palette.primary.main}`,
-                  backgroundColor: theme.palette.primary.light,
-                };
-              else style = {};
+
+            if (selectedAnalysesNames.length > 1) {
+              if (name === "mulitpleAnalyses") {
+                if (isSelected)
+                  style = {
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    backgroundColor: theme.palette.primary.light,
+                  };
+                else style = {};
+              } else {
+                style = getDisabledStyle(theme);
+              }
             } else {
-              style = getDisabledStyle(theme);
+              const isActivated = name === selectedAnalysesNames[0];
+              if (isActivated) {
+                if (isSelected)
+                  style = {
+                    border: `1px solid ${theme.palette.primary.main}`,
+                    backgroundColor: theme.palette.primary.light,
+                  };
+                else style = {};
+              } else {
+                style = getDisabledStyle(theme);
+              }
             }
 
             return (

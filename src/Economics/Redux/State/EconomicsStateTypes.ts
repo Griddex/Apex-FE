@@ -309,6 +309,9 @@ export interface IEconomicsState
 
   economicsTemplatesTree: RenderTree;
 
+  economicsRanking: any[];
+  sensitivitiesTable: any[];
+
   resultsAnalyisOptions: ISelectOption[];
 
   forecastEconomicsAggregated: Record<string, any[]>;

@@ -533,11 +533,17 @@ export const getEconomicsPlotChartDataFailureAction = () => {
   };
 };
 
-export const transformEconomicsChartDataAction = (reducer: ReducersType) => {
+export const transformEconomicsChartDataAction = (
+  reducer: ReducersType,
+  chartStory: TChartStory,
+  pipeline: "put" | "request"
+) => {
   return {
     type: TRANSFORM_ECONOMICSPLOT_CHARTDATA,
     payload: {
       reducer,
+      chartStory,
+      pipeline,
     },
   };
 };

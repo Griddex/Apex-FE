@@ -742,12 +742,14 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         name: "FILE HEADER",
         editable: false,
         resizable: true,
+        width: 300,
       },
       {
         key: "fileUnit",
         name: "FILE UNIT",
         editable: false,
         resizable: true,
+        width: 150,
       },
       {
         key: "type",
@@ -873,7 +875,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             </div>
           );
         },
-        width: 300,
+        width: 150,
       },
       {
         key: "unitClassification", //appUnit match selection will define this using units package

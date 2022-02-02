@@ -122,6 +122,7 @@ export interface IEconomicsWorkflows {
     | "economicsTemplateResultsData"
     | "economicsResultsPlotCharts"
     | "economicsResultsSensitivitiesHeatmap"
+    | "economicsRanking"
     | "economicsResultsStored";
   wkCy:
     | "economicsDataWorkflows"
