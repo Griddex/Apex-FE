@@ -13,6 +13,7 @@ const BaseButtons = ({
   shouldExecute,
   shouldDispatch,
   finalActions,
+  applySpace,
 }: IButtonsConfigProps) => {
   const dispatch = useDispatch();
 
@@ -45,6 +46,7 @@ const BaseButtons = ({
             startIcon={startIcon}
             endIcon={endIcon}
             disabled={disabled}
+            style={applySpace ? { marginLeft: 10 } : {}}
           >
             {text}
           </Button>

@@ -1,24 +1,23 @@
+import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, RouteComponentProps, useRouteMatch } from "react-router-dom";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
+import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
 import MiniCard, {
   IMiniCardProps,
 } from "../../../Application/Components/Cards/MiniCard";
+import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
   updateEconomicsParameterAction,
   updateEconomicsParametersAction,
 } from "./../../Redux/Actions/EconomicsActions";
-import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 import { economicsAnalysesData } from "./EconomicsAnalyses";
-import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import RotateLeftIcon from "@mui/icons-material/RotateLeft";
-import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
-import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
+import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
 
 const EconomicsAnalysesWorkflow = React.lazy(
   () => import("./../EconomicsWorkflows/EconomicsAnalysesWorkflow")
@@ -178,7 +177,8 @@ const EconomicsAnalysesLanding = () => {
             justifyContent="center"
             alignItems="center"
             height={50}
-            moreStyles={{ marginBottom: 4, width: 270 }}
+            width={"100%"}
+            moreStyles={{ marginBottom: 4 }}
           >
             <BaseButtons
               buttonTexts={["Reset", "Analysis"]}
@@ -197,6 +197,7 @@ const EconomicsAnalysesLanding = () => {
                   clearEconomicsAnalysisStore();
                 },
               ]}
+              applySpace={true}
             />
           </ApexFlexContainer>
         </div>

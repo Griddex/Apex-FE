@@ -41,4 +41,5 @@ export interface IButtonsConfigProps {
   shouldExecute: boolean[];
   shouldDispatch: boolean[];
   finalActions: ((arg?: any) => IAction | void | Promise<any>)[];
+  applySpace?: boolean;
 }
