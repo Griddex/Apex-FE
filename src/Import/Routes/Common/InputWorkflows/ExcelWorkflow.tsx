@@ -11,6 +11,7 @@ import { INavigationButtonsProp } from "../../../../Application/Components/Navig
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
 import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../../../Economics/Redux/Actions/EconomicsActions";
@@ -227,6 +228,7 @@ const ExcelWorkflow = ({
 
   React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
+    dispatch(hideSpinnerAction());
   }, []);
 
   return (

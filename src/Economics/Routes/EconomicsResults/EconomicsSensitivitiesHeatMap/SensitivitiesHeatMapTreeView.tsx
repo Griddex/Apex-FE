@@ -56,7 +56,7 @@ const SensitivitiesHeatMapTreeView = ({
       )}
       dragDropTypes={itemTypes.ECONOMICS_HEATMAP}
       height={height as number}
-      droppedIds={droppedIds}
+      droppedIds={React.useMemo(() => droppedIds, [droppedIds?.join()])}
     />
   );
 };
