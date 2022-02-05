@@ -37,7 +37,7 @@ const SettingsLayout = () => {
 
   return (
     <main className={classes.settingsLayoutRoot}>
-      <div className={clsx(classes.settingsLayoutContainer)}>
+      <div className={classes.settingsLayoutContainer}>
         <Switch>
           <Route exact path={path} component={() => <Settings />} />
           <Route path={`${url}/:settingsId`}>

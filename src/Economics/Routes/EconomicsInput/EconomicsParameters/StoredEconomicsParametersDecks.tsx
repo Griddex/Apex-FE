@@ -31,7 +31,7 @@ import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/Ape
 import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
@@ -276,7 +276,7 @@ export default function StoredEconomicsParametersDecks({
               unloadDialogsAction,
               () =>
                 updateDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   updateDataUrl as string,
                   titleDesc,
                   fetchStoredRequestAction as () => IAction
@@ -362,7 +362,7 @@ export default function StoredEconomicsParametersDecks({
               onClick={() =>
                 dispatch(
                   getTableDataByIdRequestAction(
-                    reducer as ReducersType,
+                    reducer as TReducer,
                     `${mainUrl}/${row.id}`,
                     row.title as string,
                     wp as TAllWorkflowProcesses,
@@ -424,7 +424,7 @@ export default function StoredEconomicsParametersDecks({
               //   dispatch(
               //     getEconomicsParametersByIdRequestAction(
               //       currentRow.id as string,
-              //       "economicsReducer" as ReducersType,
+              //       "economicsReducer" as TReducer,
               //       isCreateOrEdit as boolean
               //     )
               //   );
@@ -447,7 +447,7 @@ export default function StoredEconomicsParametersDecks({
                       true,
                       () =>
                         deleteDataByIdRequestAction(
-                          reducer as ReducersType,
+                          reducer as TReducer,
                           deleteUrl as string,
                           title as string,
                           () =>

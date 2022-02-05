@@ -29,13 +29,13 @@ export interface IProjectWorkflows {
 }
 
 export interface IAdminWorkflows {
-  reducer: ReducersType;
+  reducer: TReducer;
   wkPs: "userRegistration" | "manageProfile";
   wkCy: "inputDataWorkflows";
 }
 
 export interface IInputWorkflows {
-  reducer: ReducersType;
+  reducer: TReducer;
   wkPs:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
@@ -130,11 +130,11 @@ export interface IEconomicsWorkflows {
     | "economicsChartsWorkflows";
 }
 
-export type ReducersType = keyof {
+export type TReducer = keyof {
   [P in NonNullable<keyof RootState> as Exclude<P, symbol>]: boolean;
 };
 export interface IAllWorkflows {
-  reducer: ReducersType;
+  reducer: TReducer;
   wrkflwPrcss:
     | IAdminWorkflows["wkPs"]
     | IProjectWorkflows["wkPs"]
@@ -174,7 +174,7 @@ export type TOnlyWorkflowCategories = Exclude<
 >;
 
 export interface IOnlyWorkflows {
-  reducer: ReducersType;
+  reducer: TReducer;
   wrkflwPrcss: TOnlyWorkflowProcesses;
   wrkflwCtgry: TOnlyWorkflowCategories;
   finalAction?: () => void;

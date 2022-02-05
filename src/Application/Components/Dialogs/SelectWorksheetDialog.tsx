@@ -19,7 +19,7 @@ import { RootState } from "../../Redux/Reducers/AllReducers";
 import DialogContent from "../DialogContents/DialogContent";
 import DialogTitle from "../DialogTitles/DialogTitle";
 import ApexListSingle from "../List/ApexListSingle";
-import { IInputWorkflows, ReducersType } from "../Workflows/WorkflowTypes";
+import { IInputWorkflows, TReducer } from "../Workflows/WorkflowTypes";
 import { ButtonProps, DialogStuff } from "./DialogTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -56,7 +56,7 @@ const SelectWorksheetDialog: React.FC<DialogStuff> = (props) => {
 
   const wc = workflowCategory as IInputWorkflows["wkCy"];
   const wp = workflowProcess as IInputWorkflows["wkPs"];
-  const reducerDefined = reducer as NonNullable<ReducersType>;
+  const reducerDefined = reducer as NonNullable<TReducer>;
 
   const workflowSelector = createDeepEqualSelector(
     (state: RootState) => state.workflowReducer[wc][wp],

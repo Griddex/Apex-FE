@@ -17,10 +17,7 @@ import { persistWorksheetAction } from "../../../Import/Redux/Actions/InputActio
 import { hideDialogAction } from "../../Redux/Actions/DialogsAction";
 import DialogContent from "../DialogContents/DialogContent";
 import DialogTitle from "../DialogTitles/DialogTitle";
-import {
-  ReducersType,
-  TAllWorkflowProcesses,
-} from "../Workflows/WorkflowTypes";
+import { TReducer, TAllWorkflowProcesses } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -85,7 +82,7 @@ const ListDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
 
   const [selectedListItem, setSelectedListItem] = React.useState<ReactNode>("");
-  const reducerDefined = reducer as NonNullable<ReducersType>;
+  const reducerDefined = reducer as NonNullable<TReducer>;
 
   return (
     <Dialog

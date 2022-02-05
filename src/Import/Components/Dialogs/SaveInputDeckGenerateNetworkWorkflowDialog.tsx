@@ -14,7 +14,7 @@ import { INavigationButtonsProp } from "../../../Application/Components/Navigati
 import DialogVerticalWorkflowStepper from "../../../Application/Components/Workflows/DialogVerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
@@ -42,7 +42,7 @@ const SaveInputDeckGenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (
   const dispatch = useDispatch();
   const { title, show, maxWidth, iconType, workflowProcess } = props;
 
-  const reducer = "inputReducer" as ReducersType;
+  const reducer = "inputReducer" as TReducer;
   const wc = "inputDataWorkflows";
   const wp = workflowProcess as NonNullable<TAllWorkflowProcesses>;
 

@@ -1,9 +1,9 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import HorizontalWorkflowStepper from "../../Application/Components/Workflows/HorizontalWorkflowStepper";
 import {
   IWorkflowDataProps,
-  ReducersType,
+  TReducer,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import StoredFacilitiesDecks from "../../Import/Routes/FacilitiesInputDeck/StoredFacilitiesDecks";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const GenerateNetworkWorkflow = (workflowProps: IWorkflowDataProps) => {
   const classes = useStyles();
   const { activeStep } = workflowProps;
-  const reducer = "inputReducer" as ReducersType;
+  const reducer = "inputReducer" as TReducer;
 
   const props = {
     reducer,

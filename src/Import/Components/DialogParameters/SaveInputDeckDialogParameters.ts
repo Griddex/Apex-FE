@@ -4,11 +4,11 @@ import { updateInputParameterAction } from "../../Redux/Actions/InputActions";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import {
   IInputWorkflows,
-  ReducersType,
+  TReducer,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 
 export const successDialogParameters = (
-  reducer: ReducersType,
+  reducer: TReducer,
   inputDeckType: string,
   wp: IInputWorkflows["wkPs"]
 ): DialogStuff => ({

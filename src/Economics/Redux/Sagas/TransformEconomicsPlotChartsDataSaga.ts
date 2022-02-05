@@ -10,7 +10,7 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IDragItem } from "../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
@@ -58,7 +58,7 @@ function* transformEconomicsChartDataSaga(
   } = payload;
 
   const { plotChartsResults, plotChartsCategoryDragItems } = yield select(
-    (state: RootState) => state[reducer as ReducersType]
+    (state: RootState) => state[reducer as TReducer]
   );
 
   let data = [] as any[];

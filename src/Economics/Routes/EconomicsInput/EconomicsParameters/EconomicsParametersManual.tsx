@@ -25,7 +25,7 @@ import {
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
   IAllWorkflows,
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -78,7 +78,7 @@ const EconomicsParametersManual = ({
   wrkflwCtgry,
   finalAction,
 }: IAllWorkflows) => {
-  const reducerDefined = reducer as ReducersType;
+  const reducerDefined = reducer as TReducer;
 
   const classes = useStyles();
   const dispatch = useDispatch();

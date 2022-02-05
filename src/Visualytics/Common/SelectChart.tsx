@@ -4,7 +4,7 @@ import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../Components/Charts/ChartTypes";
 import { IChartProps } from "../Components/ChartTypes";
@@ -108,11 +108,11 @@ const SelectChart = ({
 }: IChartProps) => {
   const classes = useStyles();
 
-  const reducerDefined = reducer as ReducersType;
+  const reducerDefined = reducer as TReducer;
   const reducersCategoryHasDropped = {
     visualyticsReducer: "visualyticsCategoryHasDropped",
     economicsReducer: "plotChartsCategoryHasDropped",
-  } as Record<Partial<ReducersType>, string>;
+  } as Record<Partial<TReducer>, string>;
 
   const hasDroppedCategory = reducersCategoryHasDropped[reducerDefined];
   let ySecondaryCategoryDropped: boolean;

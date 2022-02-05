@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: 0,
   },
+  "&:hover": {
+    cursor: "pointer ",
+    border: `1px solid ${theme.palette.primary.main}`,
+    backgroundColor: theme.palette.primary.light,
+  },
 }));
 
 export interface IMiniCardProps {

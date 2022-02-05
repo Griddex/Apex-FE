@@ -2,7 +2,7 @@ import React from "react";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
@@ -25,7 +25,7 @@ const EditOrCreateForecastParametersWorkflow = ({
   setDescription,
   storedTitles,
 }: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
-  const reducer = "inputReducer" as ReducersType;
+  const reducer = "inputReducer" as TReducer;
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;

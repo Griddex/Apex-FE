@@ -10,7 +10,7 @@ import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
 import { IUserDetails } from "../Components/User/UserTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../Components/Workflows/WorkflowTypes";
@@ -31,7 +31,7 @@ export interface IStoredDataRow {
   approvers?: IUserDetails[] | string;
   createdOn?: string;
   modifiedOn?: string;
-  reducer?: ReducersType;
+  reducer?: TReducer;
 
   // workflowProcess?:IStoredDataProps["wrkflwPrcss"]
 }
@@ -42,7 +42,7 @@ export interface IStoredDataProps {
   isAllWellPrioritization?: boolean;
   snStoredData?: IStoredDataRow[];
   currentRow?: IStoredDataRow;
-  reducer?: ReducersType;
+  reducer?: TReducer;
   dataKey?: string;
   dataTitle?: string;
   chartData?: Record<string, React.Key>[];
@@ -189,7 +189,7 @@ export type TSize = { height: number; width: number };
 
 export interface IStoredDeck {
   activeStep?: number;
-  reducer: ReducersType;
+  reducer: TReducer;
   showChart: boolean;
   finalAction: () => void;
   containerStyle?: CSSProperties;

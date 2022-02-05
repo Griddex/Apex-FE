@@ -27,7 +27,7 @@ import Saved from "../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexContainer";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import {
@@ -375,7 +375,7 @@ export default function StoredForecastResults({
                     true,
                     () =>
                       deleteDataByIdRequestAction(
-                        reducer as ReducersType,
+                        reducer as TReducer,
                         deleteUrl as string,
                         title as string,
                         () =>
@@ -400,7 +400,7 @@ export default function StoredForecastResults({
             onClick={() =>
               dispatch(
                 getTableDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   `${mainUrl}/forecastResultData/${row.forecastResultsId}`,
                   row.forecastParametersTitle as string,
                   wp as TAllWorkflowProcesses,
@@ -417,7 +417,7 @@ export default function StoredForecastResults({
             onClick={() =>
               dispatch(
                 getTableDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   `${mainUrl}/${row.id}`,
                   row.forecastParametersTitle as string,
                   wp as TAllWorkflowProcesses,

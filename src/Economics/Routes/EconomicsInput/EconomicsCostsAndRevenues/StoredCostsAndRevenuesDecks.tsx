@@ -22,7 +22,7 @@ import isEqual from "react-fast-compare";
 import StoredDataRoute from "../../../../Import/Routes/Common/InputWorkflows/StoredDataRoute";
 import DialogOneCancelButtons from "../../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import { DialogStuff } from "../../../../Application/Components/Dialogs/DialogTypes";
-import { ReducersType } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import {
   unloadDialogsAction,
@@ -138,7 +138,7 @@ export default function StoredCostsAndRevenuesDecks({
               unloadDialogsAction,
               () =>
                 updateDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   updateDataUrl as string,
                   titleDesc,
                   fetchStoredRequestAction as () => IAction

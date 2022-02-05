@@ -28,8 +28,8 @@ import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/Ape
 import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
-  ReducersType,
   TAllWorkflowProcesses,
+  TReducer,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
 import {
@@ -40,7 +40,6 @@ import {
   showDialogAction,
   unloadDialogsAction,
 } from "../../../../Application/Redux/Actions/DialogsAction";
-import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getDisabledStyle } from "../../../../Application/Styles/disabledStyles";
 import {
@@ -49,7 +48,6 @@ import {
 } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
 import generateDoughnutAnalyticsData from "../../../../Application/Utils/GenerateDoughnutAnalyticsData";
-import { updateNetworkParameterAction } from "../../../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
@@ -214,8 +212,6 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                   const clonedRow = cloneSelectedRow(currentRow, rows.length);
 
                   const newRows = [...storedDataDefined, clonedRow];
-
-                  dispatch(updateNetworkParameterAction(wc, newRows));
                 },
               },
             ];
@@ -278,7 +274,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                         true,
                         () =>
                           deleteDataByIdRequestAction(
-                            reducer as ReducersType,
+                            reducer as TReducer,
                             deleteUrl as string,
                             title as string,
                             fetchStoredRequestAction as () => IAction
@@ -300,7 +296,7 @@ const StoredDataRoute = React.forwardRef<HTMLDivElement, IStoredDataProps>(
                   onClick={() =>
                     dispatch(
                       getTableDataByIdRequestAction(
-                        reducer as ReducersType,
+                        reducer as TReducer,
                         `${mainUrl}/${row.id}`,
                         row.title as string,
                         wkPs as TAllWorkflowProcesses,

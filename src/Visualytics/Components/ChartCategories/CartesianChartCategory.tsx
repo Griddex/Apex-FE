@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import AnalyticsComp from "../../../Application/Components/Basic/AnalyticsComp";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexMuiSwitch from "../../../Application/Components/Switches/ApexMuiSwitch";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
 import {
   itemTypesEconomics,
@@ -94,7 +94,7 @@ const CartesianChartCategory = ({
         dispatch(
           updateDragItemsAction &&
             updateDragItemsAction(
-              reducer as ReducersType,
+              reducer as TReducer,
               categoryTitle as string,
               categoryDragItemsTitle as string,
               item as IDragItem
@@ -104,7 +104,7 @@ const CartesianChartCategory = ({
         dispatch(
           updateHasDroppedAction &&
             updateHasDroppedAction(
-              reducer as ReducersType,
+              reducer as TReducer,
               categoryTitle as string,
               categoryHasDroppedTitle as string,
               id,

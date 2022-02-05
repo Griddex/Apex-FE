@@ -26,7 +26,7 @@ import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexConta
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
@@ -416,7 +416,7 @@ export default function StoredProductionPrioritization({
 
                 // dispatch(
                 //   getDeclineParametersByIdRequestAction(
-                //     "inputReducer" as ReducersType,
+                //     "inputReducer" as TReducer,
                 //     isCreateOrEdit,
                 //     wellDeclineParamtersId as string,
                 //     wellDeclineParamtersTitle as string,
@@ -430,7 +430,7 @@ export default function StoredProductionPrioritization({
                     id,
                     title,
                     selectedRowIndex,
-                    "inputReducer" as ReducersType,
+                    "inputReducer" as TReducer,
                     true as boolean
                   )
                 );
@@ -522,7 +522,7 @@ export default function StoredProductionPrioritization({
                       true,
                       () =>
                         deleteDataByIdRequestAction(
-                          reducer as ReducersType,
+                          reducer as TReducer,
                           deleteUrl as string,
                           title as string,
                           () =>

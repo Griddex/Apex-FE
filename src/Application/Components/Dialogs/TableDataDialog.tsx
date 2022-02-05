@@ -20,7 +20,7 @@ import ExcelExportTable, {
 import ApexGrid from "../Table/ReactDataGrid/ApexGrid";
 import { IRawRow, ISize } from "../Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../Table/TableButtonsTypes";
-import { ReducersType } from "../Workflows/WorkflowTypes";
+import { TReducer } from "../Workflows/WorkflowTypes";
 import { DialogStuff } from "./DialogTypes";
 
 const useStyles = makeStyles(() => ({
@@ -58,7 +58,7 @@ const TableDataDialog: React.FC<DialogStuff> = (props) => {
   );
 
   const selectedTableDataSelector = createDeepEqualSelector(
-    (state: RootState) => state[reducer as ReducersType]["selectedTableData"],
+    (state: RootState) => state[reducer as TReducer]["selectedTableData"],
     (table) => table
   );
 

@@ -35,10 +35,6 @@ const TableEditorDialog: React.FC<DialogStuff> = (props) => {
     [titleUsed]: formEditorRow[titleUsed],
     [descriptionUsed]: formEditorRow[descriptionUsed],
   } as Record<string, string>;
-  console.log(
-    "🚀 ~ file: TableEditorDialog.tsx ~ line 38 ~ titleDesc",
-    titleDesc
-  );
 
   const ApexEditorComponent = apexEditorComponent as NonNullable<
     DialogStuff["apexEditorComponent"]

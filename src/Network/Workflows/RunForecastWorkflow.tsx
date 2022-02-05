@@ -5,7 +5,7 @@ import DialogOneCancelButtons from "../../Application/Components/DialogButtons/D
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import {
   IWorkflowDataProps,
-  ReducersType,
+  TReducer,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import { updateDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
@@ -37,7 +37,7 @@ const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
   const dispatch = useDispatch();
 
   const { activeStep } = workflowProps;
-  const reducer = "inputReducer" as ReducersType;
+  const reducer = "inputReducer" as TReducer;
   const workflowProcess = "networkStored" as NonNullable<
     IStoredDataProps["wkPs"]
   >;

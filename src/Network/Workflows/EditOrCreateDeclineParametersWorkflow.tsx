@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
@@ -25,7 +25,7 @@ const EditOrCreateDeclineParametersWorkflow = ({
   setDescription,
   storedTitles,
 }: IEditOrCreateDeclineParameters & ITitleAndDescriptionFormProps) => {
-  const reducer = "inputReducer" as ReducersType;
+  const reducer = "inputReducer" as TReducer;
   const currRowCopy = currRow == null ? {} : currRow;
 
   const wc = "storedDataWorkflows";

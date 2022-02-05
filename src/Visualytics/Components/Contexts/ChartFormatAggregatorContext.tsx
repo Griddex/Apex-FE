@@ -4,7 +4,7 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { allChartsDataAndSpecificProperties } from "../../Data/VisualyticsData";
 import { IChart } from "../../Redux/State/VisualyticsStateTypes";
@@ -26,7 +26,7 @@ const ChartFormatAggregatorContext =
 
 interface IChartFormatAggregatorContextProvider {
   children: React.ReactNode;
-  reducer: ReducersType;
+  reducer: TReducer;
   chartStory: TChartStory;
 }
 
@@ -68,7 +68,7 @@ const ChartFormatAggregatorContextProvider = ({
     visualyticsReducer: visualyticsCommonChartProps,
     forecastReducer: forecastCommonChartProps,
     economicsReducer: economicsCommonChartProps,
-  } as Record<ReducersType, IChart>;
+  } as Record<TReducer, IChart>;
 
   const [chartProps, setChartProps] = React.useState(
     commonChartPropsMap[reducer] as IChart

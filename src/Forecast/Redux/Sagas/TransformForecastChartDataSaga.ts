@@ -10,7 +10,7 @@ import {
   TakeEffect,
   takeLeading,
 } from "redux-saga/effects";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import {
@@ -57,7 +57,7 @@ function* transformForecastChartDataSaga(
   const ch = defaultChart;
 
   const chartDataObj = yield select(
-    (state: RootState) => state[reducer as ReducersType][wc]["primary"][ch]
+    (state: RootState) => state[reducer as TReducer][wc]["primary"][ch]
   );
   let data = [] as any[];
 
