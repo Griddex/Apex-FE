@@ -164,7 +164,7 @@ const EconomicsLayout = () => {
   return (
     <main className={classes.economicsLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData} />}
-      <div className={clsx(classes.economicsLayoutContainer)}>
+      <div className={classes.economicsLayoutContainer}>
         <Switch>
           <Route exact path={path} component={() => <EconomicsBackground />} />
           <Route path={`${url}/:economicsId`}>

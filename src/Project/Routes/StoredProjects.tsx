@@ -22,7 +22,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../Application/Components/Workflows/WorkflowTypes";
 
 const StoredDataRoute = React.lazy(
   () => import("../../Import/Routes/Common/InputWorkflows/StoredDataRoute")
@@ -112,7 +112,7 @@ export default function StoredProjects({
               unloadDialogsAction,
               () =>
                 updateDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   updateDataUrl as string,
                   titleDesc,
                   fetchStoredRequestAction as () => IAction

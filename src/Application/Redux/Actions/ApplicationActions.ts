@@ -1,6 +1,6 @@
 import { TUserMatchObject } from "../../../Import/Routes/Common/Workflows/MatchHeadersTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../Components/Workflows/WorkflowTypes";
 import { IAction } from "./ActionTypes";
@@ -60,7 +60,7 @@ export const persistFormTitlesAction = (
 };
 
 export const persistSelectedIdTitleAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   idTitleObj: Record<string, string>
 ) => {
   return {
@@ -135,7 +135,7 @@ export const saveUserMatchAction = (savedMatchObjectAll: TUserMatchObject) => {
 };
 
 export const getTableDataByIdRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   tableDataUrl: string,
   tableTitle: string,
   workflowProcess: TAllWorkflowProcesses,
@@ -177,7 +177,7 @@ export const getTableDataByIdFailureAction = () => {
 };
 
 export const deleteDataByIdRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   deleteDataUrl: string,
   tableTitle: string,
   fetchStoredRequestAction: () => IAction
@@ -214,7 +214,7 @@ export const deleteDataByIdFailureAction = () => {
 };
 
 export const updateDataByIdRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   updateDataUrl: string,
   titleDesc: Record<string, string>,
   fetchStoredRequestAction: () => IAction
@@ -262,7 +262,7 @@ export const resetApplicationAction = () => {
   };
 };
 
-export const resetInputDataAction = (reducer: ReducersType) => {
+export const resetInputDataAction = (reducer: TReducer) => {
   return {
     type: RESET_INPUTDATA,
     payload: { reducer },

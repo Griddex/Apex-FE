@@ -25,7 +25,7 @@ import ApexGrid from "../../../../Application/Components/Table/ReactDataGrid/Ape
 import { ISize } from "../../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../../Application/Components/Table/TableButtonsTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../../Application/Redux/Actions/ActionTypes";
@@ -172,7 +172,7 @@ export default function StoredEconomicsSensitivities() {
               unloadDialogsAction,
               () =>
                 updateDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   updateDataUrl as string,
                   titleDesc,
                   fetchStoredRequestAction as () => IAction
@@ -274,7 +274,7 @@ export default function StoredEconomicsSensitivities() {
                       true,
                       () =>
                         deleteDataByIdRequestAction(
-                          reducer as ReducersType,
+                          reducer as TReducer,
                           deleteUrl as string,
                           title as string,
                           () =>
@@ -296,7 +296,7 @@ export default function StoredEconomicsSensitivities() {
               onClick={() =>
                 dispatch(
                   getTableDataByIdRequestAction(
-                    reducer as ReducersType,
+                    reducer as TReducer,
                     `${mainUrl}/${row.id}`,
                     row.economicsSensitivitiesTitle as string,
                     wp as TAllWorkflowProcesses,

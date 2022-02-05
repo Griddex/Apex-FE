@@ -18,7 +18,7 @@ import {
 } from "../../Redux/Actions/WorkflowActions";
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
@@ -72,7 +72,7 @@ const NavigationButtons = (props: INavigationButtonsProp) => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const reducerDefined = reducer as ReducersType;
+  const reducerDefined = reducer as TReducer;
   const wp = workflowProcess as TAllWorkflowProcesses;
   const wc = workflowCategory as TAllWorkflowCategories;
 

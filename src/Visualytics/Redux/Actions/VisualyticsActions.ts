@@ -1,6 +1,6 @@
 import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -101,7 +101,7 @@ export const loadVisualyticsWorkflowAction = (
 };
 
 export const transformVisualyticsChartDataAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   chartStory: TChartStory,
   pipeline: "put" | "request"
 ) => {
@@ -205,7 +205,7 @@ export const saveVisualyticsFailureAction = () => {
 };
 
 export const getVisualyticsChartDataRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   workflowCategory: TAllWorkflowCategories
 ) => {
   return {
@@ -302,7 +302,7 @@ export const persistChartObjectAction = (selectedChartObj: IChartObject) => {
 };
 
 export const fetchVisualyticsTreeviewKeysRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   idTitleDescIsSaved?: Record<string, any>
 ) => {
   return {
@@ -345,7 +345,7 @@ export const updateVisualyticsChartCategoryAction = (
 };
 
 export const updateVisualyticsDragItemsAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   categoryTitle: string,
   categoryDragItemsTitle: string,
   item: IIdNameTitlePathOption
@@ -357,7 +357,7 @@ export const updateVisualyticsDragItemsAction = (
 };
 
 export const updateVisualyticsHasDroppedAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   categoryTitle: string,
   categoryHasDroppedTitle: string,
   id: string,
@@ -389,7 +389,7 @@ export const removeVisualyticsChartCategoryAction = (
 };
 
 export const resetChartDataAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   workflowCategory: TAllWorkflowCategories
 ) => {
   return {

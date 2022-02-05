@@ -1,5 +1,5 @@
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
@@ -180,7 +180,7 @@ export const getForecastResultsChartDataFailureAction = () => {
   };
 };
 
-export const transformForecastChartDataAction = (reducer: ReducersType) => {
+export const transformForecastChartDataAction = (reducer: TReducer) => {
   return {
     type: TRANSFORM_FORECAST_CHARTDATA,
     payload: {
@@ -437,7 +437,7 @@ export const runForecastResultsAggregationFailureAction = () => {
 };
 
 export const fetchForecastTreeviewKeysRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   perspective: "forecastChart" | "forecastAssurance",
   idTitleDescIsSaved?: Record<string, any>
 ) => {

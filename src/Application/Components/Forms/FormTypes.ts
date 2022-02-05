@@ -1,5 +1,5 @@
 import { TUseState } from "../../Types/ApplicationTypes";
-import { ReducersType } from "../Workflows/WorkflowTypes";
+import { TReducer } from "../Workflows/WorkflowTypes";
 
 export interface ITitleAndDescriptionFormValues {
   title?: string;
@@ -17,7 +17,7 @@ export interface ITitleAndDescriptionFormProps
   children?: (
     props: ITitleAndDescriptionFormProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
   storedTitles?: string[];
   isDialog?: boolean;
 }

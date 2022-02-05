@@ -1,7 +1,7 @@
 import { FlowElement } from "react-flow-renderer";
 import {
   IAllWorkflows,
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TTitleDescription } from "../../../Application/Types/ApplicationTypes";
@@ -506,7 +506,7 @@ export const removeCurrentNetworkAction = (showSpinner: boolean) => {
 };
 
 export const getDeclineParametersByIdRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   isCreateOrEdit: any,
   wellDeclineParamtersId: string,
   wellDeclineParamtersTitle: string,
@@ -550,7 +550,7 @@ export const getProductionPrioritizationByIdRequestAction = (
   selectedProductionPrioritizationId: string,
   selectedProductionPrioritizationTitle: string,
   selectedRowIndex: number,
-  reducer: ReducersType,
+  reducer: TReducer,
   isCreateOrEdit: boolean
 ) => {
   return {

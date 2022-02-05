@@ -1,6 +1,6 @@
 import { IWorkflowProcessState } from "../../Redux/State/WorkflowStateTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "./../Workflows/WorkflowTypes";
@@ -23,5 +23,5 @@ export interface INavigationButtonsProp {
   workflowProps?: IWorkflowProcessState;
   workflowProcess?: TAllWorkflowProcesses;
   workflowCategory?: TAllWorkflowCategories;
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }

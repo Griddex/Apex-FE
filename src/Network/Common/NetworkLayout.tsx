@@ -26,7 +26,7 @@ const NetworkLayout = () => {
 
   return (
     <main className={classes.networkLayoutRoot}>
-      <div className={clsx(classes.networkLayoutContainer)}>
+      <div className={classes.networkLayoutContainer}>
         <NetworkLanding />
       </div>
     </main>

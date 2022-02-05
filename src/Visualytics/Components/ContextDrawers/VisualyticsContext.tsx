@@ -7,7 +7,7 @@ import ContextDrawer from "../../../Application/Components/Drawers/ContextDrawer
 import { ApexNewWindow } from "../../../Application/Components/NewWindows/ApexNewWindow";
 import ApexRadioGroup from "../../../Application/Components/Radios/ApexRadioGroup";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
 import { THeatMapThreshold } from "../../../Economics/Components/ApexHeatMapThreshold/ApexHeatMapThreshold";
 import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
@@ -16,7 +16,7 @@ import ChartFormatAggregator from "../FormatAggregators/ChartFormatAggregator";
 import { IAction } from "./../../../Application/Redux/Actions/ActionTypes";
 
 export interface IVisualyticsContext {
-  reducer: ReducersType;
+  reducer: TReducer;
   currentThresholdTitle?: THeatMapThreshold;
   basePath: string;
   updateParameterAction: (path: string, value: any) => IAction;

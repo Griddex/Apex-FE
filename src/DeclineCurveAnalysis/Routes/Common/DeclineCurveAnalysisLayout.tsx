@@ -44,7 +44,7 @@ const DeclineCurveAnalysisLayout = () => {
 
   return (
     <main className={classes.declineCurveAnalysisLayoutRoot}>
-      <div className={clsx(classes.declineCurveAnalysisLayoutContainer)}>
+      <div className={classes.declineCurveAnalysisLayoutContainer}>
         <Switch>
           <Route exact path={path}>
             {() => <DeclineCurveAnalysisBackground />}

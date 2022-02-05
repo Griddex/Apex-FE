@@ -25,7 +25,7 @@ import ApexFlexContainer from "../../Application/Components/Styles/ApexFlexConta
 import ApexGrid from "../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ISize } from "../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../Application/Components/Table/TableButtonsTypes";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import {
   deleteDataByIdRequestAction,
@@ -271,7 +271,7 @@ export default function StoredForecastingParameters({
               unloadDialogsAction,
               () =>
                 updateDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   updateDataUrl as string,
                   titleDesc,
                   fetchStoredRequestAction as () => IAction
@@ -436,7 +436,7 @@ export default function StoredForecastingParameters({
                         true,
                         () =>
                           deleteDataByIdRequestAction(
-                            reducer as ReducersType,
+                            reducer as TReducer,
                             deleteUrl as string,
                             title as string,
                             () =>

@@ -13,7 +13,7 @@ import DialogOneCancelButtons from "../../Application/Components/DialogButtons/D
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import ApexSelectRS from "../../Application/Components/Selects/ApexSelectRS";
 import { IExtendedSelectOption } from "../../Application/Components/Selects/SelectItemsType";
-import { ReducersType } from "../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../Application/Components/Workflows/WorkflowTypes";
 import { getTableDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import {
   showDialogAction,
@@ -149,7 +149,7 @@ const NetworkPanel = () => {
 
           dispatch(
             getTableDataByIdRequestAction(
-              reducer as ReducersType,
+              reducer as TReducer,
               `${mainUrl}/${optionDefined.id}`,
               optionDefined.label as string,
               "networkManualBuild",
@@ -190,7 +190,7 @@ const NetworkPanel = () => {
 
         dispatch(
           getTableDataByIdRequestAction(
-            reducer as ReducersType,
+            reducer as TReducer,
             `${mainUrl}/${selectedOption.id}`,
             selectedOption.label as string,
             "networkManualBuild",

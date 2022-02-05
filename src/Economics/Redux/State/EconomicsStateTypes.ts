@@ -1,7 +1,7 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { IUserDetails } from "../../../Application/Components/User/UserTypes";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IApplicationStoredDataRow,
   TApproval,
@@ -119,7 +119,7 @@ export interface INewCostsRevenuesInputDeckWorkflowProps
   children?: (
     props: INewCostsRevenuesInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }
 export interface INewEconomicsParametersInputDeckFormValues {
   economicsParametersInputDeckTitle: string;
@@ -137,7 +137,7 @@ export interface INewEconomicsParametersInputDeckWorkflowProps
   children?: (
     props: INewEconomicsParametersInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }
 export interface INewEconomicsSensitivitiesFormValues {
   economicsSensitivitiesTitle: string;
@@ -155,7 +155,7 @@ export interface INewEconomicsSensitivitiesWorkflowProps
   children?: (
     props: INewEconomicsSensitivitiesWorkflowProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }
 export interface INewEconomicsResultsFormValues {
   economicsResultsTitle: string;
@@ -173,7 +173,7 @@ export interface INewEconomicsResultsWorkflowProps
   children?: (
     props: INewEconomicsResultsWorkflowProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }
 
 export interface IStoredEconomicsResultsRow {

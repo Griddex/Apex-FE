@@ -1,7 +1,7 @@
 import { FormikErrors, FormikTouched } from "formik";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import {
   IStoredDataProps,
   IStoredDataRow,
@@ -139,7 +139,7 @@ export interface INewFacilitiesInputDeckWorkflowProps
   children?: (
     props: INewFacilitiesInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }
 export interface INewForecastInputDeckFormValues {
   forecastInputdeckTitle: string;
@@ -156,5 +156,5 @@ export interface INewForecastInputDeckWorkflowProps
   children?: (
     props: INewForecastInputDeckWorkflowProps
   ) => JSX.Element | JSX.Element[];
-  reducer?: ReducersType;
+  reducer?: TReducer;
 }

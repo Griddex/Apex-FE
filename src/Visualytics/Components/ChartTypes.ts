@@ -10,7 +10,7 @@ import {
   ScaleTime as D3ScaleTime,
 } from "d3-scale";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { axisNameTitlesObj } from "../Data/VisualyticsData";
@@ -21,7 +21,7 @@ export interface IChartProps {
   data?: any[];
   willUseThemeColor?: boolean;
   workflowCategory?: TAllWorkflowCategories;
-  reducer?: ReducersType;
+  reducer?: TReducer;
   selectedChartOptionTitle?: string;
   selectedSecondaryChartOptionTitle?: string;
   defs?: any;

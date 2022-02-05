@@ -3,7 +3,7 @@ import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/Ape
 import {
   IEconomicsWorkflows,
   IInputWorkflows,
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -179,7 +179,7 @@ export const updateEconomicsParametersAction = (
 
 export const getEconomicsParametersByIdRequestAction = (
   selectedEconomicsParametersId: string,
-  reducer: ReducersType,
+  reducer: TReducer,
   isCreateOrEdit: boolean
 ) => {
   return {
@@ -229,7 +229,7 @@ export const fetchStoredCostsRevenuesDataFailureAction = () => {
 
 export const saveCostsRevenuesRequestAction = (
   workflowProcess: TAllWorkflowProcesses,
-  reducer: ReducersType,
+  reducer: TReducer,
   titleDesc: Record<string, string>
 ) => {
   return {
@@ -313,7 +313,7 @@ export const transformEconomicsResultsChartDataFailureAction = () => {
 
 export const saveEconomicsParametersRequestAction = (
   workflowProcess: TAllWorkflowProcesses,
-  reducer: ReducersType,
+  reducer: TReducer,
   titleDesc: Record<string, string>
 ) => {
   return {
@@ -402,7 +402,7 @@ export const fetchStoredEconomicsSensitivitiesFailureAction = () => {
 
 export const saveEconomicsSensitivitiesRequestAction = (
   workflowProcess: IEconomicsWorkflows["wkPs"],
-  reducer: ReducersType,
+  reducer: TReducer,
   analysisName: TEconomicsAnalysesNames,
   titleDesc: Record<string, string>
 ) => {
@@ -434,7 +434,7 @@ export const saveEconomicsSensitivitiesFailureAction = () => {
 
 export const getEconomicsSensitivitiesByIdRequestAction = (
   workflowProcess: IEconomicsWorkflows["wkPs"],
-  reducer: ReducersType,
+  reducer: TReducer,
   showSpinner: boolean
 ) => {
   return {
@@ -505,7 +505,7 @@ export const persistCostsRevenueDeckstAction = (
 };
 
 export const getEconomicsPlotChartDataRequestAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   workflowCategory: TAllWorkflowCategories
 ) => {
   return {
@@ -534,7 +534,7 @@ export const getEconomicsPlotChartDataFailureAction = () => {
 };
 
 export const transformEconomicsChartDataAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   chartStory: TChartStory,
   pipeline: "put" | "request"
 ) => {
@@ -792,7 +792,7 @@ export const removeEconomicsChartCategoryAction = (
 };
 
 export const updateEconomicsHeatMapDragItemsAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   categoryTitle: string,
   categoryDragItemsTitle: string,
   item: IIdNameTitlePathOption
@@ -804,7 +804,7 @@ export const updateEconomicsHeatMapDragItemsAction = (
 };
 
 export const updateEconomicsHeatMapHasDroppedAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   categoryTitle: string,
   categoryHasDroppedTitle: string,
   id: string,
@@ -823,7 +823,7 @@ export const updateEconomicsHeatMapHasDroppedAction = (
 };
 
 export const updateEconomicsPlotChartsDragItemsAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   categoryTitle: string,
   categoryDragItemsTitle: string,
   item: IIdNameTitlePathOption
@@ -835,7 +835,7 @@ export const updateEconomicsPlotChartsDragItemsAction = (
 };
 
 export const updateEconomicsPlotChartsHasDroppedAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   categoryTitle: string,
   categoryHasDroppedTitle: string,
   id: string,

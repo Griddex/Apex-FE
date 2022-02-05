@@ -159,7 +159,7 @@ const InputLayout = () => {
   return (
     <main className={classes.importLayoutRoot}>
       {showSubNavbar && <SubNavbar subNavbarData={subNavbarData.current} />}
-      <div className={clsx(classes.importLayoutContainer)}>
+      <div className={classes.importLayoutContainer}>
         <Switch>
           <Route exact path={path} component={InputBackground} />
           <Route path={`${url}/:subNavbarId`}>

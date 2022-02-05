@@ -27,7 +27,7 @@ const ForecastLayout = () => {
 
   return (
     <main className={classes.forecastLayoutRoot}>
-      <div className={clsx(classes.forecastLayoutContainer)}>
+      <div className={classes.forecastLayoutContainer}>
         <ForecastLanding />
       </div>
     </main>

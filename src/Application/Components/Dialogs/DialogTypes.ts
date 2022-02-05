@@ -46,7 +46,7 @@ import { IApexEditor } from "../Editors/ApexEditor";
 import { IconNameType } from "../Icons/DialogIconsTypes";
 import { IRawRow } from "../Table/ReactDataGrid/ApexGridTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../Workflows/WorkflowTypes";
@@ -206,7 +206,7 @@ export interface DialogStuff<TRow = TDataRow> {
   selectedRowIndex?: number;
   workflowProcess?: TAllWorkflowProcesses;
   workflowCategory?: TAllWorkflowCategories;
-  reducer?: ReducersType;
+  reducer?: TReducer;
   selectedTableData?: any[];
   economicsTableData?: IEconomicsParametersTableData;
   economicsAnalyses?: TEconomicsAnalyses;

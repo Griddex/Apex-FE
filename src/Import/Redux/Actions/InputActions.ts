@@ -3,7 +3,7 @@ import {
   TRawRowValue,
 } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
@@ -61,7 +61,7 @@ export const VALIDATE_FORECASTINPUTDECK_FAILURE =
   "VALIDATE_FORECASTINPUTDECK_FAILURE";
 
 export const updateInputParameterAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   nameOrPath: string,
   value: any
 ) => {
@@ -76,7 +76,7 @@ export const updateInputParameterAction = (
 };
 
 export const persistVariableUnitsAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   appHeaderNameUnitsMap: Record<string, string>,
   workflowProcess: TAllWorkflowProcesses
 ) => {
@@ -91,7 +91,7 @@ export const persistVariableUnitsAction = (
 };
 
 export const importFileInitAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   fileLastModified: number,
   filePath: string,
   fileType: string,
@@ -124,7 +124,7 @@ export const importFileInitAction = (
 };
 
 export const persistFileAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   file: any,
   workflowProcess: TAllWorkflowProcesses
 ) => {
@@ -135,7 +135,7 @@ export const persistFileAction = (
 };
 
 export const persistWorksheetNamesAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   workSheetNames: string[],
   workflowProcess: TAllWorkflowProcesses
 ) => {
@@ -146,7 +146,7 @@ export const persistWorksheetNamesAction = (
 };
 
 export const persistWorksheetAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   selectedWorksheetName: string,
   selectedWorksheetData: Record<string, React.Key>[],
   workflowProcess: TAllWorkflowProcesses
@@ -163,7 +163,7 @@ export const persistWorksheetAction = (
 };
 
 export const persistFileHeadersAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   selectedHeaderRowIndex: number,
   fileHeaders: string[],
   workflowProcess: TAllWorkflowProcesses
@@ -175,7 +175,7 @@ export const persistFileHeadersAction = (
 };
 
 export const persistFileUnitsAndUniqueUnitsAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   selectedUnitRowIndex: number,
   fileUnits: TRawRowValue<IRawRow>[],
   fileUniqueUnits: TRawRowValue<IRawRow>[],
@@ -194,7 +194,7 @@ export const persistFileUnitsAndUniqueUnitsAction = (
 };
 
 export const persistTableRoleNamesAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   tableRoleNames: string[],
   workflowProcess: TAllWorkflowProcesses
 ) => {
@@ -205,7 +205,7 @@ export const persistTableRoleNamesAction = (
 };
 
 export const persistTableDataAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   tableData: Record<string, React.Key>[],
   workflowProcess: TAllWorkflowProcesses,
   currentDevValue?: TDevScenarioNames
@@ -217,7 +217,7 @@ export const persistTableDataAction = (
 };
 
 export const persistColumnNameTableDataAction = (
-  reducer: ReducersType,
+  reducer: TReducer,
   columnNameTableData: TApexData,
   workflowProcess: TAllWorkflowProcesses
 ) => {

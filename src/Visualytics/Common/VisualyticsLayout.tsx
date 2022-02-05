@@ -26,7 +26,7 @@ const VisualyticsLayout = () => {
 
   return (
     <main className={classes.visualyticsLayoutRoot}>
-      <div className={clsx(classes.visualyticsLayoutContainer)}>
+      <div className={classes.visualyticsLayoutContainer}>
         <VisualyticsLanding />
       </div>
     </main>

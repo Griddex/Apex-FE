@@ -28,7 +28,7 @@ const AdministrationLayout = () => {
 
   return (
     <main className={classes.administrationLayoutRoot}>
-      <div className={clsx(classes.administrationLayoutContainer)}>
+      <div className={classes.administrationLayoutContainer}>
         <AdministrationLanding />
       </div>
     </main>

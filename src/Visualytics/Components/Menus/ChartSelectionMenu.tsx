@@ -5,7 +5,7 @@ import Menu from "@mui/material/Menu";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { ChangeEvent } from "react";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { TChartStory } from "../Charts/ChartTypes";
 import ChartTypeWidget from "../ChartTypeWidget/ChartTypeWidget";
 import { useSelector } from "react-redux";
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export interface IChartSelectionMenu {
-  reducer: ReducersType;
+  reducer: TReducer;
   chartStory: TChartStory;
   secondaryChartStory: TChartStory;
   chartOptions: ISelectOption[];
@@ -54,12 +54,12 @@ const ChartSelectionMenu = ({
   const classes = useStyles();
   const theme = useTheme();
 
-  const reducerDefined = reducer as ReducersType;
+  const reducerDefined = reducer as TReducer;
 
   const reducersCategoryHasDropped = {
     visualyticsReducer: "visualyticsCategoryHasDropped",
     economicsReducer: "plotChartsCategoryHasDropped",
-  } as Record<Partial<ReducersType>, string>;
+  } as Record<Partial<TReducer>, string>;
 
   const hasDroppedCategory = reducersCategoryHasDropped[reducerDefined];
   let ySecondaryCategoryDropped: boolean;

@@ -4,7 +4,7 @@ import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowCategories,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
@@ -22,7 +22,7 @@ const StackedAreaChart = ({
   chartStory,
 }: IChartProps) => {
   const wc = workflowCategory as TAllWorkflowCategories;
-  const reducerDefined = reducer as ReducersType;
+  const reducerDefined = reducer as TReducer;
 
   const xValueCategoriesSelector = createDeepEqualSelector(
     (state: RootState) => state[reducerDefined]["xValueCategories"],

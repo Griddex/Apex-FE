@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
@@ -24,7 +24,7 @@ const EditOrCreateProductionPrioritizationWorkflow = ({
   setDescription,
   storedTitles,
 }: IEditOrCreateProductionPrioritization & ITitleAndDescriptionFormProps) => {
-  const reducer = "inputReducer" as ReducersType;
+  const reducer = "inputReducer" as TReducer;
 
   const wc = "storedDataWorkflows";
   const workflowProcessDefined =

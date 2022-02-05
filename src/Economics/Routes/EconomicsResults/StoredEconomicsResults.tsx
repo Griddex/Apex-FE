@@ -32,7 +32,7 @@ import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGr
 import { ISize } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import {
-  ReducersType,
+  TReducer,
   TAllWorkflowProcesses,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
@@ -208,7 +208,7 @@ export default function StoredEcoResults({
               unloadDialogsAction,
               () =>
                 updateDataByIdRequestAction(
-                  reducer as ReducersType,
+                  reducer as TReducer,
                   updateDataUrl as string,
                   titleDesc,
                   fetchStoredRequestAction as () => IAction
@@ -314,7 +314,7 @@ export default function StoredEcoResults({
                       true,
                       () =>
                         deleteDataByIdRequestAction(
-                          reducer as ReducersType,
+                          reducer as TReducer,
                           deleteUrl as string,
                           title as string,
                           () =>
@@ -336,7 +336,7 @@ export default function StoredEcoResults({
               onClick={() =>
                 dispatch(
                   getTableDataByIdRequestAction(
-                    reducer as ReducersType,
+                    reducer as TReducer,
                     `${mainUrl}/${row.id}`,
                     row.title as string,
                     wp as TAllWorkflowProcesses,

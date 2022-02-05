@@ -1,5 +1,5 @@
 import { IIdNameTitlePathOption } from "../../../Application/Components/Selects/SelectItemsType";
-import { ReducersType } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
 
@@ -18,7 +18,7 @@ export interface IChartCategory {
 
 export type TCategoriesTitle = string;
 export interface IChartCategories {
-  reducer?: ReducersType;
+  reducer?: TReducer;
   chartStory?: TChartStory;
   chartType?: TChartTypes;
   xCategoryOptionTitle?: string;
@@ -54,13 +54,13 @@ export interface IChartCategories {
   path?: string;
   updateParameterAction?: (path: string, value: any) => IAction;
   updateDragItemsAction?: (
-    reducer: ReducersType,
+    reducer: TReducer,
     categoryTitle: string,
     categoryDragItemsTitle: string,
     item: IIdNameTitlePathOption
   ) => IAction;
   updateHasDroppedAction?: (
-    reducer: ReducersType,
+    reducer: TReducer,
     categoryTitle: string,
     categoryHasDroppedTitle: string,
     id: string,
