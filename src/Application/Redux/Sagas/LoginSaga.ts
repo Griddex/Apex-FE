@@ -52,9 +52,13 @@ function* loginSaga(
 
   const role = "Corporate Forecaster";
   try {
-    localStorage.setItem("userName", "Gideon Sanni");
-    localStorage.setItem("role", role);
-
+    const response = yield call(loginAPI, `${getBaseAuthUrl()}/signin`);
+    const { status, data } = response;
+    const token = data["access-token"];
+    sessionStorage.setItem("token", token);
+    if (status === 200) {
+      yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
+    }
     yield call(forwardTo, "/apex");
   } catch (errors) {
     const failureAction = loginFailureAction();
