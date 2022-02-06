@@ -131,7 +131,7 @@ export default function StoredEcoResults({
   collectionName,
 }: IStoredDataProps) {
   const reducer = "economicsReducer";
-  const mainUrl = `${getBaseEconomicsUrl()}`;
+  const mainUrl = `${getBaseEconomicsUrl()}/analyses`;
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -144,9 +144,6 @@ export default function StoredEcoResults({
 
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
-  const [storedEconomicsResults, setStoredEconomicsResults] = React.useState(
-    economicsResultsStored
-  );
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
 
   const handleCheckboxChange = (row: IStoredEconomicsResultsRow) => {
@@ -482,6 +479,9 @@ export default function StoredEcoResults({
 
   const [rows, setRows] = React.useState(snStoredData);
 
+  const rowsTitlesString = rows.map((row) => row.title).join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
+
   const exportColumns = columns
     .filter(
       (column) =>
@@ -514,8 +514,8 @@ export default function StoredEcoResults({
   );
 
   React.useEffect(() => {
-    setStoredEconomicsResults(storedEconomicsResults);
-  }, [storedEconomicsResults]);
+    setRows(snStoredData);
+  }, [snStoredData.length, rowsTitlesString, rowsDescriptionsString]);
 
   const [sRow, setSRow] = React.useState(-1);
 

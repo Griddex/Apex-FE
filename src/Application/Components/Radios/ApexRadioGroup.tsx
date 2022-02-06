@@ -69,12 +69,6 @@ const ApexRadioGroup = ({
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const sVal = (event.target as HTMLInputElement).value;
     setSelectedVariable && setSelectedVariable(sVal);
-
-    const handleCheck = apexRadioGroupData.find(
-      (obj) => obj.value === sVal
-    )?.handleCheck;
-
-    handleCheck && handleCheck();
   };
 
   return (

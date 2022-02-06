@@ -37,11 +37,10 @@ export interface IEditOrCreateProductionPrioritization {
   setCurrRow?: TUseState<IStoredDataRow>;
   currentRow?: Partial<IStoredDataRow>;
   setCurrentRow?: TUseState<IStoredDataRow>;
-  shouldUpdate: boolean;
-  setShouldUpdate?: TUseState<boolean>;
   workflowProcess?: TAllWorkflowProcesses;
   activeStep?: number;
   forecastParametersIndex?: number;
+  steps: string[];
 }
 
 const declineParametersTitlesSelector = createDeepEqualSelector(
@@ -86,7 +85,7 @@ const EditOrCreateProductionPrioritizationWorkflowDialog: React.FC<
 
   let steps = [] as string[];
 
-  if (workflowProcessDefined === "createForecastingParametersWorkflow") {
+  if (workflowProcessDefined === "forecastParametersCreate") {
     steps = [
       "Select Forecast InputDeck",
       "Production Prioritization",
@@ -140,6 +139,7 @@ const EditOrCreateProductionPrioritizationWorkflowDialog: React.FC<
     description: formDescription,
     setDescription: setFormDescription,
     storedTitles,
+    steps,
   } as NonNullable<IEditOrCreateProductionPrioritization> &
     ITitleAndDescriptionFormProps;
 

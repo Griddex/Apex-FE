@@ -2,8 +2,8 @@ import { DialogActions } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import React, { useCallback } from "react";
 import isEqual from "react-fast-compare";
-import { useDispatch, useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
+import { useDispatch, useSelector } from "react-redux";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
 import DialogContent from "../../../Application/Components/DialogContents/DialogContent";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
@@ -37,11 +37,10 @@ export interface IEditOrCreateDeclineParameters {
   setCurrRow?: TUseState<IStoredDataRow>;
   currentRow?: Partial<IStoredDataRow>;
   setCurrentRow?: TUseState<IStoredDataRow>;
-  shouldUpdate: boolean;
-  setShouldUpdate?: TUseState<boolean>;
   workflowProcess?: TAllWorkflowProcesses;
   activeStep?: number;
   forecastParametersIndex?: number;
+  steps: string[];
 }
 
 const declineParametersTitlesSelector = createDeepEqualSelector(
@@ -88,7 +87,7 @@ const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
 
   let steps = [] as string[];
 
-  if (workflowProcessDefined === "createForecastingParametersWorkflow") {
+  if (workflowProcessDefined === "forecastParametersCreate") {
     steps = [
       "Select Forecast InputDeck",
       "Decline Parameters",
@@ -136,12 +135,14 @@ const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
     activeStep,
     workflowProcess: workflowProcessDefined,
     forecastParametersIndex,
+    isDialog: true,
 
     title: formTitle,
     setTitle: setFormTitle,
     description: formDescription,
     setDescription: setFormDescription,
     storedTitles,
+    steps,
   } as NonNullable<IEditOrCreateDeclineParameters> &
     ITitleAndDescriptionFormProps;
 

@@ -174,10 +174,6 @@ export default function StoredForecastResults({
 
   const forecastResultsStored = useSelector(forecastResultsStoredSelector);
 
-  const [storedforecastResults, setStoredforecastResults] = React.useState(
-    forecastResultsStored
-  );
-
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredForecastResultsRow) => {
     const id = row.forecastResultsId as string;
@@ -550,6 +546,11 @@ export default function StoredForecastResults({
 
   const [rows, setRows] = React.useState(snStoredData);
 
+  const rowsTitlesString = rows
+    .map((row) => row.forecastParametersTitle)
+    .join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
+
   const exportColumns = columns
     .filter(
       (column) =>
@@ -582,8 +583,8 @@ export default function StoredForecastResults({
   );
 
   React.useEffect(() => {
-    setStoredforecastResults(storedforecastResults);
-  }, [storedforecastResults]);
+    setRows(snStoredData);
+  }, [snStoredData.length, rowsTitlesString, rowsDescriptionsString]);
 
   const [sRow, setSRow] = React.useState(-1);
 

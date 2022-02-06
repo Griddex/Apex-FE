@@ -65,8 +65,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
 
-  const [shouldUpdate, setShouldUpdate] = React.useState(false);
-
   const selectedForecastInputDeckId = useSelector(
     selectedForecastInputDeckIdSelector
   );
@@ -83,10 +81,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   const [nextDisableds, setNextDisableds] = React.useState<
     Record<number, boolean>
   >({ 0: false, 1: false, 2: false });
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 84 ~ nextDisableds",
-    nextDisableds
-  );
 
   const titleDesc = {
     title: formTitle,
@@ -96,7 +90,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   const forecastingParametersObj = { ...currRow, ...titleDesc };
 
   let steps = [] as string[];
-  if (workflowProcessDefined === "createForecastingParametersWorkflow") {
+  if (workflowProcessDefined === "forecastParametersCreate") {
     steps = [
       "Select Forecast InputDeck",
       "Forecast Parameters",
@@ -117,10 +111,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   );
 
   const activeStep = useSelector(activeStepSelector);
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 120 ~ activeStep",
-    activeStep
-  );
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
@@ -141,8 +131,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   };
 
   const createProps = {
-    shouldUpdate,
-    setShouldUpdate,
     currRow,
     setCurrRow,
     activeStep,
@@ -196,7 +184,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   };
 
   const getSelectedId = () => {
-    if (workflowProcessDefined === "createForecastingParametersWorkflow")
+    if (workflowProcessDefined === "forecastParametersCreate")
       return selectedForecastInputDeckId;
     else return selectedForecastingParametersId;
   };

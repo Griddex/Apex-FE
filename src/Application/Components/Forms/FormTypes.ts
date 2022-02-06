@@ -20,4 +20,5 @@ export interface ITitleAndDescriptionFormProps
   reducer?: TReducer;
   storedTitles?: string[];
   isDialog?: boolean;
+  heightIsAuto?: boolean;
 }

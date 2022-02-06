@@ -875,7 +875,7 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
             </div>
           );
         },
-        width: 150,
+        width: 250,
       },
       {
         key: "unitClassification", //appUnit match selection will define this using units package
@@ -884,10 +884,9 @@ const MatchUnits = ({ reducer, wrkflwPrcss }: IAllWorkflows) => {
         formatter: ({ row }) => {
           const unitClassification = row.unitClassification as number;
 
-          // return <div>{unitClassification}</div>;
           return <ApexFlexContainer>{unitClassification}</ApexFlexContainer>;
         },
-        width: 200,
+        width: 150,
       },
       {
         key: "match",

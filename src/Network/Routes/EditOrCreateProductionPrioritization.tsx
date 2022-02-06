@@ -78,20 +78,20 @@ const EditOrCreateProductionPrioritization = () => {
 
   const [rows, setRows] = React.useState(snSelectedTableData);
 
-  React.useEffect(() => {
-    dispatch(
-      updateNetworkParameterAction(
-        "prioritizationPerspective",
-        prtznPerspective
-      )
-    );
-  }, [prtznPerspective as string]);
+  // React.useEffect(() => {
+  //   dispatch(
+  //     updateNetworkParameterAction(
+  //       "prioritizationPerspective",
+  //       prtznPerspective
+  //     )
+  //   );
+  // }, [prtznPerspective as string]);
 
-  React.useEffect(() => {
-    dispatch(
-      updateNetworkParameterAction("selectedStreamPrioritization", streamValue)
-    );
-  }, [streamValue as string]);
+  // React.useEffect(() => {
+  //   dispatch(
+  //     updateNetworkParameterAction("selectedStreamPrioritization", streamValue)
+  //   );
+  // }, [streamValue as string]);
 
   const NoPrioritization = () => {
     return (
@@ -107,14 +107,18 @@ const EditOrCreateProductionPrioritization = () => {
         />
         <strong>{"No prioritization will be applied"}</strong>
         <Typography>
-          {`Full facility capacity will be available to all streams`}
+          {`Full facility capacity will be available to all streams equitably`}
         </Typography>
       </ApexFlexContainer>
     );
   };
 
   const ProductionPrioritization = () => {
-    const columnKeys = Object.keys(snSelectedTableData[0]);
+    const columnKeys = Object.keys(
+      snSelectedTableData && snSelectedTableData[0]
+        ? snSelectedTableData[0]
+        : []
+    );
 
     const updateRow = (row: any, option: any) => {
       const currentSN = row.sn as number;
@@ -217,36 +221,31 @@ const EditOrCreateProductionPrioritization = () => {
   };
 
   const StreamPrioritization = () => {
-    const streamPrioritizationData = [
-      {
-        value: "none",
-        label: "None",
-        handleCheck: () => {
-          setStreamValue("none");
+    const streamPrioritizationData = React.useMemo(
+      () => [
+        {
+          value: "none",
+          label: "None",
         },
-      },
-      {
-        value: "oil",
-        label: "Oil",
-        handleCheck: () => {
-          setStreamValue("oil");
+        {
+          value: "oil",
+          label: "Oil",
         },
-      },
-      {
-        value: "non-associated gas",
-        label: "Non-Associated Gas",
-        handleCheck: () => {
-          setStreamValue("non-associated gas");
+        {
+          value: "non-associated gas",
+          label: "Non-Associated Gas",
         },
-      },
-      {
-        value: "condensate",
-        label: "Condensate",
-        handleCheck: () => {
-          setStreamValue("condensate");
+        {
+          value: "condensate",
+          label: "Condensate",
         },
-      },
-    ];
+      ],
+      []
+    );
+
+    const [prtznVal, setPrtznVal] = React.useState(
+      streamPrioritizationData[0].value
+    );
 
     return (
       <ApexFlexContainer
@@ -255,16 +254,17 @@ const EditOrCreateProductionPrioritization = () => {
         }}
       >
         <AnalyticsComp
-          title={streamValue}
-          // title={streamValue.label}
+          title={prtznVal}
           direction="Vertical"
           containerStyle={{
-            // width: "100%",
-            // height: "100%",
             marginTop: 20,
           }}
           content={
-            <ApexRadioGroup apexRadioGroupData={streamPrioritizationData} />
+            <ApexRadioGroup
+              selectedVariable={prtznVal}
+              setSelectedVariable={React.useCallback(setPrtznVal, [])}
+              apexRadioGroupData={streamPrioritizationData}
+            />
           }
         />
       </ApexFlexContainer>

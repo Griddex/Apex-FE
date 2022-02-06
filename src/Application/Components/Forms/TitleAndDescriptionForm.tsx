@@ -17,6 +17,7 @@ const TitleAndDescriptionForm = ({
   setDescription,
   setDisable,
   storedTitles,
+  heightIsAuto,
 }: ITitleAndDescriptionFormProps) => {
   const classes = useStyles();
   const storedTitlesDefined = storedTitles as string[];
@@ -41,7 +42,7 @@ const TitleAndDescriptionForm = ({
         return (
           <Form
             className={classes.form}
-            style={{ height: "100%", width: "100%" }}
+            style={{ height: heightIsAuto ? "auto" : "100%", width: "100%" }}
           >
             <TitleAndDescription {...formProps} {...props} />
           </Form>

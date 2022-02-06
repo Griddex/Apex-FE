@@ -57,12 +57,11 @@ export interface IEditOrCreateForecastingParameters {
   setCurrRow?: TUseState<IForecastParametersStoredRow>;
   currentRow?: Partial<IForecastParametersStoredRow>;
   setCurrentRow?: TUseState<IForecastParametersStoredRow>;
-  shouldUpdate: boolean;
-  setShouldUpdate?: TUseState<boolean>;
   workflowProcess?: TAllWorkflowProcesses;
   activeStep?: number;
   forecastParametersIndex?: number;
   setNextDisableds?: TUseState<Record<number, boolean>>;
+  steps: string[];
 }
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
@@ -117,7 +116,7 @@ const EditOrCreateForecastingParameters = ({
 
   const dialogRef = React.useRef<HTMLElement>(null);
   const [formEditorRow, setFormEditorRow] = React.useState(
-    workflowProcess === "createForecastingParametersWorkflow"
+    workflowProcess === "forecastParametersCreate"
       ? (newUserForecastParametersRow as IForecastParametersStoredRow)
       : (currentRow as IForecastParametersStoredRow)
   );
@@ -206,6 +205,7 @@ const EditOrCreateForecastingParameters = ({
 
   const saveSelectedProductionPrioritization = () => {
     const productionPrioritizationParametersObj = {};
+
     return saveProductionPrioritizationRequestAction(
       productionPrioritizationParametersObj
     );

@@ -122,11 +122,8 @@ export default function StoredEconomicsSensitivities() {
     economicsSensitivitiesStoredSelector
   );
 
-  const [storedEconomicsSensitivities, setStoredEconomicsSensitivities] =
-    React.useState(economicsSensitivitiesStored);
-
   const transStoredSensitivitiesData = (
-    storedEconomicsSensitivities as IApplicationStoredDataRow[]
+    economicsSensitivitiesStored as IApplicationStoredDataRow[]
   ).map((row, i) => ({
     sn: i + 1,
     economicsSensitivitiesId: row.id,
@@ -196,6 +193,7 @@ export default function StoredEconomicsSensitivities() {
   });
 
   const dividerPositions = [50];
+  const isCustomComponent = false;
 
   const columns: Column<IStoredEconomicsSensitivitiesRow>[] = [
     { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -206,7 +204,7 @@ export default function StoredEconomicsSensitivities() {
       editable: false,
       formatter: ({ row }) => {
         const sn = row.sn as number;
-        const title = row.economicsSensitivitiesTitle as string;
+        const title = row.title as string;
         const id = row.economicsSensitivitiesId as string;
         const deleteUrl = `${mainUrl}/${id}`;
 
@@ -215,22 +213,19 @@ export default function StoredEconomicsSensitivities() {
           {
             name: "title",
             title: "ECONOMICS SENSITIVITIES TITLE",
-            value: row["economicsSensitivitiesTitle"],
+            value: row["title"],
             editorType: "input",
+            width: "100%",
           },
           {
             name: "description",
             title: "Description",
             value: row["description"],
             editorType: "textArea",
+            width: "100%",
+            height: "100%",
           },
         ] as IApexEditorRow[];
-
-        const apexEditorProps = {
-          editorData,
-          editedRow,
-          dividerPositions,
-        } as Partial<IApexEditor>;
 
         return (
           <ApexFlexContainer>
@@ -242,9 +237,14 @@ export default function StoredEconomicsSensitivities() {
                   type: "tableEditorDialog",
                   show: true,
                   exclusive: true,
-                  maxWidth: "xs",
+                  maxWidth: isCustomComponent ? "lg" : "sm",
                   iconType: "edit",
-                  apexEditorProps,
+                  isCustomComponent,
+                  apexEditorProps: {
+                    editorData,
+                    editedRow,
+                    dividerPositions,
+                  },
                   actionsList: (titleDesc: Record<string, string>) =>
                     DialogOneCancelButtons(
                       [true, true],
@@ -261,6 +261,7 @@ export default function StoredEconomicsSensitivities() {
                 dispatch(showDialogAction(dialogParameters));
               }}
             />
+
             <DeleteOutlinedIcon
               onClick={() =>
                 dispatch(
@@ -292,6 +293,7 @@ export default function StoredEconomicsSensitivities() {
                 )
               }
             />
+
             <MenuOpenOutlinedIcon
               onClick={() =>
                 dispatch(
@@ -388,6 +390,9 @@ export default function StoredEconomicsSensitivities() {
 
   const [rows, setRows] = React.useState(transStoredSensitivitiesData);
 
+  const rowsTitlesString = rows.map((row) => row.title).join();
+  const rowsDescriptionsString = rows.map((row) => row.description).join();
+
   const exportTableProps = {
     fileName: "EconomicsSensitivities",
     tableData: {
@@ -408,8 +413,12 @@ export default function StoredEconomicsSensitivities() {
   };
 
   React.useEffect(() => {
-    setStoredEconomicsSensitivities(economicsSensitivitiesStored);
-  }, [JSON.stringify(economicsSensitivitiesStored)]);
+    setRows(transStoredSensitivitiesData);
+  }, [
+    transStoredSensitivitiesData.length,
+    rowsTitlesString,
+    rowsDescriptionsString,
+  ]);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,

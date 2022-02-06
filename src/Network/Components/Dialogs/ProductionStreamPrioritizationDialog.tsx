@@ -6,7 +6,7 @@ import DialogContent from "../../../Application/Components/DialogContents/Dialog
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
 import DialogTitle from "../../../Application/Components/DialogTitles/DialogTitle";
 import { hideDialogAction } from "../../../Application/Redux/Actions/DialogsAction";
-import ProductionStreamPrioritization from "../../Routes/ProductionStreamPrioritization";
+import EditOrCreateProductionPrioritization from "../../Routes/EditOrCreateProductionPrioritization";
 
 const ProductionStreamPrioritizationDialog: React.FC<DialogStuff> = (props) => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const ProductionStreamPrioritizationDialog: React.FC<DialogStuff> = (props) => {
         dividers
         style={{ display: "flex", flexDirection: "column", height: 650 }}
       >
-        <ProductionStreamPrioritization />
+        <EditOrCreateProductionPrioritization />
       </DialogContent>
       <DialogActions>{actionsList && actionsList()}</DialogActions>
     </Dialog>

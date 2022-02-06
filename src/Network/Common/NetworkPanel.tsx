@@ -188,16 +188,18 @@ const NetworkPanel = () => {
           )
         );
 
-        dispatch(
-          getTableDataByIdRequestAction(
-            reducer as TReducer,
-            `${mainUrl}/${selectedOption.id}`,
-            selectedOption.label as string,
-            "networkManualBuild",
-            "success",
-            "InputDeckEntities"
-          )
-        );
+        if (!isNetworkAuto) {
+          dispatch(
+            getTableDataByIdRequestAction(
+              reducer as TReducer,
+              `${mainUrl}/${selectedOption.id}`,
+              selectedOption.label as string,
+              "networkManualBuild",
+              "success",
+              "InputDeckEntities"
+            )
+          );
+        }
       }
     }
   }, [selectedForecastInputDeckTitle]);

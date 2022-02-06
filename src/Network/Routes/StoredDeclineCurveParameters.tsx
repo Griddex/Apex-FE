@@ -2,8 +2,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +39,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
+import { getDisabledStyle } from "../../Application/Styles/disabledStyles";
 import {
   IStoredDataProps,
   IStoredDataRow,
@@ -157,18 +159,15 @@ export default function StoredDeclineCurveParameters({
   showChart,
   isAllDeclineParameters,
 }: IStoredDataProps) {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const componentRef = React.useRef();
-
-  const currentProjectId = useSelector(currentProjectIdSelector);
-
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/well-decline-parameters`;
 
-  const [sRow, setSRow] = React.useState(-1);
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const componentRef = React.useRef();
 
+  const currentProjectId = useSelector(currentProjectIdSelector);
   const dayFormat = useSelector(dayFormatSelector);
   const monthFormat = useSelector(monthFormatSelector);
   const yearFormat = useSelector(yearFormatSelector);
@@ -224,6 +223,7 @@ export default function StoredDeclineCurveParameters({
     declineParametersFiltered as IBackendDeclineParametersRow[]
   );
 
+  const [sRow, setSRow] = React.useState(-1);
   const [rows, setRows] = React.useState(snTransStoredData);
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
@@ -364,8 +364,12 @@ export default function StoredDeclineCurveParameters({
             },
           ];
 
+          const style =
+            title.toLowerCase() === "default" ? getDisabledStyle(theme) : {};
+
           const EditCommand = (
             <EditOutlinedIcon
+              style={style as CSSProperties}
               onClick={() => {
                 const dialogParameters: DialogStuff = {
                   name: "Edit_Table_Dialog",
@@ -403,6 +407,7 @@ export default function StoredDeclineCurveParameters({
 
           const DeleteCommand = (
             <DeleteOutlinedIcon
+              style={style as CSSProperties}
               onClick={() => {
                 dispatch(
                   showDialogAction(
@@ -557,10 +562,7 @@ export default function StoredDeclineCurveParameters({
 
     return columns;
   };
-  const columns = React.useMemo(
-    () => generateColumns(),
-    [rowsTitlesString, rowsDescriptionsString]
-  );
+  const columns = React.useMemo(() => generateColumns(), []);
 
   const exportColumns = columns
     .filter(
@@ -596,19 +598,12 @@ export default function StoredDeclineCurveParameters({
     generateDoughnutAnalyticsData(rows, "approval")
   );
 
-  const storedDataTitlesString = declineParametersFiltered
-    .map((row: any) => row.title)
-    .join();
-  const storedDataDescriptionsString = declineParametersFiltered
-    .map((row: any) => row.description)
-    .join();
-
   React.useEffect(() => {
     setRows(snTransStoredData);
   }, [
     declineParametersStored.length,
-    storedDataTitlesString,
-    storedDataDescriptionsString,
+    rowsTitlesString,
+    rowsDescriptionsString,
   ]);
 
   const getApexGridProps = (size: ISize) => ({

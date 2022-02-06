@@ -75,7 +75,8 @@ export interface INetworkWorkflows {
     | "productionPrioritizationStored"
     | "productionPrioritizationCreate"
     | "runForecastWorkflow"
-    | "createForecastingParametersWorkflow"
+    | "forecastParametersStored"
+    | "forecastParametersCreate"
     | "editForecastingParametersWorkflow"
     | "declineCurveParametersWorkflow"
     | "createDeclineParametersWorkflow";

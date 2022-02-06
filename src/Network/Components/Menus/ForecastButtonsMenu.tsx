@@ -148,7 +148,7 @@ const ForecastButtonsMenu = () => {
       maxWidth: "xl",
       iconType: "create",
       actionsList: () => DialogCancelButton(),
-      workflowProcess: "createForecastingParametersWorkflow",
+      workflowProcess: "forecastParametersCreate",
     };
 
     dispatch(showDialogAction(dialogParameters));

@@ -30,13 +30,14 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
     justifyContent: "center",
     width: "100%",
-    height: "100%",
+    height: "calc(100% - 70px)",
     "& > *": {
       height: 200,
       width: 185,
       margin: 10,
     },
     padding: 40,
+    overflowY: "auto",
   },
   importWorkflow: {
     display: "flex",

@@ -20,12 +20,7 @@ export const successDialogParameters = (
   maxWidth: "xs",
   dialogText,
   iconType: "success",
-  actionsList: () =>
-    DialogOkayCancelButtons(
-      [true, true],
-      [true, true],
-      [unloadDialogsAction, hideDialogAction]
-    ),
+  actionsList: () => DialogCancelButton(),
   dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
 });
 

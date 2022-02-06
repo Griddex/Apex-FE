@@ -46,7 +46,6 @@ import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/Doug
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
 import DeclineParametersType from "../Components/Indicators/DeclineParametersType";
-import CreateForecastParametersButton from "../Components/Menus/CreateForecastParametersButton";
 import {
   fetchStoredForecastingParametersRequestAction,
   getDeclineParametersByIdRequestAction,
@@ -713,10 +712,6 @@ export default function StoredForecastingParameters({
     showExtraButtons: true,
     extraButtons: () => (
       <div>
-        <CreateForecastParametersButton
-          currentRow={newRow}
-          forecastParametersIndex={snTransStoredData.length}
-        />
         <ExcelExportTable<IForecastParametersStoredRow> {...exportTableProps} />
       </div>
     ),

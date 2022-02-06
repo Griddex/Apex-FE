@@ -2,8 +2,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +39,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
+import { getDisabledStyle } from "../../Application/Styles/disabledStyles";
 import {
   IStoredDataProps,
   IStoredDataRow,
@@ -52,6 +54,10 @@ import {
   updateNetworkParameterAction,
   updateNetworkParametersAction,
 } from "../Redux/Actions/NetworkActions";
+import {
+  productionPrioritizationStoredWithSN,
+  cloneProductionPrioritizationRow,
+} from "../Utils/TransformPrioritization";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {
@@ -114,79 +120,6 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-export const productionPrioritizationStoredWithSN = (
-  productionPrioritizationStored: any[]
-) => {
-  const transStoredData = productionPrioritizationStored.map((row: any) => {
-    const {
-      createdAt,
-      title,
-      description,
-      forecastInputDeckId,
-      id,
-      projectId,
-      userId,
-      typeOfPrioritization,
-      typeOfStream,
-      useSecondaryFacility,
-    } = row;
-
-    return {
-      id: id,
-      userId: userId,
-      title: title,
-      approval: "Not Started",
-      author: { avatarUrl: "", name: "None" },
-      approvers: [{ avatarUrl: "", name: "" }],
-      description: description,
-      createdOn: createdAt,
-      modifiedOn: createdAt,
-    };
-  }) as IStoredDataRow[];
-
-  const snTransStoredData = transStoredData.map((row, i) => ({
-    sn: i + 1,
-    ...row,
-  })) as IStoredDataRow[];
-
-  return snTransStoredData;
-};
-
-export const cloneProductionPrioritizationRow = (
-  currentRow: IStoredDataRow,
-  noOfRows: number
-) => {
-  const {
-    approval,
-    approvers,
-    author,
-    createdOn,
-    description,
-    id,
-    modifiedOn,
-    sn,
-    title,
-  } = currentRow;
-
-  const newRow = {
-    approval,
-    approvers,
-    author,
-    createdOn,
-    description,
-    id,
-    modifiedOn,
-    sn: noOfRows + 1,
-    title: "User",
-    userId: "Gabriel",
-    typeOfPrioritization: "",
-    typeOfStream: "",
-    useSecondaryFacility: "",
-  };
-
-  return newRow;
-};
-
 const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.currentProjectId,
   (id) => id
@@ -226,17 +159,15 @@ export default function StoredProductionPrioritization({
   showChart,
   isAllWellPrioritization,
 }: IStoredDataProps) {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const componentRef = React.useRef();
-
-  const currentProjectId = useSelector(currentProjectIdSelector);
-
   const reducer = "networkReducer";
   const mainUrl = `${getBaseForecastUrl()}/well-prioritization`;
 
-  const [sRow, setSRow] = React.useState(-1);
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const componentRef = React.useRef();
+  const theme = useTheme();
 
+  const currentProjectId = useSelector(currentProjectIdSelector);
   const dayFormat = useSelector(dayFormatSelector);
   const monthFormat = useSelector(monthFormatSelector);
   const yearFormat = useSelector(yearFormatSelector);
@@ -280,6 +211,7 @@ export default function StoredProductionPrioritization({
     wellPrioritizationFiltered
   );
 
+  const [sRow, setSRow] = React.useState(-1);
   const [rows, setRows] = React.useState(snTransStoredData);
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IStoredDataRow) => {
@@ -293,15 +225,11 @@ export default function StoredProductionPrioritization({
     setCheckboxSelected(!checkboxSelected);
   };
 
-  const ApexGridCheckboxColumn = React.useMemo(
-    () =>
-      apexGridCheckbox({
-        shouldExecute: true,
-        shouldDispatch: false,
-        apexGridCheckboxFxn: handleCheckboxChange,
-      }),
-    [checkboxSelected]
-  );
+  const ApexGridCheckboxColumn = apexGridCheckbox({
+    shouldExecute: true,
+    shouldDispatch: false,
+    apexGridCheckboxFxn: handleCheckboxChange,
+  });
 
   const dividerPositions = [50];
   const isCustomComponent = false;
@@ -349,6 +277,7 @@ export default function StoredProductionPrioritization({
 
   const rowsTitlesString = rows.map((row) => row.title).join();
   const rowsDescriptionsString = rows.map((row) => row.description).join();
+
   const generateColumns = () => {
     const columns: Column<IStoredDataRow>[] = [
       { key: "sn", name: "SN", editable: false, resizable: true, width: 50 },
@@ -414,17 +343,6 @@ export default function StoredProductionPrioritization({
                 const wellDeclineParamtersId = currentRow.id;
                 const wellDeclineParamtersTitle = currentRow.title;
 
-                // dispatch(
-                //   getDeclineParametersByIdRequestAction(
-                //     "inputReducer" as TReducer,
-                //     isCreateOrEdit,
-                //     wellDeclineParamtersId as string,
-                //     wellDeclineParamtersTitle as string,
-                //     currentSN,
-                //     currentRow as any
-                //   )
-                // );
-
                 dispatch(
                   getProductionPrioritizationByIdRequestAction(
                     id,
@@ -437,6 +355,9 @@ export default function StoredProductionPrioritization({
               },
             },
           ];
+
+          const style =
+            title.toLowerCase() === "default" ? getDisabledStyle(theme) : {};
 
           const VisibilityOutlined = (
             <VisibilityOutlinedIcon
@@ -451,13 +372,6 @@ export default function StoredProductionPrioritization({
                     false
                   )
                 );
-
-                /* dispatch(
-                    updateNetworkParameterAction(
-                      "selectedForecastingParametersId",
-                      row.forecastingParametersId
-                    )
-                  ); */
               }}
             />
           );
@@ -473,6 +387,7 @@ export default function StoredProductionPrioritization({
 
           const EditCommand = (
             <EditOutlinedIcon
+              style={style as CSSProperties}
               onClick={() => {
                 const dialogParameters: DialogStuff = {
                   name: "Edit_Table_Dialog",
@@ -510,6 +425,7 @@ export default function StoredProductionPrioritization({
 
           const DeleteCommand = (
             <DeleteOutlinedIcon
+              style={style as CSSProperties}
               onClick={() => {
                 dispatch(
                   showDialogAction(
@@ -628,10 +544,7 @@ export default function StoredProductionPrioritization({
 
     return columns;
   };
-  const columns = React.useMemo(
-    () => generateColumns(),
-    [rowsTitlesString, rowsDescriptionsString]
-  );
+  const columns = React.useMemo(() => generateColumns(), []);
 
   const exportColumns = columns
     .filter(
@@ -667,23 +580,12 @@ export default function StoredProductionPrioritization({
     generateDoughnutAnalyticsData(rows, "approval")
   );
 
-  const storedDataTitlesString = wellPrioritizationFiltered
-    .map((row: any) => row.title)
-    .join();
-  const storedDataDescriptionsString = wellPrioritizationFiltered
-    .map((row: any) => row.description)
-    .join();
-
   React.useEffect(() => {
-    const updatedStoredData = productionPrioritizationStoredWithSN(
-      wellPrioritizationFiltered
-    );
-
-    setRows(updatedStoredData);
+    setRows(snTransStoredData);
   }, [
     productionPrioritizationStored.length,
-    storedDataTitlesString,
-    storedDataDescriptionsString,
+    rowsTitlesString,
+    rowsDescriptionsString,
   ]);
 
   const getApexGridProps = (size: ISize) => ({

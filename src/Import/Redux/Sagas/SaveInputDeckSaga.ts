@@ -215,7 +215,6 @@ export function* saveInputDeckSaga(
       ...failureAction,
       payload: { ...payload, errors },
     });
-    console.log("🚀 ~ file: SaveInputDeckSaga.ts ~ line 225 ~ errors", errors);
 
     const errorMessages = (errors as any)["errors"]
       .map((row: any) => row.message)

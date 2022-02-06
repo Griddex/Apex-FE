@@ -17,8 +17,8 @@ import Image from "../../Application/Components/Visuals/Image";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import { updateDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import {
-  unloadDialogsAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
@@ -28,17 +28,19 @@ import DeclineParameters from "../Images/DeclineParameters.svg";
 import ManualNetwork from "../Images/ManualNetwork.svg";
 import ProductionPrioritization from "../Images/ProductionPrioritization.svg";
 import StoredDeck from "../Images/StoredDeck.svg";
+import ForecastParameters from "../Images/ForecastParameters.svg";
 import {
   fetchStoredForecastingParametersRequestAction,
   updateNetworkParameterAction,
 } from "../Redux/Actions/NetworkActions";
 import { IdType } from "./NetworkLandingTypes";
+import EditOrCreateForecastParametersWorkflow from "../Workflows/EditOrCreateForecastParametersWorkflow";
 
-const DeclineCurveParameters = React.lazy(
-  () => import("../Routes/DeclineCurveParameters")
+const EditOrCreateDeclineParametersWorkflow = React.lazy(
+  () => import("../Workflows/EditOrCreateDeclineParametersWorkflow")
 );
-const ProductionStreamPrioritization = React.lazy(
-  () => import("../Routes/ProductionStreamPrioritization")
+const EditOrCreateProductionPrioritizationWorkflow = React.lazy(
+  () => import("../Workflows/EditOrCreateProductionPrioritizationWorkflow")
 );
 const StoredDeclineCurveParameters = React.lazy(
   () => import("../Routes/StoredDeclineCurveParameters")
@@ -82,6 +84,23 @@ const loadNetworkGenerationWorkflowSelector = createDeepEqualSelector(
   (state: RootState) => state.networkReducer.loadNetworkGenerationWorkflow,
   (data) => data
 );
+
+const forecastingParametersTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["forecastingParametersTitles"],
+  (title) => title
+);
+const declineParametersTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["declineParametersTitles"],
+  (title) => title
+);
+const prioritizationTitlesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.applicationReducer["allFormTitles"]["productionPrioritizationTitles"],
+  (title) => title
+);
+
 // const networkStoredSelector = createDeepEqualSelector(
 //   (state: RootState) => state.networkReducer.storedDataWorkflows.networkStored,
 //   (data) => data
@@ -92,9 +111,46 @@ const loadNetworkGenerationWorkflowSelector = createDeepEqualSelector(
 //   (data) => data
 // );
 
+const activeStepSelectorFctParams = createDeepEqualSelector(
+  (state: RootState) =>
+    state.workflowReducer["networkDataWorkflows"]["forecastParametersCreate"][
+      "activeStep"
+    ],
+  (activeStep) => activeStep
+);
+const activeStepSelectorPrtzn = createDeepEqualSelector(
+  (state: RootState) =>
+    state.workflowReducer["networkDataWorkflows"][
+      "productionPrioritizationCreate"
+    ]["activeStep"],
+  (activeStep) => activeStep
+);
+const activeStepSelectorDeclineParams = createDeepEqualSelector(
+  (state: RootState) =>
+    state.workflowReducer["networkDataWorkflows"]["declineParametersCreate"][
+      "activeStep"
+    ],
+  (activeStep) => activeStep
+);
+
 const NetworkLanding = () => {
   const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
   const reducer = "networkReducer";
+  const stepsFctParams = [
+    "Select Forecast InputDeck",
+    "Forecast Parameters",
+    "Title and Description",
+  ];
+  const stepsPrtzn = [
+    "Select Forecast InputDeck",
+    "Production Prioritization",
+    "Title and Description",
+  ];
+  const stepsDeclineParams = [
+    "Select Forecast InputDeck",
+    "Decline Parameters",
+    "Title and Description",
+  ];
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -103,6 +159,23 @@ const NetworkLanding = () => {
   const loadNetworkGenerationWorkflow = useSelector(
     loadNetworkGenerationWorkflowSelector
   );
+
+  const activeStepFctParams = useSelector(activeStepSelectorFctParams);
+  const activeStepPrtzn = useSelector(activeStepSelectorPrtzn);
+  const activeStepDeclineParams = useSelector(activeStepSelectorDeclineParams);
+
+  const forecastingParametersTitles = useSelector(
+    forecastingParametersTitlesSelector
+  );
+  const declineParametersTitles = useSelector(declineParametersTitlesSelector);
+  const prioritizationTitles = useSelector(prioritizationTitlesSelector);
+
+  const [fctParamsTitle, setFctParamsTitle] = React.useState("");
+  const [fctParamsDesc, setFctParamsDesc] = React.useState("");
+  const [declineParamsTitle, setDeclineParamsTitle] = React.useState("");
+  const [declineParamsDesc, setDeclineParamsDesc] = React.useState("");
+  const [prioritizationTitle, setPrioritizationTitle] = React.useState("");
+  const [prioritizationDesc, setPrioritizationDesc] = React.useState("");
 
   const networkLandingData: ILandingData[] = [
     {
@@ -140,17 +213,31 @@ const NetworkLanding = () => {
       workflowCategory: "storedDataWorkflows",
     },
     {
+      name: `Create Forecast Parameters`,
+      description: `create forecast parameters and store in the Apex\u2122 database`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ForecastParameters}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+      ),
+      route: `${url}/forecastParametersCreate`,
+      workflowProcess: "forecastParametersCreate",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
       name: `Stored Forecast Parameters`,
       description: `View and create forecast parameters and store in the Apex\u2122 database`,
       icon: (
         <Image
           className={classes.image}
-          src={StoredDeck}
+          src={ForecastParameters}
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/forecastParameters`,
-      workflowProcess: "forecastResultsStored",
+      route: `${url}/forecastParametersStored`,
+      workflowProcess: "forecastParametersStored",
       workflowCategory: "storedDataWorkflows",
     },
     {
@@ -279,13 +366,25 @@ const NetworkLanding = () => {
                       containerStyle={{ boxShadow: "none" }}
                     />
                   ),
-                  forecastParameters: (
+                  forecastParametersStored: (
                     <StoredForecastingParameters
                       showChart={true}
                       isAllForecastParameters={true}
                       updateTableActionConfirmation={
                         updateTableActionConfirmation
                       }
+                    />
+                  ),
+                  forecastParametersCreate: (
+                    <EditOrCreateForecastParametersWorkflow
+                      workflowProcess={"forecastParametersCreate"}
+                      activeStep={activeStepFctParams}
+                      title={fctParamsTitle}
+                      setTitle={setFctParamsTitle}
+                      description={fctParamsDesc}
+                      setDescription={setFctParamsDesc}
+                      storedTitles={forecastingParametersTitles}
+                      steps={stepsFctParams}
                     />
                   ),
                   declineParametersStored: (
@@ -297,22 +396,35 @@ const NetworkLanding = () => {
                     />
                   ),
                   declineParametersCreate: (
-                    <DeclineCurveParameters
+                    <EditOrCreateDeclineParametersWorkflow
                       workflowProcess={"declineParametersCreate"}
-                      containerStyle={{ boxShadow: "none" }}
+                      activeStep={activeStepDeclineParams}
+                      title={declineParamsTitle}
+                      setTitle={setDeclineParamsTitle}
+                      description={declineParamsDesc}
+                      setDescription={setDeclineParamsDesc}
+                      storedTitles={declineParametersTitles}
+                      steps={stepsDeclineParams}
+                    />
+                  ),
+                  productionPrioritizationCreate: (
+                    <EditOrCreateProductionPrioritizationWorkflow
+                      workflowProcess={"productionPrioritizationCreate"}
+                      activeStep={activeStepPrtzn}
+                      title={prioritizationTitle}
+                      setTitle={setPrioritizationTitle}
+                      description={prioritizationDesc}
+                      setDescription={setPrioritizationDesc}
+                      storedTitles={prioritizationTitles}
+                      steps={stepsPrtzn}
                     />
                   ),
                   productionPrioritizationStored: (
                     <StoredProductionPrioritization
                       workflowProcess={"productionPrioritizationStored"}
                       containerStyle={{ boxShadow: "none" }}
+                      showChart={true}
                       isAllWellPrioritization={true}
-                    />
-                  ),
-                  productionPrioritizationCreate: (
-                    <ProductionStreamPrioritization
-                    // workflowProcess={"productionPrioritizationCreate"}
-                    // containerStyle={{ boxShadow: "none" }}
                     />
                   ),
                 };

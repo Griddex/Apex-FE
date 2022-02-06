@@ -80,6 +80,7 @@ const selectedDeclineParametersDataSelector = createDeepEqualSelector(
 export default function EditOrCreateDeclineParameters({
   currentRow,
   reducer,
+  isDialog,
 }: IStoredDataProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -274,7 +275,14 @@ export default function EditOrCreateDeclineParameters({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), []);
+
+  const columns = React.useMemo(() => {
+    if (isDialog) {
+      return generateColumns();
+    } else {
+      return generateColumns().filter((col) => col.key !== "actions");
+    }
+  }, []);
 
   const snDeclineCurveParametersList = selectedDeclineParametersData.map(
     (row: any, i: number) => ({

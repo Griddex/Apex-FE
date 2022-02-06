@@ -325,7 +325,7 @@ export default function PreviewSave({
             dispatch(validateForecastInputDeckRequestAction(wc, wp))
           }
         />
-        <ExcelExportTable<IRawRow> {...exportTableProps} />,
+        <ExcelExportTable<IRawRow> {...exportTableProps} />
       </div>
     ),
   };

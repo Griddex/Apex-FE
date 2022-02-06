@@ -1,49 +1,180 @@
+import { useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
-import { useDispatch } from "react-redux";
+import isEqual from "react-fast-compare";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import DialogOneCancelButtons from "../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
+import ContextDrawer from "../../Application/Components/Drawers/ContextDrawer";
 import { ITitleAndDescriptionFormProps } from "../../Application/Components/Forms/FormTypes";
 import TitleAndDescriptionForm from "../../Application/Components/Forms/TitleAndDescriptionForm";
+import NavigationButtons from "../../Application/Components/NavigationButtons/NavigationButtons";
+import { INavigationButtonsProp } from "../../Application/Components/NavigationButtons/NavigationButtonTypes";
+import VerticalWorkflowStepper from "../../Application/Components/Workflows/VerticalWorkflowStepper";
+import WorkflowBanner from "../../Application/Components/Workflows/WorkflowBanner";
 import {
-  TReducer,
   TAllWorkflowProcesses,
+  TReducer,
 } from "../../Application/Components/Workflows/WorkflowTypes";
-import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
-import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
+import {
+  showDialogAction,
+  unloadDialogsAction,
+} from "../../Application/Redux/Actions/DialogsAction";
+import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import StoredForecastDecks from "../../Import/Routes/ForecastInputDeck/StoredForecastDecks";
 import { IEditOrCreateDeclineParameters } from "../Components/Dialogs/EditOrCreateDeclineParametersWorkflowDialog";
+import { saveDeclineParametersRequestAction } from "../Redux/Actions/NetworkActions";
 import EditOrCreateDeclineParameters from "../Routes/EditOrCreateDeclineParameters";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    padding: 0,
+  },
+  workflowBody: {
+    display: "flex",
+    flexDirection: "column",
+    height: "90%",
+    width: "97%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+}));
+
+const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+
+const showContextDrawerSelector = createDeepEqualSelector(
+  (state: RootState) => state.layoutReducer.showContextDrawer,
+  (reducer) => reducer
+);
 
 const EditOrCreateDeclineParametersWorkflow = ({
   currRow,
-  setCurrRow,
-  shouldUpdate,
   workflowProcess,
   activeStep,
-  forecastParametersIndex,
   title,
   setTitle,
   description,
   setDescription,
   storedTitles,
+  isDialog,
+  steps,
 }: IEditOrCreateDeclineParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as TReducer;
   const currRowCopy = currRow == null ? {} : currRow;
-
-  const wc = "storedDataWorkflows";
+  const workflowCategory = "networkDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
+  const titleDesc = { title, description };
 
+  const skipped = new Set<number>();
+
+  const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
-  const wp = workflowProcess as NonNullable<
-    IStoredDataProps["workflowProcess"]
-  >;
+  const showContextDrawer = useSelector(showContextDrawerSelector);
 
-  const mainUrl = `${getBaseForecastUrl()}/well-decline-parameters`;
-  const collectionName = "declineParameters";
+  const activeStepDefined = activeStep as number;
+  const isStepOptional = React.useCallback(
+    (activeStep: number) => activeStep === 50,
+    [activeStep]
+  );
+
+  const isStepSkipped = React.useCallback(
+    (step: number) => skipped.has(step),
+    [skipped]
+  );
+
+  const saveRequestConfirmation = () => {
+    const dialogParameters: DialogStuff = {
+      name: "Save_Decline_Parameters_Dialog",
+      title: "Save Decline Parameters Dialog",
+      type: "textDialog",
+      show: true,
+      exclusive: false,
+      maxWidth: "xs",
+      dialogText: "Do you want to save the current forecast parameters?",
+      iconType: "confirmation",
+      actionsList: () =>
+        DialogOneCancelButtons(
+          [true, true],
+          [true, true],
+          [
+            unloadDialogsAction,
+            () =>
+              saveDeclineParametersRequestAction(
+                titleDesc as Record<string, string>
+              ),
+          ],
+          "Save",
+          "saveOutlined",
+          false,
+          "All"
+        ),
+      dialogContentStyle: { paddingTop: 40, paddingBottom: 40 },
+    };
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
+  const workflowProps = {
+    activeStep: activeStepDefined,
+    steps,
+    isStepOptional,
+    skipped,
+    isStepSkipped,
+  };
+
+  const navigationButtonProps: INavigationButtonsProp = {
+    isMainNav: false,
+    showReset: true,
+    showBack: true,
+    showSkip: true,
+    showNext: true,
+    isNavButtonDisabled: {
+      reset: false,
+      skip: false,
+      back: activeStep === 0 ? true : false,
+      next: false,
+    },
+    finalAction: saveRequestConfirmation,
+    workflowProps,
+    workflowProcess,
+    workflowCategory,
+  };
+
+  const moduleName = "";
+  const subModuleName = "Create Decline Parameters";
+  const workflowName = "";
+
+  const WorkflowBannerProps = {
+    activeStep: activeStepDefined,
+    steps,
+    moduleName,
+    subModuleName,
+    workflowName,
+    showChip: true,
+  };
+
+  const VerticalWorkflowStepperProps = {
+    activeStep: activeStepDefined,
+    steps,
+    skipped,
+    isStepSkipped,
+    moduleName,
+    subModuleName,
+    workflowName,
+    errorSteps: [],
+  };
 
   const renderImportStep = () => {
-    const n =
-      workflowProcessDefined === "createForecastingParametersWorkflow" ? 0 : 1;
+    const n = workflowProcessDefined === "declineParametersCreate" ? 0 : 1;
 
     const activeStepMod = (activeStep as number) + n;
 
@@ -62,6 +193,7 @@ const EditOrCreateDeclineParametersWorkflow = ({
           <EditOrCreateDeclineParameters
             currentRow={currRowCopy}
             reducer={reducer}
+            isDialog={isDialog}
           />
         );
       case 2:
@@ -72,6 +204,7 @@ const EditOrCreateDeclineParametersWorkflow = ({
             description={description}
             setDescription={setDescription}
             storedTitles={storedTitles}
+            heightIsAuto={true}
           />
         );
       default:
@@ -79,7 +212,23 @@ const EditOrCreateDeclineParametersWorkflow = ({
     }
   };
 
-  return <>{renderImportStep()}</>;
+  const titleDescWidth =
+    activeStep === 2 ? theme.breakpoints.values.sm : "100%";
+
+  return (
+    <div className={classes.root}>
+      <WorkflowBanner {...WorkflowBannerProps} />
+      <div className={classes.workflowBody} style={{ width: titleDescWidth }}>
+        {renderImportStep()}
+      </div>
+      {showContextDrawer && (
+        <ContextDrawer>
+          {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
+        </ContextDrawer>
+      )}
+      <NavigationButtons {...navigationButtonProps} />
+    </div>
+  );
 };
 
 export default EditOrCreateDeclineParametersWorkflow;

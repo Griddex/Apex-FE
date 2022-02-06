@@ -111,8 +111,10 @@ const generateVisualyticsWorkflowState = () => {
 
 const networkWorkflowProcesses = [
   "networkGeneration",
-  "createForecastingParametersWorkflow",
+  "forecastParametersCreate",
   "editForecastingParametersWorkflow",
+  "productionPrioritizationCreate",
+  "declineParametersCreate",
 ];
 const generateNetworkWorkflowState = () => {
   return networkWorkflowProcesses.reduce((acc, workflowProcess) => {
