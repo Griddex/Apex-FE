@@ -19,6 +19,7 @@ import { persistSelectedIdTitleAction } from "../../../Application/Redux/Actions
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { IApplicationStoredDataRow } from "../../../Application/Types/ApplicationTypes";
 import generateSelectOptions from "../../../Application/Utils/GenerateSelectOptions";
+import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -112,12 +113,12 @@ const EconomicsDecksSelectionTable = () => {
       const selectedTitle = selectedValue as string;
 
       if (type === "Economics Costs & Revenues") {
-        const selectedDeck = economicsCostsRevenuesDeckStored.filter(
+        const selectedDeck = economicsCostsRevenuesDeckStored.find(
           (row: IApplicationStoredDataRow) => row.title === selectedTitle
-        )[0];
+        );
 
         if (selectedDeck) {
-          const { id, title } = selectedDeck;
+          const { id, title, aggregationLevelOption } = selectedDeck;
 
           persistSelectedIdTitleAction &&
             dispatch(
@@ -126,6 +127,13 @@ const EconomicsDecksSelectionTable = () => {
                 selectedCostsRevenuesInputDeckTitle: title,
               })
             );
+
+          dispatch(
+            updateEconomicsParameterAction(
+              "costsRevenueAggregationLevelOption",
+              aggregationLevelOption
+            )
+          );
         }
       } else {
         const selectedDeck = economicsParametersDeckStored.filter(

@@ -79,24 +79,22 @@ const EconomicsParametersManual = ({
   finalAction,
 }: IAllWorkflows) => {
   const reducerDefined = reducer as TReducer;
+  const wc = wrkflwCtgry as TAllWorkflowCategories;
+  const wp = wrkflwPrcss as TAllWorkflowProcesses;
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const parametersDeck = useSelector(
-    (state: RootState) =>
-      state.economicsReducer[wrkflwCtgry][wrkflwPrcss]["tableData"],
+    (state: RootState) => state.economicsReducer[wc][wp]["tableData"],
     () => false
   );
 
   const typeOptions = [
     { value: "Single", label: "Single" },
     { value: "Table", label: "Table" },
-    { value: "Equation", label: "Equation" },
+    // { value: "Equation", label: "Equation" },
   ];
-
-  const wc = wrkflwCtgry as TAllWorkflowCategories;
-  const wp = wrkflwPrcss as TAllWorkflowProcesses;
 
   const economicsParametersAppHeaders = useSelector(
     economicsParametersAppHeadersSelector
@@ -143,6 +141,27 @@ const EconomicsParametersManual = ({
     Object.entries(parametersDeck).length > 0 ? parametersDeck : initialRows
   );
 
+  const initialParametersObj: Record<
+    string,
+    OnChangeValue<ISelectOption, false>
+  > = React.useMemo(
+    () =>
+      (economicsParametersAppHeaders as string[]).reduce((acc, name) => {
+        const options = unitOptionsByVariableName[name];
+
+        const firstOption =
+          options && Object.keys(options).length > 0
+            ? options[0]
+            : { value: "unitless", label: "unitless" };
+
+        return { ...acc, [name]: firstOption };
+      }, {}) as Record<string, OnChangeValue<ISelectOption, false>>,
+    []
+  );
+
+  const [appHeaderChosenAppUnitObj, setAppHeaderChosenAppUnitObj] =
+    React.useState(initialParametersObj);
+
   const handleParameterTypeChange = (
     row: IRawRow,
     option: OnChangeValue<ISelectOption, false>
@@ -164,9 +183,9 @@ const EconomicsParametersManual = ({
 
   const handleParameterUnitChange = (
     row: IRawRow,
-    value: OnChangeValue<ISelectOption, false>
+    option: OnChangeValue<ISelectOption, false>
   ) => {
-    const selectedValue = value && value.label;
+    const selectedValue = option && option.label;
     const selectedAppUnit = selectedValue as string;
 
     const selectedRowSN = row.sn as number;
@@ -177,6 +196,12 @@ const EconomicsParametersManual = ({
       ...selectedRow,
       unit: selectedAppUnit,
     };
+
+    const headerName = row.parameter as string;
+    setAppHeaderChosenAppUnitObj((prev) => ({
+      ...prev,
+      [headerName]: option,
+    }));
 
     setRows(newRows);
   };
@@ -238,9 +263,9 @@ const EconomicsParametersManual = ({
           const type = row.type as string;
           const parameterName = row.parameterName as string;
 
-          const valueOption = typeOptions.filter(
+          const valueOption = typeOptions.find(
             (opt) => opt.value === type
-          )[0];
+          ) as ISelectOption;
 
           if (["prodTerrain", "gasDevConcept"].includes(parameterName))
             return <></>;
@@ -376,8 +401,8 @@ const EconomicsParametersManual = ({
             <ApexSelectRS
               valueOption={valueOption}
               data={unitOptions}
-              handleSelect={(value: OnChangeValue<ISelectOption, false>) =>
-                handleParameterUnitChange(row, value)
+              handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+                handleParameterUnitChange(row, option)
               }
               menuPortalTarget={document.body}
               isSelectOptionType={true}
@@ -439,12 +464,7 @@ const EconomicsParametersManual = ({
   );
 
   React.useEffect(() => {
-    dispatch(
-      updateEconomicsParameterAction(
-        `${wrkflwCtgry}.${wrkflwPrcss}.tableData`,
-        rows
-      )
-    );
+    dispatch(updateEconomicsParameterAction(`${wc}.${wp}.tableData`, rows));
   }, [rows]);
 
   React.useEffect(() => {
@@ -452,6 +472,26 @@ const EconomicsParametersManual = ({
       setRows(parametersDeck);
     }
   }, [parametersDeck]);
+
+  const appUnits = Object.values(appHeaderChosenAppUnitObj)
+    .map((v) => v?.value as string)
+    .join();
+  React.useEffect(() => {
+    const appHeaderNameUnitTitlesMap = Object.keys(
+      appHeaderChosenAppUnitObj
+    ).reduce((acc, name) => {
+      const options = appHeaderChosenAppUnitObj[name];
+      acc[name] = options?.value as string;
+      return acc;
+    }, {} as Record<string, string>);
+
+    dispatch(
+      updateEconomicsParameterAction(
+        `${wc}.${wp}.appHeaderNameUnitTitlesMap`,
+        appHeaderNameUnitTitlesMap
+      )
+    );
+  }, [appUnits]);
 
   return (
     <div className={classes.rootStoredData}>

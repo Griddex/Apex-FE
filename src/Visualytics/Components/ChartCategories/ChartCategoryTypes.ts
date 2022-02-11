@@ -8,7 +8,9 @@ export interface IDragItem {
   name: string;
   title: string;
   path?: string;
+  aggregationLevelIndex?: number;
 }
+
 export interface IChartCategory {
   categoryTitle: string;
   persistAction: (name: string, title: string) => void;

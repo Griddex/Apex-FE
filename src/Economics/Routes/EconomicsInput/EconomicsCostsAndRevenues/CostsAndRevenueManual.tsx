@@ -330,6 +330,15 @@ export default function CostsAndRevenueManual({
     );
   }, [devVal]);
 
+  React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        `${basePath}.costsRevenueAggregationLevelOption`,
+        costsRevenueAggregationLevelOption
+      )
+    );
+  }, [costsRevenueAggregationLevelOption?.value]);
+
   //TODO for some reason, manual workflow is updating all of them
   //Please trace and fix
 

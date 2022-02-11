@@ -14,6 +14,8 @@ import { loadWorkflowAction } from "../../../Application/Redux/Actions/LayoutAct
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../../Application/Types/ApplicationTypes";
 import ImportDatabase from "../../Images/ImportDatabase.svg";
+import MBAL from "../../Images/MBAL.svg";
+import Eclipse from "../../Images/Eclipse.svg";
 import MSExcel from "../../Images/MSExcel.svg";
 import StoredDeck from "../../Images/StoredDeck.svg";
 import { IdType } from "./ForecastProfilesLandingTypes";
@@ -95,6 +97,34 @@ const ForecastProfilesDeckLanding = () => {
       ),
       route: `${url}/database`,
       workflowProcess: "forecastProfilesDatabase",
+      workflowCategory: "inputDataWorkflows",
+    },
+    {
+      name: "MBAL",
+      description: `Import forecast profiles from MBAL forecast result file`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={MBAL}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+      ),
+      route: `${url}/mbal`,
+      workflowProcess: "forecastProfilesMbal",
+      workflowCategory: "inputDataWorkflows",
+    },
+    {
+      name: "Eclipse",
+      description: `Import forecast profiles from eclipse forecast result file`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={Eclipse}
+          alt="Hydrocarbon Forecasting Platform Company Logo"
+        />
+      ),
+      route: `${url}/eclipse`,
+      workflowProcess: "forecastProfilesEclipse",
       workflowCategory: "inputDataWorkflows",
     },
     {
@@ -189,6 +219,8 @@ const ForecastProfilesDeckLanding = () => {
                     }
                   />
                 ),
+                mbal: <div>MBAL</div>,
+                eclipse: <div>ECLIPSE</div>,
                 approveddeck: (
                   <StoredForecastDecks
                     reducer={reducer}

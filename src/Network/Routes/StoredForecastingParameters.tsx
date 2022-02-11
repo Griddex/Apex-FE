@@ -328,6 +328,7 @@ export default function StoredForecastingParameters({
 
           const importMoreActionsData = [
             {
+              id,
               title: "Clone",
               action: () => {
                 const currentRow = rows[currentSN - 1];
@@ -348,6 +349,7 @@ export default function StoredForecastingParameters({
               },
             },
             {
+              id,
               title: "Modify",
               action: () => {
                 dispatch(

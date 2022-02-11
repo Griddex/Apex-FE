@@ -91,11 +91,15 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
           economicsTree["plotChartsTree"],
         [economicsPerspectiveTreeMap["templatesTree"]]:
           economicsTree["templatesTree"],
+        //TODO ask Gift if this analysis payload is updated
+        //it should always be in the structure below
         resultsAnalyisOptions: economicsTree["analysis"].map((row: any) => ({
           value: row["analysisName"],
           label: row["analysisTitle"],
         })),
         economicsRanking: economicsTree["economicsRanking"],
+        economicsResultsCase: economicsTree["economicsResultsCase"],
+        analysisNames: economicsTree["analysisNames"],
         sensitivitiesTable:
           economicsTree["economicsSensitivitiesResult"]["sensitivitiesTable"],
       })

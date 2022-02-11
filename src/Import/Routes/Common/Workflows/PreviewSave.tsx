@@ -24,6 +24,7 @@ import { TDevScenarioNames } from "../../../../Economics/Routes/EconomicsAnalyse
 import {
   persistTableDataAction,
   persistVariableUnitsAction,
+  updateInputParameterAction,
   validateForecastInputDeckRequestAction,
 } from "../../../Redux/Actions/InputActions";
 import swapTitleToNames from "../../../Utils/SwapTitleToNames";
@@ -171,6 +172,10 @@ export default function PreviewSave({
     false
   );
 
+  console.log(
+    "🚀 ~ file: PreviewSave.tsx ~ line 176 ~ matchHeadersRows",
+    matchHeadersRows
+  );
   const includedColumnIndices = matchHeadersRows.reduce(
     (acc: number[], row: IRawRow, i: number) => {
       if (row.applicationHeader.toString().toLowerCase() === "none")
@@ -335,7 +340,7 @@ export default function PreviewSave({
       persistTableDataAction(reducer, tableData, wp, currentDevOption?.value)
     );
 
-    const appHeaderNameUnitsMap = matchUnitsRows.reduce(
+    const appHeaderNameUnitIdsMap = matchUnitsRows.reduce(
       (acc: any, row: IRawRow) => {
         const { type, fileHeader } = row;
         const fileHeaderDefined = fileHeader as string;
@@ -355,7 +360,35 @@ export default function PreviewSave({
       {}
     );
 
-    dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitsMap, wp));
+    const appHeaderNameUnitTitlesMap = matchUnitsRows.reduce(
+      (acc: any, row: IRawRow) => {
+        const { type, fileHeader, applicationUnit } = row;
+        const fileHeaderDefined = fileHeader as string;
+
+        const appHeaderUnitIdObj =
+          fileHeadersUnitsAppHeadersWithoutNoneMap.current[fileHeaderDefined];
+        const appHeader = appHeaderUnitIdObj.chosenAppHeader;
+        const appHeaderName = currentAppHeaderNameMap[appHeader];
+
+        return {
+          ...acc,
+          [appHeaderName]:
+            type === "Multiple"
+              ? (applicationUnit as string[]).join("&|&")
+              : applicationUnit,
+        };
+      },
+      {}
+    );
+
+    dispatch(persistVariableUnitsAction(reducer, appHeaderNameUnitIdsMap, wp));
+    dispatch(
+      updateInputParameterAction(
+        reducer,
+        `${wc}.${wp}.appHeaderNameUnitTitlesMap`,
+        appHeaderNameUnitTitlesMap
+      )
+    );
 
     dispatch(hideSpinnerAction());
   }, []);

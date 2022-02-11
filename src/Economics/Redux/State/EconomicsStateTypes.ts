@@ -20,6 +20,7 @@ import {
   TDevScenarioTitles,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
+  TEconomicsResultsCase,
   TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
@@ -76,7 +77,8 @@ export interface IEconomicsImport {
   chosenApplicationUnitsWithoutNone: string[];
   fileUnitsWithoutNone: string[];
 
-  appHeaderNameUnitsMap: Record<string, string>;
+  appHeaderNameUnitIdsMap: Record<string, string>;
+  appHeaderNameUnitTitlesMap: Record<string, string>;
   matchHeadersRows: IRawRow[];
   matchUnitsRows: IRawRow[];
 
@@ -312,6 +314,7 @@ export interface IEconomicsState
   economicsRanking: any[];
   sensitivitiesTable: any[];
 
+  economicsResultsCase: TEconomicsResultsCase;
   resultsAnalyisOptions: ISelectOption[];
 
   forecastEconomicsAggregated: Record<string, any[]>;

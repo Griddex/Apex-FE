@@ -1,5 +1,4 @@
 import { ActionType } from "@redux-saga/types";
-import uniqBy from "lodash.uniqby";
 import zipObject from "lodash.zipobject";
 import {
   actionChannel,
@@ -24,6 +23,7 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { IDragItem } from "../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
+import { TEconomicsResultsCase } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   getEconomicsPlotChartDataFailureAction,
   getEconomicsPlotChartDataSuccessAction,
@@ -68,6 +68,7 @@ function* getEconomicsPlotChartDataSaga(
     plotChartsCategoryDragItems,
     selectedEconomicsPlotChartOption,
     selectedEconomicsPlotSecondaryChartOption,
+    economicsResultsCase,
   } = yield select((state: RootState) => state.economicsReducer);
 
   const chartType = selectedEconomicsPlotChartOption.value;
@@ -78,19 +79,27 @@ function* getEconomicsPlotChartDataSaga(
 
   const plotChartsCategoryDragItemsDefined =
     plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
+  console.log(
+    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 81 ~ plotChartsCategoryDragItemsDefined",
+    plotChartsCategoryDragItemsDefined
+  );
 
   const plotChartDragItems = Object.values(plotChartsCategoryDragItemsDefined);
-  console.log(
-    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 83 ~ plotChartDragItems",
-    plotChartDragItems
-  );
 
   const data = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
 
     const newDragItems = dragItems.reduce((acc, item) => {
       const { id, name, path } = item;
-      const sensitivitiesJoined = path?.split("@#$%")[3];
+      const sensitivitiesJoined = path?.split("@#$%")[5];
+      const aggregationLevelIndex = getAggregationLevelIndex(
+        economicsResultsCase,
+        path as string
+      );
+      console.log(
+        "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 99 ~ newDragItems ~ aggregationLevelIndex",
+        aggregationLevelIndex
+      );
 
       const sensitivitiesArr = sensitivitiesJoined?.split("-");
 
@@ -99,19 +108,24 @@ function* getEconomicsPlotChartDataSaga(
         [id]: {
           ...zipObject(["x", "y", "z"], sensitivitiesArr as string[]),
           name: name.split("_")[0],
+          aggregationLevelIndex: Number(aggregationLevelIndex),
         },
       };
     }, {});
 
     return { ...acc, ...newDragItems };
   }, {});
+  console.log(
+    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 111 ~ data ~ data",
+    data
+  );
 
   const idSensitivitiesMap = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
 
     const idSensitivities = dragItems.reduce((acc, item) => {
       const { id, path } = item;
-      const sensitivitiesJoined = path?.split("@#$%")[3];
+      const sensitivitiesJoined = path?.split("@#$%")[5];
 
       return {
         ...acc,
@@ -121,6 +135,10 @@ function* getEconomicsPlotChartDataSaga(
 
     return { ...acc, ...idSensitivities };
   }, {});
+  console.log(
+    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 128 ~ idSensitivitiesMap ~ idSensitivitiesMap",
+    idSensitivitiesMap
+  );
 
   const requestData = {
     data,
@@ -253,3 +271,25 @@ function* getEconomicsPlotChartDataSaga(
     yield put(hideSpinnerAction());
   }
 }
+
+const getAggregationLevelIndex = (
+  economicsResultsCase: TEconomicsResultsCase,
+  path: string
+) => {
+  switch (economicsResultsCase) {
+    case "noSensAgg": {
+      return path?.split("@#$%")[2]; //?
+    }
+    case "noSensPort": {
+      return 0;
+    }
+    case "sensAgg": {
+      return path?.split("@#$%")[3];
+    }
+    case "sensPort": {
+      return 0;
+    }
+    default:
+      return 0;
+  }
+};

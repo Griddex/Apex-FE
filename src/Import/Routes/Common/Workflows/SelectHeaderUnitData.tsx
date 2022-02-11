@@ -97,7 +97,6 @@ export default function SelectHeaderUnitData({
   );
 
   //TABLE OPTIONS
-
   const { roleNames } = ApexGridRolesState;
   const roleOptions: TSelectOptions = generateSelectOptions(roleNames);
 
@@ -113,7 +112,7 @@ export default function SelectHeaderUnitData({
     return roleNames;
   };
 
-  //Need to memoize initial table roles for reset???
+  //TODO Need to memoize initial table roles for reset???
   const tableRoleNames = initializeRoleNames();
   const [chosenTableRoleNames, setChosenTableRoleNames] =
     React.useState(tableRoleNames);
@@ -236,8 +235,11 @@ export default function SelectHeaderUnitData({
 
     const allColumns = [...snActionRoleColumns, ...otherColumns];
 
+    if (wp === "economicsParametersDeckExcel")
+      return allColumns.filter((o) => o.key !== "role");
     return allColumns;
   };
+
   const columns = React.useMemo(
     () => generateColumns(roleOptions),
     [roleOptions, rows]

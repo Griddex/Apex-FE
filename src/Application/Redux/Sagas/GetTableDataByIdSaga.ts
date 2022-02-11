@@ -59,26 +59,37 @@ function* getTableDataByIdSaga(action: IAction): Generator<
     tableOrSuccessDialog,
     collectionName,
   } = payload;
+  console.log(
+    "🚀 ~ file: GetTableDataByIdSaga.ts ~ line 62 ~ collectionName",
+    collectionName
+  );
 
   try {
     yield put(showSpinnerAction("Loading..."));
 
     const tableDataResults = yield call(getTableDataByIdAPI, tableDataUrl);
 
+    const {
+      data: {
+        data: { data, units },
+      },
+    } = tableDataResults;
+    console.log("🚀 ~ file: GetTableDataByIdSaga.ts ~ line 71 ~ units", units);
+    console.log("🚀 ~ file: GetTableDataByIdSaga.ts ~ line 71 ~ data", data);
+
     let selectedTableData = [] as any[];
     if (reducer === "visualyticsReducer") {
-      const selectedData = tableDataResults.data.data[collectionName];
+      const selectedData = data[collectionName];
       const newHeaders = Object.values(selectedData[0]) as string[];
 
-      selectedTableData = selectedData.slice(1).map((row: any) => {
-        const values = Object.values(row);
-
-        return zipObject(newHeaders, values);
-      });
+      selectedTableData = selectedData
+        .slice(1)
+        .map((row: any) => zipObject(newHeaders, Object.values(row)));
     } else {
-      selectedTableData = tableDataResults.data.data[collectionName];
+      selectedTableData = data[collectionName];
     }
 
+    const selectedTableDataWithUnits = [units, ...selectedTableData];
     const successAction = getTableDataByIdSuccessAction();
 
     yield put({
@@ -86,7 +97,7 @@ function* getTableDataByIdSaga(action: IAction): Generator<
       payload: {
         ...payload,
         reducer,
-        selectedTableData,
+        selectedTableData: selectedTableDataWithUnits,
       },
     });
 

@@ -51,7 +51,8 @@ export const initialEconomicsWorkflowState = {
   chosenApplicationUnitsWithoutNone: [],
   fileUnitsWithoutNone: [],
 
-  appHeaderNameUnitsMap: {},
+  appHeaderNameUnitIdsMap: {},
+  appHeaderNameUnitTitlesMap: {},
   matchHeadersRows: [],
   matchUnitsRows: [],
 
@@ -326,6 +327,7 @@ const EconomicsState: IEconomicsState = {
   sensitivitiesTable: [],
 
   //Economics Analyses
+  economicsResultsCase: "noSensAgg",
   resultsAnalyisOptions: [],
 
   forecastEconomicsAggregated: {

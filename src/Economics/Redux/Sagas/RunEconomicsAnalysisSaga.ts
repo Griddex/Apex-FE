@@ -70,6 +70,7 @@ function* runEconomicsAnalysisSaga(
     selectedEconomicsParametersInputDeckId,
     selectedEconomicsSensitivitiesId,
     selectedAnalysesNames,
+    economicsResultsCase,
   } = yield select((state) => state.economicsReducer);
 
   const { economicsAnalysisButtons, forecastScenarioAnalysis } = yield select(
@@ -79,7 +80,7 @@ function* runEconomicsAnalysisSaga(
   //TODO For multiple analysis, just to make sure we have a viable name
   const data = {
     projectId: currentProjectId,
-    analysisName: analysisName === "mulitpleAnalyses" ? "payout" : analysisName,
+    analysisNames: selectedAnalysesNames,
     economicsdataId: selectedCostsRevenuesInputDeckId,
     economicsParameterId: selectedEconomicsParametersInputDeckId,
     economicsSensitivitiesId: selectedEconomicsSensitivitiesId,
@@ -87,6 +88,7 @@ function* runEconomicsAnalysisSaga(
       (button: IAggregateButtonProps) => devScenarios[button.scenarioName]
     ),
     forecastScenarioAnalysis,
+    economicsResultsCase,
   };
 
   console.log("data: ", data);

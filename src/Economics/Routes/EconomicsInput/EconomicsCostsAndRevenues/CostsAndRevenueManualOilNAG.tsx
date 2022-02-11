@@ -45,6 +45,7 @@ export default function CostsAndRevenueManualOilNAG({
   oilNAGDevelopmentNames,
 }: ICostsRevenues) {
   const initialRowsLength = 10;
+  const wkCs = "inputDataWorkflows";
   const oilNAGDevelopmentRowsDefined = oilNAGDevelopmentRows as IRawRow[];
   const currentAggregationLevelOption = costsRevenueAggregationLevelOption;
   const currentAggregationLevelOptionValue =
@@ -860,6 +861,26 @@ export default function CostsAndRevenueManualOilNAG({
       );
     }
   }, [oilNAGDevelopmentRowsFin]);
+
+  const appUnits = Object.values(appHeaderChosenAppUnitObj)
+    .map((v) => v?.value as string)
+    .join();
+  React.useEffect(() => {
+    const appHeaderNameUnitTitlesMap = Object.keys(
+      appHeaderChosenAppUnitObj
+    ).reduce((acc, name) => {
+      const options = appHeaderChosenAppUnitObj[name];
+      acc[name] = options?.value as string;
+      return acc;
+    }, {} as Record<string, string>);
+
+    dispatch(
+      updateEconomicsParameterAction(
+        `${wkCs}.${wkPs}.appHeaderNameUnitTitlesMap`,
+        appHeaderNameUnitTitlesMap
+      )
+    );
+  }, [appUnits]);
 
   return (
     <ApexGrid
