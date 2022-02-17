@@ -1,7 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
-import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import {
+  IExtendedSelectOption,
+  ISelectOption,
+} from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
 import {
@@ -59,6 +62,10 @@ const plotChartsCategoryHasDroppedSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.plotChartsCategoryHasDropped,
   (data) => data
 );
+const resultsAnalyisOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.resultsAnalyisOptions,
+  (data) => data
+);
 
 const EconomicsPlotChartsDataPanel = ({
   selectedZ,
@@ -70,8 +77,6 @@ const EconomicsPlotChartsDataPanel = ({
   const reducer = "economicsReducer";
 
   const dispatch = useDispatch();
-
-  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
   const selectedEconomicsResultsTitle = useSelector(
@@ -92,6 +97,12 @@ const EconomicsPlotChartsDataPanel = ({
   );
   const plotChartsCategoryHasDropped = useSelector(
     plotChartsCategoryHasDroppedSelector
+  );
+  const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
+
+  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+  const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
+    resultsAnalyisOptions[0]
   );
 
   const chartType = selectedEconomicsPlotChartOption.value;
@@ -183,6 +194,21 @@ const EconomicsPlotChartsDataPanel = ({
     );
   };
 
+  const AnalysisResult = () => {
+    return (
+      <ApexSelectRS
+        valueOption={analysisOption}
+        data={resultsAnalyisOptions}
+        handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
+          setAnalysisOption(option as ISelectOption)
+        }
+        menuPortalTarget={document.body}
+        isSelectOptionType={true}
+        containerHeight={40}
+      />
+    );
+  };
+
   const categoryPanelWidth = 250;
   const chartTypeDefined = chartType as TChartTypes;
   const categoriesComponent = (
@@ -266,7 +292,8 @@ const EconomicsPlotChartsDataPanel = ({
         handleSelectEconomicsResultsChange,
         []
       )}
-      hasSecondaryComponent={false}
+      hasSecondaryComponent={true}
+      secondarySelectComponent={AnalysisResult}
       selectedTitle={selectedEconomicsResultsTitle}
       resultsSelect={ResultsSelect}
       treeViewComponent={

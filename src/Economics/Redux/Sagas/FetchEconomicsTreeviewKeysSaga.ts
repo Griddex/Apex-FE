@@ -22,13 +22,13 @@ import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import history from "../../../Application/Services/HistoryService";
 import {
+  economicsAnalysesMap,
   economicsPerspectiveTreeMap,
-  TEconomicsTreePerspective,
 } from "../../Data/EconomicsData";
+import { TEconomicsAnalysesNames } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import {
   ECONOMICS_TREEVIEWKEYS_REQUEST,
   fetchEconomicsTreeviewKeysFailureAction,
-  updateEconomicsParameterAction,
   updateEconomicsParametersAction,
 } from "../Actions/EconomicsActions";
 
@@ -77,8 +77,13 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
       data: { data: economicsTree },
     } = result;
 
-    const treeType = perspective as TEconomicsTreePerspective;
-
+    const analysisNames = economicsTree["analysisNames"];
+    const resultsAnalyisOptions = analysisNames.map(
+      (name: TEconomicsAnalysesNames) => ({
+        value: name,
+        label: economicsAnalysesMap[name],
+      })
+    );
     yield put(
       updateEconomicsParametersAction({
         selectedEconomicsResultsId,
@@ -91,15 +96,11 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
           economicsTree["plotChartsTree"],
         [economicsPerspectiveTreeMap["templatesTree"]]:
           economicsTree["templatesTree"],
-        //TODO ask Gift if this analysis payload is updated
-        //it should always be in the structure below
-        resultsAnalyisOptions: economicsTree["analysis"].map((row: any) => ({
-          value: row["analysisName"],
-          label: row["analysisTitle"],
-        })),
+        analysisNames: analysisNames,
+        analysisOption: resultsAnalyisOptions[0],
+        resultsAnalyisOptions,
         economicsRanking: economicsTree["economicsRanking"],
         economicsResultsCase: economicsTree["economicsResultsCase"],
-        analysisNames: economicsTree["analysisNames"],
         sensitivitiesTable:
           economicsTree["economicsSensitivitiesResult"]["sensitivitiesTable"],
       })

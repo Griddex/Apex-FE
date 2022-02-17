@@ -17,38 +17,42 @@ const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
   (reducer) => reducer
 );
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
+  (reducer) => reducer
+);
 
 const SensitivitiesHeatMapTreeView = ({
   height,
   droppedIds,
 }: ITreeViewProps) => {
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
+  const analysisOption = useSelector(analysisOptionSelector);
+  const analysisName = analysisOption?.value as string;
 
-  const rootTree = heatMapTreeByScenario as RenderTree;
+  const rootTree = heatMapTreeByScenario[analysisName] as RenderTree;
 
-  //TODO: Ability to handle multiple analyses
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
   const [selectedPathsUnfiltered, setSelectedPathsUnfiltered] = React.useState<
     string[]
   >([]);
 
+  const idsStr = selectedIds.join();
+  const namesStr = selectedNames.join();
+  const pathsStr = selectedPathsUnfiltered.join();
+  const drpdidsStr = droppedIds?.join();
+
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={React.useMemo(
-        () => selectedIds,
-        [JSON.stringify(selectedIds)]
-      )}
+      selectedIds={React.useMemo(() => selectedIds, [idsStr])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
-      selectedNames={React.useMemo(
-        () => selectedNames,
-        [JSON.stringify(selectedNames)]
-      )}
+      selectedNames={React.useMemo(() => selectedNames, [namesStr])}
       setSelectedNames={React.useCallback(setSelectedNames, [])}
       selectedPathsUnfiltered={React.useMemo(
         () => selectedPathsUnfiltered,
-        [JSON.stringify(selectedPathsUnfiltered)]
+        [pathsStr]
       )}
       setSelectedPathsUnfiltered={React.useCallback(
         setSelectedPathsUnfiltered,
@@ -56,7 +60,7 @@ const SensitivitiesHeatMapTreeView = ({
       )}
       dragDropTypes={itemTypes.ECONOMICS_HEATMAP}
       height={height as number}
-      droppedIds={React.useMemo(() => droppedIds, [droppedIds?.join()])}
+      droppedIds={React.useMemo(() => droppedIds, [drpdidsStr])}
     />
   );
 };

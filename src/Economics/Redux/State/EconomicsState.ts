@@ -225,6 +225,7 @@ const EconomicsState: IEconomicsState = {
 
   allDevRows: { oilDevelopment: [], nagDevelopment: [], oilNAGDevelopment: [] },
   selectedTableData: [],
+  analysisOption: { value: "Select...", label: "Select..." },
 
   //HeatMap
   heatMapTreeByScenario: { id: "", name: "" },

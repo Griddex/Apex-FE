@@ -135,9 +135,9 @@ const SensitivitiesHeatMapChart = ({
   if (heatMapTreeByScenario && heatMapTreeByScenario?.id !== "" && isZ) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
 
-    heatMapTreeZRow = heatMapTreeByScenario?.children[0]?.children?.filter(
+    heatMapTreeZRow = heatMapTreeByScenario?.children[0]?.children?.find(
       (row: any) => row.title === heatMapVariableZOptions[firstKey].title
-    )[0] as NonNullable<RenderTree>;
+    ) as NonNullable<RenderTree>;
 
     const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
     heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
@@ -145,8 +145,8 @@ const SensitivitiesHeatMapChart = ({
       label: v,
     })) as ISelectOption[];
 
-    variableZlength = heatMapVarZData.length;
-    selectedDevScenario = heatMapTreeByScenario.name as string;
+    variableZlength = heatMapVarZData?.length;
+    selectedDevScenario = heatMapTreeByScenario?.name as string;
   }
 
   const AnalysisResult = () => {
@@ -163,6 +163,10 @@ const SensitivitiesHeatMapChart = ({
       />
     );
   };
+
+  React.useEffect(() => {
+    dispatch(updateEconomicsParameterAction("analysisOption", analysisOption));
+  }, [analysisOption.value]);
 
   React.useEffect(() => {
     if (selectedEconomicsResultsId === "") {

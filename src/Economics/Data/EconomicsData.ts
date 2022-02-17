@@ -279,6 +279,17 @@ export const economicsAnalysesOptions = [
   },
 ];
 
+export const economicsAnalysesMap = {
+  netcashFlow: "Net Cashflow",
+  payout: "Payout",
+  minimumCapitalRatio: "Minimum Capital Ratio",
+  netPresentValue: "Net Present Value",
+  presentValueRatio: "Present Value Ratio",
+  unitTechnicalCost: "Unit Technical Cost",
+  internalRateOfReturn: "Internal Rate of Return",
+  mulitpleAnalyses: "Multiple Analyses",
+};
+
 export const forecastCaseOptions = [
   { value: "1P_1C", label: "Low Case" },
   { value: "2P_2C", label: "Base Case" },

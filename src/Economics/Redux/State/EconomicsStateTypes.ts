@@ -261,6 +261,7 @@ export interface IEconomicsState
 
   allDevRows: Record<TDevScenarioNames, IRawRow[]>;
   selectedTableData: any[];
+  analysisOption: ISelectOption;
 
   heatMapTreeByScenario: RenderTree;
   sensitivitiesHeatMapTree: RenderTree;

@@ -53,12 +53,10 @@ const ApexTreeView = ({
   height,
   droppedIds,
 }: IApexTreeView) => {
-  console.log("🚀 ~ file: ApexTreeView.tsx ~ line 56 ~ droppedIds", droppedIds);
   console.log("ApexTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwwww");
   const theme = useTheme();
   const classes = useStyles();
 
-  console.log("🚀 ~ file: ApexTreeView.tsx ~ line 61 ~ rootTree", rootTree);
   const initExpanded = rootTree?.children?.map(
     (scenarioNodes) => scenarioNodes.id
   );
