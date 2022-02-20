@@ -128,25 +128,28 @@ const SensitivitiesHeatMapChart = ({
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
+  //TODO economicsResultsCase use for agg - noagg
+
   selectedDevScenario = heatMapTreeByScenario?.name as string;
   const devScenario =
     developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
 
-  if (heatMapTreeByScenario && heatMapTreeByScenario?.id !== "" && isZ) {
+  if (heatMapTreeByScenario && "children" in heatMapTreeByScenario) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
-
     heatMapTreeZRow = heatMapTreeByScenario?.children[0]?.children?.find(
-      (row: any) => row.title === heatMapVariableZOptions[firstKey].title
+      (row: any) => row?.title === heatMapVariableZOptions[firstKey]?.title
     ) as NonNullable<RenderTree>;
 
-    const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
-    heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
-      value: v,
-      label: v,
-    })) as ISelectOption[];
+    if (isZ) {
+      const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
+      heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
+        value: v,
+        label: v,
+      })) as ISelectOption[];
 
-    variableZlength = heatMapVarZData?.length;
-    selectedDevScenario = heatMapTreeByScenario?.name as string;
+      variableZlength = heatMapVarZData?.length;
+      selectedDevScenario = heatMapTreeByScenario?.name as string;
+    }
   }
 
   const AnalysisResult = () => {
@@ -166,7 +169,7 @@ const SensitivitiesHeatMapChart = ({
 
   React.useEffect(() => {
     dispatch(updateEconomicsParameterAction("analysisOption", analysisOption));
-  }, [analysisOption.value]);
+  }, [analysisOption?.value]);
 
   React.useEffect(() => {
     if (selectedEconomicsResultsId === "") {
@@ -226,7 +229,7 @@ const SensitivitiesHeatMapChart = ({
               dispatch(updateEconomicsParametersAction(initialHeatMapData));
             },
             () => {
-              const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
+              const variableZKey = `${heatMapTreeZRow?.name}${selectedZ}`;
 
               if (noOfSensitivities === 1 || noOfSensitivities === 2) {
                 if (Object.entries(sensitivitiesHeatMapData).length === 0) {

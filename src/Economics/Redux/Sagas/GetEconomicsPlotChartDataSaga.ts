@@ -24,6 +24,7 @@ import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { IDragItem } from "../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 import { TEconomicsResultsCase } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { getAggregationLevelIndex } from "../../Utils/GetAggregationIndex";
 import {
   getEconomicsPlotChartDataFailureAction,
   getEconomicsPlotChartDataSuccessAction,
@@ -68,7 +69,6 @@ function* getEconomicsPlotChartDataSaga(
     plotChartsCategoryDragItems,
     selectedEconomicsPlotChartOption,
     selectedEconomicsPlotSecondaryChartOption,
-    economicsResultsCase,
   } = yield select((state: RootState) => state.economicsReducer);
 
   const chartType = selectedEconomicsPlotChartOption.value;
@@ -92,14 +92,7 @@ function* getEconomicsPlotChartDataSaga(
     const newDragItems = dragItems.reduce((acc, item) => {
       const { id, name, path } = item;
       const sensitivitiesJoined = path?.split("@#$%")[5];
-      const aggregationLevelIndex = getAggregationLevelIndex(
-        economicsResultsCase,
-        path as string
-      );
-      console.log(
-        "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 99 ~ newDragItems ~ aggregationLevelIndex",
-        aggregationLevelIndex
-      );
+      const aggregationLevelIndex = getAggregationLevelIndex(path as string);
 
       const sensitivitiesArr = sensitivitiesJoined?.split("-");
 
@@ -271,25 +264,3 @@ function* getEconomicsPlotChartDataSaga(
     yield put(hideSpinnerAction());
   }
 }
-
-const getAggregationLevelIndex = (
-  economicsResultsCase: TEconomicsResultsCase,
-  path: string
-) => {
-  switch (economicsResultsCase) {
-    case "noSensAgg": {
-      return path?.split("@#$%")[2]; //?
-    }
-    case "noSensPort": {
-      return 0;
-    }
-    case "sensAgg": {
-      return path?.split("@#$%")[3];
-    }
-    case "sensPort": {
-      return 0;
-    }
-    default:
-      return 0;
-  }
-};

@@ -1,4 +1,5 @@
 import { TUseState } from "../../../Application/Types/ApplicationTypes";
+import { TEconomicsResultsCase } from "../../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 
 export interface RenderTree {
   id: string;
@@ -19,6 +20,7 @@ export interface IApexTreeView {
   dragDropTypes: string;
   height: number;
   droppedIds?: string[];
+  economicsResultsCase?: TEconomicsResultsCase;
 }
 
 export type TTreeStackObj = {

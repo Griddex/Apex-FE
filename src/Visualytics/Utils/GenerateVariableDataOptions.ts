@@ -29,10 +29,6 @@ const generateVariableDataOptions = (
     });
   }
 
-  console.log(
-    "🚀 ~ file: GenerateVariableDataOptions.ts ~ line 34 ~ variableZDataOptions",
-    variableZDataOptions
-  );
   return { variableZDataOptions, ZValuesTitle };
 };
 

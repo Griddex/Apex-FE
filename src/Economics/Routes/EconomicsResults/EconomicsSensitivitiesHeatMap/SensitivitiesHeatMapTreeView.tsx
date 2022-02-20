@@ -1,7 +1,7 @@
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
@@ -17,20 +17,13 @@ const heatMapTreeByScenarioSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
   (reducer) => reducer
 );
-const analysisOptionSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.analysisOption,
-  (reducer) => reducer
-);
 
 const SensitivitiesHeatMapTreeView = ({
   height,
   droppedIds,
 }: ITreeViewProps) => {
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
-  const analysisOption = useSelector(analysisOptionSelector);
-  const analysisName = analysisOption?.value as string;
-
-  const rootTree = heatMapTreeByScenario[analysisName] as RenderTree;
+  const rootTree = heatMapTreeByScenario as RenderTree;
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
@@ -41,11 +34,10 @@ const SensitivitiesHeatMapTreeView = ({
   const idsStr = selectedIds.join();
   const namesStr = selectedNames.join();
   const pathsStr = selectedPathsUnfiltered.join();
-  const drpdidsStr = droppedIds?.join();
 
   return (
     <ApexTreeView
-      rootTree={rootTree}
+      rootTree={React.useMemo(() => rootTree, [])}
       selectedIds={React.useMemo(() => selectedIds, [idsStr])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
       selectedNames={React.useMemo(() => selectedNames, [namesStr])}
@@ -60,7 +52,7 @@ const SensitivitiesHeatMapTreeView = ({
       )}
       dragDropTypes={itemTypes.ECONOMICS_HEATMAP}
       height={height as number}
-      droppedIds={React.useMemo(() => droppedIds, [drpdidsStr])}
+      droppedIds={droppedIds}
     />
   );
 };

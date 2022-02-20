@@ -34,15 +34,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  chartPanel: {
-    display: "flex",
-    alignSelf: "flex-start",
-    height: "100%",
-    width: 300,
-    border: `1px solid ${theme.palette.grey[200]}`,
-    backgroundColor: "#FFF",
-    padding: 5,
-  },
   chartContent: {
     display: "flex",
     flexDirection: "column",
@@ -81,10 +72,14 @@ const SensitivitiesHeatMapVisualytics = () => {
   const showContextDrawer = useSelector(showContextDrawerSelector);
   const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
 
-  const { variableZDataOptions, ZValuesTitle } = React.useMemo(
+  const zName = (Object.values(heatMapVariableZOptions) as any[])[0]?.name;
+  const dataOptions = React.useMemo(
     () => generateVariableDataOptions(heatMapVariableZOptions),
-    [heatMapVariableZOptions]
+    [zName]
   );
+
+  const variableZDataOptions = dataOptions.variableZDataOptions;
+  const ZValuesTitle = dataOptions.ZValuesTitle;
 
   const firstZValue = variableZDataOptions[0]?.value as string;
   const [selectedZ, setSelectedZ] = React.useState(firstZValue);
@@ -111,6 +106,7 @@ const SensitivitiesHeatMapVisualytics = () => {
   };
 
   const selectedZValue = selectedZ ? selectedZ : firstZValue;
+  const zDataStr = variableZDataOptions.map((o) => o?.value).join();
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
@@ -128,7 +124,10 @@ const SensitivitiesHeatMapVisualytics = () => {
           <SensitivitiesHeatMapDataPanel
             selectedZ={selectedZValue}
             setSelectedZ={React.useCallback(setSelectedZ, [])}
-            variableZDataOptions={variableZDataOptions}
+            variableZDataOptions={React.useMemo(
+              () => variableZDataOptions,
+              [zDataStr]
+            )}
             ZValuesTitle={ZValuesTitle}
           />
         </Resizable>

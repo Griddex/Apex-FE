@@ -229,7 +229,7 @@ const EconomicsState: IEconomicsState = {
 
   //HeatMap
   heatMapTreeByScenario: { id: "", name: "" },
-  sensitivitiesHeatMapTree: { id: "", name: "" },
+  sensitivitiesHeatMapTree: { "Select...": { id: "", name: "" } },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],
   sensitivitiesHeatMapThresholdData: {
@@ -272,7 +272,7 @@ const EconomicsState: IEconomicsState = {
 
   //Plot Charts
   xValueCategories: [],
-  economicsPlotChartsTree: { id: "", name: "" },
+  economicsPlotChartsTree: { "Select...": { id: "", name: "" } },
   plotChartsResults: [],
   plotChartsData: null,
   plotChartsDataTrans: null,
@@ -321,7 +321,7 @@ const EconomicsState: IEconomicsState = {
   },
 
   //Template Results
-  economicsTemplatesTree: { id: "", name: "" },
+  economicsTemplatesTree: { "Select...": { id: "", name: "" } },
 
   //Economics Ranking
   economicsRanking: [],

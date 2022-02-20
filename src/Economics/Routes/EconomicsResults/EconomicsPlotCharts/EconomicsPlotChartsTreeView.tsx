@@ -51,22 +51,20 @@ const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
     string[]
   >([]);
 
+  const idsStr = selectedIds.join();
+  const namesStr = selectedNames.join();
+  const pathsStr = selectedPathsUnfiltered.join();
+
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={React.useMemo(
-        () => selectedIds,
-        [JSON.stringify(selectedIds)]
-      )}
+      selectedIds={React.useMemo(() => selectedIds, [idsStr])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
-      selectedNames={React.useMemo(
-        () => selectedNames,
-        [JSON.stringify(selectedNames)]
-      )}
+      selectedNames={React.useMemo(() => selectedNames, [namesStr])}
       setSelectedNames={React.useCallback(setSelectedNames, [])}
       selectedPathsUnfiltered={React.useMemo(
         () => selectedPathsUnfiltered,
-        [JSON.stringify(selectedPathsUnfiltered)]
+        [pathsStr]
       )}
       setSelectedPathsUnfiltered={React.useCallback(
         setSelectedPathsUnfiltered,

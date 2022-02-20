@@ -264,7 +264,7 @@ export interface IEconomicsState
   analysisOption: ISelectOption;
 
   heatMapTreeByScenario: RenderTree;
-  sensitivitiesHeatMapTree: RenderTree;
+  sensitivitiesHeatMapTree: Record<string, RenderTree>;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];
   sensitivitiesHeatMapThresholdData: {
@@ -287,7 +287,7 @@ export interface IEconomicsState
   showCategoryZMembers: boolean;
 
   xValueCategories: string[];
-  economicsPlotChartsTree: RenderTree;
+  economicsPlotChartsTree: Record<string, RenderTree>;
   plotChartsResults: any[];
   plotChartsData: null;
   plotChartsDataTrans: null;
@@ -310,7 +310,7 @@ export interface IEconomicsState
     relationalOperatorOption: ISelectOption;
   };
 
-  economicsTemplatesTree: RenderTree;
+  economicsTemplatesTree: Record<string, RenderTree>;
 
   economicsRanking: any[];
   sensitivitiesTable: any[];

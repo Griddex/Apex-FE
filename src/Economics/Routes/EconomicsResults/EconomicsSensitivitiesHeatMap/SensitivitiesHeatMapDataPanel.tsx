@@ -30,6 +30,7 @@ import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/Ch
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 import { initialHeatMapData } from "../../../Data/EconomicsData";
 import omit from "lodash.omit";
+import { IDragItem } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -61,6 +62,14 @@ const heatMapCategoryDragItemsSelector = createDeepEqualSelector(
 );
 const heatMapCategoryHasDroppedSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapCategoryHasDropped,
+  (data) => data
+);
+const resultsAnalyisOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.resultsAnalyisOptions,
+  (data) => data
+);
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
   (data) => data
 );
 
@@ -105,9 +114,21 @@ const SensitivitiesHeatMapDataPanel = ({
   const heatMapCategoryDragItems = useSelector(
     heatMapCategoryDragItemsSelector
   );
+
   const heatMapCategoryHasDropped = useSelector(
     heatMapCategoryHasDroppedSelector
   );
+  const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
+  const anOption = useSelector(analysisOptionSelector);
+
+  const drgItemStr = Object.values(
+    heatMapCategoryDragItems as Record<string, Record<string, IDragItem>>
+  ).reduce((acc: string[], item: Record<string, IDragItem>) => {
+    const categoryObjs = Object.values(item);
+    const categoryNames = categoryObjs.map((o) => o?.name);
+
+    return [...acc, ...categoryNames];
+  }, []);
 
   const droppedIds = React.useMemo(() => {
     const allIds = [];
@@ -120,13 +141,13 @@ const SensitivitiesHeatMapDataPanel = ({
     }
 
     return allIds;
-  }, [heatMapCategoryDragItems]);
+  }, [drgItemStr.join()]);
 
-  const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
-    RenderTree["children"]
-  >;
-  const devScenariosColl = heatMapTreeData ? heatMapTreeData : [];
-  const devOptions = devScenariosColl.map((row) => ({
+  const heatMapTreeData = sensitivitiesHeatMapTree[anOption?.value as string]
+    ?.children as NonNullable<RenderTree["children"]>;
+
+  const devScenariosData = heatMapTreeData ? heatMapTreeData : [];
+  const devOptions = devScenariosData.map((row) => ({
     value: row.title,
     label: row.title,
   }));
@@ -207,6 +228,7 @@ const SensitivitiesHeatMapDataPanel = ({
           selectedEconomicsResultsTitle: "",
           selectedEconomicsResultsDescription: "",
           isEconomicsResultsSaved: false,
+          analyisOption: { value: "Select...", label: "Select..." },
         })
       );
     } else {
@@ -216,6 +238,12 @@ const SensitivitiesHeatMapDataPanel = ({
         selectedEconomicsResultsDescription: description,
         isEconomicsResultsSaved: true,
       };
+
+      dispatch(
+        updateEconomicsParametersAction({
+          analyisOption: resultsAnalyisOptions[0],
+        })
+      );
 
       dispatch(
         fetchEconomicsTreeviewKeysRequestAction(
@@ -232,7 +260,7 @@ const SensitivitiesHeatMapDataPanel = ({
     dispatch(resetHeatMapWorkflowsAction());
   };
 
-  const DevelopmentScenarios = () => {
+  const DevelopmentScenarios = React.memo(() => {
     return (
       <AnalyticsComp
         title="Development Scenarios"
@@ -275,9 +303,9 @@ const SensitivitiesHeatMapDataPanel = ({
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
     );
-  };
+  });
 
-  const ResultsSelect = () => {
+  const ResultsSelect = React.memo(() => {
     return (
       <ApexSelectRS<IExtendedSelectOption>
         valueOption={economicsResultTitleOption}
@@ -289,7 +317,7 @@ const SensitivitiesHeatMapDataPanel = ({
         containerHeight={40}
       />
     );
-  };
+  });
 
   let disableCollection = [] as boolean[];
   if (heatMapTreeByScenario && heatMapTreeByScenario.id === "") {
@@ -370,11 +398,11 @@ const SensitivitiesHeatMapDataPanel = ({
       selectLabel={"Economics Results"}
       selectedOption={React.useMemo(
         () => economicsResultTitleOption,
-        [economicsResultTitleOption.value]
+        [economicsResultTitleOption?.value]
       )}
       titleOptions={React.useMemo(
         () => economicsResultsTitleOptions,
-        [JSON.stringify(economicsResultsTitleOptions.map((o) => o.value))]
+        [economicsResultsTitleOptions.map((o) => o.value).join()]
       )}
       handleSelectChange={React.useCallback(
         handleSelectEconomicsResultsChange,
@@ -400,7 +428,7 @@ const SensitivitiesHeatMapDataPanel = ({
       renderCategoryIcon={true}
       showMembersObjValues={React.useMemo(
         () => showMembersObjValues,
-        [JSON.stringify(showMembersObjValues)]
+        [JSON.stringify(showMembersObjValues.join())]
       )}
       clearChartCategories={React.useCallback(clearChartCategories, [])}
     />

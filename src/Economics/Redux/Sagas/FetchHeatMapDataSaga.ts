@@ -25,6 +25,7 @@ import {
   developmentScenariosMap,
   TDevScenariosMapKeys,
 } from "../../Data/EconomicsData";
+import { getAggregationLevelIndex } from "../../Utils/GetAggregationIndex";
 import {
   fetchHeatMapDataFailureAction,
   FETCH_HEATMAPDATA_REQUEST,
@@ -56,7 +57,6 @@ function* fetchHeatMapDataSaga(
 > {
   const { payload } = action;
   const {
-    analysisName,
     analysisTitle,
     noOfSensitivities,
     selectedDevScenario,
@@ -75,6 +75,9 @@ function* fetchHeatMapDataSaga(
   const firstXKey = Object.keys(heatMapVariableXOptions)[0];
   const firstYKey = Object.keys(heatMapVariableYOptions)[0];
   const firstZKey = Object.keys(heatMapVariableZOptions)[0];
+  const path = heatMapVariableXOptions[firstXKey]?.path;
+
+  const aggregationLevelIndex = getAggregationLevelIndex(path as string);
 
   const data = {
     analysisResultId: selectedEconomicsResultsId,
@@ -90,6 +93,7 @@ function* fetchHeatMapDataSaga(
           developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys],
       },
     ],
+    aggregationLevelIndex,
   };
 
   const config = { withCredentials: false };
@@ -110,6 +114,9 @@ function* fetchHeatMapDataSaga(
 
     const devScenario =
       developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
+
+    //TODO sensitivitiesHeatMapData take care of scenario
+    //when object is empty
 
     if (noOfSensitivities === 1 || noOfSensitivities === 2) {
       yield put(

@@ -66,6 +66,10 @@ const resultsAnalyisOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.resultsAnalyisOptions,
   (data) => data
 );
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
+  (data) => data
+);
 
 const EconomicsPlotChartsDataPanel = ({
   selectedZ,
@@ -99,11 +103,11 @@ const EconomicsPlotChartsDataPanel = ({
     plotChartsCategoryHasDroppedSelector
   );
   const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
+  const anOption = useSelector(analysisOptionSelector);
 
   const [extrudeCategories, setExtrudeCategories] = React.useState(false);
-  const [analysisOption, setAnalysisOption] = React.useState<ISelectOption>(
-    resultsAnalyisOptions[0]
-  );
+  const [analysisOption, setAnalysisOption] =
+    React.useState<ISelectOption>(anOption);
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
@@ -160,6 +164,7 @@ const EconomicsPlotChartsDataPanel = ({
           isEconomicsResultsSaved: false,
         })
       );
+      setAnalysisOption({ value: "Select...", label: "Select..." });
     } else {
       const idTitleDescIsSaved = {
         selectedEconomicsResultsId: id,
@@ -175,6 +180,7 @@ const EconomicsPlotChartsDataPanel = ({
           idTitleDescIsSaved
         )
       );
+      setAnalysisOption(resultsAnalyisOptions[0]);
     }
 
     dispatch(resetPlotChartsWorkflowsAction());
@@ -282,7 +288,7 @@ const EconomicsPlotChartsDataPanel = ({
       selectLabel={"Economics Results"}
       selectedOption={React.useMemo(
         () => economicsResultOption,
-        [JSON.stringify(economicsResultOption)]
+        [economicsResultOption?.value]
       )}
       titleOptions={React.useMemo(
         () => economicsResultsTitleOptions,
