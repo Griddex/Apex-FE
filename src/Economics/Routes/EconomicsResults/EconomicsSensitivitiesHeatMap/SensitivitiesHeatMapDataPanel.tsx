@@ -31,6 +31,8 @@ import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 import { initialHeatMapData } from "../../../Data/EconomicsData";
 import omit from "lodash.omit";
 import { IDragItem } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
+import useDroppedIds from "../../../Hooks/UseDroppedIds";
+import getDragItems from "../../../Utils/GetDragItems";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -121,27 +123,11 @@ const SensitivitiesHeatMapDataPanel = ({
   const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
   const anOption = useSelector(analysisOptionSelector);
 
-  const drgItemStr = Object.values(
-    heatMapCategoryDragItems as Record<string, Record<string, IDragItem>>
-  ).reduce((acc: string[], item: Record<string, IDragItem>) => {
-    const categoryObjs = Object.values(item);
-    const categoryNames = categoryObjs.map((o) => o?.name);
-
-    return [...acc, ...categoryNames];
-  }, []);
-
-  const droppedIds = React.useMemo(() => {
-    const allIds = [];
-    const categories = Object.keys(heatMapCategoryDragItems);
-    for (const category of categories) {
-      const categoryObj = heatMapCategoryDragItems[category];
-      const ids = Object.keys(categoryObj);
-
-      allIds.push(...ids);
-    }
-
-    return allIds;
-  }, [drgItemStr.join()]);
+  const drgItems = getDragItems(heatMapCategoryDragItems);
+  const droppedIds = useDroppedIds({
+    categoryDragItems: heatMapCategoryDragItems,
+    drgItems,
+  });
 
   const heatMapTreeData = sensitivitiesHeatMapTree[anOption?.value as string]
     ?.children as NonNullable<RenderTree["children"]>;
@@ -195,7 +181,7 @@ const SensitivitiesHeatMapDataPanel = ({
       selectedEconomicsResultsTitleOption as IExtendedSelectOption
     );
 
-  const clearAllChartData = React.useCallback(
+  const resetChartData = React.useCallback(
     () => dispatch(updateEconomicsParametersAction(initialHeatMapData)),
     []
   );
@@ -207,6 +193,7 @@ const SensitivitiesHeatMapDataPanel = ({
           omit(initialHeatMapData, [
             "heatMapTreeByScenario",
             "sensitivitiesHeatMapTree",
+            "sensitivitiesHeatMapData",
           ])
         )
       ),
@@ -253,7 +240,7 @@ const SensitivitiesHeatMapDataPanel = ({
         )
       );
 
-      clearAllChartData();
+      resetChartData();
     }
 
     setDevOption({ value: "select", label: "Select..." });
@@ -273,7 +260,7 @@ const SensitivitiesHeatMapDataPanel = ({
 
               setDevOption(optionDefined);
 
-              const heatMapTreeByScenario = heatMapTreeData.find(
+              const heatMapTreeByScenario = heatMapTreeData?.find(
                 (sno) => sno.title === optionDefined.label
               ) as RenderTree;
 
@@ -428,9 +415,11 @@ const SensitivitiesHeatMapDataPanel = ({
       renderCategoryIcon={true}
       showMembersObjValues={React.useMemo(
         () => showMembersObjValues,
-        [JSON.stringify(showMembersObjValues.join())]
+        [showMembersObjValues.join()]
       )}
       clearChartCategories={React.useCallback(clearChartCategories, [])}
+      hasTitle={true}
+      title={anOption?.label}
     />
   );
 };

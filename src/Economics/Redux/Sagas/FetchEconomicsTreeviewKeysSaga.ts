@@ -84,6 +84,7 @@ function* fetchEconomicsTreeviewKeysSaga(action: IAction): Generator<
         label: economicsAnalysesMap[name],
       })
     );
+
     yield put(
       updateEconomicsParametersAction({
         selectedEconomicsResultsId,

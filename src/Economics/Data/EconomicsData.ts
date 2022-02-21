@@ -481,6 +481,41 @@ export const initialHeatMapData = {
   },
 };
 
+export const initialEconomicsPlotData = {
+  plotChartsResults: [],
+  plotChartsData: null,
+  plotChartsDataTrans: null,
+
+  plotChartsVariableXOptions: {},
+  plotChartsVariableYOptions: {},
+  plotChartsSecondaryVariableYOptions: {},
+  plotChartsVariableZOptions: {},
+  plotChartsVariableROptions: {},
+  showPlotChartsCategoryMembersObj: {
+    "X Category": false,
+    "Y Category": false,
+    "Y Secondary Category": false,
+    "Z Category": false,
+    "R Category": false,
+  },
+
+  plotChartsCategoryDragItems: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+
+  plotChartsCategoryHasDropped: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+};
+
 export const costsRevenueAggregationLevelOptions = [
   {
     value: "portfolio",

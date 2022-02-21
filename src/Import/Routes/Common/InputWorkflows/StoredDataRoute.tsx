@@ -51,7 +51,7 @@ import generateDoughnutAnalyticsData from "../../../../Application/Utils/Generat
 import { IUnitSettingsData } from "../../../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../../../Visualytics/Components/Charts/DoughnutChart";
 import { IChartProps } from "../../../../Visualytics/Components/ChartTypes";
-import { confirmationDialogParameters } from "../../../Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 
 const useStyles = makeStyles((theme) => ({
   rootStoredData: {

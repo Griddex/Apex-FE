@@ -21,7 +21,7 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { ILandingData } from "../../Application/Types/ApplicationTypes";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import ImportDatabase from "../../Import/Images/ImportDatabase.svg";
 import MSExcel from "../../Import/Images/MSExcel.svg";
 import StoredDeck from "../../Import/Images/StoredDeck.svg";

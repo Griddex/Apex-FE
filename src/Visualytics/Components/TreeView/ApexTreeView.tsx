@@ -74,6 +74,11 @@ const ApexTreeView = ({
         nestingLevel,
       } = stack.pop() as TTreeStackObj;
 
+      const iExpd =
+        initExpanded?.length > 0
+          ? [rootTree.id, ...initExpanded]
+          : [rootTree.id];
+
       const isOpened = yield refresh
         ? {
             id,
@@ -81,7 +86,7 @@ const ApexTreeView = ({
             title,
             path,
             isLeaf: children.length === 0,
-            isOpenByDefault: [rootTree.id, ...initExpanded].includes(id),
+            isOpenByDefault: iExpd.includes(id),
             nestingLevel,
           }
         : id;

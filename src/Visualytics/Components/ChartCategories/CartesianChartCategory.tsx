@@ -124,15 +124,7 @@ const CartesianChartCategory = ({
           categoryOptionTitle as string,
           dragItemObj
         );
-        console.log(
-          "🚀 ~ file: CartesianChartCategory.tsx ~ line 298 ~ dragItemObj",
-          dragItemObj
-        );
 
-        console.log(
-          "🚀 ~ file: CartesianChartCategory.tsx ~ line 147 ~ drop ~ canReceiveMultiple",
-          canReceiveMultiple
-        );
         if (canReceiveMultiple) {
           const { id } = item as IDragItem;
 

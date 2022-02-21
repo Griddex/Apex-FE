@@ -41,7 +41,7 @@ import { getDisabledStyle } from "../../Application/Styles/disabledStyles";
 import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import generateDoughnutAnalyticsData from "../../Application/Utils/GenerateDoughnutAnalyticsData";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";
 import { extrudeForecastParametersDPs } from "../Components/DialogParameters/EditForecastParametersDialogParameters";
 import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";

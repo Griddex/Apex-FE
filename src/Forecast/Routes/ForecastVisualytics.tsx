@@ -12,7 +12,7 @@ import IconButtonWithTooltip from "../../Application/Components/IconButtons/Icon
 import NoSelectionPlaceholder from "../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { extrudeSaveForecastRun } from "../../Network/Components/DialogParameters/ExtrudeSaveForecastRun";
 import { TChartTypes } from "../../Visualytics/Components/Charts/ChartTypes";
 import VisualyticsContext from "../../Visualytics/Components/ContextDrawers/VisualyticsContext";

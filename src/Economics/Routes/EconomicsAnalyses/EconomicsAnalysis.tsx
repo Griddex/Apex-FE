@@ -232,7 +232,7 @@ const EconomicsAnalysis = ({
             unloadDialogsAction,
             () => {
               dispatch(
-                updateEconomicsParameterAction(`${wc}.sensitivitiesTable`, [])
+                updateEconomicsParameterAction(`sensitivitiesTable`, [])
               );
               dispatch(
                 updateEconomicsParameterAction(
@@ -295,7 +295,6 @@ const EconomicsAnalysis = ({
   //TODO check if still necessary
   React.useEffect(() => {
     const path = `${wc}.${analysisName}.name`;
-
     dispatch(updateEconomicsParameterAction(path, analysisName));
   }, []);
 

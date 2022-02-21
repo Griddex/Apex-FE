@@ -42,7 +42,7 @@ import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { getBaseEconomicsUrl } from "../../../../Application/Services/BaseUrlService";
 import { IApplicationStoredDataRow } from "../../../../Application/Types/ApplicationTypes";
 import formatDate from "../../../../Application/Utils/FormatDate";
-import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import {
   fetchStoredEconomicsSensitivitiesRequestAction,
   updateEconomicsParameterAction,

@@ -79,10 +79,6 @@ function* getEconomicsPlotChartDataSaga(
 
   const plotChartsCategoryDragItemsDefined =
     plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
-  console.log(
-    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 81 ~ plotChartsCategoryDragItemsDefined",
-    plotChartsCategoryDragItemsDefined
-  );
 
   const plotChartDragItems = Object.values(plotChartsCategoryDragItemsDefined);
 
@@ -108,10 +104,6 @@ function* getEconomicsPlotChartDataSaga(
 
     return { ...acc, ...newDragItems };
   }, {});
-  console.log(
-    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 111 ~ data ~ data",
-    data
-  );
 
   const idSensitivitiesMap = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
@@ -128,10 +120,6 @@ function* getEconomicsPlotChartDataSaga(
 
     return { ...acc, ...idSensitivities };
   }, {});
-  console.log(
-    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 128 ~ idSensitivitiesMap ~ idSensitivitiesMap",
-    idSensitivitiesMap
-  );
 
   const requestData = {
     data,

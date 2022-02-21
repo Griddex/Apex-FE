@@ -33,7 +33,7 @@ import { resetInputDataAction } from "../../../../Application/Redux/Actions/Appl
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { workflowResetAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
-import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import EconomicsParametersValue from "../../../Components/Parameters/EconomicsParametersValue";
 import {
   gasDevelopmentConceptOptions,

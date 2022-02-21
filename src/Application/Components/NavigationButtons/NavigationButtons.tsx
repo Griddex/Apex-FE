@@ -8,7 +8,7 @@ import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import SkipNextOutlinedIcon from "@mui/icons-material/SkipNextOutlined";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../DialogParameters/ConfirmationDialogParameters";
 import { showDialogAction } from "../../Redux/Actions/DialogsAction";
 import {
   workflowBackAction,
