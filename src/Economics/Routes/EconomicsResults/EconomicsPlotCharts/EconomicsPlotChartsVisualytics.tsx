@@ -111,18 +111,15 @@ const EconomicsPlotChartsVisualytics = () => {
   const [openContextWindow, setOpenContextWindow] = React.useState(false);
 
   const currentChartStory = useSelector(currentChartStorySelector);
-
   const showContextDrawer = useSelector(showContextDrawerSelector);
   const plotChartsResults = useSelector(plotChartsResultsSelector);
   const xValueCategories = useSelector(xValueCategoriesSelector);
-
   const selectedEconomicsPlotChartOption = useSelector(
     selectedEconomicsPlotChartOptionSelector
   );
 
   const chartType = selectedEconomicsPlotChartOption.value;
-
-  const basePath = `${wc}.commonChartProps`;
+  const basePath = `${wc}.${currentChartStory}.commonChartProps`;
 
   const chartButtons: IChartButtonsProps = {
     showExtraButtons: true,
@@ -218,18 +215,10 @@ const EconomicsPlotChartsVisualytics = () => {
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
 
-    dispatch(
-      updateEconomicsParameterAction(
-        "economicsChartsWorkflows.commonChartProps.axisLeft.legend",
-        ""
-      )
-    );
+    dispatch(updateEconomicsParameterAction(`${basePath}.axisLeft.legend`, ""));
 
     dispatch(
-      updateEconomicsParameterAction(
-        "economicsChartsWorkflows.commonChartProps.axisBottom.legend",
-        ""
-      )
+      updateEconomicsParameterAction(`${basePath}.axisBottom.legend`, "")
     );
   }, []);
 

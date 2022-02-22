@@ -81,7 +81,7 @@ export const initialVisualyticsWorkflowState = {
   chosenApplicationUnitsWithoutNone: [],
   fileUnitsWithoutNone: [],
 
-  appHeaderNameUnitsMap: {},
+  appHeaderNameUnitIdsMap: {},
   matchHeadersRows: [],
   matchUnitsRows: [],
 

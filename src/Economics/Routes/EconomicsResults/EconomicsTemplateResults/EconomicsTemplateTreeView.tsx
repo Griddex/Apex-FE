@@ -17,34 +17,38 @@ const economicsTemplatesTreeSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.economicsTemplatesTree,
   (data) => data
 );
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
+  (data) => data
+);
 
 const EconomicsTemplateTreeView = ({ height }: ITreeViewProps) => {
   const economicsTemplatesTree = useSelector(economicsTemplatesTreeSelector);
-  const rootTree = economicsTemplatesTree as RenderTree;
+  const analysisOption = useSelector(analysisOptionSelector);
+  const analysisName = analysisOption?.value as string;
 
-  //TODO: Ability to handle multiple analyses
+  const rootTree = economicsTemplatesTree[analysisName] as RenderTree;
+
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
   const [selectedPathsUnfiltered, setSelectedPathsUnfiltered] = React.useState<
     string[]
   >([]);
 
+  const idsStr = selectedIds.join();
+  const namesStr = selectedNames.join();
+  const pathsStr = selectedPathsUnfiltered.join();
+
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={React.useMemo(
-        () => selectedIds,
-        [JSON.stringify(selectedIds)]
-      )}
+      selectedIds={React.useMemo(() => selectedIds, [idsStr])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
-      selectedNames={React.useMemo(
-        () => selectedNames,
-        [JSON.stringify(selectedNames)]
-      )}
+      selectedNames={React.useMemo(() => selectedNames, [namesStr])}
       setSelectedNames={React.useCallback(setSelectedNames, [])}
       selectedPathsUnfiltered={React.useMemo(
         () => selectedPathsUnfiltered,
-        [JSON.stringify(selectedPathsUnfiltered)]
+        [pathsStr]
       )}
       setSelectedPathsUnfiltered={React.useCallback(
         setSelectedPathsUnfiltered,

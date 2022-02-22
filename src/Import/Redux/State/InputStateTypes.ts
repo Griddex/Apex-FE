@@ -57,7 +57,8 @@ export interface IInputState {
   chosenApplicationUnitsWithoutNone: string[];
   fileUnitsWithoutNone: string[];
 
-  appHeaderNameUnitsMap: Record<string, string>;
+  appHeaderNameUnitIdsMap: Record<string, string>;
+  appHeaderNameUnitTitlesMap: Record<string, string>;
   fileAppHeaderExcludeWithNoneMap: Record<
     string,
     Record<string, React.Key | boolean>

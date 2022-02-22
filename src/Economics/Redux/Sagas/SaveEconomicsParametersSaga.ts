@@ -70,44 +70,46 @@ function* saveEconomicsParametersSaga(
 
   const wc = "inputDataWorkflows";
   const wp = workflowProcess;
-  console.log(
-    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 71 ~ workflowProcess",
-    workflowProcess
-  );
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
-
-  const { basedOnVariables, tableData, appHeaderNameUnitsMap } = yield select(
-    (state) => state.economicsReducer[wc][wp]
-  );
-  console.log(
-    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 77 ~ tableData",
-    tableData
-  );
-
-  let inputDeck = [];
-  if (wp === "economicsParametersDeckManual") {
-    const names = tableData.map((row: any) => row["parameterName"]);
-    const units = tableData.map((row: any) => row["unit"]);
-    const values = tableData.map((row: any) => row["value"]);
-
-    const firstRow = { ...zipObject(names, units), sn: 1 };
-    const secondRow = { ...zipObject(names, values), sn: 2 };
-
-    inputDeck = [firstRow, secondRow];
-  } else {
-    inputDeck = tableData;
-  }
+  const {
+    basedOnVariables,
+    tableData,
+    appHeaderNameUnitIdsMap,
+    appHeaderNameUnitTitlesMap,
+  } = yield select((state) => state.economicsReducer[wc][wp]);
 
   const { savedMatchObjectAll: matchObject } = yield select(
     (state) => state.applicationReducer
   );
 
-  const economicsParametersObj = inputDeck[1];
+  let inputDeck = [];
+
+  const unitsRow = tableData[0];
+  const valuesRow = tableData[1];
+  const remarksRow = tableData[2];
+  const variableNames = Object.keys(unitsRow).filter((v) => v !== "sn");
+  if (wp === "economicsParametersDeckExcel") {
+    for (const name of variableNames) {
+      const newRow = {
+        parameterName: name,
+        unit: unitsRow[name],
+        value: valuesRow[name],
+        remark: remarksRow ? (remarksRow[name] ? remarksRow[name] : "") : "",
+      };
+
+      inputDeck.push(newRow);
+    }
+  } else {
+    inputDeck = tableData;
+  }
+
   console.log(
-    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 106 ~ inputDeck",
+    "🚀 ~ file: SaveEconomicsParametersSaga.ts ~ line 129 ~ inputDeck",
     inputDeck
   );
+  const values = inputDeck.map((row: any) => row["value"]);
+  const economicsParametersObj = zipObject(variableNames, values);
 
   //TODO
   //Get these names from backend so we have single source
@@ -135,7 +137,6 @@ function* saveEconomicsParametersSaga(
     "prodTerrain",
     "gasDevConcept",
   ]);
-
   const fiscal = pick(economicsParametersObj, [
     "pIA",
     "cITAGasSales",
@@ -147,6 +148,13 @@ function* saveEconomicsParametersSaga(
   const ppt = pick(economicsParametersObj, "ppt");
   const oilRoyalty = pick(economicsParametersObj, "oilRoyalty");
   const gasRoyalty = pick(economicsParametersObj, "gasRoyalty");
+
+  const table = inputDeck.reduce((acc: any, o: any) => {
+    const value = o["value"];
+    const parameterName = o["parameterName"];
+
+    if (Array.isArray(value)) return [...acc, parameterName];
+  }, []);
 
   const data = {
     projectId: currentProjectId,
@@ -162,8 +170,11 @@ function* saveEconomicsParametersSaga(
     },
     basedOnVariables:
       wp === "economicsParametersDeckManual" ? basedOnVariables : {},
-    variableUnits: appHeaderNameUnitsMap,
+    variableUnits: appHeaderNameUnitIdsMap,
+    variableUnitTitles: appHeaderNameUnitTitlesMap,
     matchObject,
+    table: table ? table : [],
+    inputDeck,
   };
 
   const config = { withCredentials: false };

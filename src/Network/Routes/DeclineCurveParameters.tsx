@@ -127,20 +127,6 @@ export default function DeclineCurveParameters({
         ),
         width: 120,
       },
-      // {
-      //   key: "forecastVersion",
-      //   name: "FORECAST VERSION",
-      //   editable: false,
-      //   resizable: true,
-      //   minWidth: 250,
-      // },
-      // {
-      //   key: "asset",
-      //   name: "ASSET",
-      //   editable: false,
-      //   resizable: true,
-      //   minWidth: 200,
-      // },
       {
         key: "field",
         name: "FIELD",
@@ -360,7 +346,7 @@ export default function DeclineCurveParameters({
     dispatch(hideSpinnerAction());
 
     dispatch(updateNetworkParameterAction("declineParameters", rows));
-  }, [dispatch, rows]);
+  }, [rows]);
 
   const [sRow, setSRow] = React.useState(-1);
 

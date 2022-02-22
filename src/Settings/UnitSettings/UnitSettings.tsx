@@ -23,7 +23,7 @@ import { ITableButtonsProps } from "../../Application/Components/Table/TableButt
 import { showDialogAction } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import theme from "../../Application/Theme/Theme";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import DateFormatter from "../Components/Dates/DateFormatter";
 import {
   dayDateFormatOptions,

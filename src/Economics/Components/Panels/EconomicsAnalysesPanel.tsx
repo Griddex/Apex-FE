@@ -9,9 +9,13 @@ import isEqual from "react-fast-compare";
 import AnalyticsTitle from "../../../Application/Components/Basic/AnalyticsTitle";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
-import { IEconomicsParametersSensitivitiesProps } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import {
+  IEconomicsParametersSensitivitiesProps,
+  TEconomicsAnalysesNames,
+} from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import { getDisabledStyle } from "../../../Application/Styles/disabledStyles";
+import { economicsAnalysesMap } from "../../Data/EconomicsData";
 
 const useStyles = makeStyles(() => ({
   economicsAnalysisPanel: {
@@ -58,7 +62,6 @@ const EconomicsAnalysesPanel = ({
 }: IEconomicsParametersSensitivitiesProps) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-
   const selectedAnalysesNames = useSelector(selectedAnalysesNamesSelector);
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -72,6 +75,13 @@ const EconomicsAnalysesPanel = ({
   const opacity = isDragging ? 0.4 : 1;
   const props = { opacity };
   const classes = useStyles(props);
+
+  const resultsAnalyisOptions = selectedAnalysesNames.map(
+    (name: TEconomicsAnalysesNames) => ({
+      value: name,
+      label: economicsAnalysesMap[name],
+    })
+  );
 
   return (
     <div>
@@ -122,19 +132,15 @@ const EconomicsAnalysesPanel = ({
                     "title",
                   ]);
 
-                  const analysisOption = {
-                    value: pickedSelectedAnalysis.name,
-                    label: pickedSelectedAnalysis.title,
-                  };
                   dispatch(
                     updateEconomicsParameterAction(path, pickedSelectedAnalysis)
                   );
 
-                  //TODO Initializing heatmap  from selecting economics analysis
                   dispatch(
-                    updateEconomicsParameterAction("resultsAnalyisOptions", [
-                      analysisOption,
-                    ])
+                    updateEconomicsParameterAction(
+                      "resultsAnalyisOptions",
+                      resultsAnalyisOptions
+                    )
                   );
                 }}
               >

@@ -26,6 +26,7 @@ import {
   saveForecastParametersSuccessAction,
   SAVE_FORECASTPARAMETERS_REQUEST,
 } from "../Actions/NetworkActions";
+import history from "../../../Application/Services/HistoryService";
 
 export default function* watchSaveForecastParametersSaga(): Generator<
   ActionChannelEffect | ForkEffect<never>,
@@ -55,55 +56,53 @@ function* saveForecastParametersSaga(
   const { payload, meta } = action;
   const { titleDesc } = payload;
   const { showSpinner, message } = meta as NonNullable<IAction["meta"]>;
-
-  const forecastingParametersObj: any = {};
-
   const { currentProjectId } = yield select((state) => state.projectReducer);
+  const { selectedForecastInputDeckId } = yield select(
+    (state) => state.inputReducer
+  );
   const { selectedProductionPrioritizationId } = yield select(
     (state) => state.networkReducer
   );
-  const { selectedDeclineParametersId } = yield select(
-    (state) => state.networkReducer
-  );
+  const { selectedDeclineParametersId, createdOrEditedForecastParameters } =
+    yield select((state) => state.networkReducer);
+
+  const { title, description } = titleDesc;
 
   let isDefered = 0;
-  if (titleDesc.isDefered == "useDeferment") {
+  if (createdOrEditedForecastParameters.isDefered == "useDeferment") {
     isDefered = 1;
   }
+  const startForecast = new Date(
+    createdOrEditedForecastParameters.startForecast
+  );
 
-  const startForecast = new Date(titleDesc.startForecast);
-
-  forecastingParametersObj.title = titleDesc.title;
-  forecastingParametersObj.description = titleDesc.description;
-  forecastingParametersObj.forecastInputDeckId = titleDesc.forecastInputDeckId;
-  forecastingParametersObj.projectId = currentProjectId;
-  forecastingParametersObj.userId = "";
-  forecastingParametersObj.type = titleDesc.type;
-  forecastingParametersObj.parameterEntries = {
-    targetFluid: titleDesc.targetFluid,
-    timeFrequency: titleDesc.timeFrequency,
-    realtimeResults: titleDesc.realtimeResults,
+  const parameterEntries = {
+    targetFluid: createdOrEditedForecastParameters.targetFluid,
+    timeFrequency: createdOrEditedForecastParameters.timeFrequency,
+    realtimeResults: createdOrEditedForecastParameters.realtimeResults,
     isDefered: isDefered,
-    stopDay: titleDesc.endForecast.getDate(),
-    stopMonth: titleDesc.endForecast.getMonth() + 1,
-    stopYear: titleDesc.endForecast.getFullYear(),
+    stopDay: createdOrEditedForecastParameters.endForecast.getDate(),
+    stopMonth: createdOrEditedForecastParameters.endForecast.getMonth() + 1,
+    stopYear: createdOrEditedForecastParameters.endForecast.getFullYear(),
     startDay: startForecast.getDate(),
     startMonth: startForecast.getMonth() + 1,
     startYear: startForecast.getFullYear(),
   };
-  forecastingParametersObj.declineParametersId = selectedDeclineParametersId;
-  forecastingParametersObj.wellPrioritizationId =
-    selectedProductionPrioritizationId;
-  forecastingParametersObj.forecastInputdeckTitle =
-    titleDesc.forecastInputdeckTitle;
-  forecastingParametersObj.wellPrioritizationTitle =
-    titleDesc.wellPrioritizationTitle;
-  forecastingParametersObj.wellDeclineParameterTitle =
-    titleDesc.wellDeclineParameterTitle;
+
+  const data = {
+    title,
+    description,
+    forecastInputDeckId: selectedForecastInputDeckId,
+    declineParametersId: selectedDeclineParametersId,
+    wellPrioritizationId: selectedProductionPrioritizationId,
+    projectId: currentProjectId,
+    parameterEntries,
+    type: "User",
+  };
 
   const config = { withCredentials: false };
   const saveForecastParametersAPI = (url: string) =>
-    authService.post(url, forecastingParametersObj, config);
+    authService.post(url, data, config);
 
   try {
     if (showSpinner) yield put(showSpinnerAction(message as string));
@@ -124,6 +123,7 @@ function* saveForecastParametersSaga(
     });
 
     yield put(fetchStoredForecastingParametersRequestAction(currentProjectId));
+    yield call(forwardTo, "/apex/network/forecastParametersStored");
   } catch (errors) {
     const failureAction = saveForecastParametersFailureAction();
 
@@ -134,4 +134,8 @@ function* saveForecastParametersSaga(
   } finally {
     if (showSpinner) yield put(hideSpinnerAction());
   }
+}
+
+function forwardTo(routeUrl: string) {
+  history.replace(routeUrl);
 }

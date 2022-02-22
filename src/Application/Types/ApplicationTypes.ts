@@ -6,6 +6,7 @@ import {
   TEconomicsAnalysesTitles,
 } from "../../Economics/Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { DialogStuff } from "../Components/Dialogs/DialogTypes";
+import { ISelectOption } from "../Components/Selects/SelectItemsType";
 import { IRawRow } from "../Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../Components/Table/TableButtonsTypes";
 import { IUserDetails } from "../Components/User/UserTypes";
@@ -114,6 +115,7 @@ export interface IApplicationStoredDataRow {
   analysisName?: TEconomicsAnalysesNames;
   developmentScenariosCostsRevenue?: TDevScenarioNames[];
   build?: "Auto" | "Manual";
+  aggregationLevelOption?: ISelectOption;
 }
 export interface IApplicationStoredForecastResultsRow
   extends IApplicationStoredDataRow {

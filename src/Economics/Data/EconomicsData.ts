@@ -279,6 +279,17 @@ export const economicsAnalysesOptions = [
   },
 ];
 
+export const economicsAnalysesMap = {
+  netcashFlow: "Net Cashflow",
+  payout: "Payout",
+  minimumCapitalRatio: "Minimum Capital Ratio",
+  netPresentValue: "Net Present Value",
+  presentValueRatio: "Present Value Ratio",
+  unitTechnicalCost: "Unit Technical Cost",
+  internalRateOfReturn: "Internal Rate of Return",
+  mulitpleAnalyses: "Multiple Analyses",
+};
+
 export const forecastCaseOptions = [
   { value: "1P_1C", label: "Low Case" },
   { value: "2P_2C", label: "Base Case" },
@@ -462,6 +473,41 @@ export const initialHeatMapData = {
     "R Category": {},
   },
   heatMapCategoryHasDropped: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+};
+
+export const initialEconomicsPlotData = {
+  plotChartsResults: [],
+  plotChartsData: null,
+  plotChartsDataTrans: null,
+
+  plotChartsVariableXOptions: {},
+  plotChartsVariableYOptions: {},
+  plotChartsSecondaryVariableYOptions: {},
+  plotChartsVariableZOptions: {},
+  plotChartsVariableROptions: {},
+  showPlotChartsCategoryMembersObj: {
+    "X Category": false,
+    "Y Category": false,
+    "Y Secondary Category": false,
+    "Z Category": false,
+    "R Category": false,
+  },
+
+  plotChartsCategoryDragItems: {
+    "X Category": {},
+    "Y Category": {},
+    "Y Secondary Category": {},
+    "Z Category": {},
+    "R Category": {},
+  },
+
+  plotChartsCategoryHasDropped: {
     "X Category": {},
     "Y Category": {},
     "Y Secondary Category": {},

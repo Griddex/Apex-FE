@@ -52,29 +52,13 @@ const ApexTreeView = ({
   dragDropTypes,
   height,
   droppedIds,
+  economicsResultsCase,
 }: IApexTreeView) => {
-  console.log("🚀 ~ file: ApexTreeView.tsx ~ line 56 ~ droppedIds", droppedIds);
   console.log("ApexTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwwww");
   const theme = useTheme();
   const classes = useStyles();
 
-  console.log("🚀 ~ file: ApexTreeView.tsx ~ line 61 ~ rootTree", rootTree);
-  const initExpanded = rootTree?.children?.map(
-    (scenarioNodes) => scenarioNodes.id
-  );
-
-  const [expanded, setExpanded] = React.useState<string[]>(
-    initExpanded as string[]
-  );
-  const [selected, setSelected] = React.useState<string[]>([]);
-
-  const handleToggle = (event: React.ChangeEvent<any>, nodeIds: string[]) => {
-    setExpanded(nodeIds);
-  };
-
-  const handleSelect = (event: React.ChangeEvent<any>, nodeIds: string[]) => {
-    setSelected(nodeIds);
-  };
+  const initExpanded = rootTree?.children?.map((nodes) => nodes.id) as string[];
 
   function* treeWalker(refresh: any): any {
     const stack = [] as TTreeStack;
@@ -90,6 +74,11 @@ const ApexTreeView = ({
         nestingLevel,
       } = stack.pop() as TTreeStackObj;
 
+      const iExpd =
+        initExpanded?.length > 0
+          ? [rootTree.id, ...initExpanded]
+          : [rootTree.id];
+
       const isOpened = yield refresh
         ? {
             id,
@@ -97,7 +86,7 @@ const ApexTreeView = ({
             title,
             path,
             isLeaf: children.length === 0,
-            isOpenByDefault: id === rootTree.id,
+            isOpenByDefault: iExpd.includes(id),
             nestingLevel,
           }
         : id;
@@ -225,15 +214,18 @@ const ApexTreeView = ({
       : {};
 
     if (isLeaf) {
-      if (path) {
-        const sensitivitiesJoined = path?.split("@#$%")[3];
+      // if (path) {
+      //   const sensitivitiesJoined = path?.split("@#$%")[3];
 
-        newName = `${name}_${sensitivitiesJoined}`;
-        newTitle = `${title}_${sensitivitiesJoined}`;
-      } else {
-        newName = name as string;
-        newTitle = title as string;
-      }
+      //   newName = `${name}_${sensitivitiesJoined}`;
+      //   newTitle = `${title}_${sensitivitiesJoined}`;
+      // } else {
+      //   newName = name as string;
+      //   newTitle = title as string;
+      // }
+
+      newName = name as string;
+      newTitle = title as string;
 
       const [{ isDragging }, drag] = useDrag(
         () => ({

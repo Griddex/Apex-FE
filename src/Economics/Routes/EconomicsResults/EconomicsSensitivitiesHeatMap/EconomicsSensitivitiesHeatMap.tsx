@@ -21,10 +21,6 @@ const heatMapVariableYOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapVariableYOptions,
   (data) => data
 );
-const heatMapTreeByScenarioSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.heatMapTreeByScenario,
-  (data) => data
-);
 const sensitivitiesTableSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.sensitivitiesTable,
   (data) => data
@@ -40,13 +36,7 @@ const EconomicsSensitivitiesHeatMap = () => {
   );
   const heatMapVariableXOptions = useSelector(heatMapVariableXOptionsSelector);
   const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
-  const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
   const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
-
-  console.log(
-    "🚀 ~ file: EconomicsSensitivitiesHeatMap.tsx ~ line 40 ~ EconomicsSensitivitiesHeatMap ~ heatMapTreeByScenario",
-    heatMapTreeByScenario
-  );
 
   const noOfSensitivities = sensitivitiesTable.length;
 

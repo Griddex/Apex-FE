@@ -45,6 +45,8 @@ export interface IInputWorkflows {
     | "forecastInputDeckSaveManualgenerate"
     | "forecastProfilesExcel"
     | "forecastProfilesDatabase"
+    | "forecastProfilesMbal"
+    | "forecastProfilesEclipse"
     | "forecastProfilesStored"
     | "productionInputDataExcel"
     | "productionInputDataDatabase"

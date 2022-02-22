@@ -375,10 +375,6 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         chartData,
         xValueCategories,
       } = action.payload;
-      console.log(
-        "🚀 ~ file: EconomicsReducers.ts ~ line 384 ~ economicsReducer ~  action.payload",
-        action.payload
-      );
 
       const wCObj = (state as any)[workflowCategory];
       const chtStryObj = (state as any)[workflowCategory][chartStory];
@@ -412,25 +408,39 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICS_REMOVE_CHARTCATEGORY: {
-      const { categoryTitle, id } = action.payload;
+      const { categoryTitle, categoryOptionTitle, id } = action.payload;
+      let dragItemsTitle = "heatMapCategoryDragItems" as
+        | "heatMapCategoryDragItems"
+        | "plotChartsCategoryDragItems";
+      let hasDroppedTitle = "heatMapCategoryHasDropped" as
+        | "heatMapCategoryHasDropped"
+        | "plotChartsCategoryHasDropped";
 
-      const categoryObj = state["plotChartsCategoryDragItems"][categoryTitle];
+      if (categoryOptionTitle.toLowerCase().includes("plotCharts")) {
+        dragItemsTitle = "plotChartsCategoryDragItems";
+        hasDroppedTitle = "plotChartsCategoryHasDropped";
+      }
+
+      const categoryObj = state[dragItemsTitle][categoryTitle];
       const newCategoryObj = omit(categoryObj, [id]);
 
-      const hasDroppedObj =
-        state["plotChartsCategoryHasDropped"][categoryTitle];
+      const hasDroppedObj = state[hasDroppedTitle][categoryTitle];
       const newHasDroppedObj = omit(hasDroppedObj, [id]);
+
+      const variableOptionsObj = (state as any)[categoryOptionTitle];
+      const newVariableOptionsObj = omit(variableOptionsObj, [id]);
 
       return {
         ...state,
-        plotChartsCategoryDragItems: {
-          ...state["plotChartsCategoryDragItems"],
+        [dragItemsTitle]: {
+          ...state[dragItemsTitle],
           [categoryTitle]: newCategoryObj,
         },
-        plotChartsCategoryHasDropped: {
-          ...state["plotChartsCategoryHasDropped"],
+        [hasDroppedTitle]: {
+          ...state[hasDroppedTitle],
           [categoryTitle]: newHasDroppedObj,
         },
+        [categoryOptionTitle]: newVariableOptionsObj,
       };
     }
 

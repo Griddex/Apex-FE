@@ -93,7 +93,7 @@ const TableDataDialog: React.FC<DialogStuff> = (props) => {
     (row: IRawRow, i: number) => {
       const rowFiltered = omit(row, ["id", "_id"]);
 
-      return { sn: i + 1, ...rowFiltered };
+      return { sn: i === 0 ? "" : i, ...rowFiltered };
     }
   );
 

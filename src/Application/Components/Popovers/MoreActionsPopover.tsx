@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { MenuItem, Theme, useTheme } from "@mui/material";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -13,6 +13,7 @@ import ApexFlexContainer from "../Styles/ApexFlexContainer";
 import getFirstCharFromEveryWord from "../../Utils/GetFirstCharFromEveryWord";
 import noEventPropagation from "../../Events/NoEventPropagation";
 import NestedMenuItem from "../NestedMenuItems/NestedMenuItem";
+import { getDisabledStyle } from "../../Styles/disabledStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -75,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface IImportMoreActionsRow {
+  id?: string;
   title?: string;
   action?: () => void;
   component?: JSX.Element;
@@ -104,18 +106,30 @@ const generateMoreActionsMenuItems = (
     | "footer"
   >,
   anchorEl: any,
+  theme: Theme,
   handleClose?: () => void
 ) => {
   return data.map((row: IImportMoreActionsRow, i: number) => {
-    const { title, action, nestedData, component: Component } = row;
+    const { id, title, action, nestedData, component: Component } = row;
+    console.log(
+      "🚀 ~ file: MoreActionsPopover.tsx ~ line 114 ~ returndata.map ~ id",
+      id
+    );
 
     const titleDefined = title as string;
     const avatar = getFirstCharFromEveryWord(titleDefined);
+    const disabledStyle =
+      titleDefined === "Modify" && id !== "" ? getDisabledStyle(theme) : {};
+    console.log(
+      "🚀 ~ file: MoreActionsPopover.tsx ~ line 119 ~ returndata.map ~ disabledStyle",
+      disabledStyle
+    );
 
     if (nestedData) {
       return (
         <NestedMenuItem
           key={i}
+          style={disabledStyle}
           className={classes.menuItem}
           parentMenuOpen={Boolean(anchorEl)}
           rightIcon={<ChevronRightOutlinedIcon />}
@@ -132,6 +146,7 @@ const generateMoreActionsMenuItems = (
             nestedData,
             classes,
             anchorEl,
+            theme,
             handleClose
           )}
         </NestedMenuItem>
@@ -140,6 +155,7 @@ const generateMoreActionsMenuItems = (
       return (
         <div key={i}>
           <MenuItem
+            style={disabledStyle}
             className={classes.menuItem}
             onClick={() => {
               action && action();
@@ -160,6 +176,7 @@ const generateMoreActionsMenuItems = (
 const MoreActionsPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
   ({ anchorEl, handleClose, data }, ref) => {
     const classes = useStyles();
+    const theme = useTheme();
 
     return (
       <div className={classes.container} ref={ref}>
@@ -176,7 +193,13 @@ const MoreActionsPopover = React.forwardRef<HTMLDivElement, IPopoverProps>(
         </div>
         <div className={classes.body}>
           <List style={{ height: "100%", width: "100%", padding: 0 }}>
-            {generateMoreActionsMenuItems(data, classes, anchorEl, handleClose)}
+            {generateMoreActionsMenuItems(
+              data,
+              classes,
+              anchorEl,
+              theme,
+              handleClose
+            )}
           </List>
         </div>
         <div className={classes.footer}>

@@ -12,7 +12,7 @@ import { ISelectOption } from "../../../../Application/Components/Selects/Select
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { IInputWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
-import { confirmationDialogParameters } from "../../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import AggregatedButtons from "../../../Components/AggregatedButtons/AggregatedButtons";
 import {
   backendDevScenarioOptions,
@@ -329,6 +329,15 @@ export default function CostsAndRevenueManual({
       )
     );
   }, [devVal]);
+
+  React.useEffect(() => {
+    dispatch(
+      updateEconomicsParameterAction(
+        `${basePath}.costsRevenueAggregationLevelOption`,
+        costsRevenueAggregationLevelOption
+      )
+    );
+  }, [costsRevenueAggregationLevelOption?.value]);
 
   //TODO for some reason, manual workflow is updating all of them
   //Please trace and fix

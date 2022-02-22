@@ -73,9 +73,13 @@ function* saveCostsRevenuesSaga(
   );
   const { forecastResultsId } = yield select((state) => state.forecastReducer);
 
-  const { costsRevenues, forecastCase, appHeaderNameUnitsMap } = yield select(
-    (state) => state.economicsReducer[wc][wp]
-  );
+  const {
+    costsRevenues,
+    forecastCase,
+    appHeaderNameUnitIdsMap,
+    appHeaderNameUnitTitlesMap,
+    costsRevenueAggregationLevelOption,
+  } = yield select((state) => state.economicsReducer[wc][wp]);
 
   let costsRevenuesData = costsRevenues;
   if (wp === "economicsCostsRevenuesDeckExcel") {
@@ -97,7 +101,9 @@ function* saveCostsRevenuesSaga(
     developmentScenarios: Object.keys(costsRevenues),
     forecastScenario: forecastCase,
     matchObject,
-    variableUnits: appHeaderNameUnitsMap,
+    variableUnits: appHeaderNameUnitIdsMap,
+    variableUnitTitles: appHeaderNameUnitTitlesMap,
+    aggregationLevelOption: costsRevenueAggregationLevelOption,
   };
 
   const config = { withCredentials: false };

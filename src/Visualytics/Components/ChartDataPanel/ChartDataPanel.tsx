@@ -40,6 +40,8 @@ export interface IChartDataPanel<T = ISelectOption> {
   renderCategoryIcon: boolean;
   showMembersObjValues?: boolean[];
   clearChartCategories?: () => IAction;
+  hasTitle?: boolean;
+  title?: string;
 }
 
 const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
@@ -54,6 +56,8 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   renderCategoryIcon,
   showMembersObjValues,
   clearChartCategories,
+  hasTitle,
+  title,
 }) => {
   const theme = useTheme();
 
@@ -90,6 +94,19 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
       {hasSecondaryComponent && <SecondarySelectComponent />}
+      {hasTitle && title !== "Select..." && (
+        <div
+          style={{
+            color: theme.palette.primary.main,
+            fontWeight: "bold",
+            width: "100%",
+            border: `1px solid ${theme.palette.grey[300]}`,
+            backgroundColor: theme.palette.grey["200"],
+          }}
+        >
+          {title}
+        </div>
+      )}
       <SizeMe monitorHeight refreshRate={32}>
         {({ size }) => (
           <TreeViewComponent

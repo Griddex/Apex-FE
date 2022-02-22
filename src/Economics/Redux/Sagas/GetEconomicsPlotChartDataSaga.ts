@@ -1,5 +1,4 @@
 import { ActionType } from "@redux-saga/types";
-import uniqBy from "lodash.uniqby";
 import zipObject from "lodash.zipobject";
 import {
   actionChannel,
@@ -24,6 +23,8 @@ import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 import * as authService from "../../../Application/Services/AuthService";
 import { getBaseEconomicsUrl } from "../../../Application/Services/BaseUrlService";
 import { IDragItem } from "../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
+import { TEconomicsResultsCase } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
+import { getAggregationLevelIndex } from "../../Utils/GetAggregationIndex";
 import {
   getEconomicsPlotChartDataFailureAction,
   getEconomicsPlotChartDataSuccessAction,
@@ -80,17 +81,14 @@ function* getEconomicsPlotChartDataSaga(
     plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
 
   const plotChartDragItems = Object.values(plotChartsCategoryDragItemsDefined);
-  console.log(
-    "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 83 ~ plotChartDragItems",
-    plotChartDragItems
-  );
 
   const data = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
 
     const newDragItems = dragItems.reduce((acc, item) => {
       const { id, name, path } = item;
-      const sensitivitiesJoined = path?.split("@#$%")[3];
+      const sensitivitiesJoined = path?.split("@#$%")[5];
+      const aggregationLevelIndex = getAggregationLevelIndex(path as string);
 
       const sensitivitiesArr = sensitivitiesJoined?.split("-");
 
@@ -99,6 +97,7 @@ function* getEconomicsPlotChartDataSaga(
         [id]: {
           ...zipObject(["x", "y", "z"], sensitivitiesArr as string[]),
           name: name.split("_")[0],
+          aggregationLevelIndex: Number(aggregationLevelIndex),
         },
       };
     }, {});
@@ -111,7 +110,7 @@ function* getEconomicsPlotChartDataSaga(
 
     const idSensitivities = dragItems.reduce((acc, item) => {
       const { id, path } = item;
-      const sensitivitiesJoined = path?.split("@#$%")[3];
+      const sensitivitiesJoined = path?.split("@#$%")[5];
 
       return {
         ...acc,

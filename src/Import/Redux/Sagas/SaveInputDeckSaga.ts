@@ -95,18 +95,20 @@ export function* saveInputDeckSaga(
 
   const { currentProjectId } = yield select((state) => state.projectReducer);
 
-  const { tableData: inputDeck, appHeaderNameUnitsMap } = yield select(
-    (state) => state[reducer][wc][wp]
-  );
+  const {
+    tableData: inputDeck,
+    appHeaderNameUnitIdsMap,
+    appHeaderNameUnitTitlesMap,
+  } = yield select((state) => state[reducer][wc][wp]);
 
   const { savedMatchObjectAll: matchObject } = yield select(
     (state) => state.applicationReducer
   );
 
   const appHeaderNameUnitsMapDefined = (
-    Object.keys(appHeaderNameUnitsMap) as string[]
+    Object.keys(appHeaderNameUnitIdsMap) as string[]
   ).reduce((acc: any, key) => {
-    const val = appHeaderNameUnitsMap[key];
+    const val = appHeaderNameUnitIdsMap[key];
     if (Array.isArray(val) && val[0].toLowerCase() === "noid") {
       return acc;
     }
@@ -127,6 +129,7 @@ export function* saveInputDeckSaga(
     inputDeck: inputDeckData,
     matchObject,
     variableUnits: appHeaderNameUnitsMapDefined,
+    variableUnitTitles: appHeaderNameUnitTitlesMap,
   };
 
   const config = { withCredentials: false };
