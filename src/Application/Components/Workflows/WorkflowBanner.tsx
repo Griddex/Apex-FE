@@ -25,6 +25,7 @@ const WorkflowBanner = ({
   subModuleName,
   showChip,
 }: IWorkflowBannerProps) => {
+  console.log("🚀 ~ file: WorkflowBanner.tsx ~ line 28 ~ steps", steps);
   const classes = useStyles();
   const theme = useTheme();
 

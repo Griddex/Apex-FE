@@ -17,6 +17,7 @@ import {
 import { TChartStory, TChartTypes } from "../Charts/ChartTypes";
 import { IChartCategories, IDragItem } from "./ChartCategoryTypes";
 import ChartCategoryVariable from "./ChartCategoryVariable";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,6 +62,7 @@ const CartesianChartCategory = ({
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [membersSwitch, setMembersSwitch] = React.useState(
     showCategoryMembersObj && showCategoryMembersObj[categoryTitle as string]
@@ -80,37 +82,83 @@ const CartesianChartCategory = ({
     ...Object.values(itemTypesVisualytics),
   ];
 
+  const getCanReceiveMultipleVariable = (
+    categoryTitle: string,
+    variableOptionTitle: string,
+    dragItemObj: Record<string, IDragItem>
+  ) => {
+    const oneItemOnly = Object.keys(dragItemObj).length === 1;
+
+    if (variableOptionTitle.toLowerCase().includes("heatmap")) {
+      console.log("Hello");
+      switch (categoryTitle) {
+        case "X Category":
+          return oneItemOnly ? false : true;
+        case "Y Category":
+          return oneItemOnly ? false : true;
+        case "Z Category":
+          return oneItemOnly ? false : true;
+        default:
+          return oneItemOnly ? false : true;
+      }
+    } else {
+      switch (categoryTitle) {
+        case "X Category":
+          return oneItemOnly ? false : true;
+        case "Y Category":
+          return true;
+        case "Z Category":
+          return true;
+        default:
+          return oneItemOnly ? false : true;
+      }
+    }
+  };
+
   const [{ isOverCurrent, canDrop }, drop] = useDrop(
     () => ({
       accept: allItemTypes,
       drop(item) {
-        const { id } = item as IDragItem;
-
-        setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
-        setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
-
-        dispatch(updateAction(categoryOptionTitle as string, item));
-
-        dispatch(
-          updateDragItemsAction &&
-            updateDragItemsAction(
-              reducer as TReducer,
-              categoryTitle as string,
-              categoryDragItemsTitle as string,
-              item as IDragItem
-            )
+        const canReceiveMultiple = getCanReceiveMultipleVariable(
+          categoryTitle as string,
+          categoryOptionTitle as string,
+          dragItemObj
         );
 
-        dispatch(
-          updateHasDroppedAction &&
-            updateHasDroppedAction(
-              reducer as TReducer,
-              categoryTitle as string,
-              categoryHasDroppedTitle as string,
-              id,
-              true
-            )
-        );
+        if (canReceiveMultiple) {
+          const { id } = item as IDragItem;
+
+          setDragItemObj((prev) => ({ ...prev, [id]: item as IDragItem }));
+          setHasDroppedObj((prev) => ({ ...prev, [id]: true }));
+
+          dispatch(updateAction(categoryOptionTitle as string, item));
+
+          dispatch(
+            updateDragItemsAction &&
+              updateDragItemsAction(
+                reducer as TReducer,
+                categoryTitle as string,
+                categoryDragItemsTitle as string,
+                item as IDragItem
+              )
+          );
+
+          dispatch(
+            updateHasDroppedAction &&
+              updateHasDroppedAction(
+                reducer as TReducer,
+                categoryTitle as string,
+                categoryHasDroppedTitle as string,
+                id,
+                true
+              )
+          );
+        } else {
+          enqueueSnackbar("Only one variable allowed", {
+            persist: false,
+            variant: "error",
+          });
+        }
       },
       collect: (monitor) => ({
         isOver: monitor.isOver(),
@@ -118,7 +166,7 @@ const CartesianChartCategory = ({
         canDrop: monitor.canDrop(),
       }),
     }),
-    []
+    [dragItemObj]
   );
 
   const isActive = canDrop && isOverCurrent;

@@ -20,6 +20,7 @@ import {
   TDevScenarioTitles,
   TEconomicsAnalysesNames,
   TEconomicsAnalysesTitles,
+  TEconomicsResultsCase,
   TForecastScenario,
 } from "../../Routes/EconomicsAnalyses/EconomicsAnalysesTypes";
 import { IAggregateButtonProps } from "../../Routes/EconomicsInput/EconomicsCostsAndRevenues/EconomicsCostsAndRevenuesTypes";
@@ -76,7 +77,8 @@ export interface IEconomicsImport {
   chosenApplicationUnitsWithoutNone: string[];
   fileUnitsWithoutNone: string[];
 
-  appHeaderNameUnitsMap: Record<string, string>;
+  appHeaderNameUnitIdsMap: Record<string, string>;
+  appHeaderNameUnitTitlesMap: Record<string, string>;
   matchHeadersRows: IRawRow[];
   matchUnitsRows: IRawRow[];
 
@@ -259,9 +261,10 @@ export interface IEconomicsState
 
   allDevRows: Record<TDevScenarioNames, IRawRow[]>;
   selectedTableData: any[];
+  analysisOption: ISelectOption;
 
   heatMapTreeByScenario: RenderTree;
-  sensitivitiesHeatMapTree: RenderTree;
+  sensitivitiesHeatMapTree: Record<string, RenderTree>;
   sensitivitiesHeatMapData: any;
   sensitivitiesHeatMap1or2D: [];
   sensitivitiesHeatMapThresholdData: {
@@ -284,7 +287,7 @@ export interface IEconomicsState
   showCategoryZMembers: boolean;
 
   xValueCategories: string[];
-  economicsPlotChartsTree: RenderTree;
+  economicsPlotChartsTree: Record<string, RenderTree>;
   plotChartsResults: any[];
   plotChartsData: null;
   plotChartsDataTrans: null;
@@ -307,11 +310,12 @@ export interface IEconomicsState
     relationalOperatorOption: ISelectOption;
   };
 
-  economicsTemplatesTree: RenderTree;
+  economicsTemplatesTree: Record<string, RenderTree>;
 
   economicsRanking: any[];
   sensitivitiesTable: any[];
 
+  economicsResultsCase: TEconomicsResultsCase;
   resultsAnalyisOptions: ISelectOption[];
 
   forecastEconomicsAggregated: Record<string, any[]>;

@@ -55,7 +55,7 @@ import {
 import formatDate from "../../../Application/Utils/FormatDate";
 import generateDoughnutAnalyticsData from "../../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
-import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { DoughnutChartAnalytics } from "../../../Visualytics/Components/Charts/DoughnutChart";
 import {
   fetchEconomicsTreeviewKeysRequestAction,

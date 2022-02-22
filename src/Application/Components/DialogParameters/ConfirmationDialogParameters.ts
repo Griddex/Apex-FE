@@ -1,7 +1,7 @@
-import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
-import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
-import { unloadDialogsAction } from "../../../Application/Redux/Actions/DialogsAction";
+import DialogOneCancelButtons from "../DialogButtons/DialogOneCancelButtons";
+import { DialogStuff } from "../Dialogs/DialogTypes";
+import { IAction } from "../../Redux/Actions/ActionTypes";
+import { unloadDialogsAction } from "../../Redux/Actions/DialogsAction";
 
 export const confirmationDialogParameters = (
   name: string,

@@ -24,8 +24,10 @@ import {
 } from "../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../Application/Redux/Reducers/AllReducers";
 import { TUseState } from "../../Application/Types/ApplicationTypes";
-import { newUserForecastParametersRow } from "../../Forecast/Data/ForecastData";
-import { IForecastParametersStoredRow } from "../Components/Dialogs/StoredNetworksDialogTypes";
+import {
+  IBackendForecastingParametersRow,
+  IForecastParametersStoredRow,
+} from "../Components/Dialogs/StoredNetworksDialogTypes";
 import {
   defermentOptions,
   realtimeOptions,
@@ -34,7 +36,10 @@ import {
 import {
   saveDeclineParametersRequestActionForFP,
   saveProductionPrioritizationRequestAction,
+  updateNetworkParameterAction,
+  updateNetworkParametersAction,
 } from "../Redux/Actions/NetworkActions";
+import { storedToForecastingParameters } from "../Utils/TransformForecastingParameters";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,6 +101,15 @@ const selectedProductionPrioritizationTitleSelector = createDeepEqualSelector(
     state.networkReducer.selectedProductionPrioritizationTitle,
   (data) => data
 );
+const selectedForecastInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedForecastInputDeckId,
+  (data) => data
+);
+const forecastingParametersStoredSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.networkReducer["storedDataWorkflows"]["forecastingParametersStored"],
+  (data) => data
+);
 
 const EditOrCreateForecastingParameters = ({
   currentRow,
@@ -115,11 +129,6 @@ const EditOrCreateForecastingParameters = ({
   const currentDateFormat = `${dayFormat}/${monthFormat}/${yearFormat}`;
 
   const dialogRef = React.useRef<HTMLElement>(null);
-  const [formEditorRow, setFormEditorRow] = React.useState(
-    workflowProcess === "forecastParametersCreate"
-      ? (newUserForecastParametersRow as IForecastParametersStoredRow)
-      : (currentRow as IForecastParametersStoredRow)
-  );
 
   const selectedDeclineParametersId = useSelector(
     selectedDeclineParametersIdSelector
@@ -136,6 +145,46 @@ const EditOrCreateForecastingParameters = ({
   const selectedProductionPrioritizationTitle = useSelector(
     selectedProductionPrioritizationTitleSelector
   );
+
+  const selectedForecastInputDeckId = useSelector(
+    selectedForecastInputDeckIdSelector
+  );
+
+  const forecastingParametersStored: IBackendForecastingParametersRow[] =
+    useSelector(forecastingParametersStoredSelector);
+
+  const convertedForecastingParametersStored = storedToForecastingParameters(
+    forecastingParametersStored,
+    dayFormat,
+    monthFormat,
+    yearFormat
+  ) as IForecastParametersStoredRow[];
+
+  const selectedForecastingParametersRow =
+    convertedForecastingParametersStored.find(
+      (row) => row.forecastInputDeckId === selectedForecastInputDeckId
+    );
+
+  const [formEditorRow, setFormEditorRow] = React.useState(
+    workflowProcess === "forecastParametersCreate"
+      ? (selectedForecastingParametersRow as IForecastParametersStoredRow)
+      : (currentRow as IForecastParametersStoredRow)
+  );
+
+  const realtimeOption = realtimeOptions.find(
+    (o) =>
+      o?.value?.toLowerCase() ===
+      formEditorRow["realtimeResults"]?.toLowerCase()
+  ) as ISelectOption;
+
+  const timeFrequencyOption = timeFrequencyOptions.find(
+    (o) =>
+      o?.value?.toLowerCase() === formEditorRow["timeFrequency"]?.toLowerCase()
+  ) as ISelectOption;
+
+  const defermentOption = defermentOptions.find(
+    (o) => o?.value?.toLowerCase() === formEditorRow["isDefered"]?.toLowerCase()
+  ) as ISelectOption;
 
   const createDCATable = () => {
     const dialogParameters: DialogStuff = {
@@ -269,13 +318,7 @@ const EditOrCreateForecastingParameters = ({
 
   const TimeFrequency = () => (
     <ApexSelectRS
-      valueOption={
-        timeFrequencyOptions.find(
-          (o) =>
-            o.value.toLowerCase() ===
-            formEditorRow["timeFrequency"].toLowerCase()
-        ) as ISelectOption
-      }
+      valueOption={timeFrequencyOption}
       data={timeFrequencyOptions}
       handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
         const optionDefined = option as ISelectOption;
@@ -293,12 +336,7 @@ const EditOrCreateForecastingParameters = ({
 
   const DefermentUtilization = () => (
     <ApexSelectRS
-      valueOption={
-        defermentOptions.find(
-          (o) =>
-            o.value.toLowerCase() === formEditorRow["isDefered"].toLowerCase()
-        ) as ISelectOption
-      }
+      valueOption={defermentOption}
       data={defermentOptions}
       handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
         const optionDefined = option as ISelectOption;
@@ -321,8 +359,27 @@ const EditOrCreateForecastingParameters = ({
     (1000 * 60 * 60 * 24 * 365.24);
 
   React.useEffect(() => {
+    dispatch(
+      updateNetworkParametersAction({
+        selectedDeclineParametersId:
+          selectedForecastingParametersRow?.wellDeclineParameterId,
+        selectedProductionPrioritizationId:
+          selectedForecastingParametersRow?.wellPrioritizationId,
+      })
+    );
+  }, []);
+
+  const formEditorRowValuesString = Object.values(formEditorRow).join();
+  React.useEffect(() => {
     setCurrentRow && setCurrentRow(formEditorRow);
-  }, [formEditorRow]);
+
+    dispatch(
+      updateNetworkParameterAction(
+        "createdOrEditedForecastParameters",
+        formEditorRow
+      )
+    );
+  }, [formEditorRowValuesString]);
 
   React.useEffect(() => {
     if (forecastDuration < 0) {
@@ -430,13 +487,7 @@ const EditOrCreateForecastingParameters = ({
         direction="Vertical"
         content={
           <ApexSelectRS
-            valueOption={
-              realtimeOptions.find(
-                (o) =>
-                  o.value.toLowerCase() ===
-                  formEditorRow["realtimeResults"].toLowerCase()
-              ) as ISelectOption
-            }
+            valueOption={realtimeOption}
             data={realtimeOptions}
             handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
               const optionDefined = option as ISelectOption;

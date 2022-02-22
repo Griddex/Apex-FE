@@ -8,7 +8,15 @@ import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButt
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { IVisualyticsSelectChart } from "../../../../Visualytics/Common/VisualyticsSelectChart";
-import { getEconomicsPlotChartDataRequestAction } from "../../../Redux/Actions/EconomicsActions";
+import {
+  getEconomicsPlotChartDataRequestAction,
+  updateEconomicsParametersAction,
+} from "../../../Redux/Actions/EconomicsActions";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import omit from "lodash.omit";
+import { confirmationDialogParameters } from "../../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
+import { initialEconomicsPlotData } from "../../../Data/EconomicsData";
 
 const SelectChart = React.lazy(
   () => import("../../../../Visualytics/Common/SelectChart")
@@ -39,6 +47,34 @@ const EconomicsPlotChartsSelectChart = ({
   const indexByKey = Object.keys(plotChartsVariableXOptions)[0];
   const indexBy = plotChartsVariableXOptions[indexByKey]?.name;
 
+  const clearHeatMap = () =>
+    dispatch(
+      updateEconomicsParametersAction(
+        omit(initialEconomicsPlotData, [
+          "plotChartsResults",
+          "plotChartsData",
+          "plotChartsDataTrans",
+        ])
+      )
+    );
+
+  const resetHeatMap = () => {
+    const dialogParameters = confirmationDialogParameters(
+      "Reset_Confirmation",
+      "Reset Confirmation",
+      "textDialog",
+      `Do you want to reset this workflow?. 
+  You will lose all data up to current step.`,
+      true,
+      false,
+      () => dispatch(updateEconomicsParametersAction(initialEconomicsPlotData)),
+      "Reset",
+      "reset"
+    );
+
+    dispatch(showDialogAction(dialogParameters));
+  };
+
   return (
     <div
       style={{
@@ -62,18 +98,20 @@ const EconomicsPlotChartsSelectChart = ({
         moreStyles={{ marginBottom: 4, width: 270, alignSelf: "center" }}
       >
         <BaseButtons
-          buttonTexts={["Reset", "Display"]}
-          variants={["contained", "contained"]}
-          colors={["secondary", "primary"]}
+          buttonTexts={["Reset", "Clear", "Display"]}
+          variants={["contained", "contained", "contained"]}
+          colors={["secondary", "inherit", "primary"]}
           startIcons={[
             <RotateLeftIcon key={1} />,
-            <AirplayOutlinedIcon key={2} />,
+            <ClearOutlinedIcon key={2} />,
+            <AirplayOutlinedIcon key={3} />,
           ]}
-          disableds={[false, plotChartsVariableXOptions === null]}
-          shouldExecute={[true, true]}
-          shouldDispatch={[false, false]}
+          disableds={[false, false, plotChartsVariableXOptions === null]}
+          shouldExecute={[true, true, true]}
+          shouldDispatch={[false, false, false]}
           finalActions={[
-            () => {},
+            () => resetHeatMap(),
+            () => clearHeatMap(),
             () => dispatch(getEconomicsPlotChartDataRequestAction(reducer, wc)),
           ]}
         />

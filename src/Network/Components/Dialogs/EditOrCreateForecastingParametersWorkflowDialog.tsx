@@ -36,16 +36,6 @@ const forecastingParametersTitlesSelector = createDeepEqualSelector(
   (title) => title
 );
 
-const selectedForecastingParametersIdSelector = createDeepEqualSelector(
-  (state: RootState) => state.networkReducer.selectedForecastingParametersId,
-  (data) => data
-);
-
-const selectedForecastInputDeckIdSelector = createDeepEqualSelector(
-  (state: RootState) => state.inputReducer.selectedForecastInputDeckId,
-  (data) => data
-);
-
 const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   DialogStuff<IForecastParametersStoredRow>
 > = (props) => {
@@ -64,14 +54,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
-
-  const selectedForecastInputDeckId = useSelector(
-    selectedForecastInputDeckIdSelector
-  );
-
-  const selectedForecastingParametersId = useSelector(
-    selectedForecastingParametersIdSelector
-  );
 
   const storedTitles = useSelector(forecastingParametersTitlesSelector);
 
@@ -99,6 +81,10 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
   } else {
     steps = ["Forecast Parameters", "Title and Description"];
   }
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 102 ~ steps",
+    steps
+  );
 
   const skipped = new Set<number>();
 
@@ -129,6 +115,17 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     skipped,
     isStepSkipped,
   };
+
+  const workflowBannerProps = {
+    steps,
+    activeStep,
+    subModuleName: title as string,
+    showChip: true,
+  };
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 112 ~ workflowProps",
+    workflowProps
+  );
 
   const createProps = {
     currRow,
@@ -183,15 +180,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     } else return false;
   };
 
-  const getSelectedId = () => {
-    if (workflowProcessDefined === "forecastParametersCreate")
-      return selectedForecastInputDeckId;
-    else return selectedForecastingParametersId;
-  };
-
-  //TODO
-  const id = getSelectedId();
-
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: false,
     showReset: true,
@@ -235,10 +223,11 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
         iconType={iconType}
       >
         <WorkflowBanner
-          activeStep={activeStep}
-          steps={steps}
-          subModuleName={title as string}
-          showChip={true}
+          // activeStep={activeStep}
+          // steps={steps}
+          // subModuleName={title as string}
+          // showChip={true}
+          {...workflowBannerProps}
         />
       </DialogTitle>
       <DialogContent

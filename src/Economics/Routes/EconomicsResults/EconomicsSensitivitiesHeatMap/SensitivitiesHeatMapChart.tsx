@@ -1,17 +1,21 @@
 import AirplayOutlinedIcon from "@mui/icons-material/AirplayOutlined";
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import omit from "lodash.omit";
 import React from "react";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import BaseButtons from "../../../../Application/Components/BaseButtons/BaseButtons";
+import { confirmationDialogParameters } from "../../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import { ISelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
 import ApexFlexContainer from "../../../../Application/Components/Styles/ApexFlexContainer";
 import WithUnit from "../../../../Application/HOCs/WithUnit";
+import { showDialogAction } from "../../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import isObjectEmpty from "../../../../Application/Utils/IsObjectEmpty";
 import {
@@ -90,7 +94,6 @@ const SensitivitiesHeatMapChart = ({
   const heatMapVariableYOptions = useSelector(heatMapVariableYOptionsSelector);
   const heatMapVariableZOptions = useSelector(heatMapVariableZOptionsSelector);
   const heatMapTreeByScenario = useSelector(heatMapTreeByScenarioSelector);
-
   const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
   const selectedEconomicsResultsId = useSelector(
     selectedEconomicsResultsIdSelector
@@ -128,41 +131,82 @@ const SensitivitiesHeatMapChart = ({
   let variableZlength = 0;
   let selectedDevScenario = "OIL/AG";
 
+  //TODO economicsResultsCase use for agg - noagg
+
   selectedDevScenario = heatMapTreeByScenario?.name as string;
   const devScenario =
     developmentScenariosMap[selectedDevScenario as TDevScenariosMapKeys];
 
-  if (heatMapTreeByScenario && heatMapTreeByScenario?.id !== "" && isZ) {
+  if (heatMapTreeByScenario && "children" in heatMapTreeByScenario) {
     const firstKey = Object.keys(heatMapVariableZOptions)[0];
+    heatMapTreeZRow = heatMapTreeByScenario?.children[0]?.children?.find(
+      (row: any) => row?.title === heatMapVariableZOptions[firstKey]?.title
+    ) as NonNullable<RenderTree>;
 
-    heatMapTreeZRow = heatMapTreeByScenario?.children[0]?.children?.filter(
-      (row: any) => row.title === heatMapVariableZOptions[firstKey].title
-    )[0] as NonNullable<RenderTree>;
+    if (isZ) {
+      const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
+      heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
+        value: v,
+        label: v,
+      })) as ISelectOption[];
 
-    const sensitivitiesZString = heatMapTreeZRow?.title?.split("_")[1];
-    heatMapVarZData = sensitivitiesZString?.split("-").map((v) => ({
-      value: v,
-      label: v,
-    })) as ISelectOption[];
-
-    variableZlength = heatMapVarZData.length;
-    selectedDevScenario = heatMapTreeByScenario.name as string;
+      variableZlength = heatMapVarZData?.length;
+      selectedDevScenario = heatMapTreeByScenario?.name as string;
+    }
   }
+
+  const clearHeatMap = () =>
+    dispatch(
+      updateEconomicsParametersAction(
+        omit(initialHeatMapData, [
+          "heatMapTreeByScenario",
+          "sensitivitiesHeatMapTree",
+          "sensitivitiesHeatMapData",
+        ])
+      )
+    );
+
+  const resetHeatMap = () => {
+    const dialogParameters = confirmationDialogParameters(
+      "Reset_Confirmation",
+      "Reset Confirmation",
+      "textDialog",
+      `Do you want to reset this workflow?. 
+      You will lose all data up to current step.`,
+      true,
+      false,
+      () => dispatch(updateEconomicsParametersAction(initialHeatMapData)),
+      "Reset",
+      "reset"
+    );
+
+    dispatch(showDialogAction(dialogParameters));
+  };
 
   const AnalysisResult = () => {
     return (
       <ApexSelectRS
         valueOption={analysisOption}
         data={resultsAnalyisOptions}
-        handleSelect={(option: OnChangeValue<ISelectOption, false>) =>
-          setAnalysisOption(option as ISelectOption)
-        }
+        handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+          const optionDefined = option as ISelectOption;
+
+          setAnalysisOption(optionDefined);
+          dispatch(
+            updateEconomicsParameterAction("analysisOption", optionDefined)
+          );
+          clearHeatMap();
+        }}
         menuPortalTarget={document.body}
         isSelectOptionType={true}
         containerHeight={40}
       />
     );
   };
+
+  React.useEffect(() => {
+    dispatch(updateEconomicsParameterAction("analysisOption", analysisOption));
+  }, [analysisOption?.value]);
 
   React.useEffect(() => {
     if (selectedEconomicsResultsId === "") {
@@ -204,25 +248,25 @@ const SensitivitiesHeatMapChart = ({
       <ApexFlexContainer
         justifyContent="space-evenly"
         height={50}
-        moreStyles={{ marginBottom: 4, width: 270 }}
+        moreStyles={{ marginBottom: 4, width: 380 }}
       >
         <BaseButtons
-          buttonTexts={["Reset", "Display"]}
-          variants={["contained", "contained"]}
-          colors={["secondary", "primary"]}
+          buttonTexts={["Reset", "Clear", "Display"]}
+          variants={["contained", "contained", "contained"]}
+          colors={["secondary", "inherit", "primary"]}
           startIcons={[
             <RotateLeftIcon key={1} />,
-            <AirplayOutlinedIcon key={2} />,
+            <ClearOutlinedIcon key={2} />,
+            <AirplayOutlinedIcon key={3} />,
           ]}
-          disableds={[false, disableds]}
-          shouldExecute={[true, true]}
-          shouldDispatch={[false, false]}
+          disableds={[false, false, disableds]}
+          shouldExecute={[true, true, true]}
+          shouldDispatch={[false, false, false]}
           finalActions={[
+            () => resetHeatMap(),
+            () => clearHeatMap(),
             () => {
-              dispatch(updateEconomicsParametersAction(initialHeatMapData));
-            },
-            () => {
-              const variableZKey = `${heatMapTreeZRow.name}${selectedZ}`;
+              const variableZKey = `${heatMapTreeZRow?.name}${selectedZ}`;
 
               if (noOfSensitivities === 1 || noOfSensitivities === 2) {
                 if (Object.entries(sensitivitiesHeatMapData).length === 0) {

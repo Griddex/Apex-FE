@@ -75,11 +75,7 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
       data: { data },
     } = economicsSensitivitiesResults;
 
-    const {
-      analysisName,
-      title: sensitivitiesTableTitle,
-      sensitivitiesTable,
-    } = data;
+    const { analysisName, title, sensitivitiesTable } = data;
 
     const sensitivitiesTableStr = sensitivitiesTable.map(
       (row: any, i: number) => ({
@@ -95,13 +91,16 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
       payload: {
         ...payload,
         analysisName,
-        sensitivitiesTableTitle,
+        sensitivitiesTableTitle: title,
         sensitivitiesTable: sensitivitiesTableStr,
       },
     });
 
     yield put(
       updateEconomicsParameterAction(`${wc}.showSensitivitiesTable`, true)
+    );
+    yield put(
+      updateEconomicsParameterAction(`sensitivitiesTable`, sensitivitiesTable)
     );
   } catch (errors) {
     const failureAction = getEconomicsSensitivitiesByIdFailureAction();

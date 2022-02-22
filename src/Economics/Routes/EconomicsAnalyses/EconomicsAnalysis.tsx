@@ -39,7 +39,7 @@ const EconomicsSensitivitiesTable = React.lazy(
 );
 
 const useStyles = makeStyles((theme) => ({
-  npvImage: {
+  analysisImage: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -88,6 +88,11 @@ const selectedAnalysesNamesSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.selectedAnalysesNames,
   (data) => data
 );
+const costsRevenueAggregationLevelOptionSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer.costsRevenueAggregationLevelOption,
+  (data) => data
+);
 
 const EconomicsAnalysis = ({
   economicsAnalyses,
@@ -105,6 +110,14 @@ const EconomicsAnalysis = ({
   const selectedAnalysesNames = useSelector(selectedAnalysesNamesSelector);
   const showSensitivitiesTable = useSelector(showSensitivitiesTableSelector);
   const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
+  const costsRevenueAggregationLevelOption = useSelector(
+    costsRevenueAggregationLevelOptionSelector
+  );
+
+  const agg =
+    costsRevenueAggregationLevelOption?.value !== "portfolio" ? "Agg" : "Port";
+
+  const [rsltsSensCase, setRsltsSensCase] = React.useState(`noSens|${agg}`);
 
   const selectedAnalysisDefined =
     selectedAnalysis as NonNullable<IEconomicsAnalysis>;
@@ -122,11 +135,21 @@ const EconomicsAnalysis = ({
   const handleSensitivitiesSwitchChange = (event: React.ChangeEvent<any>) => {
     const { checked } = event.target;
 
-    if (!checked && showSensitivitiesTable) {
+    if (checked) {
+      setRsltsSensCase((prev) => {
+        const aggrt = prev.split("|")[1];
+        return `sens|${aggrt}`;
+      });
+    } else {
       dispatch(updateEconomicsParameterAction(`${wc}.sensitivitiesTable`, []));
       dispatch(
         updateEconomicsParameterAction(`${wc}.showSensitivitiesTable`, false)
       );
+
+      setRsltsSensCase((prev) => {
+        const aggrt = prev.split("|")[1];
+        return `noSens|${aggrt}`;
+      });
     }
     setAnalysisPerspective(checked);
   };
@@ -209,7 +232,7 @@ const EconomicsAnalysis = ({
             unloadDialogsAction,
             () => {
               dispatch(
-                updateEconomicsParameterAction(`${wc}.sensitivitiesTable`, [])
+                updateEconomicsParameterAction(`sensitivitiesTable`, [])
               );
               dispatch(
                 updateEconomicsParameterAction(
@@ -269,11 +292,18 @@ const EconomicsAnalysis = ({
     dispatch(showDialogAction(dialogParameters));
   };
 
+  //TODO check if still necessary
   React.useEffect(() => {
     const path = `${wc}.${analysisName}.name`;
-
     dispatch(updateEconomicsParameterAction(path, analysisName));
   }, []);
+
+  React.useEffect(() => {
+    const path = "economicsResultsCase";
+    const senagg = rsltsSensCase.replace("|", "");
+
+    dispatch(updateEconomicsParameterAction(path, senagg));
+  }, [rsltsSensCase]);
 
   return (
     <ApexFlexContainer
@@ -292,7 +322,7 @@ const EconomicsAnalysis = ({
 
               return (
                 <div
-                  className={classes.npvImage}
+                  className={classes.analysisImage}
                   key={i}
                   style={{ marginLeft: 5 }}
                 >
@@ -304,7 +334,7 @@ const EconomicsAnalysis = ({
           )}
         </ApexFlexContainer>
       ) : (
-        <div className={classes.npvImage}>
+        <div className={classes.analysisImage}>
           <div style={{ width: 40, height: 40 }}>{icon}</div>
           <Typography>{analysisTitle}</Typography>
         </div>

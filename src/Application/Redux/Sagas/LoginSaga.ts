@@ -59,7 +59,6 @@ function* loginSaga(
     if (status === 200) {
       yield put({ type: "FETCH_USERDETAILS_REQUEST", payload: {} });
     }
-
     yield call(forwardTo, "/apex");
   } catch (errors) {
     const failureAction = loginFailureAction();

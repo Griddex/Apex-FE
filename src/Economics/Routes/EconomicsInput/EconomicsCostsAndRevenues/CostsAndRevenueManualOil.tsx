@@ -763,6 +763,26 @@ export default function CostsAndRevenueManualOil({
     }
   }, [oilDevelopmentRowsFin]);
 
+  const appUnits = Object.values(appHeaderChosenAppUnitObj)
+    .map((v) => v?.value as string)
+    .join();
+  React.useEffect(() => {
+    const appHeaderNameUnitTitlesMap = Object.keys(
+      appHeaderChosenAppUnitObj
+    ).reduce((acc, name) => {
+      const options = appHeaderChosenAppUnitObj[name];
+      acc[name] = options?.value as string;
+      return acc;
+    }, {} as Record<string, string>);
+
+    dispatch(
+      updateEconomicsParameterAction(
+        `${wkCs}.${wkPs}.appHeaderNameUnitTitlesMap`,
+        appHeaderNameUnitTitlesMap
+      )
+    );
+  }, [appUnits]);
+
   return (
     <ApexGrid
       ref={oilDevelopmentRef}

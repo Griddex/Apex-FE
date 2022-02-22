@@ -75,6 +75,7 @@ export default function StoredCostsAndRevenuesDecks({
         title: row.title,
         description: row.description,
         developmentScenarios: row?.developmentScenariosCostsRevenue?.join(", "),
+        costsRevenueAggregationLevelOption: row.aggregationLevelOption,
         author: { avatarUrl: "", name: "None" },
         approvers: [{ avatarUrl: "", name: "" }],
         createdOn: row.createdAt,
@@ -100,6 +101,17 @@ export default function StoredCostsAndRevenuesDecks({
       updateEconomicsParameterAction(
         "selectedDevScenarioNamesCostsRevenues",
         developmentScenariosCostsRevenue
+      )
+    );
+
+    const selectedRow = (
+      economicsCostsRevenuesDeckStored as IApplicationStoredDataRow[]
+    ).find((row) => row.id === id);
+
+    dispatch(
+      updateEconomicsParameterAction(
+        "costsRevenueAggregationLevelOption",
+        selectedRow?.aggregationLevelOption
       )
     );
   };

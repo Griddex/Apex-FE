@@ -30,6 +30,9 @@ import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/Ch
 import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 import { initialHeatMapData } from "../../../Data/EconomicsData";
 import omit from "lodash.omit";
+import { IDragItem } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
+import useDroppedIds from "../../../Hooks/UseDroppedIds";
+import getDragItems from "../../../Utils/GetDragItems";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -61,6 +64,14 @@ const heatMapCategoryDragItemsSelector = createDeepEqualSelector(
 );
 const heatMapCategoryHasDroppedSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.heatMapCategoryHasDropped,
+  (data) => data
+);
+const resultsAnalyisOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.resultsAnalyisOptions,
+  (data) => data
+);
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
   (data) => data
 );
 
@@ -105,28 +116,24 @@ const SensitivitiesHeatMapDataPanel = ({
   const heatMapCategoryDragItems = useSelector(
     heatMapCategoryDragItemsSelector
   );
+
   const heatMapCategoryHasDropped = useSelector(
     heatMapCategoryHasDroppedSelector
   );
+  const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
+  const anOption = useSelector(analysisOptionSelector);
 
-  const droppedIds = React.useMemo(() => {
-    const allIds = [];
-    const categories = Object.keys(heatMapCategoryDragItems);
-    for (const category of categories) {
-      const categoryObj = heatMapCategoryDragItems[category];
-      const ids = Object.keys(categoryObj);
+  const drgItems = getDragItems(heatMapCategoryDragItems);
+  const droppedIds = useDroppedIds({
+    categoryDragItems: heatMapCategoryDragItems,
+    drgItems,
+  });
 
-      allIds.push(...ids);
-    }
+  const heatMapTreeData = sensitivitiesHeatMapTree[anOption?.value as string]
+    ?.children as NonNullable<RenderTree["children"]>;
 
-    return allIds;
-  }, [heatMapCategoryDragItems]);
-
-  const heatMapTreeData = sensitivitiesHeatMapTree["children"] as NonNullable<
-    RenderTree["children"]
-  >;
-  const devScenariosColl = heatMapTreeData ? heatMapTreeData : [];
-  const devOptions = devScenariosColl.map((row) => ({
+  const devScenariosData = heatMapTreeData ? heatMapTreeData : [];
+  const devOptions = devScenariosData.map((row) => ({
     value: row.title,
     label: row.title,
   }));
@@ -174,7 +181,7 @@ const SensitivitiesHeatMapDataPanel = ({
       selectedEconomicsResultsTitleOption as IExtendedSelectOption
     );
 
-  const clearAllChartData = React.useCallback(
+  const resetChartData = React.useCallback(
     () => dispatch(updateEconomicsParametersAction(initialHeatMapData)),
     []
   );
@@ -186,6 +193,7 @@ const SensitivitiesHeatMapDataPanel = ({
           omit(initialHeatMapData, [
             "heatMapTreeByScenario",
             "sensitivitiesHeatMapTree",
+            "sensitivitiesHeatMapData",
           ])
         )
       ),
@@ -207,6 +215,7 @@ const SensitivitiesHeatMapDataPanel = ({
           selectedEconomicsResultsTitle: "",
           selectedEconomicsResultsDescription: "",
           isEconomicsResultsSaved: false,
+          analyisOption: { value: "Select...", label: "Select..." },
         })
       );
     } else {
@@ -218,6 +227,12 @@ const SensitivitiesHeatMapDataPanel = ({
       };
 
       dispatch(
+        updateEconomicsParametersAction({
+          analyisOption: resultsAnalyisOptions[0],
+        })
+      );
+
+      dispatch(
         fetchEconomicsTreeviewKeysRequestAction(
           true,
           "heatMapTree",
@@ -225,14 +240,14 @@ const SensitivitiesHeatMapDataPanel = ({
         )
       );
 
-      clearAllChartData();
+      resetChartData();
     }
 
     setDevOption({ value: "select", label: "Select..." });
     dispatch(resetHeatMapWorkflowsAction());
   };
 
-  const DevelopmentScenarios = () => {
+  const DevelopmentScenarios = React.memo(() => {
     return (
       <AnalyticsComp
         title="Development Scenarios"
@@ -245,7 +260,7 @@ const SensitivitiesHeatMapDataPanel = ({
 
               setDevOption(optionDefined);
 
-              const heatMapTreeByScenario = heatMapTreeData.find(
+              const heatMapTreeByScenario = heatMapTreeData?.find(
                 (sno) => sno.title === optionDefined.label
               ) as RenderTree;
 
@@ -275,9 +290,9 @@ const SensitivitiesHeatMapDataPanel = ({
         containerStyle={{ width: "100%", marginBottom: 20 }}
       />
     );
-  };
+  });
 
-  const ResultsSelect = () => {
+  const ResultsSelect = React.memo(() => {
     return (
       <ApexSelectRS<IExtendedSelectOption>
         valueOption={economicsResultTitleOption}
@@ -289,7 +304,7 @@ const SensitivitiesHeatMapDataPanel = ({
         containerHeight={40}
       />
     );
-  };
+  });
 
   let disableCollection = [] as boolean[];
   if (heatMapTreeByScenario && heatMapTreeByScenario.id === "") {
@@ -370,11 +385,11 @@ const SensitivitiesHeatMapDataPanel = ({
       selectLabel={"Economics Results"}
       selectedOption={React.useMemo(
         () => economicsResultTitleOption,
-        [economicsResultTitleOption.value]
+        [economicsResultTitleOption?.value]
       )}
       titleOptions={React.useMemo(
         () => economicsResultsTitleOptions,
-        [JSON.stringify(economicsResultsTitleOptions.map((o) => o.value))]
+        [economicsResultsTitleOptions.map((o) => o.value).join()]
       )}
       handleSelectChange={React.useCallback(
         handleSelectEconomicsResultsChange,
@@ -400,9 +415,11 @@ const SensitivitiesHeatMapDataPanel = ({
       renderCategoryIcon={true}
       showMembersObjValues={React.useMemo(
         () => showMembersObjValues,
-        [JSON.stringify(showMembersObjValues)]
+        [showMembersObjValues.join()]
       )}
       clearChartCategories={React.useCallback(clearChartCategories, [])}
+      hasTitle={true}
+      title={anOption?.label}
     />
   );
 };

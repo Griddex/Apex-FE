@@ -1,9 +1,24 @@
+import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import omit from "lodash.omit";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
-import { IExtendedSelectOption } from "../../../../Application/Components/Selects/SelectItemsType";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
+import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
+import {
+  IExtendedSelectOption,
+  ISelectOption,
+} from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import { TUseState } from "../../../../Application/Types/ApplicationTypes";
+import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
+import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
+import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { TChartTypes } from "../../../../Visualytics/Components/Charts/ChartTypes";
+import { initialEconomicsPlotData } from "../../../Data/EconomicsData";
+import useDroppedIds from "../../../Hooks/UseDroppedIds";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
@@ -14,17 +29,9 @@ import {
   updateEconomicsPlotChartsDragItemsAction,
   updateEconomicsPlotChartsHasDroppedAction,
 } from "../../../Redux/Actions/EconomicsActions";
+import getDragItems from "../../../Utils/GetDragItems";
 import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import EconomicsPlotChartsTreeView from "./EconomicsPlotChartsTreeView";
-import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
-import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
-import { TUseState } from "../../../../Application/Types/ApplicationTypes";
-import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 const wc = "storedDataWorkflows";
@@ -59,6 +66,18 @@ const plotChartsCategoryHasDroppedSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.plotChartsCategoryHasDropped,
   (data) => data
 );
+const resultsAnalyisOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.resultsAnalyisOptions,
+  (data) => data
+);
+const selectedEconomicsResultsIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedEconomicsResultsId,
+  (data) => data
+);
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
+  (data) => data
+);
 
 const EconomicsPlotChartsDataPanel = ({
   selectedZ,
@@ -70,8 +89,6 @@ const EconomicsPlotChartsDataPanel = ({
   const reducer = "economicsReducer";
 
   const dispatch = useDispatch();
-
-  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
 
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
   const selectedEconomicsResultsTitle = useSelector(
@@ -93,6 +110,21 @@ const EconomicsPlotChartsDataPanel = ({
   const plotChartsCategoryHasDropped = useSelector(
     plotChartsCategoryHasDroppedSelector
   );
+  const resultsAnalyisOptions = useSelector(resultsAnalyisOptionsSelector);
+  const selectedEconomicsResultsId = useSelector(
+    selectedEconomicsResultsIdSelector
+  );
+  const anOption = useSelector(analysisOptionSelector);
+
+  const drgItems = getDragItems(plotChartsCategoryDragItems);
+  const droppedIds = useDroppedIds({
+    categoryDragItems: plotChartsCategoryDragItems,
+    drgItems,
+  });
+
+  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+  const [analysisOption, setAnalysisOption] =
+    React.useState<ISelectOption>(anOption);
 
   const chartType = selectedEconomicsPlotChartOption.value;
 
@@ -149,6 +181,7 @@ const EconomicsPlotChartsDataPanel = ({
           isEconomicsResultsSaved: false,
         })
       );
+      setAnalysisOption({ value: "Select...", label: "Select..." });
     } else {
       const idTitleDescIsSaved = {
         selectedEconomicsResultsId: id,
@@ -164,10 +197,22 @@ const EconomicsPlotChartsDataPanel = ({
           idTitleDescIsSaved
         )
       );
+      setAnalysisOption(resultsAnalyisOptions[0]);
     }
 
     dispatch(resetPlotChartsWorkflowsAction());
   };
+
+  const clearHeatMap = () =>
+    dispatch(
+      updateEconomicsParametersAction(
+        omit(initialEconomicsPlotData, [
+          "plotChartsResults",
+          "plotChartsData",
+          "plotChartsDataTrans",
+        ])
+      )
+    );
 
   const ResultsSelect = () => {
     return (
@@ -178,6 +223,27 @@ const EconomicsPlotChartsDataPanel = ({
         isSelectOptionType={true}
         menuPortalTarget={document.body}
         containerWidth={300}
+        containerHeight={40}
+      />
+    );
+  };
+
+  const AnalysisResult = () => {
+    return (
+      <ApexSelectRS
+        valueOption={analysisOption}
+        data={resultsAnalyisOptions}
+        handleSelect={(option: OnChangeValue<ISelectOption, false>) => {
+          const optionDefined = option as ISelectOption;
+
+          setAnalysisOption(optionDefined);
+          dispatch(
+            updateEconomicsParameterAction("analysisOption", optionDefined)
+          );
+          clearHeatMap();
+        }}
+        menuPortalTarget={document.body}
+        isSelectOptionType={true}
         containerHeight={40}
       />
     );
@@ -251,12 +317,23 @@ const EconomicsPlotChartsDataPanel = ({
     />
   );
 
+  React.useEffect(() => {
+    if (selectedEconomicsResultsId === "") {
+      setAnalysisOption({
+        value: "Select",
+        label: "Select...",
+      } as ISelectOption);
+    } else {
+      setAnalysisOption(resultsAnalyisOptions[0]);
+    }
+  }, [selectedEconomicsResultsId]);
+
   return (
     <ChartDataPanel
       selectLabel={"Economics Results"}
       selectedOption={React.useMemo(
         () => economicsResultOption,
-        [JSON.stringify(economicsResultOption)]
+        [economicsResultOption?.value]
       )}
       titleOptions={React.useMemo(
         () => economicsResultsTitleOptions,
@@ -266,7 +343,8 @@ const EconomicsPlotChartsDataPanel = ({
         handleSelectEconomicsResultsChange,
         []
       )}
-      hasSecondaryComponent={false}
+      hasSecondaryComponent={true}
+      secondarySelectComponent={AnalysisResult}
       selectedTitle={selectedEconomicsResultsTitle}
       resultsSelect={ResultsSelect}
       treeViewComponent={
@@ -277,7 +355,7 @@ const EconomicsPlotChartsDataPanel = ({
                 text="Select result.."
               />
             )
-          : EconomicsPlotChartsTreeView
+          : () => <EconomicsPlotChartsTreeView droppedIds={droppedIds} />
       }
       extrudeCategories={extrudeCategories}
       setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}

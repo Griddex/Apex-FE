@@ -226,6 +226,7 @@ const EconomicsParametersLanding = () => {
       maxWidth: "sm",
       iconType: "information",
     };
+
     dispatch(showDialogAction(dialogParameters));
   }, []);
 

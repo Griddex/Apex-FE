@@ -49,7 +49,7 @@ import {
 } from "../../Application/Types/ApplicationTypes";
 import formatDate from "../../Application/Utils/FormatDate";
 import { runEconomicsForecastAggregationRequestAction } from "../../Economics/Redux/Actions/EconomicsActions";
-import { confirmationDialogParameters } from "../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { updateNetworkParameterAction } from "../../Network/Redux/Actions/NetworkActions";
 import { IUnitSettingsData } from "../../Settings/Redux/State/UnitSettingsStateTypes";
 import { DoughnutChartAnalytics } from "../../Visualytics/Components/Charts/DoughnutChart";

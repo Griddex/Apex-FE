@@ -8,7 +8,7 @@ import React from "react";
 import { Column, EditorProps, TextEditor } from "react-data-griddex";
 import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
-import { OnChangeValue } from "react-select";
+import { OnChangeValue, SingleValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import ExcelExportTable, {
   IExcelExportTable,
@@ -86,7 +86,7 @@ export default function CostsAndRevenueManualNAG({
 
         const firstOption =
           options && Object.keys(options).length > 0
-            ? unitOptionsByVariableName[name][0]
+            ? options[0]
             : { value: "unitless", label: "unitless" };
 
         return { ...acc, [name]: firstOption };
@@ -789,6 +789,26 @@ export default function CostsAndRevenueManualNAG({
       );
     }
   }, [nagDevelopmentRowsFin]);
+
+  const appUnits = Object.values(appHeaderChosenAppUnitObj)
+    .map((v) => v?.value as string)
+    .join();
+  React.useEffect(() => {
+    const appHeaderNameUnitTitlesMap = Object.keys(
+      appHeaderChosenAppUnitObj
+    ).reduce((acc, name) => {
+      const options = appHeaderChosenAppUnitObj[name];
+      acc[name] = options?.value as string;
+      return acc;
+    }, {} as Record<string, string>);
+
+    dispatch(
+      updateEconomicsParameterAction(
+        `${wkCs}.${wkPs}.appHeaderNameUnitTitlesMap`,
+        appHeaderNameUnitTitlesMap
+      )
+    );
+  }, [appUnits]);
 
   return (
     <ApexGrid

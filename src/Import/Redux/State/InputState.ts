@@ -51,7 +51,8 @@ export const initialInputWorkflowParameters = {
   fileHeadersUnitsAppHeadersWithoutNoneMap: {},
 
   savedMatchObjectAll: {},
-  appHeaderNameUnitsMap: {},
+  appHeaderNameUnitIdsMap: {},
+  appHeaderNameUnitTitlesMap: {},
 
   inputDeckId: "",
   status: 0,

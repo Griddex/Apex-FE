@@ -18,6 +18,7 @@ const networkState: INetworkState = {
   showDrainagePointSummaryNodes: true,
   showDrainagePointSummaryEdges: true,
 
+  createdOrEditedForecastParameters: {},
   parameterEntries: {
     forecastParametersTitle: "",
     forecastParametersDescription: "",

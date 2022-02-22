@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import isEqual from "react-fast-compare";
+import { useSelector } from "react-redux";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 import { ITreeViewProps } from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
 import { itemTypes } from "../../../Utils/DragAndDropItemTypes";
-import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 
 const ApexTreeView = React.lazy(
   () => import("../../../../Visualytics/Components/TreeView/ApexTreeView")
@@ -13,22 +13,37 @@ const ApexTreeView = React.lazy(
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
-const economicsSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer,
-  (reducer) => reducer
+const economicsPlotChartsTreeSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.economicsPlotChartsTree,
+  (data) => data
+);
+const analysisOptionSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisOption,
+  (data) => data
 );
 
 const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
   console.log("EconomicsPlotChartsTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwww");
-  const dispatch = useDispatch();
 
-  const { economicsPlotChartsTree, selectedAnalysesNames } =
-    useSelector(economicsSelector);
+  const economicsPlotChartsTree = useSelector(economicsPlotChartsTreeSelector);
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 29 ~ EconomicsPlotChartsTreeView ~ economicsPlotChartsTree",
+    economicsPlotChartsTree
+  );
+  const analysisOption = useSelector(
+    (state: RootState) => state.economicsReducer.analysisOption
+  );
+  const analysisName = analysisOption?.value as string;
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 32 ~ EconomicsPlotChartsTreeView ~ analysisName",
+    analysisName
+  );
 
-  const rootTree = economicsPlotChartsTree as RenderTree;
-
-  //TODO: Ability to handle multiple analyses
-  const selectedAnalysisName = selectedAnalysesNames[0];
+  const rootTree = economicsPlotChartsTree[analysisName] as RenderTree;
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 34 ~ EconomicsPlotChartsTreeView ~ rootTree",
+    rootTree
+  );
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);
@@ -36,39 +51,20 @@ const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
     string[]
   >([]);
 
-  React.useEffect(() => {
-    const selectedPaths = selectedPathsUnfiltered.filter(
-      (p) => p?.match(/@#\$%/g)?.length === 2
-    );
-
-    // if (selectedIds.length > 0) {
-    //   dispatch(
-    //     getForecastResultsChartDataRequestAction(
-    //       selectedIds,
-    //       selectedNames,
-    //       selectedPaths,
-    //       selectedAnalysisName
-    //     )
-    //   );
-    // }
-  }, [selectedIds, selectedAnalysisName]);
+  const idsStr = selectedIds.join();
+  const namesStr = selectedNames.join();
+  const pathsStr = selectedPathsUnfiltered.join();
 
   return (
     <ApexTreeView
       rootTree={rootTree}
-      selectedIds={React.useMemo(
-        () => selectedIds,
-        [JSON.stringify(selectedIds)]
-      )}
+      selectedIds={React.useMemo(() => selectedIds, [idsStr])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
-      selectedNames={React.useMemo(
-        () => selectedNames,
-        [JSON.stringify(selectedNames)]
-      )}
+      selectedNames={React.useMemo(() => selectedNames, [namesStr])}
       setSelectedNames={React.useCallback(setSelectedNames, [])}
       selectedPathsUnfiltered={React.useMemo(
         () => selectedPathsUnfiltered,
-        [JSON.stringify(selectedPathsUnfiltered)]
+        [pathsStr]
       )}
       setSelectedPathsUnfiltered={React.useCallback(
         setSelectedPathsUnfiltered,

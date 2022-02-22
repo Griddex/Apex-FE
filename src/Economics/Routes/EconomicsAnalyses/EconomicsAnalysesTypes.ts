@@ -111,3 +111,9 @@ export interface IEconomicsParametersSensitivitiesProps {
   finalAction?: () => void;
   borderStyles?: CSSProperties;
 }
+
+export type TEconomicsResultsCase =
+  | "noSensPort"
+  | "noSensAgg"
+  | "sensPort"
+  | "sensAgg";

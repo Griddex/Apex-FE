@@ -21,7 +21,7 @@ import {
   unloadDialogsAction,
 } from "../../../Application/Redux/Actions/DialogsAction";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
-import { confirmationDialogParameters } from "../../../Import/Components/DialogParameters/ConfirmationDialogParameters";
+import { confirmationDialogParameters } from "../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { TfinalizationChoice } from "../Common/InputLayoutTypes";
 import { TAllWorkflowProcesses } from "./../../../Application/Components/Workflows/WorkflowTypes";

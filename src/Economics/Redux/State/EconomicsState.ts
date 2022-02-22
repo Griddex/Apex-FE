@@ -51,7 +51,8 @@ export const initialEconomicsWorkflowState = {
   chosenApplicationUnitsWithoutNone: [],
   fileUnitsWithoutNone: [],
 
-  appHeaderNameUnitsMap: {},
+  appHeaderNameUnitIdsMap: {},
+  appHeaderNameUnitTitlesMap: {},
   matchHeadersRows: [],
   matchUnitsRows: [],
 
@@ -224,10 +225,11 @@ const EconomicsState: IEconomicsState = {
 
   allDevRows: { oilDevelopment: [], nagDevelopment: [], oilNAGDevelopment: [] },
   selectedTableData: [],
+  analysisOption: { value: "Select...", label: "Select..." },
 
   //HeatMap
   heatMapTreeByScenario: { id: "", name: "" },
-  sensitivitiesHeatMapTree: { id: "", name: "" },
+  sensitivitiesHeatMapTree: { "Select...": { id: "", name: "" } },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],
   sensitivitiesHeatMapThresholdData: {
@@ -270,7 +272,7 @@ const EconomicsState: IEconomicsState = {
 
   //Plot Charts
   xValueCategories: [],
-  economicsPlotChartsTree: { id: "", name: "" },
+  economicsPlotChartsTree: { "Select...": { id: "", name: "" } },
   plotChartsResults: [],
   plotChartsData: null,
   plotChartsDataTrans: null,
@@ -319,13 +321,14 @@ const EconomicsState: IEconomicsState = {
   },
 
   //Template Results
-  economicsTemplatesTree: { id: "", name: "" },
+  economicsTemplatesTree: { "Select...": { id: "", name: "" } },
 
   //Economics Ranking
   economicsRanking: [],
   sensitivitiesTable: [],
 
   //Economics Analyses
+  economicsResultsCase: "noSensAgg",
   resultsAnalyisOptions: [],
 
   forecastEconomicsAggregated: {
