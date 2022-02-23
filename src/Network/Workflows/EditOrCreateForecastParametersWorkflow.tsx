@@ -73,6 +73,10 @@ const EditOrCreateForecastParametersWorkflow = ({
   const workflowCategory = "networkDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastParametersWorkflow.tsx ~ line 75 ~ workflowProcessDefined",
+    workflowProcessDefined
+  );
   const titleDesc = { title, description };
 
   const skipped = new Set<number>();
@@ -176,9 +180,10 @@ const EditOrCreateForecastParametersWorkflow = ({
     errorSteps: [],
   };
 
-  const renderImportStep = () => {
-    const n = workflowProcessDefined === "forecastParametersCreate" ? 0 : 1;
+  const isCreate = workflowProcessDefined === "forecastParametersCreate";
 
+  const renderImportStep = () => {
+    const n = isCreate ? 0 : 1;
     const activeStepMod = (activeStep as number) + n;
 
     switch (activeStepMod) {
@@ -224,7 +229,7 @@ const EditOrCreateForecastParametersWorkflow = ({
 
   return (
     <div className={classes.root}>
-      <WorkflowBanner {...WorkflowBannerProps} />
+      {isCreate && <WorkflowBanner {...WorkflowBannerProps} />}
       <div className={classes.workflowBody} style={{ width: titleDescWidth }}>
         {renderImportStep()}
       </div>
@@ -233,7 +238,7 @@ const EditOrCreateForecastParametersWorkflow = ({
           {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
       )}
-      <NavigationButtons {...navigationButtonProps} />
+      {isCreate && <NavigationButtons {...navigationButtonProps} />}
     </div>
   );
 };

@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
 export interface IImportMoreActionsRow {
   id?: string;
   title?: string;
+  dataTitle?: string;
   action?: () => void;
   component?: JSX.Element;
   nestedData?: TImportMoreActionsData;
@@ -110,20 +111,22 @@ const generateMoreActionsMenuItems = (
   handleClose?: () => void
 ) => {
   return data.map((row: IImportMoreActionsRow, i: number) => {
-    const { id, title, action, nestedData, component: Component } = row;
-    console.log(
-      "🚀 ~ file: MoreActionsPopover.tsx ~ line 114 ~ returndata.map ~ id",
-      id
-    );
+    const {
+      id,
+      title,
+      dataTitle,
+      action,
+      nestedData,
+      component: Component,
+    } = row;
 
     const titleDefined = title as string;
     const avatar = getFirstCharFromEveryWord(titleDefined);
     const disabledStyle =
-      titleDefined === "Modify" && id !== "" ? getDisabledStyle(theme) : {};
-    console.log(
-      "🚀 ~ file: MoreActionsPopover.tsx ~ line 119 ~ returndata.map ~ disabledStyle",
-      disabledStyle
-    );
+      (titleDefined === "Modify" && id !== "") ||
+      (titleDefined === "Clone" && dataTitle == "New Title")
+        ? getDisabledStyle(theme)
+        : {};
 
     if (nestedData) {
       return (

@@ -105,6 +105,14 @@ const useStyles = makeStyles((theme) => ({
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
+const selectedForecastInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedForecastInputDeckId,
+  (id) => id
+);
+const selectedForecastInputDeckTitleSelector = createDeepEqualSelector(
+  (state: RootState) => state.inputReducer.selectedForecastInputDeckTitle,
+  (id) => id
+);
 const currentProjectIdSelector = createDeepEqualSelector(
   (state: RootState) => state.projectReducer.currentProjectId,
   (id) => id
@@ -140,86 +148,86 @@ const forecastingParametersStoredSelector = createDeepEqualSelector(
 export default function StoredForecastingParameters({
   showChart,
   isAllForecastParameters,
+  allWorkflowProcesses,
 }: IStoredDataProps) {
+  console.log(
+    "🚀 ~ file: StoredForecastingParameters.tsx ~ line 153 ~ allWorkflowProcesses",
+    allWorkflowProcesses
+  );
+  const reducer = "networkReducer";
+  const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
+
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
   const componentRef = React.useRef();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
-
-  const { selectedForecastInputDeckId, selectedForecastInputDeckTitle } =
-    useSelector((state: RootState) => state.inputReducer);
-
-  const reducer = "networkReducer";
-  const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
+  const selectedForecastInputDeckTitle = useSelector(
+    selectedForecastInputDeckTitleSelector
+  );
+  const selectedForecastInputDeckId = useSelector(
+    selectedForecastInputDeckIdSelector
+  );
+  const dayFormat = useSelector(dayFormatSelector);
+  const monthFormat = useSelector(monthFormatSelector);
+  const yearFormat = useSelector(yearFormatSelector);
+  const selectedNetworkId = useSelector(selectedNetworkIdSelector);
+  console.log(
+    "🚀 ~ file: StoredForecastingParameters.tsx ~ line 171 ~ selectedNetworkId",
+    selectedNetworkId
+  );
+  const networkStored = useSelector(networkStoredSelector);
+  console.log(
+    "🚀 ~ file: StoredForecastingParameters.tsx ~ line 173 ~ networkStored",
+    networkStored
+  );
+  const forecastingParametersStored = useSelector(
+    forecastingParametersStoredSelector
+  );
+  console.log(
+    "🚀 ~ file: StoredForecastingParameters.tsx ~ line 177 ~ forecastingParametersStored",
+    forecastingParametersStored
+  );
 
   const [selectedRows, setSelectedRows] = React.useState(new Set<React.Key>());
   const [sRow, setSRow] = React.useState(-1);
 
-  const dayFormat = useSelector(dayFormatSelector);
-  const monthFormat = useSelector(monthFormatSelector);
-  const yearFormat = useSelector(yearFormatSelector);
-
-  const selectedNetworkId = useSelector(selectedNetworkIdSelector);
-
-  const networkStored = useSelector(networkStoredSelector);
-
-  const forecastingParametersStored = useSelector(
-    forecastingParametersStoredSelector
-  );
-
-  const selectedNetwork = networkStored.find((row: any) => {
-    if (row.id == selectedNetworkId) {
-      return row;
-    }
-  });
-
   let forecastingParametersFiltered: any = [];
+  const isForecastRun = allWorkflowProcesses === "runForecastWorkflow";
+  if (isForecastRun) {
+    const selectedNetwork = networkStored.find((row: any) => {
+      if (row.id == selectedNetworkId) return row;
+    });
 
-  if (isAllForecastParameters == true) {
-    forecastingParametersFiltered = forecastingParametersStored.map(
-      (row: any) => {
-        return row;
-      }
-    );
-  } else {
-    forecastingParametersFiltered = forecastingParametersStored.filter(
-      (row: any) => {
-        if (selectedNetwork != undefined) {
-          if (row.forecastInputDeckId == selectedNetwork.forecastInputDeckId) {
-            return row;
+    if (isAllForecastParameters == true) {
+      forecastingParametersFiltered = forecastingParametersStored;
+    } else {
+      if (selectedNetwork != undefined) {
+        forecastingParametersFiltered = forecastingParametersStored.filter(
+          (row: any) => {
+            if (row.forecastInputDeckId == selectedNetwork.forecastInputDeckId)
+              return row;
           }
-        }
+        );
+      } else {
+        forecastingParametersFiltered = forecastingParametersStored;
       }
-    );
+    }
+  } else {
+    forecastingParametersFiltered = forecastingParametersStored;
   }
 
-  const snTransStoredData = storedToForecastingParameters(
-    forecastingParametersFiltered,
-    dayFormat,
-    monthFormat,
-    yearFormat
+  const snTransStoredData = React.useMemo(
+    () =>
+      storedToForecastingParameters(
+        forecastingParametersFiltered,
+        dayFormat,
+        monthFormat,
+        yearFormat
+      ),
+    [selectedForecastInputDeckTitle]
   );
-
-  const newRow = {
-    forecastInputDeckId: selectedForecastInputDeckId,
-    forecastInputdeckTitle: selectedForecastInputDeckTitle,
-    title: "",
-    description: "",
-    type: "User",
-    wellDeclineParameterId: "",
-    wellPrioritizationId: "",
-    wellDeclineParameterTitle: "",
-    wellPrioritizationTitle: "",
-    targetFluid: "",
-    timeFrequency: "",
-    isDefered: "",
-    realtimeResults: "",
-    startForecast: "", //TODO use selectedforecastid to retrieve from forecasting parameters array
-    //but there's no forecastid at the moment
-    endForecast: "",
-  } as IForecastParametersStoredRow;
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
   const handleCheckboxChange = (row: IForecastParametersStoredRow) => {
@@ -301,13 +309,12 @@ export default function StoredForecastingParameters({
         formatter: ({ row }) => {
           const { sn } = row;
           const currentSN = sn as number;
-          const currentRow = rows[currentSN - 1];
+          const currentRow = row;
 
           const title = row.title as string;
           const id = row.forecastingParametersId as string;
           const deleteUrl = `${mainUrl}/${id}`;
 
-          const editedRow = rows[currentSN - 1];
           const editorData = [
             {
               name: "title",
@@ -330,6 +337,7 @@ export default function StoredForecastingParameters({
             {
               id,
               title: "Clone",
+              dataTitle: title,
               action: () => {
                 const currentRow = rows[currentSN - 1];
                 const clonedRow = forecastingParametersToStored(
@@ -351,6 +359,7 @@ export default function StoredForecastingParameters({
             {
               id,
               title: "Modify",
+              dataTitle: title,
               action: () => {
                 dispatch(
                   showDialogAction(
@@ -367,13 +376,13 @@ export default function StoredForecastingParameters({
                 dispatch(
                   updateNetworkParametersAction({
                     selectedDeclineParametersId:
-                      currentRow.wellDeclineParameterId,
+                      currentRow?.wellDeclineParameterId,
                     selectedDeclineParametersTitle:
-                      currentRow.wellDeclineParameterTitle,
+                      currentRow?.wellDeclineParameterTitle,
                     selectedProductionPrioritizationId:
-                      currentRow.wellPrioritizationId,
+                      currentRow?.wellPrioritizationId,
                     selectedProductionPrioritizationTitle:
-                      currentRow.wellPrioritizationTitle,
+                      currentRow?.wellPrioritizationTitle,
                     selectedForecastingParametersId:
                       row.forecastingParametersId,
                   })
@@ -401,7 +410,7 @@ export default function StoredForecastingParameters({
                     isCustomComponent,
                     apexEditorProps: {
                       editorData,
-                      editedRow,
+                      editedRow: currentRow,
                       dividerPositions,
                     },
                     actionsList: (titleDesc: Record<string, string>) =>
@@ -455,12 +464,15 @@ export default function StoredForecastingParameters({
                   );
                 }}
               />
-              <ApexGridMoreActionsContextMenu
-                component={MoreActionsPopover}
-                data={importMoreActionsData}
-              >
-                <MenuOpenOutlinedIcon />
-              </ApexGridMoreActionsContextMenu>
+
+              {!isForecastRun && (
+                <ApexGridMoreActionsContextMenu
+                  component={MoreActionsPopover}
+                  data={importMoreActionsData}
+                >
+                  <MenuOpenOutlinedIcon />
+                </ApexGridMoreActionsContextMenu>
+              )}
             </ApexFlexContainer>
           );
         },
@@ -687,7 +699,8 @@ export default function StoredForecastingParameters({
 
     return columns;
   };
-  const columns = React.useMemo(() => generateColumns(), [generateColumns]);
+
+  const columns = React.useMemo(() => generateColumns(), []);
   const [rows, setRows] = React.useState(snTransStoredData);
 
   const exportColumns = columns
@@ -721,6 +734,9 @@ export default function StoredForecastingParameters({
   };
 
   const chartData = React.useRef(generateDoughnutAnalyticsData(rows, "title"));
+  const fpdStoredStr = forecastingParametersStored
+    .map((row: any) => row["forecastInputdeckTitle"])
+    .join();
 
   React.useEffect(() => {
     const updatedStoredData = storedToForecastingParameters(
@@ -731,7 +747,7 @@ export default function StoredForecastingParameters({
     );
 
     setRows(updatedStoredData);
-  }, [JSON.stringify(forecastingParametersStored)]);
+  }, [fpdStoredStr]);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,

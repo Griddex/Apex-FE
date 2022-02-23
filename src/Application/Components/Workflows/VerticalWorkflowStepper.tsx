@@ -61,25 +61,26 @@ const VerticalWorkflowStepper = (props: IWorkflowDataProps) => {
         />
       }
     >
-      {steps.map((label: string, index: number) => {
-        const stepProps: StepProps = {};
-        const labelProps: StepLabelProps = {};
+      {steps &&
+        steps?.map((label: string, index: number) => {
+          const stepProps: StepProps = {};
+          const labelProps: StepLabelProps = {};
 
-        if (errorSteps && errorSteps.includes(index)) {
-          labelProps["error"] = true;
-        }
-        if (skipped && skipped.has(index)) {
-          stepProps.completed = false;
-        }
+          if (errorSteps && errorSteps.includes(index)) {
+            labelProps["error"] = true;
+          }
+          if (skipped && skipped.has(index)) {
+            stepProps.completed = false;
+          }
 
-        return (
-          <Step key={label} {...stepProps}>
-            <StepLabel {...labelProps}>
-              {expandContextDrawer && label}
-            </StepLabel>
-          </Step>
-        );
-      })}
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>
+                {expandContextDrawer && label}
+              </StepLabel>
+            </Step>
+          );
+        })}
     </Stepper>
   );
 };

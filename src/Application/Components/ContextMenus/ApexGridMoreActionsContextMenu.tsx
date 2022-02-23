@@ -3,7 +3,7 @@ import Menu from "@mui/material/Menu";
 import React from "react";
 import { IContextMenuProps } from "../../../Network/Components/ContextMenu/ContextMenuTypes";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   list: {
     padding: 0,
   },

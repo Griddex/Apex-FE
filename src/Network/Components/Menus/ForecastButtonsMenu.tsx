@@ -89,6 +89,7 @@ const ForecastButtonsMenu = () => {
       exclusive: false,
       maxWidth: "lg",
       iconType: "run",
+      workflowProcess: "runForecastWorkflow",
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
