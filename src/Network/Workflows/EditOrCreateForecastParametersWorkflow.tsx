@@ -44,6 +44,7 @@ const useStyles = makeStyles(() => ({
     width: "97%",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "auto",
   },
 }));
 
@@ -68,6 +69,7 @@ const EditOrCreateForecastParametersWorkflow = ({
   setDescription,
   storedTitles,
   steps,
+  isDialog,
 }: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as TReducer;
   const workflowCategory = "networkDataWorkflows";
@@ -78,7 +80,6 @@ const EditOrCreateForecastParametersWorkflow = ({
     workflowProcessDefined
   );
   const titleDesc = { title, description };
-
   const skipped = new Set<number>();
 
   const classes = useStyles();
@@ -233,7 +234,7 @@ const EditOrCreateForecastParametersWorkflow = ({
       <div className={classes.workflowBody} style={{ width: titleDescWidth }}>
         {renderImportStep()}
       </div>
-      {showContextDrawer && (
+      {!isDialog && showContextDrawer && (
         <ContextDrawer>
           {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>
