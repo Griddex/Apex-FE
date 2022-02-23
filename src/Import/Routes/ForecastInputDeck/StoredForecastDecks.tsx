@@ -155,7 +155,7 @@ export default function StoredForecastDecks({
     tableTitle,
     isDataVisibility,
     isCloning,
-    // clickAwayAction,
+    clickAwayAction,
     fetchStoredRequestAction: () =>
       fetchStoredInputDeckRequestAction(currentProjectId),
     updateTableActionConfirmation,

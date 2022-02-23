@@ -5,16 +5,16 @@ import DialogOneCancelButtons from "../../Application/Components/DialogButtons/D
 import { DialogStuff } from "../../Application/Components/Dialogs/DialogTypes";
 import {
   IWorkflowDataProps,
+  TAllWorkflowProcesses,
   TReducer,
 } from "../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../Application/Redux/Actions/ActionTypes";
 import { updateDataByIdRequestAction } from "../../Application/Redux/Actions/ApplicationActions";
 import {
-  unloadDialogsAction,
   showDialogAction,
+  unloadDialogsAction,
 } from "../../Application/Redux/Actions/DialogsAction";
 import { getBaseForecastUrl } from "../../Application/Services/BaseUrlService";
-import { IStoredDataProps } from "../../Application/Types/ApplicationTypes";
 import { fetchStoredForecastingParametersRequestAction } from "../Redux/Actions/NetworkActions";
 import StoredForecastingParameters from "../Routes/StoredForecastingParameters";
 import StoredNetworks from "../Routes/StoredNetworks";
@@ -32,15 +32,12 @@ const useStyles = makeStyles(() => ({
 const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
   const mainUrl = `${getBaseForecastUrl()}/forecast-parameters`;
   const reducerNetwork = "networkReducer";
+  const activeStep = workflowProps?.activeStep;
+  const reducer = "inputReducer" as TReducer;
+  const allWorkflowProcesses = "runForecastWorkflow" as TAllWorkflowProcesses;
 
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const { activeStep } = workflowProps;
-  const reducer = "inputReducer" as TReducer;
-  const workflowProcess = "networkStored" as NonNullable<
-    IStoredDataProps["wkPs"]
-  >;
 
   const updateTableActionConfirmation =
     (id: string) => (titleDesc: Record<string, string>) => {
@@ -82,7 +79,7 @@ const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
 
   const props = {
     reducer,
-    workflowProcess,
+    allWorkflowProcesses,
     containerStyle: { boxShadow: "none", width: "100%", height: "100%" },
     showChart: false,
     updateTableActionConfirmation,
@@ -94,7 +91,7 @@ const RunForecastWorkflow = (workflowProps: IWorkflowDataProps) => {
       case 0:
         return (
           <StoredNetworks
-            workflowProcess={workflowProcess}
+            workflowProcess="networkStored"
             containerStyle={props.containerStyle}
           />
         );
