@@ -78,6 +78,7 @@ function* fetchHeatMapDataSaga(
   const path = heatMapVariableXOptions[firstXKey]?.path;
 
   const aggregationLevelIndex = getAggregationLevelIndex(path as string);
+  const analysisName = path.split("@#$%")[0];
 
   const data = {
     analysisResultId: selectedEconomicsResultsId,
@@ -94,6 +95,7 @@ function* fetchHeatMapDataSaga(
       },
     ],
     aggregationLevelIndex,
+    analysisName,
   };
 
   const config = { withCredentials: false };

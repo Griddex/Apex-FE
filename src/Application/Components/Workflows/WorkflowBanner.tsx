@@ -1,4 +1,4 @@
-import { Box, Chip, Container, Typography, useTheme } from "@mui/material";
+import { Box, Chip, Typography, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 import { IWorkflowBannerProps } from "./WorkflowTypes";
@@ -8,7 +8,8 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
-    height: "5%",
+    width: "100%",
+    height: 50,
     margin: 0,
     "& > *": { height: "60%" },
   },
@@ -30,7 +31,7 @@ const WorkflowBanner = ({
   const theme = useTheme();
 
   return (
-    <Container className={classes.workflowHeaderRow} fixed disableGutters>
+    <div className={classes.workflowHeaderRow}>
       <Box className={classes.workflowBannerHeader}>
         <Typography
           variant="button"
@@ -42,7 +43,9 @@ const WorkflowBanner = ({
         <Typography
           variant="subtitle1"
           style={{ color: theme.palette.grey[700], letterSpacing: 1.2 }}
-        >{`${steps[activeStep]} `}</Typography>
+        >{`${
+          steps && steps[activeStep] ? steps[activeStep] : ""
+        } `}</Typography>
         {showChip && (
           <Chip
             style={{
@@ -52,11 +55,11 @@ const WorkflowBanner = ({
               minWidth: 50,
             }}
             size="small"
-            label={`${activeStep + 1} | ${steps.length}`}
+            label={`${activeStep + 1} | ${steps ? steps?.length : 0}`}
           />
         )}
       </Box>
-    </Container>
+    </div>
   );
 };
 

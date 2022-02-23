@@ -54,6 +54,10 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
 
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
+  console.log(
+    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 56 ~ workflowProcessDefined",
+    workflowProcessDefined
+  );
 
   const storedTitles = useSelector(forecastingParametersTitlesSelector);
 
@@ -122,10 +126,6 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     subModuleName: title as string,
     showChip: true,
   };
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastingParametersWorkflowDialog.tsx ~ line 112 ~ workflowProps",
-    workflowProps
-  );
 
   const createProps = {
     currRow,
@@ -140,19 +140,20 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     description: formDescription,
     setDescription: setFormDescription,
     storedTitles,
+    steps,
   } as NonNullable<IEditOrCreateForecastingParameters> &
     ITitleAndDescriptionFormProps;
 
   const createForecastingParametersConfirmation = () => {
     const dialogParameters: DialogStuff = {
-      name: "Stored_Network_Dialog",
-      title: "Confirm Parameters Save",
+      name: "Save_Forecast_Parameters_Dialog",
+      title: "Save Forecast Parameters Dialog",
       type: "textDialog",
       show: true,
       exclusive: false,
       maxWidth: "xs",
-      iconType: "confirmation",
       dialogText: "Do you want to save the current forecasting parameters?",
+      iconType: "confirmation",
       actionsList: () =>
         DialogOneCancelButtons(
           [true, true],
@@ -222,13 +223,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
         onClose={() => dispatch(hideDialogAction())}
         iconType={iconType}
       >
-        <WorkflowBanner
-          // activeStep={activeStep}
-          // steps={steps}
-          // subModuleName={title as string}
-          // showChip={true}
-          {...workflowBannerProps}
-        />
+        <WorkflowBanner {...workflowBannerProps} />
       </DialogTitle>
       <DialogContent
         dividers

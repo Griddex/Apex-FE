@@ -117,6 +117,7 @@ const EditOrCreateForecastingParameters = ({
   workflowProcess,
   activeStep,
   setNextDisableds,
+  steps,
 }: IEditOrCreateForecastingParameters) => {
   const dispatch = useDispatch();
   const classes = useStyles();
