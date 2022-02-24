@@ -376,6 +376,7 @@ export const updateVisualyticsHasDroppedAction = (
 };
 
 export const removeVisualyticsChartCategoryAction = (
+  name: string,
   chartStory: TChartStory,
   chartType: TChartTypes,
   categoryTitle: string,
@@ -384,7 +385,14 @@ export const removeVisualyticsChartCategoryAction = (
 ) => {
   return {
     type: VISUALYTICS_REMOVE_CHARTCATEGORY,
-    payload: { chartStory, chartType, categoryTitle, categoryOptionTitle, id },
+    payload: {
+      name,
+      chartStory,
+      chartType,
+      categoryTitle,
+      categoryOptionTitle,
+      id,
+    },
   };
 };
 

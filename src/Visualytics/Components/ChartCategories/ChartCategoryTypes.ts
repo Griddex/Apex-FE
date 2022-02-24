@@ -39,6 +39,7 @@ export interface IChartCategories {
   disableR?: boolean;
   updateAction: (name: string, item: any) => IAction;
   removeAction: (
+    name: string,
     chartStory: TChartStory,
     chartType: TChartTypes,
     categoryTitle: string,

@@ -44,6 +44,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     overflowY: "auto",
     padding: 10,
+    height: "100%",
   },
 }));
 

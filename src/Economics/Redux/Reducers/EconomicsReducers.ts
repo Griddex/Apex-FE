@@ -31,6 +31,7 @@ import {
   PUT_SELECTCHART,
   RESET_CHART_DATA,
 } from "../../../Visualytics/Redux/Actions/VisualyticsActions";
+import updateChartData from "../../Utils/UpdateChartData";
 import {
   ECONOMICSHEATMAP_UPDATE_DRAGITEMS,
   ECONOMICSHEATMAP_UPDATE_HASDROPPED,
@@ -412,7 +413,18 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
     }
 
     case ECONOMICS_REMOVE_CHARTCATEGORY: {
-      const { categoryTitle, categoryOptionTitle, id } = action.payload;
+      const {
+        variableName,
+        chartType,
+        chartStory,
+        categoryTitle,
+        categoryOptionTitle,
+        id,
+      } = action.payload;
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 416 ~ economicsReducer ~ action.payload",
+        action.payload
+      );
       let dragItemsTitle = "heatMapCategoryDragItems" as
         | "heatMapCategoryDragItems"
         | "plotChartsCategoryDragItems";
@@ -420,12 +432,16 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         | "heatMapCategoryHasDropped"
         | "plotChartsCategoryHasDropped";
 
-      if (categoryOptionTitle.toLowerCase().includes("plotCharts")) {
+      if (categoryOptionTitle.toLowerCase().includes("plotcharts")) {
         dragItemsTitle = "plotChartsCategoryDragItems";
         hasDroppedTitle = "plotChartsCategoryHasDropped";
       }
 
       const categoryObj = state[dragItemsTitle][categoryTitle];
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 430 ~ economicsReducer ~ state",
+        state
+      );
       console.log(
         "🚀 ~ file: EconomicsReducers.ts ~ line 429 ~ economicsReducer ~ categoryObj",
         categoryObj
@@ -448,7 +464,21 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       );
 
       const variableOptionsObj = (state as any)[categoryOptionTitle];
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 459 ~ economicsReducer ~ variableOptionsObj",
+        variableOptionsObj
+      );
       const newVariableOptionsObj = omit(variableOptionsObj, [id]);
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 461 ~ economicsReducer ~ newVariableOptionsObj",
+        newVariableOptionsObj
+      );
+
+      const chartStoryObj = (state["economicsChartsWorkflows"] as any)[
+        chartStory
+      ];
+      const chartData = chartStoryObj[chartType]["chartData"];
+      const newChartData = updateChartData(variableName, chartType, chartData);
 
       return {
         ...state,
@@ -461,6 +491,16 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
           [categoryTitle]: newHasDroppedObj,
         },
         [categoryOptionTitle]: newVariableOptionsObj,
+        economicsChartsWorkflows: {
+          ...state["economicsChartsWorkflows"],
+          [chartStory]: {
+            ...chartStoryObj,
+            [chartType]: {
+              ...chartStoryObj[chartType],
+              chartData: newChartData,
+            },
+          },
+        },
       };
     }
 

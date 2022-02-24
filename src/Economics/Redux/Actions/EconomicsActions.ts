@@ -773,6 +773,7 @@ export const updateEconomicsChartCategoryAction = (
 };
 
 export const removeEconomicsChartCategoryAction = (
+  variableName: string,
   chartStory: TChartStory,
   chartType: TChartTypes,
   categoryTitle: string,
@@ -782,6 +783,7 @@ export const removeEconomicsChartCategoryAction = (
   return {
     type: ECONOMICS_REMOVE_CHARTCATEGORY,
     payload: {
+      variableName,
       chartStory,
       chartType,
       categoryTitle,

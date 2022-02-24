@@ -57,7 +57,7 @@ const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
 
   return (
     <ApexTreeView
-      rootTree={rootTree}
+      rootTree={React.useMemo(() => rootTree, [])}
       selectedIds={React.useMemo(() => selectedIds, [idsStr])}
       setSelectedIds={React.useCallback(setSelectedIds, [])}
       selectedNames={React.useMemo(() => selectedNames, [namesStr])}

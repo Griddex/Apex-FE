@@ -203,10 +203,16 @@ const EconomicsPlotChartsDataPanel = ({
     dispatch(resetPlotChartsWorkflowsAction());
   };
 
-  const clearHeatMap = () =>
+  const clearPlotCharts = () =>
     dispatch(
       updateEconomicsParametersAction(
         omit(initialEconomicsPlotData, [
+          "selectedEconomicsResultsId",
+          "selectedEconomicsResultsTitle",
+          "selectedEconomicsResultsDescription",
+          "isEconomicsResultsSaved",
+          "analyisOption",
+
           "plotChartsResults",
           "plotChartsData",
           "plotChartsDataTrans",
@@ -214,7 +220,7 @@ const EconomicsPlotChartsDataPanel = ({
       )
     );
 
-  const ResultsSelect = () => {
+  const ResultsSelect = React.memo(() => {
     return (
       <ApexSelectRS<IExtendedSelectOption>
         valueOption={economicsResultOption}
@@ -226,9 +232,9 @@ const EconomicsPlotChartsDataPanel = ({
         containerHeight={40}
       />
     );
-  };
+  });
 
-  const AnalysisResult = () => {
+  const AnalysisResult = React.memo(() => {
     return (
       <ApexSelectRS
         valueOption={analysisOption}
@@ -240,14 +246,14 @@ const EconomicsPlotChartsDataPanel = ({
           dispatch(
             updateEconomicsParameterAction("analysisOption", optionDefined)
           );
-          clearHeatMap();
+          clearPlotCharts();
         }}
         menuPortalTarget={document.body}
         isSelectOptionType={true}
         containerHeight={40}
       />
     );
-  };
+  });
 
   const categoryPanelWidth = 250;
   const chartTypeDefined = chartType as TChartTypes;

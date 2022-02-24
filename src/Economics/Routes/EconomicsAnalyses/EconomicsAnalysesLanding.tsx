@@ -71,6 +71,10 @@ const EconomicsAnalysesLanding = () => {
   const clearEconomicsAnalysisStore = () => {
     dispatch(
       updateEconomicsParametersAction({
+        selectedEconomicsResultsId: "",
+        selectedEconomicsResultsTitle: "",
+        selectedEconomicsResultsDescription: "",
+        analyisOption: { value: "Select...", label: "Select..." },
         loadEconomicsAnalysesWorkflow: true,
         heatMapVariableXOptions: {},
         heatMapVariableYOptions: {},
@@ -194,9 +198,7 @@ const EconomicsAnalysesLanding = () => {
               shouldDispatch={[false, false]}
               finalActions={[
                 () => setSelectedAnalysisNames([]),
-                () => {
-                  clearEconomicsAnalysisStore();
-                },
+                () => clearEconomicsAnalysisStore(),
               ]}
               applySpace={true}
             />
