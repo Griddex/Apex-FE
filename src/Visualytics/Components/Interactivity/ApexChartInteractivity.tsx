@@ -127,7 +127,13 @@ const ApexChartInteractivity = ({
           />
         }
       />
-
+      <br />
+      <hr
+        style={{
+          borderTop: `1px solid ${theme.palette.grey["200"]}`,
+          borderBottom: "none",
+        }}
+      />
       <AnalyticsComp
         title="Active Inner Radius Offset"
         direction="Vertical"
@@ -179,9 +185,15 @@ const ApexChartInteractivity = ({
           />
         }
       />
-
+      <br />
+      <hr
+        style={{
+          borderTop: `1px solid ${theme.palette.grey["200"]}`,
+          borderBottom: "none",
+        }}
+      />
       <AnalyticsComp
-        title="Enable StackTooltip"
+        title="StackTooltip"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
@@ -231,9 +243,15 @@ const ApexChartInteractivity = ({
           />
         }
       />
-
+      <br />
+      <hr
+        style={{
+          borderTop: `1px solid ${theme.palette.grey["200"]}`,
+          borderBottom: "none",
+        }}
+      />
       <AnalyticsComp
-        title="Enable Crosshair"
+        title="Crosshair"
         direction="Vertical"
         containerStyle={{ marginTop: 20 }}
         content={
@@ -267,7 +285,13 @@ const ApexChartInteractivity = ({
           }
         />
       )}
-
+      <br />
+      <hr
+        style={{
+          borderTop: `1px solid ${theme.palette.grey["200"]}`,
+          borderBottom: "none",
+        }}
+      />
       <AnalyticsComp
         title="Animate"
         direction="Vertical"
@@ -342,7 +366,13 @@ const ApexChartInteractivity = ({
           }
         />
       )}
-
+      <br />
+      <hr
+        style={{
+          borderTop: `1px solid ${theme.palette.grey["200"]}`,
+          borderBottom: "none",
+        }}
+      />
       <AnalyticsComp
         title="Hover Target"
         direction="Vertical"

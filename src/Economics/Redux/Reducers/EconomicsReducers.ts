@@ -375,6 +375,10 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
         chartData,
         xValueCategories,
       } = action.payload;
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 378 ~ economicsReducer ~ action.payload",
+        action.payload
+      );
 
       const wCObj = (state as any)[workflowCategory];
       const chtStryObj = (state as any)[workflowCategory][chartStory];
@@ -389,7 +393,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
           ...wCObj,
           [chartStory]: {
             ...chtStryObj,
-            [chartType]: { chartData },
+            [chartType]: { ...chtDataObj, chartData },
           },
         },
       };
@@ -422,10 +426,26 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       }
 
       const categoryObj = state[dragItemsTitle][categoryTitle];
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 429 ~ economicsReducer ~ categoryObj",
+        categoryObj
+      );
       const newCategoryObj = omit(categoryObj, [id]);
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 431 ~ economicsReducer ~ newCategoryObj",
+        newCategoryObj
+      );
 
       const hasDroppedObj = state[hasDroppedTitle][categoryTitle];
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 434 ~ economicsReducer ~ hasDroppedObj",
+        hasDroppedObj
+      );
       const newHasDroppedObj = omit(hasDroppedObj, [id]);
+      console.log(
+        "🚀 ~ file: EconomicsReducers.ts ~ line 436 ~ economicsReducer ~ newHasDroppedObj",
+        newHasDroppedObj
+      );
 
       const variableOptionsObj = (state as any)[categoryOptionTitle];
       const newVariableOptionsObj = omit(variableOptionsObj, [id]);

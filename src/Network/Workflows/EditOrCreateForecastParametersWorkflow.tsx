@@ -40,11 +40,10 @@ const useStyles = makeStyles(() => ({
   workflowBody: {
     display: "flex",
     flexDirection: "column",
-    height: "90%",
-    width: "97%",
     alignItems: "center",
     justifyContent: "center",
-    overflow: "auto",
+    overflowY: "auto",
+    padding: 10,
   },
 }));
 
