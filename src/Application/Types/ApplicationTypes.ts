@@ -136,7 +136,7 @@ export interface IApplicationStoredEconomicsResultsRow {
   description?: string;
   saved?: "Saved" | "Not Saved";
   hasSensitivities: boolean;
-  analysisName?: TEconomicsAnalysesNames | TEconomicsAnalysesNames[];
+  analysisNames?: TEconomicsAnalysesNames[];
   developmentScenariosAnalysis?: TBackendDevScenarioTitles[];
   author?: IUserDetails | string;
   approvers?: IUserDetails[] | string;

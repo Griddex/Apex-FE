@@ -204,7 +204,7 @@ const EditOrCreateProductionPrioritizationWorkflowDialog: React.FC<
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   return (
     <Dialog

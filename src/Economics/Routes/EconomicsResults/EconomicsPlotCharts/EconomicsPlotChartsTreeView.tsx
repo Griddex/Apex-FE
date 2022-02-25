@@ -26,24 +26,10 @@ const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
   console.log("EconomicsPlotChartsTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwww");
 
   const economicsPlotChartsTree = useSelector(economicsPlotChartsTreeSelector);
-  console.log(
-    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 29 ~ EconomicsPlotChartsTreeView ~ economicsPlotChartsTree",
-    economicsPlotChartsTree
-  );
-  const analysisOption = useSelector(
-    (state: RootState) => state.economicsReducer.analysisOption
-  );
-  const analysisName = analysisOption?.value as string;
-  console.log(
-    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 32 ~ EconomicsPlotChartsTreeView ~ analysisName",
-    analysisName
-  );
+  const analysisOption = useSelector(analysisOptionSelector);
 
+  const analysisName = analysisOption?.value as string;
   const rootTree = economicsPlotChartsTree[analysisName] as RenderTree;
-  console.log(
-    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 34 ~ EconomicsPlotChartsTreeView ~ rootTree",
-    rootTree
-  );
 
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [selectedNames, setSelectedNames] = React.useState<string[]>([]);

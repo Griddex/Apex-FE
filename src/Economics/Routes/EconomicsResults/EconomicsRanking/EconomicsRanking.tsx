@@ -106,8 +106,8 @@ const economicsRankingCollectionSelector = createDeepEqualSelector(
   (data) => data
 );
 
-const selectedAnalysesNamesSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer.selectedAnalysesNames,
+const selectedAnalysisNamesSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.analysisNames,
   (data) => data
 );
 
@@ -116,14 +116,11 @@ const EconomicsRanking = () => {
   const dispatch = useDispatch();
   const componentRef = React.useRef();
 
-  const selectedAnalysesNames = useSelector(selectedAnalysesNamesSelector);
+  const selectedAnalysisNames = useSelector(selectedAnalysisNamesSelector);
   const economicsRankingCollection = useSelector(
     economicsRankingCollectionSelector
   );
-  console.log(
-    "🚀 ~ file: EconomicsRanking.tsx ~ line 142 ~ EconomicsRanking ~ economicsRankingCollection",
-    economicsRankingCollection
-  );
+
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
   const selectedEconomicsResultsTitle = useSelector(
     selectedEconomicsResultsTitleSelector
@@ -227,8 +224,8 @@ const EconomicsRanking = () => {
       ? economicsRankingCollection[0]
       : {};
 
-  const selectedAnalysesNamesAbbr = (
-    selectedAnalysesNames as TEconomicsAnalysesNames[]
+  const selectedAnalysisNamesAbbr = (
+    selectedAnalysisNames as TEconomicsAnalysesNames[]
   ).map((name) => economicsAnalysisNamesAbbrMap[name]);
 
   const columnKeys = Object.keys(tData);
@@ -237,7 +234,7 @@ const EconomicsRanking = () => {
   );
 
   const selectedColumnKeys = columnKeys.filter((k) =>
-    selectedAnalysesNamesAbbr.includes(k)
+    selectedAnalysisNamesAbbr.includes(k)
   );
 
   //TODO Hack just to ensure we have analysis when we fetch treeview
@@ -245,13 +242,16 @@ const EconomicsRanking = () => {
     selectedColumnKeys.length === 0 ? ["payout", "npv"] : selectedColumnKeys;
   const finalColumns = [...otherColumnKeys, ...finalColumnKeys];
 
-  const columns = finalColumns.map((k) => {
+  const columns = finalColumns.map((k, i) => {
     return {
       key: k,
       name: k.toUpperCase(),
       editable: false,
       resizable: true,
-      minWidth: k.toLowerCase().trim() === "sn" ? 70 : 150,
+      minWidth: k.toLowerCase().trim() !== "sn" ? 150 : 50,
+      ...(i === finalColumns.length - 1
+        ? { width: "" }
+        : { width: k.toLowerCase().trim() === "sn" ? 50 : 200 }),
     };
   });
   const exportColumns = columns
@@ -265,7 +265,7 @@ const EconomicsRanking = () => {
     })) as IExcelSheetData<IRawRow>["columns"];
 
   const exportTableProps = {
-    fileName: "MatchHeaders",
+    fileName: "EconomicsRanking",
     tableData: {
       Template: {
         data: rows,
@@ -295,7 +295,7 @@ const EconomicsRanking = () => {
 
   React.useEffect(() => {
     setRows(economicsRankingCollection);
-  }, [economicsRankingCollection]);
+  }, [selectedEconomicsResultsTitle]);
 
   return (
     <div className={classes.root}>
@@ -306,7 +306,7 @@ const EconomicsRanking = () => {
         showChip={false}
       />
       <AnalyticsComp
-        title={"Select Result"}
+        title={"Economics Results"}
         content={
           <div style={{ display: "flex", alignItems: "center" }}>
             <ResultsSelect />

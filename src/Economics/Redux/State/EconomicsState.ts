@@ -150,7 +150,8 @@ export const sensitivitiesInfo = {
     },
     sensitivityValues: [],
   },
-  showSensitivitiesTable: false,
+  useSensitivities: false,
+  sensitivitiesTablePresent: false,
   sensitivitiesTable: [],
   sensitivitiesTableTitle: "",
 } as IEconomicsSensitivities;
@@ -216,7 +217,7 @@ const EconomicsState: IEconomicsState = {
   selectedEconomicsResultsTitle: "",
   isEconomicsResultsSaved: false,
 
-  showSensitivitiesTable: false,
+  sensitivitiesTablePresent: false,
 
   noneColumnIndices: {},
   fileAppHeaderExcludeWithNoneMap: {},

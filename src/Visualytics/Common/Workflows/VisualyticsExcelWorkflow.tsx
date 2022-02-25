@@ -178,7 +178,7 @@ const VisualyticsExcelWorkflow = ({
 
   React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={classes.root}>

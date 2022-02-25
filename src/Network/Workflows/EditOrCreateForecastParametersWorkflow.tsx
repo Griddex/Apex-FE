@@ -75,10 +75,8 @@ const EditOrCreateForecastParametersWorkflow = ({
   const workflowCategory = "networkDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastParametersWorkflow.tsx ~ line 75 ~ workflowProcessDefined",
-    workflowProcessDefined
-  );
+  const activeStepDefined = activeStep as number;
+
   const titleDesc = { title, description };
   const skipped = new Set<number>();
 
@@ -88,7 +86,6 @@ const EditOrCreateForecastParametersWorkflow = ({
 
   const showContextDrawer = useSelector(showContextDrawerSelector);
 
-  const activeStepDefined = activeStep as number;
   const isStepOptional = React.useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]

@@ -147,7 +147,7 @@ const VisualyticsDatabaseWorkflow = ({
 
   useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
+  }, []);
 
   const props = {
     wrkflwCtgry: wc,

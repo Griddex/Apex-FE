@@ -63,6 +63,8 @@ import {
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
+import { economicsAnalysesMap } from "../../Data/EconomicsData";
+import { TEconomicsAnalysesNames } from "../EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const useStyles = makeStyles(() => ({
   rootStoredData: {
@@ -137,11 +139,9 @@ export default function StoredEcoResults({
   const dispatch = useDispatch();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
-
   const dayFormat = useSelector(dayFormatSelector);
   const monthFormat = useSelector(monthFormatSelector);
   const yearFormat = useSelector(yearFormatSelector);
-
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
@@ -358,22 +358,12 @@ export default function StoredEcoResults({
       },
       width: 100,
     },
-    // {
-    //   key: "saved",
-    //   name: "STATUS",
-    //   editable: false,
-    //   resizable: true,
-    //   formatter: ({ row }) => {
-    //     return <Saved savedText={row.saved} />;
-    //   },
-    //   width: 100,
-    // },
     {
       key: "title",
       name: "ECONOMICS RESULTS TITLE",
       editable: false,
       resizable: true,
-      width: 300,
+      width: 250,
     },
     {
       key: "analyis",
@@ -381,19 +371,19 @@ export default function StoredEcoResults({
       editable: false,
       resizable: true,
       formatter: ({ row }) => {
-        let analysisTitle = "";
-        if (Array.isArray(row.analysis)) {
-          analysisTitle = row.analysis.map((a) => startCase(a)).join(", ");
-        } else {
-          analysisTitle = startCase(row.analysis);
-        }
+        const analysisNames = row?.analysisNames as TEconomicsAnalysesNames[];
+
+        const analysisTitle = analysisNames
+          .map((name) => economicsAnalysesMap[name])
+          .join(", ");
+
         return (
           <ApexFlexContainer justifyContent="flex-start">
             {analysisTitle}
           </ApexFlexContainer>
         );
       },
-      width: 200,
+      width: 250,
     },
     {
       key: "devScenarios",
@@ -407,7 +397,7 @@ export default function StoredEcoResults({
           </ApexFlexContainer>
         );
       },
-      width: 250,
+      width: 200,
     },
     {
       key: "author",
@@ -436,7 +426,6 @@ export default function StoredEcoResults({
           </div>
         );
       },
-      width: 200,
     },
     {
       key: "modifiedOn",
@@ -455,7 +444,6 @@ export default function StoredEcoResults({
           </div>
         );
       },
-      width: 200,
     },
   ];
 
@@ -466,7 +454,7 @@ export default function StoredEcoResults({
       title: row.title,
       description: row.description,
       devScenarios: row.developmentScenariosAnalysis,
-      analysis: row.analysisName,
+      analysisNames: row.analysisNames,
       saved: row.saved,
       sensitivities: row.hasSensitivities ? "Utilized" : "None",
       approval: "Not Started",

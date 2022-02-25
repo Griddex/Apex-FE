@@ -76,8 +76,8 @@ const reducer = "economicsReducer";
 const wc = "economicsAnalysisWorkflows";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
-const showSensitivitiesTableSelector = createDeepEqualSelector(
-  (state: RootState) => state.economicsReducer[wc]["showSensitivitiesTable"],
+const sensitivitiesTablePresentSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer[wc]["sensitivitiesTablePresent"],
   (show) => show
 );
 const sensitivitiesTableSelector = createDeepEqualSelector(
@@ -108,7 +108,9 @@ const EconomicsAnalysis = ({
   >;
 
   const selectedAnalysesNames = useSelector(selectedAnalysesNamesSelector);
-  const showSensitivitiesTable = useSelector(showSensitivitiesTableSelector);
+  const sensitivitiesTablePresent = useSelector(
+    sensitivitiesTablePresentSelector
+  );
   const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
   const costsRevenueAggregationLevelOption = useSelector(
     costsRevenueAggregationLevelOptionSelector
@@ -130,7 +132,7 @@ const EconomicsAnalysis = ({
 
   const devOptions = developmentScenarioOptions;
 
-  const [analysisPerspective, setAnalysisPerspective] = React.useState(false);
+  const [useSensitivities, setUseSensivities] = React.useState(false);
 
   const handleSensitivitiesSwitchChange = (event: React.ChangeEvent<any>) => {
     const { checked } = event.target;
@@ -143,7 +145,7 @@ const EconomicsAnalysis = ({
     } else {
       dispatch(updateEconomicsParameterAction(`${wc}.sensitivitiesTable`, []));
       dispatch(
-        updateEconomicsParameterAction(`${wc}.showSensitivitiesTable`, false)
+        updateEconomicsParameterAction(`${wc}.sensitivitiesTablePresent`, false)
       );
 
       setRsltsSensCase((prev) => {
@@ -151,7 +153,9 @@ const EconomicsAnalysis = ({
         return `noSens|${aggrt}`;
       });
     }
-    setAnalysisPerspective(checked);
+
+    dispatch(updateEconomicsParameterAction(`${wc}.useSensitivities`, checked));
+    setUseSensivities(checked);
   };
 
   const extrudeSensitivities = () => {
@@ -360,7 +364,7 @@ const EconomicsAnalysis = ({
         <ApexMuiSwitch
           name="sensitivitiesSwitch"
           handleChange={handleSensitivitiesSwitchChange}
-          checked={analysisPerspective}
+          checked={useSensitivities}
           checkedColor={theme.palette.success.main}
           notCheckedColor={theme.palette.common.white}
           hasLabels={true}
@@ -369,7 +373,7 @@ const EconomicsAnalysis = ({
           moreStyles={{ width: 500 }}
         />
         <ApexFlexContainer width={"100%"} justifyContent="flex-end">
-          {analysisPerspective && (
+          {useSensitivities && (
             <Button
               className={classes.button}
               startIcon={<AddBoxTwoToneIcon />}
@@ -378,7 +382,7 @@ const EconomicsAnalysis = ({
               Create
             </Button>
           )}
-          {analysisPerspective && (
+          {useSensitivities && (
             <Button
               style={{ marginLeft: 10 }}
               className={classes.button}
@@ -399,7 +403,7 @@ const EconomicsAnalysis = ({
           borderTop: `1px solid ${theme.palette.grey[400]}`,
         }}
       >
-        {showSensitivitiesTable && (
+        {sensitivitiesTablePresent && (
           <EconomicsSensitivitiesTable
             analysisName={analysisName}
             sensitivitiesTable={sensitivitiesTable}
