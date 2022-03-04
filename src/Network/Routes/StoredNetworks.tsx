@@ -69,7 +69,7 @@ export default function StoredNetworks({
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  }, []);
 
   const dataKey = "title";
   const dataTitle = "NETWORK TITLE";

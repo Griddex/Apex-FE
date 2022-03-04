@@ -23,16 +23,25 @@ const SimpleLineChart = ({
   reducer,
   chartStory,
 }: IChartProps) => {
+  console.log("🚀 ~ file: LineChart.tsx ~ line 26 ~ chartStory", chartStory);
   const wc = workflowCategory as TAllWorkflowCategories;
+  console.log("🚀 ~ file: LineChart.tsx ~ line 28 ~ wc", wc);
   const reducerDefined = reducer as TReducer;
+  console.log(
+    "🚀 ~ file: LineChart.tsx ~ line 30 ~ reducerDefined",
+    reducerDefined
+  );
 
   const xValueCategoriesSelector = createDeepEqualSelector(
     (state: RootState) => state[reducerDefined]["xValueCategories"],
     (categories) => categories
   );
   const xValueCategories = useSelector(xValueCategoriesSelector);
-
-  const bottomAxisValues = xValueCategories.map((v: any) => v);
+  console.log(
+    "🚀 ~ file: LineChart.tsx ~ line 34 ~ xValueCategories",
+    xValueCategories
+  );
+  const bottomAxisValues = xValueCategories;
 
   const commonChartProps = useSelector(
     (state: RootState) =>
@@ -49,6 +58,7 @@ const SimpleLineChart = ({
   );
 
   const chartData = useSelector(chartDataSelector);
+  console.log("🚀 ~ file: LineChart.tsx ~ line 61 ~ chartData", chartData);
 
   const commonChartPropsDefined = commonChartProps as IChart;
   const {

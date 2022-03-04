@@ -114,7 +114,7 @@ const EconomicsTemplateVisualytics = () => {
 
   React.useEffect(() => {
     dispatch(showContextDrawerAction());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={classes.root}>

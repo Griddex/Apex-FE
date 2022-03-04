@@ -31,7 +31,7 @@ export const UPDATE_DATABYID_FAILURE = "UPDATE_DATABYID_FAILURE";
 export const FORECAST_TREEVIEWKEYS_REQUEST = "FORECAST_TREEVIEWKEYS_REQUEST";
 export const FORECAST_TREEVIEWKEYS_SUCCESS = "FORECAST_TREEVIEWKEYS_SUCCESS";
 export const FORECAST_TREEVIEWKEYS_FAILURE = "FORECAST_TREEVIEWKEYS_FAILURE";
-export const RESET_INPUTDATA = "RESET_INPUTDATA";
+export const RESET_INPUTDATA_WORKFLOW = "RESET_INPUTDATA_WORKFLOW";
 
 export const updateApplicationParameterAction = (
   nameOrPath: string,
@@ -264,7 +264,7 @@ export const resetApplicationAction = () => {
 
 export const resetInputDataAction = (reducer: TReducer) => {
   return {
-    type: RESET_INPUTDATA,
+    type: RESET_INPUTDATA_WORKFLOW,
     payload: { reducer },
   };
 };

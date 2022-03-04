@@ -70,6 +70,7 @@ function* fetchHeatMapDataSaga(
     heatMapVariableYOptions,
     heatMapVariableZOptions,
     isEconomicsResultsSaved,
+    analysisOption,
   } = yield select((state) => state.economicsReducer);
 
   const firstXKey = Object.keys(heatMapVariableXOptions)[0];
@@ -78,7 +79,6 @@ function* fetchHeatMapDataSaga(
   const path = heatMapVariableXOptions[firstXKey]?.path;
 
   const aggregationLevelIndex = getAggregationLevelIndex(path as string);
-  const analysisName = path.split("@#$%")[0];
 
   const data = {
     analysisResultId: selectedEconomicsResultsId,
@@ -95,7 +95,7 @@ function* fetchHeatMapDataSaga(
       },
     ],
     aggregationLevelIndex,
-    analysisName,
+    analysisName: analysisOption?.value,
   };
 
   const config = { withCredentials: false };

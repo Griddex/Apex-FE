@@ -175,7 +175,7 @@ const EconomicsCostsRevenuesLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approveddeck`,
+      route: `${url}/storeddeck`,
       workflowProcess: "economicsCostsRevenuesDeckStored",
       workflowCategory: "storedDataWorkflows",
     },
@@ -371,7 +371,7 @@ const EconomicsCostsRevenuesLanding = () => {
                     }
                   />
                 ),
-                approveddeck: (
+                storeddeck: (
                   <StoredCostsAndRevenuesDecks
                     reducer={reducer}
                     showChart={true}

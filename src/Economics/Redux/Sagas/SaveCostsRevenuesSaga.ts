@@ -132,7 +132,7 @@ function* saveCostsRevenuesSaga(
 
     yield put(resetInputDataAction("economicsReducer"));
     yield put(loadEconomicsWorkflowAction("loadCostsRevenueWorkflow"));
-    yield call(forwardTo, "/apex/economics/costsrevenue/approveddeck");
+    yield call(forwardTo, "/apex/economics/costsrevenue/storeddeck");
 
     yield put(
       updateEconomicsParameterAction("selectedCostsRevenuesTitle", title)

@@ -2,7 +2,7 @@ export interface IEconomicsParametersLayouts {
   excel: JSX.Element;
   database: JSX.Element;
   manual: JSX.Element;
-  approveddeck: JSX.Element;
+  storeddeck: JSX.Element;
 }
 
 export type IdType = {

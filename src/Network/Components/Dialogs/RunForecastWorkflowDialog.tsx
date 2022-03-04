@@ -133,7 +133,7 @@ const RunForecastWorkflowDialog: React.FC<DialogStuff> = (props) => {
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   if (isDialog) {
     return (

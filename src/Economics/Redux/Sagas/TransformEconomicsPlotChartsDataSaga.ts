@@ -56,6 +56,10 @@ function* transformEconomicsChartDataSaga(
     collationFxn,
     pipeline,
   } = payload;
+  console.log(
+    "🚀 ~ file: TransformEconomicsPlotChartsDataSaga.ts ~ line 59 ~ payload",
+    payload
+  );
 
   const { plotChartsResults, plotChartsCategoryDragItems } = yield select(
     (state: RootState) => state[reducer as TReducer]
@@ -63,8 +67,12 @@ function* transformEconomicsChartDataSaga(
 
   let data = [] as any[];
 
-  if (chartData) data = chartData;
+  if (chartData?.length > 0) data = chartData;
   else data = plotChartsResults;
+  console.log(
+    "🚀 ~ file: TransformEconomicsPlotChartsDataSaga.ts ~ line 72 ~ data",
+    data
+  );
 
   const plotChartsCategoryDragItemsDefined =
     plotChartsCategoryDragItems as Record<string, Record<string, IDragItem>>;
@@ -73,11 +81,7 @@ function* transformEconomicsChartDataSaga(
     if (pipeline === "request") {
       const xCategoryName = Object.values(
         plotChartsCategoryDragItemsDefined["X Category"]
-      )[0].name;
-      console.log(
-        "🚀 ~ file: TransformEconomicsPlotChartsDataSaga.ts ~ line 79 ~ xCategoryName",
-        xCategoryName
-      );
+      )[0]?.name;
       const yCategoryNames = Object.values(
         plotChartsCategoryDragItemsDefined["Y Category"]
       ).map((o: any) => o.name);

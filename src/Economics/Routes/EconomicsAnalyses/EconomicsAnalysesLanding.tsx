@@ -18,6 +18,7 @@ import {
 } from "./../../Redux/Actions/EconomicsActions";
 import { economicsAnalysesData } from "./EconomicsAnalyses";
 import { IdType, IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
+import HourglassFullOutlinedIcon from "@mui/icons-material/HourglassFullOutlined";
 
 const EconomicsAnalysesWorkflow = React.lazy(
   () => import("./../EconomicsWorkflows/EconomicsAnalysesWorkflow")
@@ -71,6 +72,10 @@ const EconomicsAnalysesLanding = () => {
   const clearEconomicsAnalysisStore = () => {
     dispatch(
       updateEconomicsParametersAction({
+        selectedEconomicsResultsId: "",
+        selectedEconomicsResultsTitle: "",
+        selectedEconomicsResultsDescription: "",
+        analyisOption: { value: "Select...", label: "Select..." },
         loadEconomicsAnalysesWorkflow: true,
         heatMapVariableXOptions: {},
         heatMapVariableYOptions: {},
@@ -83,7 +88,7 @@ const EconomicsAnalysesLanding = () => {
     );
     dispatch(
       updateEconomicsParameterAction(
-        "economicsAnalysisWorkflows.showSensitivitiesTable",
+        "economicsAnalysisWorkflows.sensitivitiesTablePresent",
         false
       )
     );
@@ -101,8 +106,9 @@ const EconomicsAnalysesLanding = () => {
     );
   };
 
-  const analysesButtons = economicsAnalysesData.map(
-    (analysisObj: IEconomicsAnalysis) => {
+  const analysesButtons = economicsAnalysesData
+    .filter((o) => o.name !== "mulitpleAnalyses")
+    .map((analysisObj: IEconomicsAnalysis) => {
       const { name, title, icon } = analysisObj;
 
       return {
@@ -128,8 +134,7 @@ const EconomicsAnalysesLanding = () => {
           });
         },
       };
-    }
-  );
+    });
 
   const disabled = selectedAnalysisNames.length === 0;
 
@@ -182,21 +187,19 @@ const EconomicsAnalysesLanding = () => {
             moreStyles={{ marginBottom: 4 }}
           >
             <BaseButtons
-              buttonTexts={["Reset", "Analysis"]}
+              buttonTexts={["Reset", "Load"]}
               variants={["contained", "contained"]}
               colors={["secondary", "primary"]}
               startIcons={[
                 <RotateLeftIcon key={1} />,
-                <AirplayOutlinedIcon key={2} />,
+                <HourglassFullOutlinedIcon key={2} />,
               ]}
               disableds={[false, disabled]}
               shouldExecute={[true, true]}
               shouldDispatch={[false, false]}
               finalActions={[
                 () => setSelectedAnalysisNames([]),
-                () => {
-                  clearEconomicsAnalysisStore();
-                },
+                () => clearEconomicsAnalysisStore(),
               ]}
               applySpace={true}
             />

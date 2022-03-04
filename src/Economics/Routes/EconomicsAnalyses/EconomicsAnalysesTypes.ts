@@ -89,8 +89,9 @@ export interface IEconomicsAnalysis {
   economicsAnalysisButtons?: IAggregateButtonProps[];
 }
 export interface IEconomicsSensitivities {
+  useSensitivities?: boolean;
   sensitivitiesData?: IEcoSelectedSensitivities;
-  showSensitivitiesTable?: boolean;
+  sensitivitiesTablePresent?: boolean;
   sensitivitiesTable?: ISensitivitiesRow[];
   sensitivitiesTableTitle?: string;
 }

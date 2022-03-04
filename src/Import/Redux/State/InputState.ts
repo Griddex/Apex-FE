@@ -91,7 +91,7 @@ const generateInputState = () => {
 const storedDataWorkflowNames: Array<NonNullable<IStoredDataProps["wkPs"]>> = [
   "facilitiesInputDeckStored",
   "forecastInputDeckStored",
-  "productionInputDataStored",
+  "productionDataStored",
   "economicsCostsRevenuesDeckStored",
   "economicsParametersDeckStored",
   "networkStored",
@@ -109,7 +109,7 @@ const generateStoredDataState = () => {
 
 const inputDataState = generateInputState();
 const storedDataState = generateStoredDataState();
-const InputState: InputStateType = {
+const inputState: InputStateType = {
   currentWorkflowProcess: "",
   headerType: "",
 
@@ -118,19 +118,25 @@ const InputState: InputStateType = {
   facilitiesInputDeckId: "",
   facilitiesInputDeckTitle: "",
   facilitiesInputDeckDescription: "",
-
   selectedFacilitiesInputDeckId: "",
   selectedFacilitiesInputDeckTitle: "",
   selectedFacilitiesInputDeckDescription: "",
 
+  forecastInputDeckId: "",
+  forecastInputdeckTitle: "",
+  forecastInputDeckDescription: "",
   selectedForecastInputDeckId: "",
   selectedForecastInputDeckTitle: "",
   selectedForecastInputDeckDescription: "",
   selectedForecastInputDeck: [],
 
-  forecastInputDeckId: "",
-  forecastInputdeckTitle: "",
-  forecastInputDeckDescription: "",
+  productionDataId: "",
+  productionDataTitle: "",
+  productionDataDescription: "",
+  selectedProductionDataId: "",
+  selectedProductionDataTitle: "",
+  selectedProductionDataDescription: "",
+  serverNameOptions: [{ value: "None", label: "None" }],
 
   currentAppHeaderOptions: [],
 
@@ -148,4 +154,4 @@ const InputState: InputStateType = {
   matchUnitsRows: [],
 };
 
-export default InputState;
+export default inputState;

@@ -159,6 +159,11 @@ const SensitivitiesHeatMapChart = ({
     dispatch(
       updateEconomicsParametersAction(
         omit(initialHeatMapData, [
+          "selectedEconomicsResultsId",
+          "selectedEconomicsResultsTitle",
+          "selectedEconomicsResultsDescription",
+          "isEconomicsResultsSaved",
+          "analyisOption",
           "heatMapTreeByScenario",
           "sensitivitiesHeatMapTree",
           "sensitivitiesHeatMapData",
@@ -171,7 +176,7 @@ const SensitivitiesHeatMapChart = ({
       "Reset_Confirmation",
       "Reset Confirmation",
       "textDialog",
-      `Do you want to reset this workflow?. 
+      `Do you want to reset this workflow?
       You will lose all data up to current step.`,
       true,
       false,

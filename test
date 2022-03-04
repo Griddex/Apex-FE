@@ -1,0 +1,80 @@
+1) Manual Data Entry (Table)
+   a. Task: Append sample data to existing sample data in database
+      request payload: {validFrom: Date, validTo?: Date, data:any[]}
+      response payload: {response:boolean}
+      remarks: Note this is an append operation with validFrom and/or validTo dates as key to every operation as this
+   b. Task: Sample data verification
+      request payload: { data:any[]}
+      response payload: {data:any[]}
+      remarks: Note this will use certain rules to verify the data and return a collection of errors if present or an empty collection
+   c. Task: Fetch all strings/drainagepoints/wells from network data (either table or network form) filtered
+      by validFrom and/or validTo dates
+      request payload: {validFrom: Date, validTo?: Date, source: well, networkId:String}       
+      response payload: {treeview:{}}
+   d. Task: Fetch all streams/bulks/edges from network data (network form only) filtered
+      by validFrom and/or validTo dates
+      request payload: {validFrom: Date, validTo?: Date, source: stream, networkId:String}       
+      response payload: {treeview:{}}
+2) Import Data (Excel/Text)
+   Same as manual data entry 
+3) Connect to Excel or Db (CRITICAL *This submodule will connect to welltest db for continous
+   sample data updates - only admin or senior engineer should be able to setup this sample db)
+   a. Task: Discover running server instances on local or network computer
+      request payload: {dataProvider:String}
+      response payload: {serverInstanceNames:String[]}
+   b. Task: Test connection to selected database on local or network computer
+      request payload: {connectionString:String}
+      response payload: {serverResponse:boolean}
+   c. Task: List databases on a server with established connection on local or network computer
+      request payload: {willGetDatabases:boolean}
+      response payload: {listOfDatabases:String[]}
+   d. Task: List of databases on a server with established connection on local or network computer
+      request payload: {connectionString:String, willGetDatabases:boolean} *connectionString may have username + password
+      response payload: {listOfDatabases:String[]}
+   e. Task: List of tables on a database with established connection on local or network computer
+      request payload: {connectionString:String, willGetDatabases:boolean} *connectionString will have selected Db and/or username + password
+      response payload: {listOfTables:String[]}
+   f. Task: Save Connectionstring
+      request payload: {connectionString:String, title:String, Description:String} 
+      response payload: {response:boolean}
+4) Import Data (Database)
+   a. Task: Connect to a sample database with established/non-established connection on local or network computer
+      request payload: {connectionString:String}       
+      response payload: {listOfTables:String[]}
+   b. Task: Get data collection from a table on a database with established/non-established connection on local or network computer
+      request payload: {connectionString:String, willGetDatabases:boolean} *connectionString will have  selected table, Db and/or username + password.
+      * non-established connection means a connection test must be done first automatically before data is acquired
+      response payload: {data:any[]}
+5) Stored Database Connections
+   a. Task: Fetch all stored connections as a table (similar to what we have in Apex)
+      request payload: {id:String}       
+      response payload: {connectionTables:any[]}
+   b. Task: Same as 4b above
+   c. Task: Update title & description (same as similar functionality)
+   d. Task: Delete table data (same as similar functionality)   
+6) Verification
+   a. Task: Fetch sample records from database (per validFrom and/or validTo keys)
+      request payload: {data:any[]}
+      response payload: {response:boolean}
+   b. Task: Update specific sample records in database (per validFrom and/or validTo keys)
+      request payload: {data:any[]}
+      response payload: {response:boolean}
+7) Visualytics
+   a. Task: Compute treeview object from selected sample data records in the database 
+      request payload: {validFrom, validTo, source: well | stream | all}
+      response payload: {treeview:{}}
+   b. Task: Filter and return sample data records from database (validFrom and/or validTo keys and sampleData headers)
+      request payload: {validFrom, validTo, headers:String[]}
+      response payload: {chartData:any[]}
+   c. Task: Save chart template (is a chart properties  object to enable regeneration of chart at later date)
+      request payload: {title, description, chartProperties:{}}
+      response payload: {response:boolean}
+   d. Task: Fetch specific chart property as chart template (to apply to data on frontend and generate chart)
+      request payload: {chartPropertiesId:String}
+      response payload: {chartProperties:{}}
+   d. Task: Fetch all stored chart Templates as a table (similar to what we have in Apex)
+      request payload: {id:String}       
+      response payload: {connectionTables:any[]}
+   e. Task: Fetch sampleData table only for viewing (similar to what we have in Apex)
+      request payload: {validFrom, validTo}       
+      response payload: {data:any[]}

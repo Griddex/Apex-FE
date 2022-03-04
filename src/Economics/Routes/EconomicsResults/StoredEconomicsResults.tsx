@@ -5,35 +5,31 @@ import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import { ClickAwayListener } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import startCase from "lodash.startcase";
 import React from "react";
 import { Column } from "react-data-griddex";
 import isEqual from "react-fast-compare";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import { SizeMe } from "react-sizeme";
-import { createSelectorCreator, defaultMemoize } from "reselect";
 import Approval from "../../../Application/Components/Approval/Approval";
 import Author from "../../../Application/Components/Author/Author";
 import BaseButtons from "../../../Application/Components/BaseButtons/BaseButtons";
 import apexGridCheckbox from "../../../Application/Components/Checkboxes/ApexGridCheckbox";
 import DialogOneCancelButtons from "../../../Application/Components/DialogButtons/DialogOneCancelButtons";
+import { confirmationDialogParameters } from "../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { DialogStuff } from "../../../Application/Components/Dialogs/DialogTypes";
-import {
-  IApexEditor,
-  IApexEditorRow,
-} from "../../../Application/Components/Editors/ApexEditor";
+import { IApexEditorRow } from "../../../Application/Components/Editors/ApexEditor";
 import ExcelExportTable, {
   IExcelExportTable,
   IExcelSheetData,
 } from "../../../Application/Components/Export/ExcelExportTable";
-import Saved from "../../../Application/Components/Saved/Saved";
 import ApexFlexContainer from "../../../Application/Components/Styles/ApexFlexContainer";
 import ApexGrid from "../../../Application/Components/Table/ReactDataGrid/ApexGrid";
 import { ISize } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
 import { ITableButtonsProps } from "../../../Application/Components/Table/TableButtonsTypes";
 import {
-  TReducer,
   TAllWorkflowProcesses,
+  TReducer,
 } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
@@ -55,14 +51,15 @@ import {
 import formatDate from "../../../Application/Utils/FormatDate";
 import generateDoughnutAnalyticsData from "../../../Application/Utils/GenerateDoughnutAnalyticsData";
 import { updateForecastResultsParameterAction } from "../../../Forecast/Redux/Actions/ForecastActions";
-import { confirmationDialogParameters } from "../../../Application/Components/DialogParameters/ConfirmationDialogParameters";
 import { DoughnutChartAnalytics } from "../../../Visualytics/Components/Charts/DoughnutChart";
+import { economicsAnalysesMap } from "../../Data/EconomicsData";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   fetchStoredEconomicsResultsRequestAction,
   getEconomicsResultsByIdRequestAction,
 } from "../../Redux/Actions/EconomicsActions";
 import { IStoredEconomicsResultsRow } from "../../Redux/State/EconomicsStateTypes";
+import { TEconomicsAnalysesNames } from "../EconomicsAnalyses/EconomicsAnalysesTypes";
 
 const useStyles = makeStyles(() => ({
   rootStoredData: {
@@ -137,11 +134,9 @@ export default function StoredEcoResults({
   const dispatch = useDispatch();
 
   const currentProjectId = useSelector(currentProjectIdSelector);
-
   const dayFormat = useSelector(dayFormatSelector);
   const monthFormat = useSelector(monthFormatSelector);
   const yearFormat = useSelector(yearFormatSelector);
-
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
   const [checkboxSelected, setCheckboxSelected] = React.useState(false);
@@ -358,22 +353,12 @@ export default function StoredEcoResults({
       },
       width: 100,
     },
-    // {
-    //   key: "saved",
-    //   name: "STATUS",
-    //   editable: false,
-    //   resizable: true,
-    //   formatter: ({ row }) => {
-    //     return <Saved savedText={row.saved} />;
-    //   },
-    //   width: 100,
-    // },
     {
       key: "title",
       name: "ECONOMICS RESULTS TITLE",
       editable: false,
       resizable: true,
-      width: 300,
+      width: 250,
     },
     {
       key: "analyis",
@@ -381,19 +366,19 @@ export default function StoredEcoResults({
       editable: false,
       resizable: true,
       formatter: ({ row }) => {
-        let analysisTitle = "";
-        if (Array.isArray(row.analysis)) {
-          analysisTitle = row.analysis.map((a) => startCase(a)).join(", ");
-        } else {
-          analysisTitle = startCase(row.analysis);
-        }
+        const analysisNames = row?.analysisNames as TEconomicsAnalysesNames[];
+
+        const analysisTitle = analysisNames
+          .map((name) => economicsAnalysesMap[name])
+          .join(", ");
+
         return (
           <ApexFlexContainer justifyContent="flex-start">
             {analysisTitle}
           </ApexFlexContainer>
         );
       },
-      width: 200,
+      width: 250,
     },
     {
       key: "devScenarios",
@@ -407,7 +392,7 @@ export default function StoredEcoResults({
           </ApexFlexContainer>
         );
       },
-      width: 250,
+      width: 200,
     },
     {
       key: "author",
@@ -436,7 +421,6 @@ export default function StoredEcoResults({
           </div>
         );
       },
-      width: 200,
     },
     {
       key: "modifiedOn",
@@ -455,7 +439,6 @@ export default function StoredEcoResults({
           </div>
         );
       },
-      width: 200,
     },
   ];
 
@@ -466,7 +449,7 @@ export default function StoredEcoResults({
       title: row.title,
       description: row.description,
       devScenarios: row.developmentScenariosAnalysis,
-      analysis: row.analysisName,
+      analysisNames: row.analysisNames,
       saved: row.saved,
       sensitivities: row.hasSensitivities ? "Utilized" : "None",
       approval: "Not Started",

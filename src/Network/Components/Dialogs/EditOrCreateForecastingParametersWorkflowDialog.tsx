@@ -141,6 +141,7 @@ const EditOrCreateForecastingParametersWorkflowDialog: React.FC<
     setDescription: setFormDescription,
     storedTitles,
     steps,
+    isDialog: true,
   } as NonNullable<IEditOrCreateForecastingParameters> &
     ITitleAndDescriptionFormProps;
 

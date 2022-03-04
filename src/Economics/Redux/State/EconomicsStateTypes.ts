@@ -188,7 +188,7 @@ export interface IStoredEconomicsResultsRow {
   description?: string;
   saved: "Saved" | "Not Saved";
   sensitivities: "Utilized" | "None";
-  analysis: TEconomicsAnalysesNames | TEconomicsAnalysesNames[];
+  analysisNames: TEconomicsAnalysesNames[];
   devScenarios: TBackendDevScenarioTitles[];
   author: IUserDetails | string;
   approvers: IUserDetails[] | string;
@@ -257,7 +257,7 @@ export interface IEconomicsState
   selectedEconomicsResultsId: string;
   selectedEconomicsResultsTitle: string;
 
-  showSensitivitiesTable: boolean;
+  sensitivitiesTablePresent: boolean;
 
   allDevRows: Record<TDevScenarioNames, IRawRow[]>;
   selectedTableData: any[];

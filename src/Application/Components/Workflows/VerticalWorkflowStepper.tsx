@@ -41,10 +41,6 @@ const VerticalWorkflowStepper = (props: IWorkflowDataProps) => {
   const classes = useStyles();
 
   const { steps, activeStep, skipped, errorSteps } = props;
-  console.log(
-    "🚀 ~ file: VerticalWorkflowStepper.tsx ~ line 44 ~ VerticalWorkflowStepper ~ props",
-    props
-  );
 
   const expandContextDrawer = useSelector(expandContextDrawerSelector);
 

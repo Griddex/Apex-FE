@@ -58,8 +58,10 @@ export interface IStoredDataProps {
   workflowProcess?: IStoredDataProps["wkPs"];
   wkPs?:
     | "facilitiesInputDeckStored"
+    | "facilitiesConnectionsStored"
     | "forecastInputDeckStored"
-    | "productionInputDataStored"
+    | "forecastConnectionsStored"
+    | "productionDataStored"
     | "economicsCostsRevenuesDeckStored"
     | "economicsParametersDeckStored"
     | "economicsSensitivitiesStored"
@@ -136,7 +138,7 @@ export interface IApplicationStoredEconomicsResultsRow {
   description?: string;
   saved?: "Saved" | "Not Saved";
   hasSensitivities: boolean;
-  analysisName?: TEconomicsAnalysesNames | TEconomicsAnalysesNames[];
+  analysisNames?: TEconomicsAnalysesNames[];
   developmentScenariosAnalysis?: TBackendDevScenarioTitles[];
   author?: IUserDetails | string;
   approvers?: IUserDetails[] | string;
@@ -196,4 +198,12 @@ export interface IStoredDeck {
   finalAction: () => void;
   containerStyle?: CSSProperties;
   handleCheckboxChange?: IStoredDataProps["handleCheckboxChange"];
+}
+
+export interface IConnectDatabase {
+  reducer: TReducer;
+  showChart?: boolean;
+  wrkflwPrcss: TAllWorkflowProcesses | IStoredDataProps["wkPs"];
+  wrkflwCtgry?: TAllWorkflowCategories | IStoredDataProps["wkCy"];
+  finalAction: () => void;
 }

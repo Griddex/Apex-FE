@@ -1,17 +1,24 @@
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+import omit from "lodash.omit";
 import React from "react";
+import isEqual from "react-fast-compare";
 import { useDispatch, useSelector } from "react-redux";
 import { OnChangeValue } from "react-select";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "react-fast-compare";
 import AnalyticsComp from "../../../../Application/Components/Basic/AnalyticsComp";
+import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
 import ApexSelectRS from "../../../../Application/Components/Selects/ApexSelectRS";
 import {
   IExtendedSelectOption,
   ISelectOption,
 } from "../../../../Application/Components/Selects/SelectItemsType";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
+import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
+import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
+import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
 import { RenderTree } from "../../../../Visualytics/Components/TreeView/ApexTreeViewTypes";
+import { initialHeatMapData } from "../../../Data/EconomicsData";
+import useDroppedIds from "../../../Hooks/UseDroppedIds";
 import {
   fetchEconomicsTreeviewKeysRequestAction,
   removeEconomicsChartCategoryAction,
@@ -22,17 +29,9 @@ import {
   updateEconomicsParameterAction,
   updateEconomicsParametersAction,
 } from "../../../Redux/Actions/EconomicsActions";
-import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
-import CategoryPanelComponent from "../../../../Visualytics/Components/ChartCategoryPanel/ChartCategoryPanel";
-import NoSelectionPlaceholder from "../../../../Application/Components/PlaceHolders/NoSelectionPlaceholder";
-import XYYZRChartCategories from "../../../../Visualytics/Components/ChartCategories/XYYZRChartCategories";
-import ChartDataPanel from "../../../../Visualytics/Components/ChartDataPanel/ChartDataPanel";
-import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
-import { initialHeatMapData } from "../../../Data/EconomicsData";
-import omit from "lodash.omit";
-import { IDragItem } from "../../../../Visualytics/Components/ChartCategories/ChartCategoryTypes";
-import useDroppedIds from "../../../Hooks/UseDroppedIds";
 import getDragItems from "../../../Utils/GetDragItems";
+import { IEconomicsResultsVisualytics } from "../EconomicsResultsTypes";
+import SensitivitiesHeatMapTreeView from "./SensitivitiesHeatMapTreeView";
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
@@ -90,7 +89,8 @@ const SensitivitiesHeatMapDataPanel = ({
 }: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
 
-  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+  const [willExtrudeCategories, setWillExtrudeCategories] =
+    React.useState(false);
 
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
@@ -191,6 +191,11 @@ const SensitivitiesHeatMapDataPanel = ({
       dispatch(
         updateEconomicsParametersAction(
           omit(initialHeatMapData, [
+            "selectedEconomicsResultsId",
+            "selectedEconomicsResultsTitle",
+            "selectedEconomicsResultsDescription",
+            "isEconomicsResultsSaved",
+            "analyisOption",
             "heatMapTreeByScenario",
             "sensitivitiesHeatMapTree",
             "sensitivitiesHeatMapData",
@@ -274,6 +279,11 @@ const SensitivitiesHeatMapDataPanel = ({
               dispatch(
                 updateEconomicsParametersAction(
                   omit(initialHeatMapData, [
+                    "selectedEconomicsResultsId",
+                    "selectedEconomicsResultsTitle",
+                    "selectedEconomicsResultsDescription",
+                    "isEconomicsResultsSaved",
+                    "analyisOption",
                     "heatMapTreeByScenario",
                     "sensitivitiesHeatMapTree",
                   ])
@@ -409,8 +419,8 @@ const SensitivitiesHeatMapDataPanel = ({
             )
           : () => <SensitivitiesHeatMapTreeView droppedIds={droppedIds} />
       }
-      extrudeCategories={extrudeCategories}
-      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
+      willExtrudeCategories={willExtrudeCategories}
+      setWillExtrudeCategories={React.useCallback(setWillExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
       showMembersObjValues={React.useMemo(

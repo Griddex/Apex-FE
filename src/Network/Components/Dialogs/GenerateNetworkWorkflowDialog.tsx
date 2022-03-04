@@ -134,7 +134,7 @@ const GenerateNetworkWorkflowDialog: React.FC<DialogStuff> = (props) => {
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   return (
     <Dialog
