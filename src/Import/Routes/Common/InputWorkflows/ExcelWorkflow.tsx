@@ -10,7 +10,7 @@ import NavigationButtons from "../../../../Application/Components/NavigationButt
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
-import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IExcelOrDatabaseWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { hideSpinnerAction } from "../../../../Application/Redux/Actions/UISpinnerActions";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
@@ -79,7 +79,7 @@ const ExcelWorkflow = ({
   finalAction,
   hasExtraComponent,
   extraComponent,
-}: IOnlyWorkflows) => {
+}: IExcelOrDatabaseWorkflows) => {
   console.log("I'm in excel workflowwwwwwwwwwwwwww");
   const classes = useStyles();
   const dispatch = useDispatch();

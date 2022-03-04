@@ -34,8 +34,8 @@ export interface IChartDataPanel<T = ISelectOption> {
   resultsSelect?: React.FC;
   secondarySelectComponent?: React.FC;
   treeViewComponent: React.FC<any>;
-  extrudeCategories?: boolean;
-  setExtrudeCategories?: TUseState<boolean>;
+  willExtrudeCategories?: boolean;
+  setWillExtrudeCategories?: TUseState<boolean>;
   categoriesComponent?: JSX.Element;
   renderCategoryIcon: boolean;
   showMembersObjValues?: boolean[];
@@ -50,8 +50,8 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
   hasSecondaryComponent,
   secondarySelectComponent,
   treeViewComponent,
-  extrudeCategories,
-  setExtrudeCategories,
+  willExtrudeCategories,
+  setWillExtrudeCategories,
   categoriesComponent,
   renderCategoryIcon,
   showMembersObjValues,
@@ -114,7 +114,7 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
           />
         )}
       </SizeMe>
-      {extrudeCategories && (
+      {willExtrudeCategories && (
         <Rnd
           style={{ zIndex: 2000, padding: 2 }}
           size={{
@@ -141,7 +141,9 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
           <DraggableDialog
             title="Chart Categories"
             iconType="category"
-            onClose={() => setExtrudeCategories && setExtrudeCategories(false)}
+            onClose={() =>
+              setWillExtrudeCategories && setWillExtrudeCategories(false)
+            }
             actionsList={() => (
               <>
                 <Button
@@ -156,7 +158,7 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
                   variant="contained"
                   color="primary"
                   onClick={() =>
-                    setExtrudeCategories && setExtrudeCategories(false)
+                    setWillExtrudeCategories && setWillExtrudeCategories(false)
                   }
                   startIcon={<CallReceivedIcon />}
                 >
@@ -174,7 +176,8 @@ const ChartDataPanel: React.FC<IChartDataPanel<IExtendedSelectOption>> = ({
           <CategoryOutlinedIcon
             style={getApexIconButtonStyle(theme)}
             onClick={() =>
-              setExtrudeCategories && setExtrudeCategories(!extrudeCategories)
+              setWillExtrudeCategories &&
+              setWillExtrudeCategories(!willExtrudeCategories)
             }
           />
         )}

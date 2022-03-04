@@ -97,7 +97,7 @@ function* getEconomicsSensitivitiesByIdSaga(action: IAction): Generator<
     });
 
     yield put(
-      updateEconomicsParameterAction(`${wc}.showSensitivitiesTable`, true)
+      updateEconomicsParameterAction(`${wc}.sensitivitiesTablePresent`, true)
     );
     yield put(
       updateEconomicsParameterAction(`sensitivitiesTable`, sensitivitiesTable)

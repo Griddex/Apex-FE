@@ -408,7 +408,7 @@ export default function ForecastData({
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  }, []);
 
   const getApexGridProps = (size: ISize) => ({
     columns: columns,

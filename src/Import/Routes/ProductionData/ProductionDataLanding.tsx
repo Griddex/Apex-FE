@@ -110,7 +110,7 @@ const ProductionDataLanding = () => {
         />
       ),
       route: `${url}/approveddata`,
-      workflowProcess: "productionInputDataStored",
+      workflowProcess: "productionDataStored",
       workflowCategory: "storedDataWorkflows",
     },
   ];

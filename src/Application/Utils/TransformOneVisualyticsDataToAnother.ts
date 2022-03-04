@@ -11,7 +11,7 @@ export const generateNamesValuesObj = (
   data: IVisualyticsResultsTransformers["data"]
 ) => {
   const namesValuesObj = names.reduce((acc, name) => {
-    const dataObj = data.find((o) => o.name === name);
+    const dataObj = data.find((o) => o.name.startsWith(name));
 
     if (dataObj) {
       return { ...acc, [name]: dataObj.values };
@@ -19,6 +19,10 @@ export const generateNamesValuesObj = (
       return acc;
     }
   }, {});
+  console.log(
+    "🚀 ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 22 ~ namesValuesObj ~ namesValuesObj",
+    namesValuesObj
+  );
 
   return namesValuesObj;
 };
@@ -79,14 +83,12 @@ export const visualyticsDataToStackedChartData = ({
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
 
   const stackedData = [];
-
   const xValues = linkedData && Object.values(linkedData["X Category"])[0];
 
-  const yObj =
-    linkedData &&
-    linkedData[
-      chartStory === "primary" ? "Y Category" : "Y Secondary Category"
-    ];
+  const catgry =
+    chartStory === "primary" ? "Y Category" : "Y Secondary Category";
+
+  const yObj = linkedData && linkedData[catgry];
   const yNames = Object.keys(yObj);
 
   for (let i = 0; i < xValues.length; i++) {
@@ -110,25 +112,33 @@ export const visualyticsDataToLineOrScatterChartData = ({
     data,
     categoryDragItems
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
-
-  const yNames = Object.keys(
-    linkedData[chartStory === "primary" ? "Y Category" : "Y Secondary Category"]
+  console.log(
+    "🚀 ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 111 ~ linkedData",
+    linkedData
+  );
+  const catgry =
+    chartStory === "primary" ? "Y Category" : "Y Secondary Category";
+  const yNames = Object.keys(linkedData[catgry]);
+  console.log(
+    "🚀 ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 115 ~ yNames",
+    yNames
   );
   if (yNames.length === 0) return [];
 
+  //TODO this is considering only one x value on bottom
   const xValues = Object.values(linkedData["X Category"])[0];
+  console.log(
+    "🚀 ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 120 ~ xValues",
+    xValues
+  );
 
   const lineData = yNames.reduce((acc, yName) => {
     const yNamesData =
       linkedData &&
-      linkedData[
-        chartStory === "primary" ? "Y Category" : "Y Secondary Category"
-      ][yName].map((name: string, i: number) => {
-        return {
-          x: (xValues as any[])[i],
-          y: name,
-        };
-      });
+      linkedData[catgry][yName].map((name: string, i: number) => ({
+        x: (xValues as any[])[i],
+        y: name,
+      }));
 
     return [
       ...acc,
@@ -139,6 +149,10 @@ export const visualyticsDataToLineOrScatterChartData = ({
       },
     ];
   }, [] as any[]);
+  console.log(
+    "🚀 ~ file: TransformOneVisualyticsDataToAnother.ts ~ line 139 ~ lineData ~ lineData",
+    lineData
+  );
 
   return { data: lineData, xValueCategories: xValues };
 };
@@ -155,9 +169,10 @@ export const visualyticsDataToDoughnutChartData = ({
     categoryDragItems
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
 
-  const yNames = Object.keys(
-    linkedData[chartStory === "primary" ? "Y Category" : "Y Secondary Category"]
-  );
+  const catgry =
+    chartStory === "primary" ? "Y Category" : "Y Secondary Category";
+
+  const yNames = Object.keys(linkedData[catgry]);
   if (yNames.length === 0) return [];
   const xValues = Object.values(linkedData["X Category"])[0];
 
@@ -166,13 +181,12 @@ export const visualyticsDataToDoughnutChartData = ({
 
   if (collateBy === "xValue") {
     doughnutData = xValues.map((xValue: string, i: number) => {
-      cummulativeValue = Object.values(
-        linkedData[
-          chartStory === "primary" ? "Y Category" : "Y Secondary Category"
-        ]
-      ).reduce((acc: number, arr: any) => {
-        return acc + parseFloat(arr[i]);
-      }, 0);
+      cummulativeValue = Object.values(linkedData[catgry]).reduce(
+        (acc: number, arr: any) => {
+          return acc + parseFloat(arr[i]);
+        },
+        0
+      );
 
       return {
         id: xValue,
@@ -183,11 +197,12 @@ export const visualyticsDataToDoughnutChartData = ({
     }, []);
   } else {
     doughnutData = yNames.map((yName: string, i: number) => {
-      cummulativeValue = linkedData[
-        chartStory === "primary" ? "Y Category" : "Y Secondary Category"
-      ][yName].reduce((acc: number, v: any) => {
-        return acc + parseFloat(v);
-      }, 0);
+      cummulativeValue = linkedData[catgry][yName].reduce(
+        (acc: number, v: any) => {
+          return acc + parseFloat(v);
+        },
+        0
+      );
 
       return {
         id: yName,
@@ -211,10 +226,10 @@ export const visualyticsDataToBarOrHeatmapChartData = ({
     categoryDragItems
   ) as NonNullable<IVisualyticsResultsTransformers["linkedData"]>;
 
-  const yObj =
-    linkedData[
-      chartStory === "primary" ? "Y Category" : "Y Secondary Category"
-    ];
+  const catgry =
+    chartStory === "primary" ? "Y Category" : "Y Secondary Category";
+
+  const yObj = linkedData[catgry];
   const yNames = Object.keys(yObj);
   if (yNames.length === 0) return [];
 

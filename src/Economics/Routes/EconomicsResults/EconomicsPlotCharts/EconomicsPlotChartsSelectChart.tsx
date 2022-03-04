@@ -28,6 +28,10 @@ const plotChartsVariableXOptionsSelector = createDeepEqualSelector(
   (state: RootState) => state.economicsReducer.plotChartsVariableXOptions,
   (option) => option
 );
+const plotChartsVariableYOptionsSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.plotChartsVariableYOptions,
+  (option) => option
+);
 
 const EconomicsPlotChartsSelectChart = ({
   width,
@@ -43,14 +47,39 @@ const EconomicsPlotChartsSelectChart = ({
   const plotChartsVariableXOptions = useSelector(
     plotChartsVariableXOptionsSelector
   );
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsSelectChart.tsx ~ line 50 ~ plotChartsVariableXOptions",
+    plotChartsVariableXOptions
+  );
+  const plotChartsVariableYOptions = useSelector(
+    plotChartsVariableYOptionsSelector
+  );
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsSelectChart.tsx ~ line 54 ~ plotChartsVariableYOptions",
+    plotChartsVariableYOptions
+  );
+
+  const displayEnabled =
+    Object.keys(plotChartsVariableXOptions).length >= 1 &&
+    Object.keys(plotChartsVariableYOptions).length >= 1;
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsSelectChart.tsx ~ line 63 ~ displayEnabled",
+    displayEnabled
+  );
 
   const indexByKey = Object.keys(plotChartsVariableXOptions)[0];
   const indexBy = plotChartsVariableXOptions[indexByKey]?.name;
 
-  const clearHeatMap = () =>
+  const clearPlotCharts = () =>
     dispatch(
       updateEconomicsParametersAction(
         omit(initialEconomicsPlotData, [
+          "selectedEconomicsResultsId",
+          "selectedEconomicsResultsTitle",
+          "selectedEconomicsResultsDescription",
+          "isEconomicsResultsSaved",
+          "analyisOption",
+
           "plotChartsResults",
           "plotChartsData",
           "plotChartsDataTrans",
@@ -58,12 +87,12 @@ const EconomicsPlotChartsSelectChart = ({
       )
     );
 
-  const resetHeatMap = () => {
+  const resetPlotCharts = () => {
     const dialogParameters = confirmationDialogParameters(
       "Reset_Confirmation",
       "Reset Confirmation",
       "textDialog",
-      `Do you want to reset this workflow?. 
+      `Do you want to reset this workflow? 
   You will lose all data up to current step.`,
       true,
       false,
@@ -106,12 +135,12 @@ const EconomicsPlotChartsSelectChart = ({
             <ClearOutlinedIcon key={2} />,
             <AirplayOutlinedIcon key={3} />,
           ]}
-          disableds={[false, false, plotChartsVariableXOptions === null]}
+          disableds={[false, false, !displayEnabled]}
           shouldExecute={[true, true, true]}
           shouldDispatch={[false, false, false]}
           finalActions={[
-            () => resetHeatMap(),
-            () => clearHeatMap(),
+            () => resetPlotCharts(),
+            () => clearPlotCharts(),
             () => dispatch(getEconomicsPlotChartDataRequestAction(reducer, wc)),
           ]}
         />

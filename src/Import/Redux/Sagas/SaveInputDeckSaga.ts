@@ -56,9 +56,9 @@ function getInputDeckRouteParam(workflowProcess: TAllWorkflowProcesses) {
 
 function getGotoRouteUrl(workflowProcess: TAllWorkflowProcesses) {
   if (workflowProcess.includes("facilities"))
-    return "/apex/import/facilitiesdeck/approveddeck";
+    return "/apex/import/facilitiesdeck/storeddeck";
   else if (workflowProcess.includes("forecast"))
-    return "/apex/import/forecastdeck/approveddeck";
+    return "/apex/import/forecastdeck/storeddeck";
   else return "";
 }
 

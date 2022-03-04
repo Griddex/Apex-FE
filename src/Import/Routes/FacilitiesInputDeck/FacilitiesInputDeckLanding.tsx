@@ -25,6 +25,8 @@ import MSExcel from "../../Images/MSExcel.svg";
 import StoredDeck from "../../Images/StoredDeck.svg";
 import { saveInputDeckRequestAction } from "../../Redux/Actions/InputActions";
 import { IdType } from "./FacilitiesInputDeckLandingTypes";
+import ConnectDatabase from "../Common/Workflows/ConnectDatabase";
+import StoredFacilitiesConnections from "./StoredFacilitiesConnections";
 
 const ExcelWorkflow = React.lazy(
   () => import("../Common/InputWorkflows/ExcelWorkflow")
@@ -73,10 +75,10 @@ const loadWorkflowSelector = createDeepEqualSelector(
 );
 
 const FacilitiesInputDeckLanding = () => {
+  const reducer = "inputReducer";
+
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const reducer = "inputReducer";
   const { url, path } = useRouteMatch();
 
   const initialState = useSelector(initialStateSelector);
@@ -86,15 +88,23 @@ const FacilitiesInputDeckLanding = () => {
     {
       name: "Excel | Text",
       description: `Import facilities data from Microsoft Excel. Formats supported: .xls, .xlsx & csv. Also import in .txt or .dat formats`,
+      icon: <Image className={classes.image} src={MSExcel} alt="Excel Logo" />,
+      route: `${url}/excel`,
+      workflowProcess: "facilitiesInputDeckExcel",
+      workflowCategory: "inputDataWorkflows",
+    },
+    {
+      name: "Database Connection",
+      description: `Create connections to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
         <Image
           className={classes.image}
-          src={MSExcel}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
+          src={ImportDatabase}
+          alt="Connect Database Logo"
         />
       ),
-      route: `${url}/excel`,
-      workflowProcess: "facilitiesInputDeckExcel",
+      route: `${url}/connectDatabase`,
+      workflowProcess: "facilitiesInputDeckConnectDatabase",
       workflowCategory: "inputDataWorkflows",
     },
     {
@@ -104,7 +114,7 @@ const FacilitiesInputDeckLanding = () => {
         <Image
           className={classes.image}
           src={ImportDatabase}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
+          alt="Database Logo"
         />
       ),
       route: `${url}/database`,
@@ -112,17 +122,23 @@ const FacilitiesInputDeckLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
-      name: `Stored Facilities Data`,
+      name: `Stored Facilities InputDeck`,
       description: `Select a pre-exisiting and approved facilities data stored in the Apex\u2122 database`,
       icon: (
-        <Image
-          className={classes.image}
-          src={StoredDeck}
-          alt="Hydrocarbon Forecasting Platform Company Logo"
-        />
+        <Image className={classes.image} src={StoredDeck} alt="Storage Logo" />
       ),
-      route: `${url}/approveddeck`,
+      route: `${url}/storeddeck`,
       workflowProcess: "facilitiesInputDeckStored",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
+      name: `Stored Database Connections`,
+      description: `Select a pre-exisiting database connections stored in the Apex\u2122 database`,
+      icon: (
+        <Image className={classes.image} src={StoredDeck} alt="Storage Logo" />
+      ),
+      route: `${url}/storedConnections`,
+      workflowProcess: "facilitiesInputDeckConnectionsStored",
       workflowCategory: "storedDataWorkflows",
     },
   ];
@@ -198,6 +214,8 @@ const FacilitiesInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   };
 
+  const saveDatabaseConnection = () => {};
+
   const getBadgeProps = (name: string) => {
     return {
       color: "secondary",
@@ -218,6 +236,14 @@ const FacilitiesInputDeckLanding = () => {
   );
 
   const storedDataFinalActionMem = React.useCallback(storedDataFinalAction, []);
+
+  const StoredConnections = (
+    <StoredFacilitiesConnections
+      reducer={reducer}
+      showChart={true}
+      finalAction={storedDataFinalActionMem}
+    />
+  );
 
   return (
     <>
@@ -245,15 +271,25 @@ const FacilitiesInputDeckLanding = () => {
                     wrkflwCtgry={"inputDataWorkflows"}
                     wrkflwPrcss={"facilitiesInputDeckDatabase"}
                     finalAction={databaseFinalAction}
+                    storedConnections={StoredConnections}
                   />
                 ),
-                approveddeck: (
+                storeddeck: (
                   <StoredFacilitiesDecks
                     reducer={reducer}
                     showChart={true}
                     finalAction={storedDataFinalActionMem}
                   />
                 ),
+                connectDatabase: (
+                  <ConnectDatabase
+                    reducer={reducer}
+                    wrkflwCtgry={"inputDataWorkflows"}
+                    wrkflwPrcss={"facilitiesInputDeckDatabase"}
+                    finalAction={saveDatabaseConnection}
+                  />
+                ),
+                storedConnections: StoredConnections,
               };
 
               return facilitiesInputDeckWorkflows[dataInputId];

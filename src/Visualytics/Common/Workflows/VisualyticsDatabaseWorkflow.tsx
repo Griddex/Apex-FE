@@ -8,7 +8,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import { IOnlyWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IExcelOrDatabaseWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
@@ -88,7 +88,7 @@ const VisualyticsDatabaseWorkflow = ({
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
-}: IOnlyWorkflows) => {
+}: IExcelOrDatabaseWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;
@@ -147,12 +147,13 @@ const VisualyticsDatabaseWorkflow = ({
 
   useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
-  }, [dispatch]);
+  }, []);
 
   const props = {
     wrkflwCtgry: wc,
     wrkflwPrcss: wp,
     reducer,
+    finalAction: () => {},
   };
 
   function renderImportStep(activeStep: number) {

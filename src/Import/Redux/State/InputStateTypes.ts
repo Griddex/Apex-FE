@@ -1,14 +1,14 @@
-import { FormikErrors, FormikTouched } from "formik";
 import { ISelectOption } from "../../../Application/Components/Selects/SelectItemsType";
 import { IRawRow } from "../../../Application/Components/Table/ReactDataGrid/ApexGridTypes";
-import { TReducer } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IUserDetails } from "../../../Application/Components/User/UserTypes";
 import {
   IStoredDataProps,
   IStoredDataRow,
+  TApproval,
 } from "../../../Application/Types/ApplicationTypes";
 import {
-  TVariableTitle,
   TVariableName,
+  TVariableTitle,
 } from "../../../Settings/Redux/State/UnitSettingsStateTypes";
 
 export interface IInputState {
@@ -78,9 +78,7 @@ export interface IInputState {
   success: false;
 }
 
-export interface InputStateType
-  extends INewFacilitiesInputDeckFormValues,
-    INewForecastInputDeckFormValues {
+export interface InputStateType {
   currentWorkflowProcess: string;
   headerType: string;
 
@@ -89,19 +87,25 @@ export interface InputStateType
   facilitiesInputDeckId: string;
   facilitiesInputDeckTitle: string;
   facilitiesInputDeckDescription: string;
-
   selectedFacilitiesInputDeckId: string;
   selectedFacilitiesInputDeckTitle: string;
   selectedFacilitiesInputDeckDescription: string;
 
+  forecastInputDeckId: string;
+  forecastInputdeckTitle: string;
+  forecastInputDeckDescription: string;
   selectedForecastInputDeckId: string;
   selectedForecastInputDeckTitle: string;
   selectedForecastInputDeckDescription: string;
   selectedForecastInputDeck: IRawRow[];
 
-  forecastInputDeckId: string;
-  forecastInputdeckTitle: string;
-  forecastInputDeckDescription: string;
+  productionDataId: string;
+  productionDataTitle: string;
+  productionDataDescription: string;
+  selectedProductionDataId: string;
+  selectedProductionDataTitle: string;
+  selectedProductionDataDescription: string;
+  serverNameOptions: ISelectOption[];
 
   currentAppHeaderOptions: ISelectOption[];
 
@@ -124,38 +128,16 @@ export interface InputStateType
   matchUnitsRows: IRawRow[];
 }
 
-export interface INewFacilitiesInputDeckFormValues {
-  facilitiesInputDeckTitle: string;
-  facilitiesInputDeckDescription: string;
-}
-
-export interface INewFacilitiesInputDeckWorkflowProps
-  extends Partial<INewFacilitiesInputDeckFormValues> {
-  activeStep?: number;
-  errors?: FormikErrors<INewFacilitiesInputDeckFormValues>;
-  touched?: FormikTouched<INewFacilitiesInputDeckFormValues>;
-  isValid?: boolean;
-  handleChange?: (event: React.ChangeEvent<any>) => void;
-  handleBlur?: (event: React.ChangeEvent<any>) => void;
-  children?: (
-    props: INewFacilitiesInputDeckWorkflowProps
-  ) => JSX.Element | JSX.Element[];
-  reducer?: TReducer;
-}
-export interface INewForecastInputDeckFormValues {
-  forecastInputdeckTitle: string;
-  forecastInputDeckDescription: string;
-}
-export interface INewForecastInputDeckWorkflowProps
-  extends Partial<INewForecastInputDeckFormValues> {
-  activeStep?: number;
-  errors?: FormikErrors<INewForecastInputDeckFormValues>;
-  touched?: FormikTouched<INewForecastInputDeckFormValues>;
-  isValid?: boolean;
-  handleChange?: (event: React.ChangeEvent<any>) => void;
-  handleBlur?: (event: React.ChangeEvent<any>) => void;
-  children?: (
-    props: INewForecastInputDeckWorkflowProps
-  ) => JSX.Element | JSX.Element[];
-  reducer?: TReducer;
+export interface IStoredProductionDataRow {
+  sn: number;
+  id: string;
+  productionDataId: string;
+  approval: TApproval;
+  title: string;
+  description?: string;
+  source: "Admin" | "User";
+  store: "Database" | "Excel";
+  author: IUserDetails | string;
+  createdOn: string;
+  modifiedOn: string;
 }

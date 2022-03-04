@@ -20,6 +20,8 @@ import { IdType } from "./ForecastInputDeckLandingTypes";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import { resetInputDataAction } from "../../../Application/Redux/Actions/ApplicationActions";
+import ConnectDatabase from "../Common/Workflows/ConnectDatabase";
+import StoredForecastConnections from "./StoredForecastConnections";
 
 const StoredForecastDecks = React.lazy(() => import("./StoredForecastDecks"));
 const DatabaseWorkflow = React.lazy(
@@ -32,7 +34,7 @@ const ExcelWorkflow = React.lazy(
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 const useStyles = makeStyles((theme) => ({
-  ForecastInputDeckLanding: {
+  forecastInputDeckLanding: {
     display: "flex",
     width: "100%",
     flexWrap: "wrap",
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
       width: 240,
     },
   },
-  ImportWorkflow: {
+  importWorkflow: {
     display: "flex",
     width: "100%",
     justifyContent: "center",
@@ -84,6 +86,20 @@ const ForecastInputDeckLanding = () => {
       workflowCategory: "inputDataWorkflows",
     },
     {
+      name: "Database Connection",
+      description: `Create connections to local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
+      icon: (
+        <Image
+          className={classes.image}
+          src={ImportDatabase}
+          alt="Connect Database Logo"
+        />
+      ),
+      route: `${url}/connectDatabase`,
+      workflowProcess: "forecastInputDeckConnectDatabase",
+      workflowCategory: "inputDataWorkflows",
+    },
+    {
       name: "Database",
       description: `Import forecast inputdeck from local or remote databases. Providers supported: AccessDb, MSSQL, MySQL etc`,
       icon: (
@@ -107,8 +123,18 @@ const ForecastInputDeckLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approveddeck`,
+      route: `${url}/storeddeck`,
       workflowProcess: "forecastInputDeckStored",
+      workflowCategory: "storedDataWorkflows",
+    },
+    {
+      name: `Stored Database Connections`,
+      description: `Select a pre-exisiting database connections stored in the Apex\u2122 database`,
+      icon: (
+        <Image className={classes.image} src={StoredDeck} alt="Storage Logo" />
+      ),
+      route: `${url}/storedConnections`,
+      workflowProcess: "forecastInputDeckConnectionsStored",
       workflowCategory: "storedDataWorkflows",
     },
   ];
@@ -146,6 +172,8 @@ const ForecastInputDeckLanding = () => {
     dispatch(showDialogAction(dialogParameters));
   }, []);
 
+  const saveDatabaseConnection = () => {};
+
   const getBadgeProps = React.useCallback((name: string) => {
     return {
       color: "secondary",
@@ -153,10 +181,18 @@ const ForecastInputDeckLanding = () => {
     } as BadgeProps;
   }, []);
 
+  const StoredConnections = (
+    <StoredForecastConnections
+      reducer={reducer}
+      showChart={true}
+      finalAction={storedDataFinalAction}
+    />
+  );
+
   return (
     <>
       {loadWorkflow ? (
-        <div className={classes.ImportWorkflow}>
+        <div className={classes.importWorkflow}>
           <Route exact path={`${path}/:dataInputId`}>
             {(props: RouteComponentProps<IdType>) => {
               const { match } = props;
@@ -187,15 +223,25 @@ const ForecastInputDeckLanding = () => {
                         "forecastInputDeckDatabase"
                       )
                     }
+                    storedConnections={StoredConnections}
                   />
                 ),
-                approveddeck: (
+                storeddeck: (
                   <StoredForecastDecks
                     reducer={reducer}
                     showChart={true}
                     finalAction={storedDataFinalAction}
                   />
                 ),
+                connectDatabase: (
+                  <ConnectDatabase
+                    reducer={reducer}
+                    wrkflwCtgry={"inputDataWorkflows"}
+                    wrkflwPrcss={"forecastInputDeckDatabase"}
+                    finalAction={saveDatabaseConnection}
+                  />
+                ),
+                storedConnections: StoredConnections,
               };
 
               return forecastInputDeckWorkflows[dataInputId];
@@ -203,7 +249,7 @@ const ForecastInputDeckLanding = () => {
           </Route>
         </div>
       ) : (
-        <div className={classes.ForecastInputDeckLanding}>
+        <div className={classes.forecastInputDeckLanding}>
           {forecastInputLandingData.map((module) => {
             const {
               icon,

@@ -95,7 +95,8 @@ const VisualyticsChartDataPanel = ({
 }: IChartVisualytics) => {
   const dispatch = useDispatch();
 
-  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+  const [willExtrudeCategories, setWillExtrudeCategories] =
+    React.useState(false);
 
   const visualyticsDeckStored = useSelector(visualyticsDeckStoredSelector);
 
@@ -297,8 +298,8 @@ const VisualyticsChartDataPanel = ({
             )
           : VisualyticsTreeView
       }
-      extrudeCategories={extrudeCategories}
-      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
+      willExtrudeCategories={willExtrudeCategories}
+      setWillExtrudeCategories={React.useCallback(setWillExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
     />

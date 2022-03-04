@@ -137,7 +137,7 @@ const ForecastProfilesDeckLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approveddeck`,
+      route: `${url}/storeddeck`,
       workflowProcess: "forecastProfilesStored",
       workflowCategory: "storedDataWorkflows",
     },
@@ -221,7 +221,7 @@ const ForecastProfilesDeckLanding = () => {
                 ),
                 mbal: <div>MBAL</div>,
                 eclipse: <div>ECLIPSE</div>,
-                approveddeck: (
+                storeddeck: (
                   <StoredForecastDecks
                     reducer={reducer}
                     showChart={true}

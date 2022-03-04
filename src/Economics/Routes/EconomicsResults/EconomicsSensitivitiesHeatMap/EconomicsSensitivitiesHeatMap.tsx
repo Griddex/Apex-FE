@@ -52,7 +52,7 @@ const EconomicsSensitivitiesHeatMap = () => {
   }
 
   const xId = Object.keys(heatMapVariableXOptions)[0];
-  const xName = heatMapVariableXOptions[xId].name;
+  const xName = heatMapVariableXOptions[xId]?.name;
 
   return (
     <ResponsiveHeatMap

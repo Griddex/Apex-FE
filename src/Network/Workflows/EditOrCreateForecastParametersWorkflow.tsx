@@ -40,10 +40,11 @@ const useStyles = makeStyles(() => ({
   workflowBody: {
     display: "flex",
     flexDirection: "column",
-    height: "90%",
-    width: "97%",
     alignItems: "center",
     justifyContent: "center",
+    overflowY: "auto",
+    padding: 10,
+    height: "100%",
   },
 }));
 
@@ -68,17 +69,15 @@ const EditOrCreateForecastParametersWorkflow = ({
   setDescription,
   storedTitles,
   steps,
+  isDialog,
 }: IEditOrCreateForecastingParameters & ITitleAndDescriptionFormProps) => {
   const reducer = "inputReducer" as TReducer;
   const workflowCategory = "networkDataWorkflows";
   const workflowProcessDefined =
     workflowProcess as NonNullable<TAllWorkflowProcesses>;
-  console.log(
-    "🚀 ~ file: EditOrCreateForecastParametersWorkflow.tsx ~ line 75 ~ workflowProcessDefined",
-    workflowProcessDefined
-  );
-  const titleDesc = { title, description };
+  const activeStepDefined = activeStep as number;
 
+  const titleDesc = { title, description };
   const skipped = new Set<number>();
 
   const classes = useStyles();
@@ -87,7 +86,6 @@ const EditOrCreateForecastParametersWorkflow = ({
 
   const showContextDrawer = useSelector(showContextDrawerSelector);
 
-  const activeStepDefined = activeStep as number;
   const isStepOptional = React.useCallback(
     (activeStep: number) => activeStep === 50,
     [activeStep]
@@ -233,7 +231,7 @@ const EditOrCreateForecastParametersWorkflow = ({
       <div className={classes.workflowBody} style={{ width: titleDescWidth }}>
         {renderImportStep()}
       </div>
-      {showContextDrawer && (
+      {!isDialog && showContextDrawer && (
         <ContextDrawer>
           {() => <VerticalWorkflowStepper {...VerticalWorkflowStepperProps} />}
         </ContextDrawer>

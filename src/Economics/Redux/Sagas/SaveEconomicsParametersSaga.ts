@@ -203,7 +203,7 @@ function* saveEconomicsParametersSaga(
 
     yield put(resetInputDataAction("economicsReducer"));
     yield put(loadEconomicsWorkflowAction("loadCostsRevenueWorkflow"));
-    yield call(forwardTo, "/apex/economics/parameters/approveddeck");
+    yield call(forwardTo, "/apex/economics/parameters/storeddeck");
 
     yield put(
       updateEconomicsParameterAction("selectedEconomicsParametersTitle", title)

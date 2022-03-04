@@ -62,7 +62,7 @@ export default function StoredProjects({
 
   React.useEffect(() => {
     dispatch(hideSpinnerAction());
-  }, [dispatch]);
+  }, []);
 
   const dataKey = "title";
   const dataTitle = "PROJECT TITLE";

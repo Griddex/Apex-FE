@@ -68,7 +68,7 @@ const ChartCategoryVariable = ({
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { id, title } = dragItem;
+  const { id, name, title } = dragItem;
 
   const avatar = getFirstCharFromEveryWord(title);
 
@@ -97,6 +97,7 @@ const ChartCategoryVariable = ({
 
           dispatch(
             removeChartCategoryAction(
+              name,
               chartStory,
               chartType,
               categoryTitle,

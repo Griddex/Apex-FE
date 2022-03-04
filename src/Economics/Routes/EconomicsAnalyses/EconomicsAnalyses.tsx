@@ -4,9 +4,14 @@ import pick from "lodash.pick";
 import React from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
 import NetCashflow from "../../Images/NetCashflow.svg";
 import NetPresentValue from "../../Images/NetPresentValue.svg";
+import Payout from "../../Images/Payout.svg";
+import MinimumCapitalRatio from "../../Images/MinimumCapitalRatio.svg";
+import PresentValueRatio from "../../Images/PresentValueRatio.svg";
+import UnitTechnicalCost from "../../Images/UnitTechnicalCost.svg";
+import InternalRateOfReturn from "../../Images/InternalRateOfReturn.svg";
+import MultipleAnalyses from "../../Images/MultipleAnalyses.svg";
 import { updateEconomicsParameterAction } from "../../Redux/Actions/EconomicsActions";
 import { itemTypes } from "../../Utils/DragAndDropItemTypes";
 import { IEconomicsAnalysis } from "./EconomicsAnalysesTypes";
@@ -86,22 +91,15 @@ export const economicsAnalysesData: IEconomicsAnalysis[] = [
   {
     name: "payout",
     title: "Payout",
-    icon: (
-      <img
-        src={NetCashflow}
-        alt="Net Cashflow"
-        height={"100%"}
-        width={"100%"}
-      />
-    ),
+    icon: <img src={Payout} alt="Payout" height={"100%"} width={"100%"} />,
   },
   {
     name: "minimumCapitalRatio",
     title: "Minimum Capital Ratio",
     icon: (
       <img
-        src={NetCashflow}
-        alt="Net Cashflow"
+        src={MinimumCapitalRatio}
+        alt="Minimum Capital Ratio"
         height={"100%"}
         width={"100%"}
       />
@@ -124,8 +122,8 @@ export const economicsAnalysesData: IEconomicsAnalysis[] = [
     title: "Present Value Ratio",
     icon: (
       <img
-        src={NetPresentValue}
-        alt="Net Present Value"
+        src={PresentValueRatio}
+        alt="Present Value Ratio"
         height={"100%"}
         width={"100%"}
       />
@@ -136,8 +134,8 @@ export const economicsAnalysesData: IEconomicsAnalysis[] = [
     title: "Unit Technical Cost",
     icon: (
       <img
-        src={InternalRateOfReturn}
-        alt="Internal Rate of Return"
+        src={UnitTechnicalCost}
+        alt="Unit Technical Cost"
         height={"100%"}
         width={"100%"}
       />
@@ -160,8 +158,8 @@ export const economicsAnalysesData: IEconomicsAnalysis[] = [
     title: "Multiple Analyses",
     icon: (
       <img
-        src={InternalRateOfReturn}
-        alt="All Economics Analyses"
+        src={MultipleAnalyses}
+        alt="Multiple Analyses"
         height={"100%"}
         width={"100%"}
       />

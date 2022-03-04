@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     height: "90%",
     width: "97%",
     alignItems: "center",
-    justifyContent: "center", //around, between
+    justifyContent: "center",
   },
   workflowContent: { height: "100%", width: "100%" },
 }));
@@ -71,6 +71,27 @@ const selectedEconomicsParametersInputDeckIdSelector = createDeepEqualSelector(
     state.economicsReducer.selectedEconomicsParametersInputDeckId,
   (data) => data
 );
+const selectedCostsRevenuesInputDeckIdSelector = createDeepEqualSelector(
+  (state: RootState) => state.economicsReducer.selectedCostsRevenuesInputDeckId,
+  (data) => data
+);
+const sensitivitiesTableSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer["economicsAnalysisWorkflows"]["sensitivitiesTable"],
+  (table) => table
+);
+const sensitivitiesTablePresentSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer["economicsAnalysisWorkflows"][
+      "sensitivitiesTablePresent"
+    ],
+  (data) => data
+);
+const useSensitivitiesSelector = createDeepEqualSelector(
+  (state: RootState) =>
+    state.economicsReducer["economicsAnalysisWorkflows"]["useSensitivities"],
+  (data) => data
+);
 
 const EconomicsAnalysesWorkflow = () => {
   const classes = useStyles();
@@ -78,21 +99,26 @@ const EconomicsAnalysesWorkflow = () => {
   const reducer = "economicsReducer";
   const wc = "economicsDataWorkflows";
   const wp = "economicsAnalyses";
-
   const skipped = new Set<number>();
-
-  const showContextDrawer = useSelector(showContextDrawerSelector);
 
   const activeStepSelector = createDeepEqualSelector(
     (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
     (reducer) => reducer
   );
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
   const selectedEconomicsParametersInputDeckId = useSelector(
     selectedEconomicsParametersInputDeckIdSelector
   );
-
+  const selectedCostsRevenuesInputDeckId = useSelector(
+    selectedCostsRevenuesInputDeckIdSelector
+  );
+  const sensitivitiesTable = useSelector(sensitivitiesTableSelector);
+  const sensitivitiesTablePresent = useSelector(
+    sensitivitiesTablePresentSelector
+  );
+  const useSensitivities = useSelector(useSensitivitiesSelector);
   const activeStep = useSelector(activeStepSelector);
-
   const { moduleName, subModuleName, workflowName } =
     useSelector(applicationSelector);
 
@@ -130,7 +156,7 @@ const EconomicsAnalysesWorkflow = () => {
   React.useEffect(() => {
     dispatch(workflowInitAction(steps, isStepOptional, isStepSkipped, wp, wc));
     dispatch(showContextDrawerAction());
-  }, [dispatch]);
+  }, []);
 
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
@@ -157,6 +183,33 @@ const EconomicsAnalysesWorkflow = () => {
     }
   }
 
+  const nextDisabled = (activeStep: number, sensitivitiesTable: any[]) => {
+    switch (activeStep) {
+      case 0: {
+        return selectedEconomicsParametersInputDeckId ? false : true;
+      }
+      case 1: {
+        return selectedCostsRevenuesInputDeckId ? false : true;
+      }
+      case 2: {
+        if (useSensitivities && sensitivitiesTablePresent) {
+          return false;
+        } else if (useSensitivities === false && sensitivitiesTablePresent) {
+          return true;
+        } else if (
+          useSensitivities === false &&
+          sensitivitiesTablePresent === false
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+      default:
+        return false;
+    }
+  };
+
   const navigationButtonProps: INavigationButtonsProp = {
     isMainNav: true,
     showReset: true,
@@ -167,7 +220,7 @@ const EconomicsAnalysesWorkflow = () => {
       reset: false,
       skip: false,
       back: activeStep === 0 ? true : false,
-      next: selectedEconomicsParametersInputDeckId ? false : true,
+      next: nextDisabled(activeStep, sensitivitiesTable),
     },
     finalAction: () => {
       const dialogParameters: DialogStuff = {

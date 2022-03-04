@@ -205,7 +205,7 @@ const EditOrCreateDeclineParametersWorkflowDialog: React.FC<
         workflowCategory
       )
     );
-  }, [dispatch]);
+  }, []);
 
   return (
     <Dialog

@@ -82,12 +82,14 @@ function* getEconomicsPlotChartDataSaga(
 
   const plotChartDragItems = Object.values(plotChartsCategoryDragItemsDefined);
 
+  //const sensRegex = /\d+(\-\d+)*$/g;
   const data = plotChartDragItems.reduce((acc, categoryObj) => {
     const dragItems = Object.values(categoryObj);
 
     const newDragItems = dragItems.reduce((acc, item) => {
       const { id, name, path } = item;
       const sensitivitiesJoined = path?.split("@#$%")[5];
+      //TODO const match = sensRegex.exec(path) as RegExpExecArray;
       const aggregationLevelIndex = getAggregationLevelIndex(path as string);
 
       const sensitivitiesArr = sensitivitiesJoined?.split("-");
@@ -142,7 +144,7 @@ function* getEconomicsPlotChartDataSaga(
       data: { data },
     } = result;
 
-    const economicsResults = Object.keys(data).map((id) => {
+    const chartData = Object.keys(data).map((id) => {
       const variableObj = data[id];
       const sensitivityJoined = idSensitivitiesMap[id];
 
@@ -157,8 +159,8 @@ function* getEconomicsPlotChartDataSaga(
     const xCatDrgItmName =
       plotChartsCategoryDragItemsDefined["X Category"][ids[0]].name;
 
-    const xValueCategories = economicsResults.find(
-      (row: any) => row.name === xCatDrgItmName
+    const xValueCategories = chartData.find((row: any) =>
+      row.name.startsWith(xCatDrgItmName)
     )?.values;
 
     let yAxisLegend = "";
@@ -225,7 +227,10 @@ function* getEconomicsPlotChartDataSaga(
       )
     );
 
-    const chartData = economicsResults;
+    console.log(
+      "🚀 ~ file: GetEconomicsPlotChartDataSaga.ts ~ line 231 ~ chartData",
+      chartData
+    );
     const successAction = getEconomicsPlotChartDataSuccessAction();
     yield put({
       ...successAction,

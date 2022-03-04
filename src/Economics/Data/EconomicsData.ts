@@ -1,4 +1,5 @@
 import zipObject from "lodash.zipobject";
+import { allChartsDataAndSpecificProperties } from "../../Visualytics/Data/VisualyticsData";
 
 export const costsRevenueHeaders = [
   { variableName: "projectId", variableTitle: "" },
@@ -450,10 +451,17 @@ export const gasDevelopmentConceptOptions = [
 ];
 
 export const initialHeatMapData = {
-  heatMapTreeByScenario: { id: "", name: "" },
-  sensitivitiesHeatMapTree: { id: "", name: "" },
   sensitivitiesHeatMapData: {},
   sensitivitiesHeatMap1or2D: [],
+
+  selectedEconomicsResultsId: "",
+  selectedEconomicsResultsTitle: "",
+  selectedEconomicsResultsDescription: "",
+  isEconomicsResultsSaved: false,
+  analyisOption: { value: "Select...", label: "Select..." },
+
+  heatMapTreeByScenario: { id: "", name: "" },
+  sensitivitiesHeatMapTree: { id: "", name: "" },
   heatMapVariableXOptions: {},
   heatMapVariableYOptions: {},
   heatMapVariableZOptions: {},
@@ -482,6 +490,14 @@ export const initialHeatMapData = {
 };
 
 export const initialEconomicsPlotData = {
+  economicsChartsWorkflows: allChartsDataAndSpecificProperties,
+
+  selectedEconomicsResultsId: "",
+  selectedEconomicsResultsTitle: "",
+  selectedEconomicsResultsDescription: "",
+  isEconomicsResultsSaved: false,
+  analyisOption: { value: "Select...", label: "Select..." },
+
   plotChartsResults: [],
   plotChartsData: null,
   plotChartsDataTrans: null,
