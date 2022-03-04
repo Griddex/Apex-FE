@@ -11,7 +11,7 @@ export interface IEconomicsCostsAndRevenuesLayouts {
   database: JSX.Element;
   manual: JSX.Element;
   apexforecast: JSX.Element;
-  approveddeck: JSX.Element;
+  storeddeck: JSX.Element;
 }
 
 export type IdType = {

@@ -109,7 +109,7 @@ const TitleAndDescription = ({
             <TextareaAutosize
               className={classes.root}
               name="description"
-              style={{ height: 400, width: "100%" }}
+              style={{ height: 300, width: "100%" }}
               minRows={20}
               value={description}
               onChange={handleTitleDescChange}

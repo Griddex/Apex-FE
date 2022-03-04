@@ -5,7 +5,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_FAILURE,
   GET_TABLEDATABYID_SUCCESS,
-  RESET_INPUTDATA,
+  RESET_INPUTDATA_WORKFLOW,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import {
@@ -648,7 +648,7 @@ const economicsReducer = (state = EconomicsState, action: IAction) => {
       };
     }
 
-    case RESET_INPUTDATA: {
+    case RESET_INPUTDATA_WORKFLOW: {
       const { reducer } = action.payload;
       const { inputDataWorkflows } = EconomicsState;
 

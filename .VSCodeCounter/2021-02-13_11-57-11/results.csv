@@ -259,7 +259,7 @@
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\FetchStoredInputDeckSaga.ts", "TypeScript", 93, 0, 0, 0, 0, 0, 0, 0, 12, 105
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\Sagas\SaveInputDeckSaga.ts", "TypeScript", 107, 0, 0, 0, 0, 0, 0, 0, 18, 125
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\DatabaseServerState.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 2, 8
-"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\InputState.ts", "TypeScript", 114, 0, 0, 0, 0, 0, 0, 8, 18, 140
+"c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\inputState.ts", "TypeScript", 114, 0, 0, 0, 0, 0, 0, 8, 18, 140
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Redux\State\InputStateTypes.ts", "TypeScript", 101, 0, 0, 0, 0, 0, 0, 0, 12, 113
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputBackground.tsx", "TypeScript React", 0, 0, 0, 0, 20, 0, 0, 0, 5, 25
 "c:\Users\Gideon\Documents\CRE\Software Development Methods\JavaScript\forecastingplatform\src\Import\Routes\Common\InputLayout.tsx", "TypeScript React", 0, 0, 0, 0, 100, 0, 0, 0, 8, 108

@@ -39,8 +39,12 @@ export interface IInputWorkflows {
   wkPs:
     | "facilitiesInputDeckExcel"
     | "facilitiesInputDeckDatabase"
+    | "facilitiesInputDeckConnectDatabase"
+    | "facilitiesInputDeckConnectionsStored"
     | "forecastInputDeckExcel"
     | "forecastInputDeckDatabase"
+    | "forecastInputDeckConnectDatabase"
+    | "forecastInputDeckConnectionsStored"
     | "forecastInputDeckSaveAutogenerate"
     | "forecastInputDeckSaveManualgenerate"
     | "forecastProfilesExcel"
@@ -176,7 +180,7 @@ export type TOnlyWorkflowCategories = Exclude<
   "storedDataWorkflows" | "networkCreationWorkflows" | "forecastChartsWorkflows"
 >;
 
-export interface IOnlyWorkflows {
+export interface IExcelOrDatabaseWorkflows {
   reducer: TReducer;
   wrkflwPrcss: TOnlyWorkflowProcesses;
   wrkflwCtgry: TOnlyWorkflowCategories;
@@ -192,4 +196,5 @@ export interface IOnlyWorkflows {
   setInputWorkbook?: TUseState<WorkBook>;
   extraComponent?: React.FC<any>;
   hasExtraComponent?: boolean;
+  storedConnections?: JSX.Element;
 }

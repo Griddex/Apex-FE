@@ -4,7 +4,7 @@ import { IAction } from "../../../Application/Redux/Actions/ActionTypes";
 import {
   GET_TABLEDATABYID_FAILURE,
   GET_TABLEDATABYID_SUCCESS,
-  RESET_INPUTDATA,
+  RESET_INPUTDATA_WORKFLOW,
   UPDATE_SELECTEDIDTITLE,
 } from "../../../Application/Redux/Actions/ApplicationActions";
 import { IStoredDataProps } from "../../../Application/Types/ApplicationTypes";
@@ -29,9 +29,9 @@ import {
   STORED_INPUTDECK_FAILURE,
   STORED_INPUTDECK_SUCCESS,
 } from "../Actions/StoredInputDeckActions";
-import InputState from "../State/InputState";
+import inputState from "../State/InputState";
 
-const inputReducer = (state = InputState, action: IAction) => {
+const inputReducer = (state = inputState, action: IAction) => {
   switch (action.type) {
     case UPDATE_INPUT: {
       const { reducer, nameOrPath, value } = action.payload;
@@ -194,9 +194,9 @@ const inputReducer = (state = InputState, action: IAction) => {
       return { ...state, errors };
     }
 
-    case RESET_INPUTDATA: {
+    case RESET_INPUTDATA_WORKFLOW: {
       const { reducer } = action.payload;
-      const { inputDataWorkflows } = InputState;
+      const { inputDataWorkflows } = inputState;
 
       if (reducer !== "inputReducer") return state;
 
@@ -207,7 +207,7 @@ const inputReducer = (state = InputState, action: IAction) => {
     }
 
     case RESET_INPUT: {
-      return InputState;
+      return inputState;
     }
 
     default:

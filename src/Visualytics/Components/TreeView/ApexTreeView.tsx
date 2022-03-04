@@ -52,13 +52,20 @@ const ApexTreeView = ({
   dragDropTypes,
   height,
   droppedIds,
-  economicsResultsCase,
 }: IApexTreeView) => {
   console.log("ApexTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwwww");
   const theme = useTheme();
   const classes = useStyles();
 
-  const initExpanded = rootTree?.children?.map((nodes) => nodes.id) as string[];
+  const expandedIdsRef = React.useRef(
+    rootTree?.children?.map((nodes) => nodes.id) as string[]
+  );
+  console.log(
+    "🚀 ~ file: ApexTreeView.tsx ~ line 63 ~ expandedIdsRef",
+    expandedIdsRef.current
+  );
+
+  React.useEffect(() => console.log("hello there!"), []);
 
   function* treeWalker(refresh: any): any {
     const stack = [] as TTreeStack;
@@ -75,8 +82,8 @@ const ApexTreeView = ({
       } = stack.pop() as TTreeStackObj;
 
       const iExpd =
-        initExpanded?.length > 0
-          ? [rootTree.id, ...initExpanded]
+        expandedIdsRef.current?.length > 0
+          ? [rootTree.id, ...expandedIdsRef.current]
           : [rootTree.id];
 
       const isOpened = yield refresh
@@ -204,8 +211,6 @@ const ApexTreeView = ({
     style,
     toggle,
   }: any) => {
-    let newName = "";
-    let newTitle = "";
     let currentTree: RenderTree;
     let titleProps: any;
 
@@ -214,23 +219,10 @@ const ApexTreeView = ({
       : {};
 
     if (isLeaf) {
-      // if (path) {
-      //   const sensitivitiesJoined = path?.split("@#$%")[3];
-
-      //   newName = `${name}_${sensitivitiesJoined}`;
-      //   newTitle = `${title}_${sensitivitiesJoined}`;
-      // } else {
-      //   newName = name as string;
-      //   newTitle = title as string;
-      // }
-
-      newName = name as string;
-      newTitle = title as string;
-
       const [{ isDragging }, drag] = useDrag(
         () => ({
           type: dragDropTypes,
-          item: { id, name: newName, title: newTitle, path },
+          item: { id, name, title, path },
           collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
         }),
         []
@@ -286,7 +278,22 @@ const ApexTreeView = ({
         {!isLeaf && (
           <button
             type="button"
-            onClick={toggle}
+            onClick={() => {
+              const nodeIsExpanded = expandedIdsRef.current.includes(id);
+              console.log("🚀 ~ file: ApexTreeView.tsx ~ line 283 ~ id", id);
+              console.log(
+                "🚀 ~ file: ApexTreeView.tsx ~ line 283 ~ nodeIsExpanded",
+                nodeIsExpanded
+              );
+              if (nodeIsExpanded) {
+                const ids = expandedIdsRef.current.filter((v) => v !== id);
+                expandedIdsRef.current = ids;
+              } else {
+                expandedIdsRef.current = [...expandedIdsRef.current, id];
+              }
+
+              toggle();
+            }}
             style={{
               display: "flex",
               alignItems: "center",

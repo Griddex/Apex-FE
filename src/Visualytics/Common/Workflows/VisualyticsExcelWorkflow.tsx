@@ -9,7 +9,7 @@ import NavigationButtons from "../../../Application/Components/NavigationButtons
 import { INavigationButtonsProp } from "../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../../Application/Components/Workflows/WorkflowBanner";
-import { IOnlyWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
+import { IExcelOrDatabaseWorkflows } from "../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../Application/Redux/Reducers/AllReducers";
 
@@ -76,7 +76,7 @@ const VisualyticsExcelWorkflow = ({
   finalAction,
   hasExtraComponent,
   extraComponent,
-}: IOnlyWorkflows) => {
+}: IExcelOrDatabaseWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const wc = wrkflwCtgry;

@@ -8,7 +8,7 @@ import NavigationButtons from "../../../../Application/Components/NavigationButt
 import { INavigationButtonsProp } from "../../../../Application/Components/NavigationButtons/NavigationButtonTypes";
 import VerticalWorkflowStepper from "../../../../Application/Components/Workflows/VerticalWorkflowStepper";
 import WorkflowBanner from "../../../../Application/Components/Workflows/WorkflowBanner";
-import { IOnlyWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
+import { IExcelOrDatabaseWorkflows } from "../../../../Application/Components/Workflows/WorkflowTypes";
 import { workflowInitAction } from "../../../../Application/Redux/Actions/WorkflowActions";
 import { RootState } from "../../../../Application/Redux/Reducers/AllReducers";
 
@@ -85,24 +85,25 @@ const DatabaseWorkflow = ({
   wrkflwCtgry,
   wrkflwPrcss,
   finalAction,
-}: IOnlyWorkflows) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  storedConnections,
+}: IExcelOrDatabaseWorkflows) => {
   const wc = wrkflwCtgry;
   const wp = wrkflwPrcss;
-
   const skipped = new Set<number>();
-  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const StoredConnections = storedConnections as JSX.Element;
+
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   const activeStepSelector = createDeepEqualSelector(
     (state: RootState) => state.workflowReducer[wc][wp]["activeStep"],
     (activeStep) => activeStep
   );
-
-  const activeStep = useSelector(activeStepSelector);
-
   const { moduleName, subModuleName, workflowName } =
     useSelector(applicationSelector);
+
+  const showContextDrawer = useSelector(showContextDrawerSelector);
+  const activeStep = useSelector(activeStepSelector);
 
   const isStepOptional = useCallback(
     (activeStep: number) => activeStep === 50,
@@ -154,7 +155,7 @@ const DatabaseWorkflow = ({
   function renderImportStep(activeStep: number) {
     switch (activeStep) {
       case 0:
-        return <ConnectDatabase {...props} />;
+        return StoredConnections;
       case 1:
         return <UploadFile {...props} />;
       case 2:

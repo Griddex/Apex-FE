@@ -89,7 +89,8 @@ const SensitivitiesHeatMapDataPanel = ({
 }: IEconomicsResultsVisualytics) => {
   const dispatch = useDispatch();
 
-  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+  const [willExtrudeCategories, setWillExtrudeCategories] =
+    React.useState(false);
 
   const economicsResultsStored = useSelector(economicsResultsStoredSelector);
 
@@ -418,8 +419,8 @@ const SensitivitiesHeatMapDataPanel = ({
             )
           : () => <SensitivitiesHeatMapTreeView droppedIds={droppedIds} />
       }
-      extrudeCategories={extrudeCategories}
-      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
+      willExtrudeCategories={willExtrudeCategories}
+      setWillExtrudeCategories={React.useCallback(setWillExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
       showMembersObjValues={React.useMemo(

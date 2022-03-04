@@ -9,7 +9,7 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import isEqual from "react-fast-compare";
 import { WorkBook, FullProperties, utils, read } from "xlsx";
 import {
-  IOnlyWorkflows,
+  IExcelOrDatabaseWorkflows,
   TAllWorkflowCategories,
   TAllWorkflowProcesses,
 } from "../../../../Application/Components/Workflows/WorkflowTypes";
@@ -86,7 +86,7 @@ const UploadFile = ({
   setInputWorkbook,
   hasExtraComponent,
   extraComponent,
-}: IOnlyWorkflows) => {
+}: IExcelOrDatabaseWorkflows) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -95,7 +95,7 @@ const UploadFile = ({
   const wp = wrkflwPrcss;
 
   const ExtraComponent = extraComponent as NonNullable<
-    IOnlyWorkflows["extraComponent"]
+    IExcelOrDatabaseWorkflows["extraComponent"]
   >;
 
   const workflowSelector = createDeepEqualSelector(

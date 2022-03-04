@@ -22,7 +22,14 @@ const analysisOptionSelector = createDeepEqualSelector(
   (data) => data
 );
 
-const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
+const EconomicsPlotChartsTreeView = ({
+  height,
+  droppedIds,
+}: ITreeViewProps) => {
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsTreeView.tsx ~ line 26 ~ EconomicsPlotChartsTreeView ~ height",
+    height
+  );
   console.log("EconomicsPlotChartsTreeViewwwwwwwwwwwwwwwwwwwwwwwwwwww");
 
   const economicsPlotChartsTree = useSelector(economicsPlotChartsTreeSelector);
@@ -58,6 +65,7 @@ const EconomicsPlotChartsTreeView = ({ height }: ITreeViewProps) => {
       )}
       dragDropTypes={itemTypes.ECONOMICS_PLOTCHARTS}
       height={height as number}
+      droppedIds={droppedIds}
     />
   );
 };

@@ -59,6 +59,9 @@ export const VALIDATE_FORECASTINPUTDECK_SUCCESS_ERROR =
   "VALIDATE_FORECASTINPUTDECK_SUCCESS_ERROR";
 export const VALIDATE_FORECASTINPUTDECK_FAILURE =
   "VALIDATE_FORECASTINPUTDECK_FAILURE";
+export const STORED_PRODUCTIONDATA_REQUEST = "STORED_PRODUCTIONDATA_REQUEST";
+export const STORED_PRODUCTIONDATA_SUCCESS = "STORED_PRODUCTIONDATA_SUCCESS";
+export const STORED_PRODUCTIONDATA_FAILURE = "STORED_PRODUCTIONDATA_FAILURE";
 
 export const updateInputParameterAction = (
   reducer: TReducer,
@@ -325,6 +328,35 @@ export const validateForecastInputDeckFailureAction = () => {
     type: VALIDATE_FORECASTINPUTDECK_FAILURE,
     payload: {
       status: 0,
+    },
+  };
+};
+
+//fetchStoredProductionDataRequestAction
+export const fetchStoredProductionDataRequestAction = (
+  projectId: string,
+  showSpinner = true
+) => {
+  return {
+    type: STORED_PRODUCTIONDATA_REQUEST,
+    payload: { projectId },
+    meta: { showSpinner, message: "Loading project data..." },
+  };
+};
+
+export const fetchStoredProductionDataSuccessAction = () => {
+  return {
+    type: STORED_PRODUCTIONDATA_SUCCESS,
+    payload: { ProductionDataStored: [] },
+  };
+};
+
+export const fetchStoredProductionDataFailureAction = () => {
+  return {
+    type: STORED_PRODUCTIONDATA_FAILURE,
+    payload: {
+      status: 0,
+      errors: { message: "" },
     },
   };
 };

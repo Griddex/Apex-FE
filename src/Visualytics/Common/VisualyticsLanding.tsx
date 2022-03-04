@@ -129,7 +129,7 @@ const VisualyticsLanding = () => {
           alt="Hydrocarbon Forecasting Platform Company Logo"
         />
       ),
-      route: `${url}/approveddeck`,
+      route: `${url}/storeddeck`,
       workflowProcess: "visualyticsDeckStored",
       workflowCategory: "storedDataWorkflows",
     },
@@ -248,7 +248,7 @@ const VisualyticsLanding = () => {
                   />
                 ),
                 plotchartsTables: <PlotVisualytics />,
-                approveddeck: (
+                storeddeck: (
                   <StoredVisualyticsDecks
                     reducer={reducer}
                     showChart={true}

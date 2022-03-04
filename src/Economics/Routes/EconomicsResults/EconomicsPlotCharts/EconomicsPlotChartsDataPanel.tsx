@@ -121,8 +121,13 @@ const EconomicsPlotChartsDataPanel = ({
     categoryDragItems: plotChartsCategoryDragItems,
     drgItems,
   });
+  console.log(
+    "🚀 ~ file: EconomicsPlotChartsDataPanel.tsx ~ line 124 ~ droppedIds",
+    droppedIds
+  );
 
-  const [extrudeCategories, setExtrudeCategories] = React.useState(false);
+  const [willExtrudeCategories, setWillExtrudeCategories] =
+    React.useState(false);
   const [analysisOption, setAnalysisOption] =
     React.useState<ISelectOption>(anOption);
 
@@ -257,6 +262,9 @@ const EconomicsPlotChartsDataPanel = ({
 
   const categoryPanelWidth = 250;
   const chartTypeDefined = chartType as TChartTypes;
+  const categoryMembersStr = Object.values(
+    showPlotChartsCategoryMembersObj
+  ).join();
   const categoriesComponent = (
     <XYYZRChartCategories
       reducer={reducer}
@@ -281,7 +289,7 @@ const EconomicsPlotChartsDataPanel = ({
       showRCategoryMembersSwitch={true}
       showCategoryMembersObj={React.useMemo(
         () => showPlotChartsCategoryMembersObj,
-        [JSON.stringify(showPlotChartsCategoryMembersObj)]
+        [categoryMembersStr]
       )}
       path="showPlotChartsCategoryMembersObj"
       updateParameterAction={React.useCallback(
@@ -291,12 +299,12 @@ const EconomicsPlotChartsDataPanel = ({
       categoryDragItemsTitle="plotChartsCategoryDragItems"
       categoryDragItems={React.useMemo(
         () => plotChartsCategoryDragItems,
-        [JSON.stringify(plotChartsCategoryDragItems)]
+        [droppedIds.join()]
       )}
       categoryHasDroppedTitle="plotChartsCategoryHasDropped"
       categoryHasDropped={React.useMemo(
         () => plotChartsCategoryHasDropped,
-        [JSON.stringify(plotChartsCategoryHasDropped)]
+        [droppedIds.join()]
       )}
       updateDragItemsAction={React.useCallback(
         updateEconomicsPlotChartsDragItemsAction,
@@ -341,10 +349,7 @@ const EconomicsPlotChartsDataPanel = ({
         () => economicsResultOption,
         [economicsResultOption?.value]
       )}
-      titleOptions={React.useMemo(
-        () => economicsResultsTitleOptions,
-        [JSON.stringify(economicsResultsTitleOptions)]
-      )}
+      titleOptions={React.useMemo(() => economicsResultsTitleOptions, [])}
       handleSelectChange={React.useCallback(
         handleSelectEconomicsResultsChange,
         []
@@ -361,10 +366,14 @@ const EconomicsPlotChartsDataPanel = ({
                 text="Select result.."
               />
             )
-          : () => <EconomicsPlotChartsTreeView droppedIds={droppedIds} />
+          : () => (
+              <EconomicsPlotChartsTreeView
+                droppedIds={React.useMemo(() => droppedIds, [])}
+              />
+            )
       }
-      extrudeCategories={extrudeCategories}
-      setExtrudeCategories={React.useCallback(setExtrudeCategories, [])}
+      willExtrudeCategories={willExtrudeCategories}
+      setWillExtrudeCategories={React.useCallback(setWillExtrudeCategories, [])}
       categoriesComponent={categoriesComponent}
       renderCategoryIcon={true}
     />

@@ -5,7 +5,7 @@ import { TChartStory } from "../Components/Charts/ChartTypes";
 export interface IVisualyticsLanding {
   excel: JSX.Element;
   database: JSX.Element;
-  approveddeck: JSX.Element;
+  storeddeck: JSX.Element;
 }
 
 export type IdType = {
